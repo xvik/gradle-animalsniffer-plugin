@@ -73,7 +73,7 @@ bintray {
                 passphrase = project.hasProperty('gpgPassphrase') ? gpgPassphrase : ''
             }
             mavenCentralSync {
-                sync = false // enable after project acceptance in jcenter
+                sync = true
                 user = project.hasProperty('sonatypeUser') ? sonatypeUser : 'USER'
                 password = project.hasProperty('sonatypePassword') ? sonatypePassword : 'PASSWORD'
             }
