@@ -56,12 +56,12 @@ AnimalSniffer requires signature file to check against. To define signature (or 
 ```groovy
 repositories { mavenCentral() }
 dependencies {
-    signatire 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+    signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
 }
 ```
 
-* [Java signatires] (http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
-* [Android signatires](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
+* [Java signatures] (http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
+* [Android signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
 
 When no signatures defined animalsniffer tasks will always pass.
 
@@ -84,21 +84,30 @@ invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)
 invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])
 ```
 
-#### Supress checks on blocks
+#### Suppress violations
 
-To exclude parts of code from checks annotation could be used.
+Annotation could be used to suppress violations .
 
 [Moivation and examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
 
-Default animalsniffer annotation may be used:
+##### Default annotation
+
+Add dependency on annotation:
 
 ```groovy
 compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
 ``` 
-Use 'provided' scope if you can. 
-Annotation is configured by default, so not required to be configured manually.
+Use `provided` scope if you can. 
+Annotation is configured by default, so you can simply use annotation to suppress violation:
 
-Or custom annotation may be used. Define your annotation:
+```groovy
+@IgnoreJRERequirement
+private Optional param;
+```
+
+##### Custom annotation
+
+You can define your own annotation:
 
 ```groovy
 package com.mycompany
@@ -109,14 +118,19 @@ package com.mycompany
 public @interface SuppressSignatureCheck {}
 ```
 
-And specify your annotation:
+Configure annotation:
 
 ```groovy
 animalsniffer {
     annotation = 'com.mycompany.SuppressSignatureCheck'
 }
 ```
-Now check will skip blocks annotated with your annotation. 
+Now check will skip blocks annotated with your annotation: 
+
+```groovy
+@SuppressSignatureCheck
+private Optional param;
+```
 
 ### Configuration
 
@@ -132,12 +146,12 @@ animalsniffer {
 }
 ```
 
-There is no required configurations - plugin will generate defaults for everything.
+There are no required configurations - plugin will generate defaults for all of them.
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
 | toolVersion | AnimalSniffer version | 1.14 |
-| sourceSets | Source sets to cehck | all source sets |
+| sourceSets | Source sets to check | all source sets |
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
 | annotation | Annotation class to avoid check under annotated block | |
@@ -168,8 +182,8 @@ tasks.withType(AnimalSniffer) {
 }
 ```
 
-Animalsniffer task is a [SourceTask](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.SourceTask.html), so task may be configured 
-directly to include/exclude classes from check.
+Animalsniffer task is a [SourceTask](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.SourceTask.html) and may be configured 
+to include/exclude classes from check.
 
 NOTE: task operate on compiled classes and not sources! Be careful when defining patterns.
 
