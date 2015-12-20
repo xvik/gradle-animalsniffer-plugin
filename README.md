@@ -1,0 +1,184 @@
+#gradle-animalsniffer-plugin
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://www.opensource.org/licenses/MIT)
+[![Build Status](http://img.shields.io/travis/xvik/gradle-animalsniffer-plugin.svg)](https://travis-ci.org/xvik/gradle-animalsniffer-plugin)
+
+### About
+
+Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java projects.
+AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or to check library compatibility with android.
+
+Implemented the same way as core gradle qulity plugins (checkstyle, pmd etc):
+* Task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
+* Main configuration through `animalsniffer` closure
+* Configurable tool version
+* Text report
+
+### Setup
+
+Releases are published to [bintray jcenter](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/), 
+[maven central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin) and 
+[gradle plugins portal](https://plugins.gradle.org/plugin/ru.vyarus.animalsniffer).
+
+[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/gradle-animalsniffer-plugin.svg?label=jcenter)](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/_latestVersion)
+[![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/gradle-animalsniffer-plugin.svg)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin)
+
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.0.0'
+    }
+}
+apply plugin: 'ru.vyarus.animalsniffer'
+```
+
+OR 
+
+```groovy
+plugins {
+    id 'ru.vyarus.animalsniffer' version '1.0.0'
+}
+```
+
+### Usage
+
+Additional tasks will be assigned to `check` task. So animalsniffer checks will be executed during:
+
+```bash
+$ gradlew check
+```
+
+AnimalSniffer requires signature file to check against. To define signature (or multiple signatures) use
+`signature` configuration:
+
+```groovy
+repositories { mavenCentral() }
+dependencies {
+    signatire 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+}
+```
+
+* [Java signatires] (http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
+* [Android signatires](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
+
+When no signatures defined animalsniffer tasks will always pass.
+
+All project dependencies are excluded from analysis: only classes from your source set are checked.
+
+By default, all source sets are checked. To check only main sources:
+
+```groovy
+animalsniffer {
+    sourceSets = [sourceSets.main]
+}
+```  
+
+Violations are always printed to console. Example output:
+
+```
+2 AnimalSniffer violations were found in 1 files. See the report at: file:///myproject/build/reports/animalsniffer/main.text
+
+invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)
+invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])
+```
+
+#### Supress checks on blocks
+
+To exclude parts of code from checks annotation could be used.
+
+[Moivation and examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
+
+Default animalsniffer annotation may be used:
+
+```groovy
+compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+``` 
+Use 'provided' scope if you can. 
+Annotation is configured by default, so not required to be configured manually.
+
+Or custom annotation may be used. Define your annotation:
+
+```groovy
+package com.mycompany
+
+@Retention(RetentionPolicy.CLASS)
+@Documented
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE})
+public @interface SuppressSignatureCheck {}
+```
+
+And specify your annotation:
+
+```groovy
+animalsniffer {
+    annotation = 'com.mycompany.SuppressSignatureCheck'
+}
+```
+Now check will skip blocks annotated with your annotation. 
+
+### Configuration
+
+Configuration example:
+
+```groovy
+animalsniffer {
+    toolVersion = '1.14'
+    sourceSets = [sourceSets.main]
+    ignireFailures = true
+    reportsDir = file("$project.buildDir/animalsnifferReports")
+    annotation = 'com.mypackage.MyAnnotation'
+}
+```
+
+There is no required configurations - plugin will generate defaults for everything.
+
+| Property | Description |  Default value |
+|----------|-------------|----------------|
+| toolVersion | AnimalSniffer version | 1.14 |
+| sourceSets | Source sets to cehck | all source sets |
+| ignoreFailures | False to stop build when violations found, true to continue | false |
+| reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
+| annotation | Annotation class to avoid check under annotated block | |
+
+
+### Tasks
+
+Animalsniffer task is registered for each source set:
+* `animalsnifferMain` - run AnimalAniffer for compiled main classes
+* `animalsnifferTest` - run AnimalSniffer for compiled test classes
+* `animalsnifferSourceSet` - run AnimalSniffer for compiled SourceSet classes
+
+`check` task will depend only on taks from configured in `animalsniffer.sourceSets` source sets.
+
+Tasks support text report, enabled by default.
+
+To disable reports for task:
+
+```groovy
+animalsnifferMain.reports.text.enabled = false
+```
+
+or for all tasks:
+
+```groovy
+tasks.withType(AnimalSniffer) {
+    reports.text.enabled = false
+}
+```
+
+Animalsniffer task is a [SourceTask](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.SourceTask.html), so task may be configured 
+directly to include/exclude classes from check.
+
+NOTE: task operate on compiled classes and not sources! Be careful when defining patterns.
+
+For example, to exclude classes in 'invalid' subpackage from check:
+
+```groovy
+animalsnifferMain {
+    exclude('**/invalid/*')
+}
+```
+
+ 
