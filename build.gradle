@@ -3,20 +3,18 @@ plugins {
     id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.9.2'
     id 'net.researchgate.release' version '2.3.4'
-    id 'ru.vyarus.quality' version '1.0.3'
-    id 'com.jfrog.bintray' version '1.4'
+    id 'ru.vyarus.quality' version '1.2.0'
+    id 'com.jfrog.bintray' version '1.5'
     id 'ru.vyarus.java-lib' version '1.0.1'
     id 'ru.vyarus.github-info' version '1.0.0'
+    id "com.github.ben-manes.versions" version "0.11.3"
 }
-
-group = 'ru.vyarus'
-description = 'Gradle AnimalSniffer plugin'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 wrapper {
-    gradleVersion = 2.8
+    gradleVersion = 2.9
 }
 
 task createClasspathManifest {
@@ -39,6 +37,9 @@ dependencies {
     }
     testRuntime files(createClasspathManifest)
 }
+
+group = 'ru.vyarus'
+description = 'Gradle AnimalSniffer plugin'
 
 github {
     user 'xvik'
@@ -101,9 +102,11 @@ pluginBundle {
 System.setProperty('gradle.publish.key', project.properties['gradle.publish.key'] ?: '')
 System.setProperty('gradle.publish.secret', project.properties['gradle.publish.secret'] ?: '')
 
-afterReleaseBuild.dependsOn = [bintrayUpload, publishPlugins]
-afterReleaseBuild.doLast {
-    logger.warn "RELEASED $project.group:$project.name:$project.version"
+afterReleaseBuild {
+    dependsOn = [bintrayUpload, publishPlugins]
+    doLast {
+        logger.warn "RELEASED $project.group:$project.name:$project.version"
+    }
 }
 
 test {
@@ -112,3 +115,5 @@ test {
         exceptionFormat "full"
     }
 }
+
+dependencyUpdates.revision = 'release'

@@ -37,8 +37,8 @@ class FailKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "found 2 violations"
-        result.standardError.contains("2 AnimalSniffer violations were found in 1 files")
-        result.standardError.contains("Undefined reference:")
+        result.output.contains("2 AnimalSniffer violations were found in 1 files")
+        result.output.contains("Undefined reference:")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
@@ -77,8 +77,8 @@ class FailKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "found 2 violations"
-        result.standardError.contains("2 AnimalSniffer violations were found in 1 files")
-        result.standardError.contains("Undefined reference:")
+        result.output.contains("2 AnimalSniffer violations were found in 1 files")
+        result.output.contains("Undefined reference:")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
@@ -113,7 +113,7 @@ class FailKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "animalsniffer skipepd"
-        !result.standardError.contains("AnimalSniffer violations were found")
+        !result.output.contains("AnimalSniffer violations were found")
 
         then: "no report"
         !file('/build/reports/animalsniffer/main.text').exists()
@@ -147,7 +147,7 @@ class FailKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.UP_TO_DATE
 
         then: "found no violations"
-        !result.standardError.contains("AnimalSniffer violations were found")
+        !result.output.contains("AnimalSniffer violations were found")
 
         then: "report correct"
         !file('/build/reports/animalsniffer/test.text').exists()

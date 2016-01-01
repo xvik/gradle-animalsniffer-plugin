@@ -40,7 +40,7 @@ class NaturalClassFilteringKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        !result.standardOutput.contains("AnimalSniffer violations were found")
+        !result.output.contains("AnimalSniffer violations were found")
     }
 
 }

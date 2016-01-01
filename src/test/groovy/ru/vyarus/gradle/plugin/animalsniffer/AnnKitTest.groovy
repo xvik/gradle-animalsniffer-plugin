@@ -38,8 +38,8 @@ class AnnKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violations"
-        result.standardError.contains("1 AnimalSniffer violations were found in 1 files")
-        result.standardError.contains("Undefined reference:")
+        result.output.contains("1 AnimalSniffer violations were found in 1 files")
+        result.output.contains("Undefined reference:")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
@@ -81,8 +81,8 @@ class AnnKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violations"
-        result.standardError.contains("1 AnimalSniffer violations were found in 1 files")
-        result.standardError.contains("Undefined reference:")
+        result.output.contains("1 AnimalSniffer violations were found in 1 files")
+        result.output.contains("Undefined reference:")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
