@@ -111,9 +111,10 @@ afterReleaseBuild {
 
 test {
     testLogging {
-        events "skipped", "failed", "standardError"
+        events "skipped", "failed", "standard_error"
         exceptionFormat "full"
     }
+    maxHeapSize = "512m"
 }
 
 dependencyUpdates.revision = 'release'
