@@ -50,7 +50,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     protected CodeQualityExtension createExtension() {
         extension = project.extensions.create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
         extension.with {
-            toolVersion = '1.14'
+            toolVersion = '1.15'
         }
         return extension
     }
