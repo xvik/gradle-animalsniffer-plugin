@@ -28,7 +28,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.0.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.0.1'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -38,7 +38,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.0.0'
+    id 'ru.vyarus.animalsniffer' version '1.0.1'
 }
 ```
 
@@ -56,7 +56,7 @@ AnimalSniffer requires signature file to check against. To define signature (or 
 ```groovy
 repositories { mavenCentral() }
 dependencies {
-    signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+    signature 'org.codehaus.mojo.signature:java16:1.1@signature'
 }
 ```
 
@@ -86,7 +86,7 @@ invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.g
 
 #### Suppress violations
 
-Annotation could be used to suppress violations .
+Annotation could be used to suppress violations.
 
 [Moivation and examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
 
@@ -95,7 +95,7 @@ Annotation could be used to suppress violations .
 Add dependency on annotation:
 
 ```groovy
-compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+compile "org.codehaus.mojo:animal-sniffer-annotations:1.15"
 ``` 
 Use `provided` scope if you can. 
 Annotation is configured by default, so you can simply use annotation to suppress violation:
@@ -138,9 +138,9 @@ Configuration example:
 
 ```groovy
 animalsniffer {
-    toolVersion = '1.14'
+    toolVersion = '1.15'
     sourceSets = [sourceSets.main]
-    ignireFailures = true
+    ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
     annotation = 'com.mypackage.MyAnnotation'
 }
@@ -150,7 +150,7 @@ There are no required configurations - plugin will generate defaults for all of 
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
-| toolVersion | AnimalSniffer version | 1.14 |
+| toolVersion | AnimalSniffer version | 1.15 |
 | sourceSets | Source sets to check | all source sets |
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
