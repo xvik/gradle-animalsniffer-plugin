@@ -12,7 +12,6 @@ import org.gradle.api.tasks.*
 import org.gradle.internal.classpath.ClassPath
 import org.gradle.internal.classpath.DefaultClassPath
 import org.gradle.internal.reflect.Instantiator
-import org.gradle.logging.ConsoleRenderer
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -125,7 +124,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 if (report) {
                     collector.writeToFile(report.destination)
 
-                    String reportUrl = new ConsoleRenderer().asClickableFileUrl(report.destination)
+                    String reportUrl = "file:///${report.destination.canonicalPath.replaceAll('\\\\', '/')}"
                     message += " See the report at: $reportUrl"
                 }
                 if (getIgnoreFailures()) {
