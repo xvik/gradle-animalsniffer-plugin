@@ -195,4 +195,13 @@ animalsnifferMain {
 }
 ```
 
- 
+### Might also like
+
+* [quality-plugin](https://github.com/xvik/gradle-quality-plugin) - java and groovy source quality checks
+* [pom-plugin](https://github.com/xvik/gradle-pom-plugin) - improves pom generation
+* [java-lib-plugin](https://github.com/xvik/gradle-java-lib-plugin) - avoid boilerplate for java or groovy library project
+* [github-info-plugin](https://github.com/xvik/gradle-github-info-plugin) - pre-configure common plugins with github related info
+* [java-library generator](https://github.com/xvik/generator-lib-java) - java library project generator
+
+-
+[![gradle plugin generator](http://img.shields.io/badge/Powered%20by-%20Gradle%20plugin%20generator-green.svg?style=flat-square)](https://github.com/xvik/generator-gradle-plugin) 
