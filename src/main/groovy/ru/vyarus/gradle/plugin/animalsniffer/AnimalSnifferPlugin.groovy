@@ -1,9 +1,11 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import org.gradle.api.GradleException
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.quality.CodeQualityExtension
 import org.gradle.api.plugins.quality.internal.AbstractCodeQualityPlugin
 import org.gradle.api.tasks.SourceSet
+import org.gradle.util.GradleVersion
 
 /**
  * AnimalSniffer plugin. Implemented the same way as gradle quality plugins (checkstyle, pmd, findbugs):
@@ -20,6 +22,7 @@ import org.gradle.api.tasks.SourceSet
  */
 class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
 
+    private static final String MINIMAL_GRADLE = '2.14'
     private static final String SIGNATURE_CONF = 'signature'
     private static final String ANIMALSNIFFER_CONF = 'animalsniffer'
 
@@ -33,6 +36,17 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     @Override
     protected Class<AnimalSniffer> getTaskType() {
         return AnimalSniffer
+    }
+
+    @Override
+    protected void beforeApply() {
+        // due to base class refactor from groovy to java in gradle 2.14
+        // plugin can't be launched on prior gradle versions
+        GradleVersion version = GradleVersion.current()
+        if (version < GradleVersion.version(MINIMAL_GRADLE)) {
+            throw new GradleException("Animalsniffer plugin requires gradle $MINIMAL_GRADLE or above, " +
+                    "but your gradle version is: $version.version. Use plugin version 1.0.1.")
+        }
     }
 
     @Override
