@@ -1,0 +1,23 @@
+{
+  "generator-gradle-plugin": {
+    "githubUser": "xvik",
+    "authorName": "Vyacheslav Rusakov",
+    "authorEmail": "vyarus@gmail.com",
+    "projectName": "gradle-animalsniffer-plugin",
+    "projectGroup": "ru.vyarus",
+    "projectPackage": "ru.vyarus.gradle.plugin.animalsniffer",
+    "projectVersion": "0.1.0",
+    "projectDesc": "Gradle AnimalSniffer plugin",
+    "pluginPortalDesc": "Gradle AnimalSniffer plugin for Java projects",
+    "targetJava": "1.6",
+    "pluginPortalTags": "animalsniffer",
+    "mirrorToJcenter": true,
+    "pluginPortalUseCustomGroup": true,
+    "bintrayUser": "vyarus",
+    "bintrayRepo": "xvik",
+    "bintrayTags": "gradle, animalsniffer",
+    "bintraySignFiles": true,
+    "mavenCentralSync": true,
+    "usedGeneratorVersion": "1.2.0"
+  }
+}
