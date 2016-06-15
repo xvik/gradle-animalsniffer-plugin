@@ -7,13 +7,13 @@ plugins {
     id 'com.jfrog.bintray' version '1.6'
     id 'ru.vyarus.java-lib' version '1.0.2'
     id 'ru.vyarus.github-info' version '1.1.0'
-    id "com.github.ben-manes.versions" version "0.12.0"
+    id 'com.github.ben-manes.versions' version '0.12.0'
 }
 
 sourceCompatibility = 1.6
 
 wrapper {
-    gradleVersion = '2.14'
+    gradleVersion = 2.14
 }
 
 repositories { jcenter() }
@@ -34,9 +34,9 @@ github {
 pom {
     developers {
         developer {
-            id "xvik"
-            name "Vyacheslav Rusakov"
-            email "vyarus@gmail.com"
+            id 'xvik'
+            name 'Vyacheslav Rusakov'
+            email 'vyarus@gmail.com'
         }
     }
 }
@@ -93,10 +93,10 @@ afterReleaseBuild {
 
 test {
     testLogging {
-        events "skipped", "failed", "standard_error"
-        exceptionFormat "full"
+        events 'skipped', 'failed', 'standard_error'
+        exceptionFormat 'full'
     }
-    maxHeapSize = "512m"
+    maxHeapSize = '512m'
 }
 
 dependencyUpdates.revision = 'release'
