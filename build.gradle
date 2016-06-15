@@ -42,8 +42,8 @@ pom {
 }
 
 bintray {
-    user = project.hasProperty('bintrayUser') ? bintrayUser : 'USER'
-    key = project.hasProperty('bintrayKey') ? bintrayKey : 'KEY'
+    user = findProperty('bintrayUser')
+    key = findProperty('bintrayKey')
     publications = ['maven']
     dryRun = false
     publish = true
@@ -56,12 +56,12 @@ bintray {
         version {
             gpg {
                 sign = true
-                passphrase = project.hasProperty('gpgPassphrase') ? gpgPassphrase : ''
+                passphrase = findProperty('gpgPassphrase')
             }
             mavenCentralSync {
                 sync = true
-                user = project.hasProperty('sonatypeUser') ? sonatypeUser : 'USER'
-                password = project.hasProperty('sonatypePassword') ? sonatypePassword : 'PASSWORD'
+                user = findProperty('sonatypeUser')
+                password = findProperty('sonatypePassword')
             }
         }
     }
