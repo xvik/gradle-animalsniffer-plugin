@@ -9,8 +9,9 @@ import org.gradle.testkit.runner.TaskOutcome
  */
 class PassKitTest extends AbstractKitTest {
 
-    def "Check plugin execution"() {
-        setup:
+    @Override
+    def setup() {
+
         build """
             plugins {
                 id 'java'
@@ -29,6 +30,9 @@ class PassKitTest extends AbstractKitTest {
 
         fileFromClasspath('src/main/java/valid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/valid/Sample.java')
         //debug()
+    }
+
+    def "Check plugin execution"() {
 
         when: "run task"
         BuildResult result = run('check')
@@ -37,4 +41,12 @@ class PassKitTest extends AbstractKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
     }
 
+    def "Check plugin execution for gradle 2.14"() {
+
+        when: "run task for gradle 2.14"
+        BuildResult result = runVer('2.14', 'check')
+
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.SUCCESS
+    }
 }
