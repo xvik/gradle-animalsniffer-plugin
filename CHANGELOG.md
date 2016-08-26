@@ -1,3 +1,5 @@
+* Gradle 3.0 compatibility
+
 ### 1.1.0 (2016-06-15)
 * Gradle 2.14 compatibility
 * BREAKING: incompatible with old gradle versions (requires gradle >= 2.14). 

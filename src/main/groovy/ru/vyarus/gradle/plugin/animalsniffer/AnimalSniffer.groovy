@@ -2,6 +2,7 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.BuildListener
+import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.SourceDirectorySet
@@ -151,6 +152,13 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @SuppressWarnings('ConfusingMethodName')
     AnimalSnifferReports reports(Closure closure) {
         reports.configure(closure)
+    }
+
+    @Override
+    @SuppressWarnings('ConfusingMethodName')
+    AnimalSnifferReports reports(Action<? super AnimalSnifferReports> action) {
+        action.execute(reports)
+        return reports
     }
 
     /**
