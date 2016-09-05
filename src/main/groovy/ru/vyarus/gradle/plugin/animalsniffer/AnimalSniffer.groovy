@@ -1,5 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.BuildListener
 import org.gradle.api.Action
@@ -31,6 +33,7 @@ import java.lang.reflect.Proxy
  * @since 14.12.2015
  */
 @SuppressWarnings('UnnecessaryGetter')
+@CompileStatic
 class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
 
     /**
@@ -97,6 +100,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @TaskAction
     @SuppressWarnings('CatchException')
+    @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
         ClassPath animalsnifferClasspath = new DefaultClassPath(getAnimalsnifferClasspath())
         antBuilder.withClasspath(animalsnifferClasspath.asFiles).execute { a ->
@@ -157,6 +161,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @SuppressWarnings('ConfusingMethodName')
     AnimalSnifferReports reports(Closure closure) {
         reports.configure(closure)
+        return reports
     }
 
     @Override
@@ -173,6 +178,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
      * @param project ant project
      * @param handler proxy handler
      */
+    @CompileStatic(TypeCheckingMode.SKIP)
     static void replaceBuildListener(Object project, InvocationHandler handler) {
         // cleanup default gradle listener listener to avoid console output
         project.buildListeners.each { project.removeBuildListener(it) }

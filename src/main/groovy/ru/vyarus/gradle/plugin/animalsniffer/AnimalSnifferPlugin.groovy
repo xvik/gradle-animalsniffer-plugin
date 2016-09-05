@@ -1,5 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 import org.gradle.api.GradleException
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.quality.CodeQualityExtension
@@ -20,6 +22,7 @@ import org.gradle.util.GradleVersion
  * @author Vyacheslav Rusakov
  * @since 13.12.2015
  */
+@CompileStatic
 class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
 
     private static final String MINIMAL_GRADLE = '2.14'
@@ -62,7 +65,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
 
     @Override
     protected CodeQualityExtension createExtension() {
-        extension = project.extensions.create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
+        extension = project.extensions.<AnimalSnifferExtension>create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
         extension.with {
             toolVersion = '1.15'
         }
@@ -70,6 +73,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     }
 
     @Override
+    @CompileStatic(TypeCheckingMode.SKIP)
     protected void configureTaskDefaults(AnimalSniffer task, String baseName) {
         Configuration signatures = project.configurations[SIGNATURE_CONF]
         Configuration animalsnifferConfiguration = project.configurations[ANIMALSNIFFER_CONF]
@@ -93,6 +97,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     }
 
     @Override
+    @CompileStatic(TypeCheckingMode.SKIP)
     protected void configureForSourceSet(SourceSet sourceSet, AnimalSniffer task) {
         task.with {
             description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
