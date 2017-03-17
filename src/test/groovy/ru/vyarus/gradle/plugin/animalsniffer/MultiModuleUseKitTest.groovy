@@ -37,6 +37,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
 
                 repositories { mavenCentral()}
                 dependencies {
+                    // separate ant task (sequentially) called for each signature (increasing entropy)
                     signature 'org.codehaus.mojo.signature:java16:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java15:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java14:1.0@signature'
@@ -61,6 +62,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
             }
         """)
 
+        // amount of modules in test project
         int cnt = 15
 
         file('settings.gradle') << ' include ' + (1..cnt).collect { "'mod$it'" }.join(',')
@@ -104,7 +106,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
     java.lang.Object readResolve();
 }
 """
-
+        // three types of modules (to produce different error reporting and easily detect mixes)
         (1..cnt).each {
             if (it % 2 == 0) {
                 fileFromClasspath("mod$it/src/main/java/invalid/Sample.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
