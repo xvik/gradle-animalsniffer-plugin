@@ -112,7 +112,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                 fileFromClasspath("mod$it/src/main/java/invalid/Sample.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
                 fileFromClasspath("mod$it/src/main/java/invalid/Sample2.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample2.java')
                 fileFromClasspath("mod$it/src/main/java/valid/Sample.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/valid/Sample.java')
-            } else if (it%3 ==0 ) {
+            } else if (it % 3 == 0) {
                 fileFromClasspath("mod$it/src/main/java/invalid/Sample2.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample2.java')
                 fileFromClasspath("mod$it/src/main/java/valid/Sample.java", '/ru/vyarus/gradle/plugin/animalsniffer/java/valid/Sample.java')
             } else {
@@ -161,6 +161,9 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                 ]
                 println "case 2 ok for $it"
             } else {
+                if (report.exists()) {
+                    System.err.println "Report content: \n${report.text}"
+                }
                 assert !report.exists()
                 println "case 3 ok for $it"
             }

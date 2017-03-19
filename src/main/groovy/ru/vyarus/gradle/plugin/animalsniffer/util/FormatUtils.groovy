@@ -79,8 +79,15 @@ class FormatUtils {
                 "  >> ${msg.code}$NL"
     }
 
+    @SuppressWarnings('ReturnNullFromCatchBlock')
     private static String extractJavaClass(String file, Set<File> roots) {
-        String name = new File(file).canonicalPath
+        String name
+        try {
+            name = new File(file).canonicalPath
+        } catch (IOException ex) {
+            // invalid path - do nothing
+            return null
+        }
         File root = roots.find { name.startsWith(it.canonicalPath) }
         if (!root) {
             return null
