@@ -94,6 +94,11 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
                 destination = { new File(extension.reportsDir, "${baseName}.${report.name}") }
             }
         }
+        task.doFirst {
+            if (extension.ignore) {
+                task.ignoreClasses = extension.ignore
+            }
+        }
     }
 
     @Override

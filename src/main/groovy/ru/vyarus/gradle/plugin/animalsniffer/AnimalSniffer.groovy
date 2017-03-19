@@ -74,6 +74,18 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     String annotation
 
     /**
+     * Extra allowed classes, not mentioned in signature, but allowed for usage.
+     * Most commonly, when some classes target newer jdk version.
+     * <p>
+     * See <a href="http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/checking-signatures.html
+     * #Ignoring_classes_not_in_the_signature">
+     * docs</a> for more info.
+     */
+    @Input
+    @Optional
+    Iterable<String> ignoreClasses = []
+
+    /**
      * Whether or not the build should break when the verifications performed by this task fail.
      */
     @Console
@@ -117,6 +129,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                         if (getAnnotation()) {
                             annotation(className: getAnnotation())
                         }
+                        ignoreClasses.each { ignore(className: it) }
                     }
                 } catch (Exception ex) {
                     // rethrow not expected ant exceptions
