@@ -20,7 +20,6 @@ import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
 
 import javax.inject.Inject
-import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Proxy
 
 /**
@@ -126,25 +125,9 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     }
                 }
             }
-            if (collector.errorsCnt() > 0) {
-                String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
-                        "in ${collector.filesCnt()} files."
-                Report report = reports.firstEnabled
-                if (report) {
-                    collector.writeToFile(report.destination)
-
-                    String reportUrl = "file:///${report.destination.canonicalPath.replaceAll('\\\\', '/')}"
-                    message += " See the report at: $reportUrl"
-                }
-                if (getIgnoreFailures()) {
-                    logger.error(message + '\n')
-                    collector.writeToConsole(logger)
-                } else {
-                    logger.error('')
-                    collector.writeToConsole(logger)
-                    throw new GradleException(message)
-                }
-            }
+            processErrors(collector)
+            // it should be useless as completely custom ant used for execution, but just in case
+            recoverOriginalListener(project, collector.originalListener)
         }
     }
 
@@ -171,19 +154,57 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         return reports
     }
 
+    void processErrors(ReportCollector collector) {
+        if (collector.errorsCnt() > 0) {
+            String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
+                    "in ${collector.filesCnt()} files."
+            Report report = reports.firstEnabled
+            if (report) {
+                collector.writeToFile(report.destination)
+
+                String reportUrl = "file:///${report.destination.canonicalPath.replaceAll('\\\\', '/')}"
+                message += " See the report at: $reportUrl"
+            }
+            if (getIgnoreFailures()) {
+                logger.error(message + '\n')
+                collector.writeToConsole(logger)
+            } else {
+                logger.error('')
+                collector.writeToConsole(logger)
+                throw new GradleException(message)
+            }
+        }
+    }
+
     /**
      * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
-     * To accomplish this jdk proxy used.
+     * Use jdk proxy to register custom listener.
      *
      * @param project ant project
      * @param handler proxy handler
      */
     @CompileStatic(TypeCheckingMode.SKIP)
-    static void replaceBuildListener(Object project, InvocationHandler handler) {
+    static void replaceBuildListener(Object project, ReportCollector handler) {
+        // use original to redirect other ant tasks output (not expected, but just in case)
+        handler.originalListener = project.buildListeners.first()
         // cleanup default gradle listener listener to avoid console output
         project.buildListeners.each { project.removeBuildListener(it) }
         ClassLoader cl = project.class.classLoader
         Object listener = Proxy.newProxyInstance(cl, [cl.loadClass(BuildListener.name)] as Class[], handler)
         project.addBuildListener(listener)
+    }
+
+    /**
+     * Recover original listener after execution.
+     *
+     * @param project ant project
+     * @param original original listener
+     */
+    @CompileStatic(TypeCheckingMode.SKIP)
+    static void recoverOriginalListener(Object project, Object original) {
+        if (original != null) {
+            project.buildListeners.each { project.removeBuildListener(it) }
+            project.addBuildListener(original)
+        }
     }
 }

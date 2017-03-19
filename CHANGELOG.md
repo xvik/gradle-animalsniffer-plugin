@@ -1,3 +1,5 @@
+* Prevent potential intercepting output of other ant tasks (#3)
+
 ### 1.2.0 (2016-08-27)
 * Gradle 3.0 compatibility
 

@@ -8,6 +8,7 @@ import java.lang.reflect.Method
 /**
  * Intercept ant task output and re-format it.
  * Writes result to console and report file.
+ * In essence, this is {@link org.apache.tools.ant.BuildListener} proxy implementation.
  *
  * @author Vyacheslav Rusakov
  * @since 16.12.2015
@@ -15,6 +16,9 @@ import java.lang.reflect.Method
 class ReportCollector implements InvocationHandler {
 
     private static final String SPACE = ' '
+
+    // it should be org.gradle.api.internal.project.ant.AntLoggingAdapter
+    Object originalListener
 
     List<String> report = []
     Set<String> affectedFiles = []
@@ -35,8 +39,18 @@ class ReportCollector implements InvocationHandler {
      */
     @Override
     Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (method.name == 'messageLogged' && args[0].priority < 2) {
-            append(args[0].message)
+        Object event = args[0] // org.apache.tools.ant.BuildEvent
+        // it should not be possible that other ant task will use this listener, but
+        // such case was reported (#3). Use ant task name to filter output
+        if (event.task != null && event.task.taskName != 'animalsniffer') {
+            if (originalListener) {
+                // redirect to original listener
+                method.invoke(originalListener, args)
+            }
+            return null
+        }
+        if (method.name == 'messageLogged' && event.priority < 2) {
+            append(event.message)
         }
         return null
     }
