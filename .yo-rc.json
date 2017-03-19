@@ -18,6 +18,6 @@
     "bintrayTags": "gradle, animalsniffer",
     "bintraySignFiles": true,
     "mavenCentralSync": true,
-    "usedGeneratorVersion": "1.2.0"
+    "usedGeneratorVersion": "1.4.0"
   }
 }
