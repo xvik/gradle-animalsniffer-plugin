@@ -38,7 +38,13 @@ class FailKitTest extends AbstractKitTest {
 
         then: "found 2 violations"
         result.output.contains("2 AnimalSniffer violations were found in 1 files")
-        result.output.contains("Undefined reference:")
+        result.output.replaceAll('\r', '').contains(
+"""[Undefined reference] invalid.(Sample.java:9)
+  >> int Boolean.compare(boolean, boolean)
+
+[Undefined reference] invalid.(Sample.java:14)
+  >> java.nio.file.Path java.nio.file.Paths.get(String, String[])
+""")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
@@ -78,7 +84,7 @@ class FailKitTest extends AbstractKitTest {
 
         then: "found 2 violations"
         result.output.contains("2 AnimalSniffer violations were found in 1 files")
-        result.output.contains("Undefined reference:")
+        result.output.contains("[Undefined reference]")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')

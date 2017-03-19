@@ -166,7 +166,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 message += " See the report at: $reportUrl"
             }
             if (getIgnoreFailures()) {
-                logger.error(message + '\n')
+                String nl = String.format('%n')
+                logger.error(nl + message + nl)
                 collector.writeToConsole(logger)
             } else {
                 logger.error('')

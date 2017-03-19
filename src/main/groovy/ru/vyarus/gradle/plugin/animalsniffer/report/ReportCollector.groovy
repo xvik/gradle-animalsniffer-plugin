@@ -1,6 +1,9 @@
 package ru.vyarus.gradle.plugin.animalsniffer.report
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 import org.slf4j.Logger
+import ru.vyarus.gradle.plugin.animalsniffer.util.FormatUtils
 
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -13,14 +16,13 @@ import java.lang.reflect.Method
  * @author Vyacheslav Rusakov
  * @since 16.12.2015
  */
+@CompileStatic
 class ReportCollector implements InvocationHandler {
-
-    private static final String SPACE = ' '
 
     // it should be org.gradle.api.internal.project.ant.AntLoggingAdapter
     Object originalListener
 
-    List<String> report = []
+    List<ReportMessage> report = []
     Set<String> affectedFiles = []
     Set<File> roots
 
@@ -38,6 +40,7 @@ class ReportCollector implements InvocationHandler {
      * @throws Throwable on errors
      */
     @Override
+    @CompileStatic(TypeCheckingMode.SKIP)
     Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object event = args[0] // org.apache.tools.ant.BuildEvent
         // it should not be possible that other ant task will use this listener, but
@@ -50,7 +53,9 @@ class ReportCollector implements InvocationHandler {
             return null
         }
         if (method.name == 'messageLogged' && event.priority < 2) {
-            append(event.message)
+            ReportMessage msg = FormatUtils.parse(event.message, roots)
+            affectedFiles.add(msg.source)
+            report.add(msg)
         }
         return null
     }
@@ -76,7 +81,7 @@ class ReportCollector implements InvocationHandler {
      */
     void writeToFile(File file) {
         file.newWriter().withWriter { w ->
-            w << report.join('\n')
+            w << report.collect { FormatUtils.formatForFile(it) }.join(String.format('%n'))
         }
     }
 
@@ -86,31 +91,6 @@ class ReportCollector implements InvocationHandler {
      * @param logger build logger
      */
     void writeToConsole(Logger logger) {
-        report.each { logger.error "$it" }
-        logger.error('')
-    }
-
-    private void append(String message) {
-        // format: file_path:lineNum: Undefined reference: type sourceline
-        String[] res = message.split(SPACE)
-        String vclass = res[0]
-        String line = vclass.find(~/^(.+):(\d+)/) { match, file, line -> vclass = file; return line }
-        vclass = extractJavaClass(vclass)
-        affectedFiles.add(vclass)
-        String error = res[1..-1].join(SPACE)
-        String msg = "$vclass:$line  $error"
-        report.add(msg)
-    }
-
-    @SuppressWarnings('DuplicateStringLiteral')
-    private String extractJavaClass(String file) {
-        String name = new File(file).canonicalPath
-        roots.each {
-            if (name.startsWith(it.canonicalPath)) {
-                name = name[it.canonicalPath.length() + 1..-1] // remove sources dir prefix
-            }
-        }
-        name = name[0..name.lastIndexOf('.') - 1] // remove extension
-        name.replaceAll('\\\\|/', '.')
+        report.each { logger.error FormatUtils.formatForConsole(it) }
     }
 }

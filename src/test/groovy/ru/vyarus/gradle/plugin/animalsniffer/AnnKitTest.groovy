@@ -39,7 +39,9 @@ class AnnKitTest extends AbstractKitTest {
 
         then: "found 1 violations"
         result.output.contains("1 AnimalSniffer violations were found in 1 files")
-        result.output.contains("Undefined reference:")
+        result.output.replaceAll('\r', '').contains(
+"""[Undefined reference] ann.(Sample.java:17)
+  >> java.nio.file.Path java.nio.file.Paths.get(String, String[])""")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
@@ -82,7 +84,9 @@ class AnnKitTest extends AbstractKitTest {
 
         then: "found 1 violations"
         result.output.contains("1 AnimalSniffer violations were found in 1 files")
-        result.output.contains("Undefined reference:")
+        result.output.replaceAll('\r', '').contains(
+"""[Undefined reference] custann.(Sample.java:15)
+  >> java.nio.file.Path java.nio.file.Paths.get(String, String[])""")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
