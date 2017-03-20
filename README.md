@@ -143,7 +143,7 @@ Now check will skip blocks annotated with your annotation:
 private Optional param;
 ```
 
-##### Extend signature
+#### Extend signature
 
 Project could target multiple java versions and so reference classes, not present in signature.
 
