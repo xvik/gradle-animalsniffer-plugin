@@ -28,7 +28,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.2.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.3.0'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -38,7 +38,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.2.0'
+    id 'ru.vyarus.animalsniffer' version '1.3.0'
 }
 ```
 
@@ -82,15 +82,24 @@ Violations are always printed to console. Example output:
 ```
 2 AnimalSniffer violations were found in 1 files. See the report at: file:///myproject/build/reports/animalsniffer/main.text
 
+[Undefined reference] invalid.(Sample.java:9)
+  >> int Boolean.compare(boolean, boolean)
+
+[Undefined reference] invalid.(Sample.java:14)
+  >> java.nio.file.Path java.nio.file.Paths.get(String, String[])
+```
+
+NOTE: text report file will contain simplified report (error per line):
+
+```
 invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)
 invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])
 ```
 
 #### Suppress violations
 
-Annotation could be used to suppress violations.
-
-[Moivation and examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
+Annotation could be used to suppress violations: 
+[examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
 
 ##### Default annotation
 
@@ -134,6 +143,57 @@ Now check will skip blocks annotated with your annotation:
 private Optional param;
 ```
 
+##### Extend signature
+
+Project could target multiple java versions and so reference classes, not present in signature.
+
+For example, implementation could try to use java 7 `Paths` and if class is not available, fall back
+to java 6 implementation. In this case `Paths` could be added to ignored classes:
+
+```groovy
+animalsniffer {
+    ignore 'java.nio.file.Paths'
+}
+``` 
+
+Now usages of `Paths` will not cause warnings.
+
+Multiple ignored classes could be defined:
+
+```groovy
+animalsniffer {
+    ignore 'java.nio.file.Paths', 'some.other.Class'
+}
+```
+
+Or
+
+```groovy
+animalsniffer {
+    ignore 'java.nio.file.Paths'
+    ignore 'some.other.Class'
+}
+```
+
+Or by directly assigning collection:
+
+```groovy
+animalsniffer {
+    ignore  = ['java.nio.file.Paths', 'some.other.Class']
+}
+```
+
+Entire packages could be ignored using asterisk:
+
+```groovy
+animalsniffer {
+    ignore 'some.pkg.*'
+}
+```
+
+See more info in 
+[documentation](http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/checking-signatures.html#Ignoring_classes_not_in_the_signature).
+
 ### Configuration
 
 Configuration example:
@@ -145,6 +205,7 @@ animalsniffer {
     ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
     annotation = 'com.mypackage.MyAnnotation'
+    ignore = ['java.nio.file.Paths']
 }
 ```
 
@@ -157,7 +218,10 @@ There are no required configurations - plugin will generate defaults for all of 
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
 | annotation | Annotation class to avoid check under annotated block | |
+| ignore    | Ignore usage of classes, not mentioned in signature | |
 
+**NOTE**: `ignore` does not exclude your classes from check, it allows you using classes not mentioned in signature.
+See more details above.
 
 ### Tasks
 
