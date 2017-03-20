@@ -64,7 +64,7 @@ class FormatUtils {
      */
     static String formatForConsole(ReportMessage msg) {
         if (msg.parseFail) {
-            return msg.code
+            return "[Unrecognized error] ${msg.code} $NL"
         }
         int clsIdx = -1
         int extIdx = msg.source.lastIndexOf(DOT)

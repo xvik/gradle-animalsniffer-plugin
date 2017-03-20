@@ -45,7 +45,7 @@ class ReportCollector implements InvocationHandler {
         Object event = args[0] // org.apache.tools.ant.BuildEvent
         // it should not be possible that other ant task will use this listener, but
         // such case was reported (#3). Use ant task name to filter output
-        if (event.task != null && event.task.taskName != 'animalsniffer') {
+        if (event.task?.taskName != 'animalsniffer') {
             if (originalListener) {
                 // redirect to original listener
                 method.invoke(originalListener, args)

@@ -54,6 +54,6 @@ class MsgFormatTest extends Specification {
         when: "failed parse"
         res = FormatUtils.formatForConsole(new ReportMessage(parseFail: true, code: 'bla bla'))
         then: "correct"
-        res.replaceAll('\r', '') == 'bla bla'
+        res.replaceAll('\r', '') == '[Unrecognized error] bla bla \n'
     }
 }
