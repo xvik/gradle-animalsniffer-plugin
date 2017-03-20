@@ -62,7 +62,7 @@ dependencies {
 }
 ```
 
-* [Java signatures] (http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
+* [Java signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
 * [Android signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
 
 When no signatures defined animalsniffer tasks will always pass.
