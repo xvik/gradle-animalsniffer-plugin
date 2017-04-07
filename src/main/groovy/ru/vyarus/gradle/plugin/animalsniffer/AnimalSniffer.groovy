@@ -7,14 +7,19 @@ import org.apache.tools.ant.BuildListener
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
+import org.gradle.api.file.FileTree
 import org.gradle.api.file.SourceDirectorySet
+import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
+import org.gradle.api.tasks.incremental.IncrementalTaskInputs
+import org.gradle.api.tasks.incremental.InputFileDetails
 import org.gradle.internal.classpath.ClassPath
 import org.gradle.internal.classpath.DefaultClassPath
 import org.gradle.internal.reflect.Instantiator
+import org.gradle.util.GUtil
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -33,32 +38,30 @@ import java.lang.reflect.Proxy
  */
 @SuppressWarnings('UnnecessaryGetter')
 @CompileStatic
+@CacheableTask
 class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
 
     /**
      * The class path containing the Animal Sniffer library to be used.
      */
+    @Classpath
     @InputFiles
     FileCollection animalsnifferClasspath
 
     /**
      * Signature files used for checks.
      */
+    @SkipWhenEmpty
+    @Classpath
     @InputFiles
     FileCollection animalsnifferSignatures
 
     /**
      * Classpath used for compilation
      */
+    @CompileClasspath
     @InputFiles
     FileCollection classpath
-
-    /**
-     * Classes, required only for task execution after actual compilation
-     */
-    @SkipWhenEmpty
-    @InputFiles
-    FileCollection classes
 
     /**
      * Source directories
@@ -91,7 +94,13 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @Console
     boolean ignoreFailures
 
-    @Nested
+    /**
+     * Enables incremental check mode: check only changed files after first run.
+     */
+    @Input
+    @Optional
+    boolean incremental
+
     private final AnimalSnifferReportsImpl reports
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
@@ -112,7 +121,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @TaskAction
     @SuppressWarnings('CatchException')
     @CompileStatic(TypeCheckingMode.SKIP)
-    void run() {
+    void run(IncrementalTaskInputs inputs) {
+        String targetPath = buildPath(inputs)
         ClassPath animalsnifferClasspath = new DefaultClassPath(getAnimalsnifferClasspath())
         antBuilder.withClasspath(animalsnifferClasspath.asFiles).execute { a ->
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
@@ -121,7 +131,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             getAnimalsnifferSignatures().each { signature ->
                 try {
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath().asPath) {
-                        path(path: getSource().asPath)
+                        path(path: targetPath)
                         getSourcesDirs().srcDirs.each {
                             sourcepath(path: it.absoluteFile)
                         }
@@ -155,9 +165,9 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @Override
     @SuppressWarnings('ConfusingMethodName')
-    AnimalSnifferReports reports(Closure closure) {
-        reports.configure(closure)
-        return reports
+    AnimalSnifferReports reports(
+            @DelegatesTo(value = AnimalSnifferReports, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        reports(new ClosureBackedAction<AnimalSnifferReports>(closure))
     }
 
     @Override
@@ -165,6 +175,33 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     AnimalSnifferReports reports(Action<? super AnimalSnifferReports> action) {
         action.execute(reports)
         return reports
+    }
+
+    @Override
+    @PathSensitive(PathSensitivity.RELATIVE)
+    @InputFiles
+    FileTree getSource() {
+        return super.getSource()
+    }
+
+    private String buildPath(IncrementalTaskInputs inputs) {
+        FileCollection source = getSource()
+        String targetPath
+        if (incremental && inputs.incremental) {
+            // collect only changed files
+            List<File> files = []
+            inputs.outOfDate {
+                // use source as filter for other inputs
+                if (source.contains(it.file)) {
+                    files << it.file
+                }
+            } as Action<InputFileDetails>
+            targetPath = GUtil.asPath(files)
+        } else {
+            // check all
+            targetPath = source.asPath
+        }
+        return targetPath
     }
 
     void processErrors(ReportCollector collector) {

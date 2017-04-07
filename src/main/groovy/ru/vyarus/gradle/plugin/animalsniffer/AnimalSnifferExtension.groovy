@@ -19,6 +19,15 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     String annotation
 
     /**
+     * Enables incremental mode. On first run it will check all classes, but sequential runs will check only
+     * changed files. This may be useful when animalsniffer check is performed often during development.
+     * <p>
+     * Note that in incremental mode you will not see errors from not changed files
+     * (because only changed files are checked).
+     */
+    boolean incremental
+
+    /**
      * Ignore classes, not mentioned in signature. This does not mean "not check class", this mean "allow class usage".
      * Useful in situations, when some classes target higher java versions and so may use classes not described in
      * signature.

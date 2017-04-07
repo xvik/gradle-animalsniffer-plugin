@@ -34,7 +34,8 @@ abstract class AbstractKitTest extends Specification {
     File fileFromClasspath(String toFile, String source) {
         File target = file(toFile)
         target.parentFile.mkdirs()
-        target << getClass().getResourceAsStream(source).text
+        // overwrite existing
+        target.newWriter().withWriter { it.write getClass().getResourceAsStream(source).text }
     }
 
     def debug() {

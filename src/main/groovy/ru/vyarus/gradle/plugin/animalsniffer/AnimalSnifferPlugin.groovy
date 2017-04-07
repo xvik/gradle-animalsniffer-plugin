@@ -66,9 +66,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     @Override
     protected CodeQualityExtension createExtension() {
         extension = project.extensions.<AnimalSnifferExtension>create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
-        extension.with {
-            toolVersion = '1.15'
-        }
+        extension.toolVersion = '1.15'
         return extension
     }
 
@@ -98,25 +96,19 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
             if (extension.ignore) {
                 task.ignoreClasses = extension.ignore
             }
+            // doesn't work by convention
+            task.incremental = extension.incremental
         }
     }
 
     @Override
     @CompileStatic(TypeCheckingMode.SKIP)
     protected void configureForSourceSet(SourceSet sourceSet, AnimalSniffer task) {
-        task.with {
-            description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
-        }
+        task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
         task.setSource(sourceSet.output)
+        task.dependsOn sourceSet.classesTaskName
         task.conventionMapping.with {
             classpath = { sourceSet.compileClasspath }
-            classes = {
-                // the simple "classes = sourceSet.output" may lead to non-existing resources directory
-                // being passed to FindBugs Ant task, resulting in an error
-                project.fileTree(sourceSet.output.classesDir) {
-                    builtBy sourceSet.output
-                }
-            }
             sourcesDirs = { sourceSet.allJava }
         }
     }
