@@ -79,6 +79,17 @@ class FormatUtils {
                 "  >> ${msg.code}$NL"
     }
 
+    /**
+     *
+     * @param file absolute file path
+     * @param root root folder path
+     * @return class name (including package)
+     */
+    static String toClass(String file, String root) {
+        String name = file[root.length() + 1..-1]
+        name.replaceAll('\\\\|/', DOT)
+    }
+
     @SuppressWarnings('ReturnNullFromCatchBlock')
     private static String extractJavaClass(String file, Set<File> roots) {
         String name
@@ -92,7 +103,6 @@ class FormatUtils {
         if (!root) {
             return null
         }
-        name = name[root.canonicalPath.length() + 1..-1] // remove sources dir prefix
-        name.replaceAll('\\\\|/', DOT)
+        toClass(name, root.canonicalPath)
     }
 }

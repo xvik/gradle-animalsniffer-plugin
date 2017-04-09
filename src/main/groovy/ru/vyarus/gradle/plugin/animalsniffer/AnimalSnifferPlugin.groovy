@@ -65,7 +65,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
 
     @Override
     protected CodeQualityExtension createExtension() {
-        extension = project.extensions.<AnimalSnifferExtension>create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
+        extension = project.extensions.<AnimalSnifferExtension> create(ANIMALSNIFFER_CONF, AnimalSnifferExtension)
         extension.toolVersion = '1.15'
         return extension
     }
@@ -84,6 +84,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
             animalsnifferClasspath = { animalsnifferConfiguration }
             ignoreFailures = { extension.ignoreFailures }
             annotation = { extension.annotation }
+            incremental = { extension.incremental }
         }
 
         task.reports.all { report ->
@@ -96,8 +97,6 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
             if (extension.ignore) {
                 task.ignoreClasses = extension.ignore
             }
-            // doesn't work by convention
-            task.incremental = extension.incremental
         }
     }
 
@@ -106,6 +105,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     protected void configureForSourceSet(SourceSet sourceSet, AnimalSniffer task) {
         task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
         task.setSource(sourceSet.output)
+        task.setClassesDir(sourceSet.output.classesDir)
         task.dependsOn sourceSet.classesTaskName
         task.conventionMapping.with {
             classpath = { sourceSet.compileClasspath }

@@ -70,7 +70,7 @@ class NonIncrementalKitTest extends AbstractKitTest {
 
 
         when: "modifying source file"
-        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/skip/Sample.java')
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/skip/InvSample.java')
         result = run('animalsnifferMain')
 
         then: 'task perfomred'

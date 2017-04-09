@@ -22,8 +22,8 @@ class AnimalSnifferExtension extends CodeQualityExtension {
      * Enables incremental mode. On first run it will check all classes, but sequential runs will check only
      * changed files. This may be useful when animalsniffer check is performed often during development.
      * <p>
-     * Note that in incremental mode you will not see errors from not changed files
-     * (because only changed files are checked).
+     * Incremental mode can't be used when {@code ignoreFailures = true} because you will loose all current
+     * errors on the next run. If both options configured, task will fail to prevent errors loss.
      */
     boolean incremental
 
