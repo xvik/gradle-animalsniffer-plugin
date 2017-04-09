@@ -249,7 +249,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             }
             return res
         }
-        return ignoreClasses
+        return getIgnoreClasses()
     }
 
     void processErrors(ReportCollector collector) {
