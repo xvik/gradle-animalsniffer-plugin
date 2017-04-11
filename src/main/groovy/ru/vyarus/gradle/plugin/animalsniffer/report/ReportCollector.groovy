@@ -56,6 +56,11 @@ class ReportCollector implements InvocationHandler {
             ReportMessage msg = FormatUtils.parse(event.message, roots)
             affectedFiles.add(msg.source)
             report.add(msg)
+        } else {
+            if (originalListener) {
+                // redirect to original listener
+                method.invoke(originalListener, args)
+            }
         }
         return null
     }
