@@ -212,7 +212,9 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             logger.info "[animalsniffer] Incremental mode: checking only ${files.size()} changed files"
             return files
         }
-        return source.files
+        // use single directory in default case
+        return getIncludes().isEmpty() && getExcludes().isEmpty() ?
+                Collections.singletonList(getClassesDir()) : source.files
     }
 
     /**
