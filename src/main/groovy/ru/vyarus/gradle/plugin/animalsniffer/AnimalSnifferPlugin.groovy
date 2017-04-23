@@ -8,6 +8,8 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 import org.gradle.api.plugins.quality.internal.AbstractCodeQualityPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.util.GradleVersion
+import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
+import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
 
 /**
  * AnimalSniffer plugin. Implemented the same way as gradle quality plugins (checkstyle, pmd, findbugs):
@@ -18,6 +20,9 @@ import org.gradle.util.GradleVersion
  * <p>
  * Reports configuration is performed with reports section. Only text report supported. All violations
  * are always printed to console.
+ * <p>
+ * To support signature configuration, plugin registered 'animalsnifferSignature' configuration.
+ * If this configuration used then 'animalsnifferSignature' task will be registered to build signature file.
  *
  * @author Vyacheslav Rusakov
  * @since 13.12.2015
@@ -28,6 +33,7 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     private static final String MINIMAL_GRADLE = '2.14'
     private static final String SIGNATURE_CONF = 'signature'
     private static final String ANIMALSNIFFER_CONF = 'animalsniffer'
+    private static final String ANIMALSNIFFER_SIG_CONF = 'animalsnifferSignature'
 
     private AnimalSnifferExtension extension
 
@@ -50,6 +56,8 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
             throw new GradleException("Animalsniffer plugin requires gradle $MINIMAL_GRADLE or above, " +
                     "but your gradle version is: $version.version. Use plugin version 1.0.1.")
         }
+
+        configureBuildTasks()
     }
 
     @Override
@@ -110,6 +118,42 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
         task.conventionMapping.with {
             classpath = { sourceSet.compileClasspath }
             sourcesDirs = { sourceSet.allJava }
+        }
+    }
+
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private void configureBuildTasks() {
+        AnimalSnifferSignatureExtension extension = project.extensions
+                .create(ANIMALSNIFFER_SIG_CONF, AnimalSnifferSignatureExtension)
+
+        project.afterEvaluate {
+            // register build signature task if files specified
+            if (!extension.files.empty) {
+                addBuildSignatureTask(extension)
+            }
+
+            applyBuildTasksDefaults()
+        }
+    }
+
+    private void addBuildSignatureTask(AnimalSnifferSignatureExtension extension) {
+        BuildSignatureTask task = project.tasks.create(ANIMALSNIFFER_SIG_CONF, BuildSignatureTask)
+        extension.files.each { task.files(it) }
+        extension.signatures.each { task.signatures(it) }
+        task.include = extension.include
+        task.exclude = extension.exclude
+        // project name by default to be compatible with maven artifacts
+        task.outputName(extension.outputName ?: project.name)
+    }
+
+    private void applyBuildTasksDefaults() {
+        project.tasks.withType(BuildSignatureTask) { BuildSignatureTask task ->
+            if (task.animalsnifferClasspath == null) {
+                task.animalsnifferClasspath = project.configurations[ANIMALSNIFFER_CONF]
+            }
+            if (task.output == null) {
+                task.outputName(task.name)
+            }
         }
     }
 }

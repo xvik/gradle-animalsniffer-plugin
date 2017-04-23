@@ -16,8 +16,6 @@ import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 import org.gradle.api.tasks.incremental.InputFileDetails
-import org.gradle.internal.classpath.ClassPath
-import org.gradle.internal.classpath.DefaultClassPath
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.GUtil
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
@@ -133,8 +131,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         Iterable<File> filesToCheck = getFilesToCheck(inputs)
         String targetPath = GUtil.asPath(filesToCheck)
         Iterable<String> ignored = getIgnores(inputs, filesToCheck)
-        ClassPath animalsnifferClasspath = new DefaultClassPath(getAnimalsnifferClasspath())
-        antBuilder.withClasspath(animalsnifferClasspath.asFiles).execute { a ->
+        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(getSourcesDirs().srcDirs)
             replaceBuildListener(project, collector)

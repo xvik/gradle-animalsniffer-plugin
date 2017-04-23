@@ -1,4 +1,5 @@
 * Add optional incremental mode (#4)
+* Add build signature task, created with animalsnifferSignature configuration closure 
 
 ### 1.3.0 (2017-03-20)
 * Prevent other tasks output interception (#3)
