@@ -1,4 +1,5 @@
 * Add build signature task, created with animalsnifferSignature configuration closure 
+* (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
 
 ### 1.3.0 (2017-03-20)
 * Prevent other tasks output interception (#3)

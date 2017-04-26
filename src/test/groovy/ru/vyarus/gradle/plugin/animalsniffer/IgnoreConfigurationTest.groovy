@@ -12,6 +12,7 @@ class IgnoreConfigurationTest extends AbstractTest {
 
         when: "single ignore"
         Project project = project {
+            apply plugin: 'java'
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
@@ -27,6 +28,7 @@ class IgnoreConfigurationTest extends AbstractTest {
 
         when: "couple of single ignore"
         Project project = project {
+            apply plugin: 'java'
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
@@ -44,6 +46,7 @@ class IgnoreConfigurationTest extends AbstractTest {
 
         when: "multiple ignores"
         Project project = project {
+            apply plugin: 'java'
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
@@ -61,6 +64,7 @@ class IgnoreConfigurationTest extends AbstractTest {
 
         when: "direct property usage"
         Project project = project {
+            apply plugin: 'java'
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {

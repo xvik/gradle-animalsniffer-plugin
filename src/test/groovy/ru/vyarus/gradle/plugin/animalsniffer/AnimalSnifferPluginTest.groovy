@@ -1,8 +1,8 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.api.Project
-import org.gradle.api.ProjectConfigurationException
 import org.gradle.testfixtures.ProjectBuilder
+import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 
 /**
  * @author Vyacheslav Rusakov
@@ -16,8 +16,8 @@ class AnimalSnifferPluginTest extends AbstractTest {
         Project project = ProjectBuilder.builder().build()
         project.plugins.apply "ru.vyarus.animalsniffer"
 
-        then: "extension registered"
-        project.extensions.findByType(AnimalSnifferExtension)
+        then: "extension not registered"
+        !project.extensions.findByType(AnimalSnifferExtension)
 
     }
 
@@ -30,6 +30,8 @@ class AnimalSnifferPluginTest extends AbstractTest {
         }
 
         then: "tasks registered"
+        project.extensions.findByType(AnimalSnifferExtension)
+        project.extensions.findByType(AnimalSnifferSignatureExtension)
         project.tasks.withType(AnimalSniffer).size() == 2
     }
 
@@ -47,5 +49,24 @@ class AnimalSnifferPluginTest extends AbstractTest {
 
         then: "task registered"
         project.tasks.withType(AnimalSniffer).size() == 2
+    }
+
+    def "Tool version override"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            animalsniffer {
+                toolVersion = '1.10'
+            }
+        }
+        def animalsniffer = project.configurations.animalsniffer
+        // force defaults processing
+        animalsniffer.triggerWhenEmptyActionsIfNecessary()
+
+        then: "task registered"
+        animalsniffer.dependencies.first().version == '1.10'
     }
 }

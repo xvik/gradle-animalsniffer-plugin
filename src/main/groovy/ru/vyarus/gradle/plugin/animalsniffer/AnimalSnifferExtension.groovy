@@ -13,6 +13,10 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 @CompileStatic
 class AnimalSnifferExtension extends CodeQualityExtension {
 
+    AnimalSnifferExtension() {
+        toolVersion = '1.15'
+    }
+
     /**
      * Annotation class name used to disable check for annotated class/method/field.
      */
