@@ -92,7 +92,6 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
             animalsnifferClasspath = { animalsnifferConfiguration }
             ignoreFailures = { extension.ignoreFailures }
             annotation = { extension.annotation }
-            incremental = { extension.incremental }
         }
 
         task.reports.all { report ->
@@ -113,7 +112,6 @@ class AnimalSnifferPlugin extends AbstractCodeQualityPlugin<AnimalSniffer> {
     protected void configureForSourceSet(SourceSet sourceSet, AnimalSniffer task) {
         task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
         task.setSource(sourceSet.output)
-        task.setClassesDir(sourceSet.output.classesDir)
         task.dependsOn sourceSet.classesTaskName
         task.conventionMapping.with {
             classpath = { sourceSet.compileClasspath }

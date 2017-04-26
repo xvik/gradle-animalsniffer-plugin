@@ -14,14 +14,10 @@ import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
-import org.gradle.api.tasks.incremental.IncrementalTaskInputs
-import org.gradle.api.tasks.incremental.InputFileDetails
 import org.gradle.internal.reflect.Instantiator
-import org.gradle.util.GUtil
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
-import ru.vyarus.gradle.plugin.animalsniffer.util.FormatUtils
 
 import javax.inject.Inject
 import java.lang.reflect.Proxy
@@ -69,12 +65,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     SourceDirectorySet sourcesDirs
 
     /**
-     * Compiled classes directory
-     */
-    @Input
-    File classesDir
-
-    /**
      * Annotation class name to avoid check
      */
     @Input
@@ -99,13 +89,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @Console
     boolean ignoreFailures
 
-    /**
-     * Enables incremental check mode: check only changed files after first run.
-     */
-    @Input
-    @Optional
-    boolean incremental
-
     private final AnimalSnifferReportsImpl reports
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
@@ -126,11 +109,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @TaskAction
     @SuppressWarnings('CatchException')
     @CompileStatic(TypeCheckingMode.SKIP)
-    void run(IncrementalTaskInputs inputs) {
-        checkIncrementalConditions()
-        Iterable<File> filesToCheck = getFilesToCheck(inputs)
-        String targetPath = GUtil.asPath(filesToCheck)
-        Iterable<String> ignored = getIgnores(inputs, filesToCheck)
+    void run() {
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(getSourcesDirs().srcDirs)
@@ -138,7 +117,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             getAnimalsnifferSignatures().each { signature ->
                 try {
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath().asPath) {
-                        path(path: targetPath)
+                        path(path: getSource().asPath)
                         getSourcesDirs().srcDirs.each {
                             sourcepath(path: it.absoluteFile)
                         }
@@ -146,7 +125,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                         if (getAnnotation()) {
                             annotation(className: getAnnotation())
                         }
-                        ignored.each { ignore(className: it) }
+                        getIgnoreClasses().each { ignore(className: it) }
                     }
                 } catch (Exception ex) {
                     // rethrow not expected ant exceptions
@@ -189,66 +168,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @InputFiles
     FileTree getSource() {
         return super.getSource()
-    }
-
-    /**
-     *
-     * @param inputs incremental inputs
-     * @return files to check: changed or all files
-     */
-    private Iterable<File> getFilesToCheck(IncrementalTaskInputs inputs) {
-        if (getIncremental() && inputs.incremental) {
-            // collect only changed files
-            List<File> files = []
-            inputs.outOfDate {
-                // use source as filter for other inputs
-                if (source.contains(it.file)) {
-                    files << it.file
-                }
-            } as Action<InputFileDetails>
-            logger.info "[animalsniffer] Incremental mode: checking only ${files.size()} changed files"
-            return files
-        }
-        // use single directory in default case
-        return getIncludes().isEmpty() && getExcludes().isEmpty() ?
-                Collections.singletonList(getClassesDir()) : source.files
-    }
-
-    /**
-     * With ignoreFailures gradle will finish incremental task and you will never see
-     * these errors anymore (if these files will not be modified). Even clean will not bring back the errors.
-     * Only task fail grants errors consistency.
-     */
-    private void checkIncrementalConditions() {
-        if (getIgnoreFailures() && getIncremental()) {
-            throw new GradleException(
-                    "Animalsniffer can't run in incremental mode when 'ignoreFailures' is enabled " +
-                            'because some errors may be missed in this case')
-        }
-    }
-
-    /**
-     * In incremental mode, all remaining classes must be added to ignored because animalsniffer
-     * will treat unknown project classes as errors.
-     * @param inputs incremental inputs
-     * @param files checked files (only changed or all files)
-     * @return full list of classes to ignore, including user configured ignores and missed classes in
-     * incremental mode
-     */
-    private Iterable<String> getIgnores(IncrementalTaskInputs inputs, Iterable<File> files) {
-        if (getIncremental() && inputs.incremental) {
-            // all not changed files must be excluded from errors, because these types are out of signature
-            List<String> res = [] + getIgnoreClasses()
-            String root = classesDir.canonicalPath
-            (getSource() - files).each {
-                String clazz = FormatUtils.toClass(it.canonicalPath, root)
-                clazz = clazz[0..clazz.lastIndexOf('.') - 1]
-                res.add(clazz)
-
-            }
-            return res
-        }
-        return getIgnoreClasses()
     }
 
     void processErrors(ReportCollector collector) {
