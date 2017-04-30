@@ -99,9 +99,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     @CompileStatic(TypeCheckingMode.SKIP)
     private void configureCheckTasks() {
-        Configuration signatures = project.configurations[SIGNATURE_CONF]
-        Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
-
         // create tasks for each source set
         project.sourceSets.all { SourceSet sourceSet ->
             AnimalSniffer task = project.tasks
@@ -110,16 +107,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
             // task operates on classes instead of sources
             task.setSource(sourceSet.output)
-            task.dependsOn sourceSet.classesTaskName
-            task.conventionMapping.with {
-                classpath = { sourceSet.compileClasspath }
-                sourcesDirs = { sourceSet.allJava }
-                animalsnifferSignatures = { signatures }
-                animalsnifferClasspath = { animalsnifferConfiguration }
-                ignoreFailures = { extension.ignoreFailures }
-                annotation = { extension.annotation }
-                ignoreClasses = { extension.ignore }
-            }
+            configureCheckTask(task, sourceSet)
             task.reports.all { report ->
                 report.conventionMapping.with {
                     enabled = { true }
@@ -131,6 +119,40 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // include required animalsniffer tasks in check lifecycle
         project.tasks.check.dependsOn {
             extension.sourceSets*.getTaskName(CHECK_SIGNATURE, null)
+        }
+    }
+
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private void configureCheckTask(AnimalSniffer task, SourceSet sourceSet) {
+        Configuration configuredSignatures = project.configurations[SIGNATURE_CONF]
+        Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
+
+        // build special signature from provided signatures and all jars to be able to cache it
+        // and perform much faster checks after the first run
+        BuildSignatureTask signatureTask = project.tasks
+                .create(sourceSet.getTaskName('animalsnifferResources', null), BuildSignatureTask) {
+
+            // compile classpath could be empty, but signatures still need to be merged
+            allowEmptyFiles = true
+            // this special task can be skipped if animalsniffer check supposed to be skipped
+            // note that task is still created because signatures could be registered dynamically
+            onlyIf { !configuredSignatures.empty }
+
+            conventionMapping.with {
+                animalsnifferClasspath = { animalsnifferConfiguration }
+                signatures = { configuredSignatures }
+                files = { project.configurations.findByName(sourceSet.compileClasspathConfigurationName) }
+            }
+        }
+
+        task.dependsOn(sourceSet.classesTaskName, signatureTask)
+        task.conventionMapping.with {
+            sourcesDirs = { sourceSet.allJava }
+            animalsnifferSignatures = { signatureTask.outputs.files }
+            animalsnifferClasspath = { animalsnifferConfiguration }
+            ignoreFailures = { extension.ignoreFailures }
+            annotation = { extension.annotation }
+            ignoreClasses = { extension.ignore }
         }
     }
 

@@ -2,11 +2,13 @@ package ru.vyarus.gradle.plugin.animalsniffer.signature
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
-import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
+import org.gradle.api.internal.ConventionTask
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
+import org.gradle.util.GFileUtils
 
 import javax.inject.Inject
 
@@ -31,7 +33,7 @@ import javax.inject.Inject
 @CompileStatic
 @CacheableTask
 @SuppressWarnings('ConfusingMethodName')
-class BuildSignatureTask extends DefaultTask {
+class BuildSignatureTask extends ConventionTask {
 
     /**
      * The class path containing the Animal Sniffer library to be used.
@@ -70,6 +72,13 @@ class BuildSignatureTask extends DefaultTask {
     Set<String> exclude = []
 
     /**
+     * Animalsniffer ant task does not allow empty files, but, in some cases, it could happen.
+     * For example, when two or more signatures must be merged. In this case plugin could
+     * specify fake file together with it's exclusion from resulted signature to overcome ant task limitation.
+     */
+    boolean allowEmptyFiles
+
+    /**
      * Output file. Default set by plugin.
      */
     @OutputFile
@@ -88,21 +97,25 @@ class BuildSignatureTask extends DefaultTask {
     @TaskAction
     @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
+        if (handleSimpleCase()) {
+            return
+        }
+        applyFakeFilesIfRequired()
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
             ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
             ant.buildSignature(destfile: getOutput().absolutePath) {
-                if (files && !files.empty) {
-                    path(path: files.asPath)
+                if (getFiles() && !getFiles().empty) {
+                    path(path: getFiles().asPath)
                 }
-                if (signatures && !signatures.empty) {
-                    signatures.files.each {
+                if (getSignatures() && !getSignatures().empty) {
+                    getSignatures().files.each {
                         signature(src: it.absolutePath)
                     }
                 }
-                include.each {
+                getInclude().each {
                     includeClasses(className: it)
                 }
-                exclude.each {
+                getExclude().each {
                     excludeClasses(className: it)
                 }
             }
@@ -126,10 +139,10 @@ class BuildSignatureTask extends DefaultTask {
      * @param input input files (classes ot jars)
      */
     void files(Object input) {
-        if (files == null) {
-            files = project.files(input)
+        if (getFiles() == null) {
+            setFiles(project.files(input))
         } else {
-            files = files + project.files(input)
+            setFiles(getFiles() + project.files(input))
         }
     }
 
@@ -149,10 +162,10 @@ class BuildSignatureTask extends DefaultTask {
      * @param signature base signatures
      */
     void signatures(Object signature) {
-        if (signatures == null) {
-            signatures = project.files(signature)
+        if (getSignatures() == null) {
+            setSignatures(project.files(signature))
         } else {
-            signatures = signatures + project.files(signature)
+            setSignatures(getSignatures() + project.files(signature))
         }
     }
 
@@ -165,7 +178,7 @@ class BuildSignatureTask extends DefaultTask {
      * @param path class names or package mask
      */
     void include(String... path) {
-        include.addAll(path)
+        getInclude().addAll(path)
     }
 
     /**
@@ -177,7 +190,7 @@ class BuildSignatureTask extends DefaultTask {
      * @param path class names or package mask
      */
     void exclude(String... path) {
-        exclude.addAll(path)
+        getExclude().addAll(path)
     }
 
     /**
@@ -186,6 +199,27 @@ class BuildSignatureTask extends DefaultTask {
      * @param name signature file name
      */
     void outputName(String name) {
-        output = new File(project.buildDir, "animalsniffer/${name}.sig")
+        setOutput(new File(project.buildDir, "animalsniffer/${name}.sig"))
+    }
+
+    private boolean handleSimpleCase() {
+        // simple case when only one signature passed without extra conditions (output should be the same)
+        if (getFiles().empty && getSignatures().size() == 1 && getExclude().empty && getInclude().empty) {
+            GFileUtils.copyFile(getSignatures().first(), getOutput())
+            return true
+        }
+        return false
+    }
+
+    private void applyFakeFilesIfRequired() {
+        boolean signaturesConfigured = getSignatures() != null && !getSignatures().empty
+        // situation: files specified, but collection is empty (for example, empty configuration)
+        if (getFiles().empty && signaturesConfigured && isAllowEmptyFiles()) {
+            // if this will fail due to security restrictions, simply disable allowEmptyFiles config
+            files(BuildSignatureTask.protectionDomain.codeSource.location)
+            exclude('ru.vyarus.gradle.plugin.animalsniffer.*')
+        } else if (getFiles().empty) {
+            throw new GradleException("No files found in: ${getFiles()}")
+        }
     }
 }

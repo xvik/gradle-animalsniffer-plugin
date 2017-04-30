@@ -1,5 +1,10 @@
 * Add build signature task, created with animalsnifferSignature configuration closure 
 * (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
+* Extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
+    - Fixes multiple signatures case: when two or more signature files provided, they are merged into one (earlier, check was performed 
+    for each signature separately)
+    - Should speed up subsequent animalsniffer runs for large classpaths (because of no need to re-read all jars all the time)
+    - Downside: first run will be a bit slower then before because of additional task
 
 ### 1.3.0 (2017-03-20)
 * Prevent other tasks output interception (#3)

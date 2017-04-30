@@ -52,10 +52,11 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     FileCollection animalsnifferSignatures
 
     /**
-     * Classpath used for compilation
+     * Classpath used for compilation (if not included in signature)
      */
     @CompileClasspath
     @InputFiles
+    @Optional
     FileCollection classpath
 
     /**
@@ -116,7 +117,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             replaceBuildListener(project, collector)
             getAnimalsnifferSignatures().each { signature ->
                 try {
-                    ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath().asPath) {
+                    ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
                         path(path: getSource().asPath)
                         getSourcesDirs().srcDirs.each {
                             sourcepath(path: it.absoluteFile)
