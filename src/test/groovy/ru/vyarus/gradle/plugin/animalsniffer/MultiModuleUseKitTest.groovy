@@ -42,6 +42,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                     signature 'org.codehaus.mojo.signature:java15:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java14:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java12:1.0@signature'
+                    compile 'junit:junit:4.12'
                 }
 
 
@@ -129,17 +130,17 @@ class MultiModuleUseKitTest extends AbstractKitTest {
             if (it % 2 == 0) {
                 assert report.exists()
                 assert report.readLines() == [
-                        "invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)",
-                        "invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
-                        "invalid.Sample2:9  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:9  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
+                        "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                        "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
                 ]
                 println "case 1 ok for $it"
             } else if (it % 3 == 0) {
                 assert report.exists()
                 assert report.readLines() == [
-                        "invalid.Sample2:9  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:9  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
+                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
                 ]
                 println "case 2 ok for $it"
             } else {

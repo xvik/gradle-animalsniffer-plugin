@@ -26,6 +26,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                compile 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')
@@ -97,6 +98,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {                
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
 
         """

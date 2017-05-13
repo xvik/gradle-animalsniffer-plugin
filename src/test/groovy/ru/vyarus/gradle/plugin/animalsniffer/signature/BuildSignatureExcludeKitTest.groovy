@@ -27,6 +27,7 @@ class BuildSignatureExcludeKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                compile 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')
@@ -61,6 +62,7 @@ class BuildSignatureExcludeKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                compile 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')

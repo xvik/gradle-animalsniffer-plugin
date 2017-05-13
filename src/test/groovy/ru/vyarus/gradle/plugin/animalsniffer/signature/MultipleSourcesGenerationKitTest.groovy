@@ -70,6 +70,7 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
             dependencies {                
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'                
                 signature2 'net.sf.androidscents.signature:android-api-level-24:7.0_r2@signature'
+                compile 'junit:junit:4.12'
             }
 
         """

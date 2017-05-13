@@ -24,6 +24,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
 
         """
@@ -39,10 +40,10 @@ class FailKitTest extends AbstractKitTest {
         then: "found 2 violations"
         result.output.contains("2 AnimalSniffer violations were found in 1 files")
         result.output.replaceAll('\r', '').contains(
-"""[Undefined reference] invalid.(Sample.java:9)
+"""[Undefined reference] invalid.(Sample.java:11)
   >> int Boolean.compare(boolean, boolean)
 
-[Undefined reference] invalid.(Sample.java:14)
+[Undefined reference] invalid.(Sample.java:16)
   >> java.nio.file.Path java.nio.file.Paths.get(String, String[])
 """)
 
@@ -50,10 +51,60 @@ class FailKitTest extends AbstractKitTest {
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
-                "invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)",
-                "invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
         ]
     }
+
+
+    def "Check violation detection without resources task"() {
+        setup:
+        build """
+            plugins {
+                id 'java'
+                id 'ru.vyarus.animalsniffer'
+            }
+
+            animalsniffer {
+                ignoreFailures = true
+                useResourcesTask = false
+            }
+
+            repositories { mavenCentral()}
+            dependencies {
+                signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
+            }
+
+        """
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
+//        debug()
+
+        when: "run task"
+        BuildResult result = run('check')
+
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.SUCCESS
+
+        then: "found 2 violations"
+        result.output.contains("2 AnimalSniffer violations were found in 1 files")
+        result.output.replaceAll('\r', '').contains(
+                """[Undefined reference] invalid.(Sample.java:11)
+  >> int Boolean.compare(boolean, boolean)
+
+[Undefined reference] invalid.(Sample.java:16)
+  >> java.nio.file.Path java.nio.file.Paths.get(String, String[])
+""")
+
+        then: "report correct"
+        File file = file('/build/reports/animalsniffer/main.text')
+        file.exists()
+        file.readLines() == [
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+        ]
+    }
+
 
     def "Check multiple signatures"() {
         setup:
@@ -71,6 +122,7 @@ class FailKitTest extends AbstractKitTest {
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
                 signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4'
+                compile 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -90,8 +142,8 @@ class FailKitTest extends AbstractKitTest {
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
-                "invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)",
-                "invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
         ]
     }
 
@@ -108,6 +160,9 @@ class FailKitTest extends AbstractKitTest {
             }
 
             repositories { mavenCentral() }
+            dependencies {
+                compile 'junit:junit:4.12'
+            }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
 //        debug()
@@ -141,6 +196,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral() }
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -174,6 +230,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
 
         """
@@ -188,8 +245,8 @@ class FailKitTest extends AbstractKitTest {
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
-                "invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)",
-                "invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
         ]
     }
 
@@ -208,6 +265,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
 
         """

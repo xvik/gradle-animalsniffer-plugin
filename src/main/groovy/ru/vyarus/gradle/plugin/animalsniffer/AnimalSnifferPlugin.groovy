@@ -51,8 +51,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             checkGradleCompatibility()
             registerExtensions()
             registerConfigurations()
-            configureCheckTasks()
-            configureBuildTasks()
+            registerCheckTasks()
+            registerBuildTasks()
         }
     }
 
@@ -98,7 +98,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    private void configureCheckTasks() {
+    private void registerCheckTasks() {
         // create tasks for each source set
         project.sourceSets.all { SourceSet sourceSet ->
             AnimalSniffer task = project.tasks
@@ -136,7 +136,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             allowEmptyFiles = true
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
-            onlyIf { !configuredSignatures.empty }
+            onlyIf { !configuredSignatures.empty && extension.useResourcesTask }
 
             conventionMapping.with {
                 animalsnifferClasspath = { animalsnifferConfiguration }
@@ -147,9 +147,12 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
         task.dependsOn(sourceSet.classesTaskName, signatureTask)
         task.conventionMapping.with {
-            sourcesDirs = { sourceSet.allJava }
-            animalsnifferSignatures = { signatureTask.outputs.files }
+            classpath = { extension.useResourcesTask ? null : sourceSet.compileClasspath }
+            animalsnifferSignatures = {
+                extension.useResourcesTask ? signatureTask.outputs.files : configuredSignatures
+            }
             animalsnifferClasspath = { animalsnifferConfiguration }
+            sourcesDirs = { sourceSet.allJava }
             ignoreFailures = { extension.ignoreFailures }
             annotation = { extension.annotation }
             ignoreClasses = { extension.ignore }
@@ -157,7 +160,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    private void configureBuildTasks() {
+    private void registerBuildTasks() {
         project.afterEvaluate {
             // register build signature task if files specified for signature creation
             if (!buildExtension.files.empty) {

@@ -38,6 +38,19 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     Collection<String> ignore = []
 
     /**
+     * When enabled, extra task used for each animalsniffer (check) task to build project-specific signature
+     * from specified signatures and project classpath. This allows using multiple signature declarations for check
+     * and speeds-up subsequent animalsniffer calls. It greatly optimize speed for projects with large classpath
+     * because, without extra task, animalsniffer have to always process all jars in classpath.
+     * <p>
+     * As a downside, first run will be a bit slower because of an extra time required for signature build.
+     * For projects with very small classpath resources task usage does not make sense and may be disabled.
+     * <p>
+     * When disabled, multiple configured signatures will be handled subsequently, as before.
+     */
+    boolean useResourcesTask = true
+
+    /**
      * Shortcut for {@link #ignore}.
      *
      * @param classes one or more classes, not mentioned in signatures

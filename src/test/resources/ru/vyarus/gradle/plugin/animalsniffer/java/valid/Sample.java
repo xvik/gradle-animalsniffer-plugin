@@ -1,5 +1,7 @@
 package valid;
 
+import org.junit.Assert;
+
 public class Sample {
 
     private String sample;
@@ -9,6 +11,6 @@ public class Sample {
     }
 
     public static void main(String[] args) {
-
+        Assert.assertTrue(true);
     }
 }

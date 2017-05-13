@@ -25,6 +25,7 @@ class PassKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                compile 'junit:junit:4.12'
             }
         """
 

@@ -1,5 +1,7 @@
 package invalid;
 
+import org.junit.Assert;
+
 import java.nio.file.Paths;
 
 public class Sample {
@@ -12,5 +14,6 @@ public class Sample {
     public void someth() {
         // class added in 1.7
         Paths.get("/tmp");
+        Assert.assertTrue(true);
     }
 }
