@@ -3,7 +3,7 @@ package ru.vyarus.gradle.plugin.animalsniffer.signature
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
-import ru.vyarus.gradle.plugin.animalsniffer.signature.support.SignatureReader
+import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureReader
 
 /**
  * @author Vyacheslav Rusakov

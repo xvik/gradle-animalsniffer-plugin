@@ -6,6 +6,7 @@
     - Should speed up subsequent animalsniffer runs for large classpaths (because of no need to re-read all jars all the time)
     - Downside: first run will be a bit slower then before because of additional task
     - Resources task usage could be disabled with `useResourcesTask = false' configuration option (work exactly as before)
+* Add SignatureInfoTask to analyze signature (to be able to reduce signature size and speed-up check)
 
 ### 1.3.0 (2017-03-20)
 * Prevent other tasks output interception (#3)
