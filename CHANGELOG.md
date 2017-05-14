@@ -3,9 +3,12 @@
 * Extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
     - Fixes multiple signatures case: when two or more signature files provided, they are merged into one (earlier, check was performed 
     for each signature separately)
-    - Should speed up subsequent animalsniffer runs for large classpaths (because of no need to re-read all jars all the time)
-    - Downside: first run will be a bit slower then before because of additional task
-    - Resources task usage could be disabled with `useResourcesTask = false' configuration option (work exactly as before)
+    - Should speed up subsequent animalsniffer runs for large classpaths (because of no need to re-read all jars all the 
+    time and ability to use smaller signature for checks)
+* Add `animalsniffer` configuration options:
+    - useResourcesTask - to disable resources tasks usage with check tasks (legacy mode)
+    - resourcesExclude - to exclude not used packages from generated signature and speed up check task 
+    (by default, 'sun.*' and repackaged gradle deps packages are excluded)
 * Add SignatureInfoTask to analyze signature (to be able to reduce signature size and speed-up check)
 
 ### 1.3.0 (2017-03-20)

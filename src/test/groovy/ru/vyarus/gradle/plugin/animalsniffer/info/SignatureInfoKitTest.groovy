@@ -8,7 +8,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  * @author Vyacheslav Rusakov
  * @since 14.05.2017
  */
-class SignatureInfoTest extends AbstractKitTest {
+class SignatureInfoKitTest extends AbstractKitTest {
 
     def "Check java signature print"() {
         setup:
@@ -36,7 +36,7 @@ class SignatureInfoTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature java16-sun-1.0.signature (1MB) contains 18312 classes")
+        result.output.contains("Signature java16-sun-1.0.signature (1,71 Mb) contains 18312 classes")
         result.output.contains("com.sun                        7115")
     }
 
@@ -67,7 +67,7 @@ class SignatureInfoTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferResourcesMain.sig (1MB) contains 18643 classes")
+        result.output.contains("Signature animalsnifferResourcesMain.sig (1,33 Mb) contains 14007 classes")
         result.output.contains("com.sun                        7115")
     }
 }

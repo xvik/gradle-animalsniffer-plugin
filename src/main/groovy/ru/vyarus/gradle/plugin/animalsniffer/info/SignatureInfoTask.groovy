@@ -23,6 +23,7 @@ class SignatureInfoTask extends DefaultTask {
 
     private static final int EDGE = 1024
     private static final String DOT = '.'
+    private static final int PKG_SP = 10
 
     /**
      * Signature files to analyze. Accepts file collection to simplify lazy configuration.
@@ -38,6 +39,14 @@ class SignatureInfoTask extends DefaultTask {
     @Input
     @Optional
     int depth = 2
+
+    /**
+     * When true, sort output by package size - packages with more classes goes top.
+     * Useful for reducing signature. When false, use signature order - most likely alphabetical.
+     */
+    @Input
+    @Optional
+    boolean sortBySize = true
 
     @TaskAction
     void action() {
@@ -57,21 +66,26 @@ class SignatureInfoTask extends DefaultTask {
                 summary[key] = summary.containsKey(key) ? summary[key] + 1 : 1
             }
 
-            summary.sort { Map.Entry<String, Integer> a, Map.Entry<String, Integer> b -> -1 * (a.value <=> b.value) }
-                    .each { key, val -> logger.warn(String.format('\t%-30s %s', key, val)) }
+            if (getSortBySize()) {
+                summary = summary.sort
+                        { Map.Entry<String, Integer> a, Map.Entry<String, Integer> b -> -1 * (a.value <=> b.value) }
+            }
+
+            summary.each { key, val -> logger.warn(String.format("\t%-${PKG_SP + dpth * PKG_SP}s %s", key, val)) }
         }
     }
 
     private String formatSize(long size) {
-        String label = [' bytes', 'KB', 'MB', 'GB', 'TB'].find {
-            if (size < EDGE) {
+        double preciseSize = size
+        String label = ['bytes', 'Kb', 'Mb', 'Gb', 'Tb'].find {
+            if (preciseSize < EDGE) {
                 true
             } else {
-                size /= EDGE
+                preciseSize /= EDGE
                 false
             }
         }
-        return "${new DecimalFormat('0.##').format(size)}$label"
+        return "${new DecimalFormat('0.##').format(preciseSize)} $label"
     }
 
     private String[] toPaths(String clazz) {

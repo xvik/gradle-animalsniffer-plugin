@@ -142,6 +142,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 animalsnifferClasspath = { animalsnifferConfiguration }
                 signatures = { configuredSignatures }
                 files = { project.configurations.findByName(sourceSet.compileClasspathConfigurationName) }
+                exclude = { extension.resourcesExclude as Set }
             }
         }
 

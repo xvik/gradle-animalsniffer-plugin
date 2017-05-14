@@ -51,6 +51,25 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     boolean useResourcesTask = true
 
     /**
+     * {@code useResourcesTask} must be enabled, otherwise option ignored. Specifies exclusions for source set
+     * specific signature (resources task, used before each check task). Exclusions make generated signature
+     * smaller and, as a result, faster check executions.
+     * <p>
+     * By default, 'sun.*' and repackaged dependencies in gradle are excluded.
+     *
+     * @see ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask to look for packages to exclude
+     * @see ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask#exclude (alias to)
+     */
+    Collection<String> resourcesExclude = [
+            //'com.sun.*',                       // 7115 classes in jdk6 (out of 18312)
+            'sun.*',                            // 4636 classes in jdk6 (out of 18312) .. must never be used
+            //'javax.swing.*',                   // 1781 classes in jdk6 (out of 18312)
+            //'org.gradle.internal.*',           // 17402 classes for gradle 3.3 (in contrast to 3285 in gradle.api)
+            'org.gradle.internal.impldep.*', // 16239 classes - repackaged 3rd parties
+            //'org.gradle.api.internal.*',       // 2026 classes (out of 3285 in gradle.api).. very likely to be used
+    ]
+
+    /**
      * Shortcut for {@link #ignore}.
      *
      * @param classes one or more classes, not mentioned in signatures
@@ -58,5 +77,15 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     @SuppressWarnings('ConfusingMethodName')
     void ignore(String... classes) {
         ignore.addAll(classes)
+    }
+
+    /**
+     * Shortcut for {@link #resourcesExclude}.
+     *
+     * @param exclude packages to exclude from generated source set signature
+     */
+    @SuppressWarnings('ConfusingMethodName')
+    void resourcesExclude(String... exclude) {
+        resourcesExclude.addAll(exclude)
     }
 }
