@@ -36,7 +36,7 @@ class SortInfoByNameKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.replace('\r', '').contains("""Signature java16-sun-1.0.signature (1.71 Mb) contains 18312 classes
+        result.output.replace('\r', '').contains("""Signature java16-sun-1.0.signature (1.7 Mb) contains 18312 classes
 \tcom                  7115
 \tjava                 2441
 \tjavax                3327

@@ -5,9 +5,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.*
 
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-
 /**
  * Special task to analyze signature. Based on the analysis you can exclude some not used packages
  * to get smaller signature. Supposed to be used for performance tuning of signature generation tasks (from classpath)
@@ -25,7 +22,6 @@ class SignatureInfoTask extends DefaultTask {
     private static final int EDGE = 1024
     private static final String DOT = '.'
     private static final int PKG_SP = 10
-    private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols(Locale.ENGLISH)
 
     /**
      * Signature files to analyze. Accepts file collection to simplify lazy configuration.
@@ -87,7 +83,7 @@ class SignatureInfoTask extends DefaultTask {
                 false
             }
         }
-        return "${new DecimalFormat('0.##', SYMBOLS).format(preciseSize)} $label"
+        return "${String.format(Locale.ENGLISH, "%.1f", preciseSize)} $label"
     }
 
     private String[] toPaths(String clazz) {
