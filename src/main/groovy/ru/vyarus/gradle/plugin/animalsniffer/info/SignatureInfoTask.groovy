@@ -83,7 +83,7 @@ class SignatureInfoTask extends DefaultTask {
                 false
             }
         }
-        return "${String.format(Locale.ENGLISH, "%.1f", preciseSize)} $label"
+        return "${String.format(Locale.ENGLISH, '%.1f', preciseSize)} $label"
     }
 
     private String[] toPaths(String clazz) {
