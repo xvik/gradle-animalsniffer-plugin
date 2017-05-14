@@ -36,7 +36,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature java16-sun-1.0.signature (1,71 Mb) contains 18312 classes")
+        result.output.contains("Signature java16-sun-1.0.signature (1.71 Mb) contains 18312 classes")
         result.output.contains("com.sun                        7115")
     }
 
@@ -67,7 +67,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferResourcesMain.sig (1,33 Mb) contains 14007 classes")
+        result.output.contains("Signature animalsnifferResourcesMain.sig (1.33 Mb) contains 14007 classes")
         result.output.contains("com.sun                        7115")
     }
 }
