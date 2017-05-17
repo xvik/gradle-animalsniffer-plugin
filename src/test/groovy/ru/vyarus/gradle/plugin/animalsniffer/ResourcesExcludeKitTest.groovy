@@ -40,7 +40,7 @@ class ResourcesExcludeKitTest extends AbstractKitTest {
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
         result.output.contains("Signature animalsnifferResourcesMain.sig")
-        result.output.contains("contains 4847 classes")
+        result.output.contains("contains 4780 classes")
         !result.output.contains("com.sun")
     }
 }

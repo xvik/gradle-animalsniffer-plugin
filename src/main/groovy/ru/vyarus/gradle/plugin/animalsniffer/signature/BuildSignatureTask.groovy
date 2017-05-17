@@ -101,6 +101,9 @@ class BuildSignatureTask extends ConventionTask {
             return
         }
         applyFakeFilesIfRequired()
+        if (!getInclude().empty || !getExclude().empty) {
+            logger.info("Building signature with includes=${getInclude()} and excludes=${getExclude()}")
+        }
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
             ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
             ant.buildSignature(destfile: getOutput().absolutePath) {
@@ -178,7 +181,9 @@ class BuildSignatureTask extends ConventionTask {
      * @param path class names or package mask
      */
     void include(String... path) {
-        getInclude().addAll(path)
+        Set<String> include = getInclude()
+        include.addAll(path)
+        setInclude(include)
     }
 
     /**
@@ -190,7 +195,9 @@ class BuildSignatureTask extends ConventionTask {
      * @param path class names or package mask
      */
     void exclude(String... path) {
-        getExclude().addAll(path)
+        Set<String> exclude = getExclude()
+        exclude.addAll(path)
+        setExclude(exclude)
     }
 
     /**
@@ -215,6 +222,8 @@ class BuildSignatureTask extends ConventionTask {
         boolean signaturesConfigured = getSignatures() != null && !getSignatures().empty
         // situation: files specified, but collection is empty (for example, empty configuration)
         if (getFiles().empty && signaturesConfigured && isAllowEmptyFiles()) {
+            logger.info('Workaround empty files for signature build by adding plugin jar as file ' +
+                    'with package exclusion')
             // if this will fail due to security restrictions, simply disable allowEmptyFiles config
             files(BuildSignatureTask.protectionDomain.codeSource.location)
             exclude('ru.vyarus.gradle.plugin.animalsniffer.*')
