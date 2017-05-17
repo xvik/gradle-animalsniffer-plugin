@@ -3,7 +3,7 @@ package ru.vyarus.gradle.plugin.animalsniffer.report
 import groovy.transform.CompileStatic
 import org.gradle.api.reporting.ReportContainer
 import org.gradle.api.reporting.SingleFileReport
-import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.Internal
 
 /**
  * Supported AnimalSniffer reports.
@@ -17,6 +17,6 @@ interface AnimalSnifferReports extends ReportContainer<SingleFileReport> {
     /**
      * @return Animal-sniffer text report
      */
-    @Nested
+    @Internal
     SingleFileReport getText()
 }

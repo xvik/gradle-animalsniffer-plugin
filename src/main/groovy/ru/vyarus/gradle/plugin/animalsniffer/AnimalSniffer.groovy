@@ -166,7 +166,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @Override
     @PathSensitive(PathSensitivity.RELATIVE)
-    @InputFiles
     FileTree getSource() {
         return super.getSource()
     }
