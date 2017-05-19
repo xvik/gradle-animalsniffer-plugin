@@ -72,17 +72,24 @@ class BuildSignatureTask extends ConventionTask {
     Set<String> exclude = []
 
     /**
-     * Animalsniffer ant task does not allow empty files, but, in some cases, it could happen.
-     * For example, when two or more signatures must be merged. In this case plugin could
-     * specify fake file together with it's exclusion from resulted signature to overcome ant task limitation.
-     */
-    boolean allowEmptyFiles
-
-    /**
      * Output file. Default set by plugin.
      */
     @OutputFile
     File output
+
+    /**
+     * Animalsniffer ant task does not allow empty files, but, in some cases, it could happen.
+     * For example, when two or more signatures must be merged. In this case plugin could
+     * specify fake file together with it's exclusion from resulted signature to overcome ant task limitation.
+     * <p>
+     * But even with this flag enabled, anything must be configured for {@code files} (some empty collection).
+     * This may seem cumbersome, but its intentional to pay attention to this as not a normal behaviour (assumed
+     * by animalsniffer ant task).
+     * <p>
+     * Option mainly used for animalsniffer check task, when empty classpath is quite possible (project
+     * without dependencies) and so associated resources task files will be empty.
+     */
+    boolean allowEmptyFiles
 
     @Inject
     Instantiator getInstantiator() {
@@ -209,8 +216,13 @@ class BuildSignatureTask extends ConventionTask {
         setOutput(new File(project.buildDir, "animalsniffer/${name}.sig"))
     }
 
+    /**
+     * Note that in case of check task, this will never be true because exclusions are always applied for resources
+     * task (see {@link ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension#resourcesExclude}).
+     *
+     * @return true if single signature used and it must be used as is (no processing required)
+     */
     private boolean handleSimpleCase() {
-        // simple case when only one signature passed without extra conditions (output should be the same)
         if (getFiles().empty && getSignatures().size() == 1 && getExclude().empty && getInclude().empty) {
             GFileUtils.copyFile(getSignatures().first(), getOutput())
             return true
