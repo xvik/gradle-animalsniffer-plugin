@@ -61,7 +61,6 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
             configurations.create('signature2')
             
             animalsnifferSignature {
-                files sourceSets.main.output
                 signatures configurations.signature
                 signatures configurations.signature2
             }
@@ -70,11 +69,9 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
             dependencies {                
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'                
                 signature2 'net.sf.androidscents.signature:android-api-level-24:7.0_r2@signature'
-                compile 'junit:junit:4.12'
             }
 
         """
-        fileFromClasspath('src/main/java/valid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/valid/Sample.java')
 //        debug()
 
         when: "run task"
@@ -86,7 +83,6 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         then: "validate signature"
         List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig"))
         sigs.size() > 0
-        sigs.contains('valid.Sample')
         sigs.contains('java.lang.Boolean')
         sigs.contains('android.icu.lang.UProperty')
     }

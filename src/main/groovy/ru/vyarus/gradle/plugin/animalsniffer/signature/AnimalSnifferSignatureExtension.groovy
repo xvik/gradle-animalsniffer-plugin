@@ -91,4 +91,11 @@ class AnimalSnifferSignatureExtension {
     void outputName(String name) {
         outputName = name
     }
+
+    /**
+     * @return true if anything is configured and signature build task must be attached
+     */
+    boolean isConfigured() {
+        return !signatures.empty || !files.empty
+    }
 }

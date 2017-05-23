@@ -5,6 +5,7 @@ import groovy.transform.TypeCheckingMode
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.ConventionTask
+import org.gradle.api.internal.file.collections.SimpleFileCollection
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
@@ -14,15 +15,18 @@ import javax.inject.Inject
 
 /**
  * Task for building animalsniffer signature. Compiled classes, jars and other signatures may be used as source.
- * Files are required in any case, even if you just want to merge existing signatures (ant task limitation).
  * <p>
  * Task may be used directly or through registered `animalsnifferSignature' configuration closure.
  * <p>
  * AnimalsnifferClasspath will be set from 'animalsniffer' configuration. By default, output file
  * is `build/animalsniffer/${task.name}.sig`.
  * <p>
- * TProperties may be used for configuration directly, but it will be more convenient to use provided helper
+ * Properties may be used for configuration directly, but it will be more convenient to use provided helper
  * methods instead.
+ * <p>
+ * Animalsniffer ant task does not allow empty files, but, in some cases, it could happen.
+ * For example, when two or more signatures must be merged. In this case plugin will
+ * specify fake file together with it's exclusion from resulted signature to overcome ant task limitation.
  *
  * @author Vyacheslav Rusakov
  * @since 12.04.2017
@@ -52,10 +56,12 @@ class BuildSignatureTask extends ConventionTask {
 
     /**
      * Compiled classes and jars.
-     * Must be always declared.
+     * Ant task requires files, but plugin will overcome this with fake files
+     * ({@see #allowEmptyFiles)
      */
     @InputFiles
-    FileCollection files
+    @Optional
+    FileCollection files = new SimpleFileCollection()
 
     /**
      * Include only packages ('com.java.*')
@@ -82,14 +88,10 @@ class BuildSignatureTask extends ConventionTask {
      * For example, when two or more signatures must be merged. In this case plugin could
      * specify fake file together with it's exclusion from resulted signature to overcome ant task limitation.
      * <p>
-     * But even with this flag enabled, anything must be configured for {@code files} (some empty collection).
-     * This may seem cumbersome, but its intentional to pay attention to this as not a normal behaviour (assumed
-     * by animalsniffer ant task).
-     * <p>
-     * Option mainly used for animalsniffer check task, when empty classpath is quite possible (project
-     * without dependencies) and so associated resources task files will be empty.
+     * Option exists only to be able to switch off empty files workaround. It may be required due to
+     * security restrictions which could lead to source jar resolution failure (not the case for most environments).
      */
-    boolean allowEmptyFiles
+    boolean allowEmptyFiles = true
 
     @Inject
     Instantiator getInstantiator() {

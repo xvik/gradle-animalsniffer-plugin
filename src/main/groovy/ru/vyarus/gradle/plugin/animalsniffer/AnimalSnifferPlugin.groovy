@@ -137,8 +137,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         BuildSignatureTask signatureTask = project.tasks
                 .create(sourceSet.getTaskName('animalsnifferResources', null), BuildSignatureTask) {
 
-            // compile classpath could be empty, but signatures still need to be merged
-            allowEmptyFiles = true
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
             onlyIf { !configuredSignatures.empty && extension.useResourcesTask }
@@ -172,7 +170,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerBuildTasks() {
         project.afterEvaluate {
             // register build signature task if files specified for signature creation
-            if (!buildExtension.files.empty) {
+            if (buildExtension.configured) {
                 BuildSignatureTask task = project.tasks.create(BUILD_SIGNATURE, BuildSignatureTask)
                 buildExtension.files.each { task.files(it) }
                 buildExtension.signatures.each { task.signatures(it) }
