@@ -1,18 +1,23 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
+import groovy.transform.Memoized
 import groovy.transform.TypeCheckingMode
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.Dependency
+import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
+import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
+import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
 
 /**
  * AnimalSniffer plugin. Implemented the same way as gradle quality plugins (checkstyle, pmd, findbugs):
@@ -141,14 +146,17 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             conventionMapping.with {
                 animalsnifferClasspath = { animalsnifferConfiguration }
                 signatures = { configuredSignatures }
-                files = { project.configurations.findByName(sourceSet.compileClasspathConfigurationName) }
+                files = { getClasspathWithoutModules(sourceSet) }
                 exclude = { extension.resourcesExclude as Set }
             }
         }
 
         task.dependsOn(sourceSet.classesTaskName, signatureTask)
         task.conventionMapping.with {
-            classpath = { extension.useResourcesTask ? null : sourceSet.compileClasspath }
+            classpath = {
+                extension.useResourcesTask ?
+                        getModulesFromClasspath(sourceSet) : sourceSet.compileClasspath
+            }
             animalsnifferSignatures = {
                 extension.useResourcesTask ? signatureTask.outputs.files : configuredSignatures
             }
@@ -184,5 +192,53 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 }
             }
         }
+    }
+
+    /**
+     * In multi-module projects there is high probability that modules could change, so its safer to exclude them
+     * from project specific signature to rebuild it less often (and speed up overall build time).
+     *
+     * @param sourceSet source set
+     * @return source set classpath with excluded other module jars
+     */
+    @Memoized
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private FileCollection getClasspathWithoutModules(SourceSet sourceSet) {
+        Set<File> excludeJars = moduleJars
+        if (excludeJars.empty) {
+            return sourceSet.compileClasspath
+        }
+        sourceSet.compileClasspath.filter new NotSpec<File>(new ContainFilesSpec(excludeJars))
+    }
+
+    /**
+     * As other module dependencies removed from project specific signature, they must be added to check task
+     * classpath.
+     *
+     * @param sourceSet source set
+     * @return file collection containing only module jars or null if no dependency on other modules
+     */
+    @Memoized
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private FileCollection getModulesFromClasspath(SourceSet sourceSet) {
+        Set<File> includeJars = moduleJars
+        if (includeJars.empty) {
+            return null
+        }
+        sourceSet.compileClasspath.filter new ContainFilesSpec(includeJars)
+    }
+
+    /**
+     * @return list of all project modules jars as a set of patterns
+     */
+    @Memoized
+    private Set<File> getModuleJars() {
+        Set<File> patterns = []
+        project.rootProject.allprojects.each {
+            it.configurations.findByName(Dependency.DEFAULT_CONFIGURATION)?.allArtifacts?.each {
+                patterns << it.file
+            }
+        }
+        patterns
     }
 }

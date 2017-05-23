@@ -1,6 +1,7 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.multi
 
 import org.gradle.testkit.runner.BuildResult
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
  * Attempt to reproduce https://github.com/xvik/gradle-animalsniffer-plugin/issues/3
