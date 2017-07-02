@@ -1,14 +1,14 @@
 * Add build signature task, created with animalsnifferSignature configuration closure 
 * (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
-* Extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
-    - Fixes multiple signatures case: when two or more signature files provided, they are merged into one (earlier, check was performed 
-    for each signature separately)
-    - Should speed up subsequent animalsniffer runs for large classpaths (because of no need to re-read all jars all the 
-    time and ability to use smaller signature for checks)
+* Add advanced caching mode: when enabled, extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
+ Useful to:
+    - Speed up subsequent animalsniffer check runs for large classpaths (because of no need to re-read all jars all the 
+     time and ability to use smaller signature for checks). Extremely helpful for gradle plugin projects.
+    - Merge multiple signatures into one (rare case, when 3rd party libraries provide signatures and they must be merged with jdk signature)
 * Add `animalsniffer` configuration options:
-    - useResourcesTask - to disable resources tasks usage with check tasks (legacy mode)
-    - resourcesExclude - to exclude not used packages from generated signature and speed up check task 
-    (by default, 'sun.*' and repackaged gradle deps packages are excluded)
+    - useResourcesTask - to enable resources tasks usage with check tasks (for advanced caching)
+    - resourcesExclude - to exclude not used packages from generated signature (when useResourcesTask enabled) and speed up check task 
+    (by default, 'sun.*' and repackaged gradle dependencies packages are excluded)
 * Add SignatureInfoTask to analyze signature (to be able to reduce signature size and speed-up check)
 
 ### 1.3.0 (2017-03-20)

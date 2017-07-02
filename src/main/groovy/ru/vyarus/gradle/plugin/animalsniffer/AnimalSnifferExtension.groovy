@@ -38,24 +38,36 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     Collection<String> ignore = []
 
     /**
-     * When enabled, extra task used for each animalsniffer (check) task to build project-specific signature
-     * from specified signatures and project classpath. This allows using multiple signature declarations for check
-     * and speeds-up subsequent animalsniffer calls. It greatly optimize speed for projects with large classpath
-     * because, without extra task, animalsniffer have to always process all jars in classpath.
+     * Enables check task pre-processing to optimize subsequent check task calls. Useful when check called often
+     * without clean. Could be extremely helpful on large classpath (like gradle plugin project).
      * <p>
-     * As a downside, first run will be a bit slower because of an extra time required for signature build.
-     * For projects with very small classpath resources task usage does not make sense and may be disabled.
+     * NOTE: it is not compatible with case when you want to check against multiple signatures: for example,
+     * jdk6 and android api. In this case do not enable resources tasks (otherwise it will merge signatures).
      * <p>
-     * When disabled, multiple configured signatures will be handled subsequently, as before.
+     * When enabled, extra task used for each animalsniffer (check) task to build source set specific signature:
+     * it will merge all configured signatures (from signature configuration) and all jars from classpath.
+     * <p>
+     * Enabled resource tasks allows using multiple signature declarations for check: they will be merged and so
+     * used "at once" (all of them at one check and not check per signature).
+     * <p>
+     * More likely, resource tasks could be enabled to greatly optimize check task speed for projects with
+     * large classpath because, without extra task, animalsniffer have to always process all jars in classpath.
+     * Resources task allow reading all jars only once and use pre-build specific signature for all subsequent
+     * check runs (much faster). Moreover, this approach allows removing not using apis from the generated signature
+     * (see {@link #resourcesExclude} below) to reduce signature size and speed up check even more.
+     * <p>
+     * In some cases, resource tasks may fail due to merge conflicts. For exampele, jdk 8 signature could not be merged
+     * with gradle jar because of different xml apis. But in most cases, there will not be any problems.
      */
-    boolean useResourcesTask = true
+    boolean useResourcesTask = false
 
     /**
-     * {@code useResourcesTask} must be enabled, otherwise option ignored. Specifies exclusions for source set
-     * specific signature (resources task, used before each check task). Exclusions make generated signature
+     * Option ignored until {@link #useResourcesTask} is enabled (disabled by default). Specifies exclusions for
+     * source set specific signature (resources task, used before each check task). Exclusions make generated signature
      * smaller and, as a result, faster check executions.
      * <p>
-     * By default, 'sun.*' and repackaged dependencies in gradle are excluded.
+     * PAY ATTENTION: by default, 'sun.*' and repackaged dependencies in gradle are excluded (the last one makes
+     * check much much faster on gradle plugin projects).
      *
      * @see ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask to look for packages to exclude
      * @see ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask#exclude (alias to)

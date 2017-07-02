@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.signature
+package ru.vyarus.gradle.plugin.animalsniffer.resources
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -22,6 +22,10 @@ class ExcludeOverrideTest extends AbstractKitTest {
             plugins {
                 id 'java'
                 id 'ru.vyarus.animalsniffer'
+            }
+
+            animalsniffer {
+                useResourcesTask = true
             }
 
             repositories { mavenCentral()}

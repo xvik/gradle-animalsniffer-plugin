@@ -1,7 +1,8 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.resources
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
  * @author Vyacheslav Rusakov
@@ -18,6 +19,7 @@ class ResourcesExcludeKitTest extends AbstractKitTest {
             }
             
             animalsniffer {
+                useResourcesTask = true
                 resourcesExclude 'com.sun.*', 'javax.swing.*'
             }
 

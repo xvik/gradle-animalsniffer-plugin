@@ -1,17 +1,14 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.resources
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
- * Report is not created when no violations detected, so successful animalsnfferMain would be
- * up-to-date after clean.
- * Proper check of up-to-date state could be performed only on task producing violations
- *
  * @author Vyacheslav Rusakov
- * @since 15.05.2017
+ * @since 02.07.2017
  */
-class UpToDateKitTest extends AbstractKitTest {
+class UpToDateResourceKitTest extends AbstractKitTest {
 
     def "Check correct behaviour on second launch"() {
 
@@ -23,7 +20,8 @@ class UpToDateKitTest extends AbstractKitTest {
             }
             
             animalsniffer {
-                ignoreFailures = true                
+                ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral()}
@@ -40,21 +38,21 @@ class UpToDateKitTest extends AbstractKitTest {
         BuildResult result = run('check')
 
         then: "task successful"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
+        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
 
         when: "run one more time"
         result = run('check')
 
         then: "up to date"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
+        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.UP_TO_DATE
         result.task(':animalsnifferMain').outcome == TaskOutcome.UP_TO_DATE
 
         when: "run again after clean"
         result = run('clean', 'check')
 
         then: "executed"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
+        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
     }
 }

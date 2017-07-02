@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.multi
+package ru.vyarus.gradle.plugin.animalsniffer.resources
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -23,6 +23,7 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
 
                 animalsniffer {
                     ignoreFailures = true
+                    useResourcesTask = true
                 }
 
                 repositories { mavenCentral()}

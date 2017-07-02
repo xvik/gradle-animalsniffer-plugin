@@ -47,6 +47,10 @@ class SignatureInfoKitTest extends AbstractKitTest {
                 id 'java'
                 id 'ru.vyarus.animalsniffer'
             }
+            
+            animalsniffer {
+                useResourcesTask = true
+            }
 
             repositories { mavenCentral()}
             dependencies {
