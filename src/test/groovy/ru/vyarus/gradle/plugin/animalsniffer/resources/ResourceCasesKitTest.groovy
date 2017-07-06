@@ -1,15 +1,16 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.resources
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
  * @author Vyacheslav Rusakov
- * @since 13.12.2015
+ * @since 06.07.2017
  */
-class FailKitTest extends AbstractKitTest {
+class ResourceCasesKitTest extends AbstractKitTest {
 
-    def "Check violation detection without resources task"() {
+    def "Check violation detection"() {
         setup:
         build """
             plugins {
@@ -19,6 +20,7 @@ class FailKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral()}
@@ -56,7 +58,6 @@ class FailKitTest extends AbstractKitTest {
         ]
     }
 
-
     def "Check multiple signatures"() {
         setup:
         build """
@@ -67,6 +68,7 @@ class FailKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral() }
@@ -108,6 +110,7 @@ class FailKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral() }
@@ -142,6 +145,7 @@ class FailKitTest extends AbstractKitTest {
             animalsniffer {
                 ignoreFailures = true
                 sourceSets = [sourceSets.test]
+                useResourcesTask = true
             }
 
             repositories { mavenCentral() }
@@ -176,6 +180,7 @@ class FailKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral()}
@@ -211,6 +216,7 @@ class FailKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
+                useResourcesTask = true
             }
 
             repositories { mavenCentral()}
