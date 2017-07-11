@@ -27,7 +27,7 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
 
             repositories { mavenCentral()}
             dependencies {
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
                 compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
         """
@@ -47,7 +47,7 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         sigs.contains('ann.Sample')
         sigs.contains('valid.Sample')
         sigs.contains('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
-        sigs.contains('org.junit.Rule')
+        sigs.contains('org.slf4j.Logger')
     }
 
     def "Check multiple source signatures"() {

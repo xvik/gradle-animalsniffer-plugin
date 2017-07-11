@@ -40,9 +40,10 @@ class FormatUtils {
 
     /**
      * @param msg message object
+     * @param showSignature true to include signature name (used for multiple signatures)
      * @return error message formatted for file
      */
-    static String formatForFile(ReportMessage msg) {
+    static String formatForFile(ReportMessage msg, boolean showSignature) {
         if (msg.parseFail) {
             return msg.code
         }
@@ -51,18 +52,20 @@ class FormatUtils {
         if (idx < 0) {
             idx = 0
         }
+        String sig = showSignature ? " (${msg.signature})" : ''
         String srcLine = msg.line ?
                 "${msg.source[0..(idx - 1)]}:${msg.line}" :
                 "${msg.source[0..(idx - 1)]}"
-        return "$srcLine  Undefined reference: ${msg.code}"
+        return "$srcLine  Undefined reference$sig: ${msg.code}"
     }
 
     /**
      *
      * @param msg message object
+     * @param showSignature true to include signature name (used for multiple signatures)
      * @return error message formatted for console
      */
-    static String formatForConsole(ReportMessage msg) {
+    static String formatForConsole(ReportMessage msg, boolean showSignature) {
         if (msg.parseFail) {
             return "[Unrecognized error] ${msg.code} $NL"
         }
@@ -71,11 +74,12 @@ class FormatUtils {
         if (extIdx > 0) {
             clsIdx = msg.source[0..(extIdx - 1)].lastIndexOf(DOT)
         }
+        String sig = showSignature ? " (${msg.signature})" : ''
         // if can't find class fallback to simple format
         String srcLine = clsIdx > 0 ?
                 "${msg.source[0..clsIdx]}(${msg.source[(clsIdx + 1)..-1]}:${msg.line ?: 1})" :
                 "${msg.source}${msg.line ? ':' + msg.line : ''}"
-        return "[Undefined reference] $srcLine$NL" +
+        return "[Undefined reference$sig] $srcLine$NL" +
                 "  >> ${msg.code}$NL"
     }
 

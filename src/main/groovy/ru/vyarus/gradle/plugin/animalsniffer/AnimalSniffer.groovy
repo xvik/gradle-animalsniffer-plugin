@@ -117,6 +117,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             replaceBuildListener(project, collector)
             getAnimalsnifferSignatures().each { signature ->
                 try {
+                    // signature file name without extension is enough for identification
+                    collector.contextSignature = signature.name.replaceAll('\\.signature$', '')
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
                         path(path: getSource().asPath)
                         getSourcesDirs().srcDirs.each {
@@ -135,6 +137,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     }
                 }
             }
+            collector.printSignatureNames = getAnimalsnifferSignatures().size() > 1
             processErrors(collector)
             // it should be useless as completely custom ant used for execution, but just in case
             recoverOriginalListener(project, collector.originalListener)

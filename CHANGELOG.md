@@ -1,5 +1,6 @@
 * Add build signature task, created with animalsnifferSignature configuration closure 
 * (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
+* Add signature name to error message when multiple signatures used for check (for better problem identification) 
 * Add advanced caching mode: when enabled, extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
  Useful to:
     - Speed up subsequent animalsniffer check runs for large classpaths (because of no need to re-read all jars all the 

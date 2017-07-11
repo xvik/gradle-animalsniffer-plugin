@@ -43,7 +43,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                     signature 'org.codehaus.mojo.signature:java15:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java14:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java12:1.0@signature'
-                    compile 'junit:junit:4.12'
+                    compile 'org.slf4j:slf4j-api:1.7.25'
                 }
 
 
@@ -131,35 +131,35 @@ class MultiModuleUseKitTest extends AbstractKitTest {
             if (it % 2 == 0) {
                 assert report.exists()
                 assert report.readLines() == [
-                        "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
-                        "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
-                        "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
-                        "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
-                        "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
+                        "invalid.Sample:11  Undefined reference (java16-1.0): int Boolean.compare(boolean, boolean)",
+                        "invalid.Sample:16  Undefined reference (java16-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                        "invalid.Sample2:11  Undefined reference (java16-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java16-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample:11  Undefined reference (java15-1.0): int Boolean.compare(boolean, boolean)",
+                        "invalid.Sample:16  Undefined reference (java15-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                        "invalid.Sample2:11  Undefined reference (java15-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java15-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample:11  Undefined reference (java14-1.0): int Boolean.compare(boolean, boolean)",
+                        "invalid.Sample:16  Undefined reference (java14-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                        "invalid.Sample2:11  Undefined reference (java14-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java14-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample:11  Undefined reference (java12-1.0): int Boolean.compare(boolean, boolean)",
+                        "invalid.Sample:16  Undefined reference (java12-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                        "invalid.Sample2:11  Undefined reference (java12-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java12-1.0): Iterable java.nio.file.FileSystem.getFileStores()"
                 ]
                 println "case 1 ok for $it"
             } else if (it % 3 == 0) {
                 assert report.exists()
                 assert report.readLines() == [
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()",
-                        "invalid.Sample2:11  Undefined reference: java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
-                        "invalid.Sample2:11  Undefined reference: Iterable java.nio.file.FileSystem.getFileStores()"
+                        "invalid.Sample2:11  Undefined reference (java16-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java16-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample2:11  Undefined reference (java15-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java15-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample2:11  Undefined reference (java14-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java14-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
+                        "invalid.Sample2:11  Undefined reference (java12-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                        "invalid.Sample2:11  Undefined reference (java12-1.0): Iterable java.nio.file.FileSystem.getFileStores()"
                 ]
                 println "case 2 ok for $it"
             } else {

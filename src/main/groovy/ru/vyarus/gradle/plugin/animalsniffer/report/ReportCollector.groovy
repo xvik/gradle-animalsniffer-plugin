@@ -21,6 +21,10 @@ class ReportCollector implements InvocationHandler {
 
     // it should be org.gradle.api.internal.project.ant.AntLoggingAdapter
     Object originalListener
+    // multiple signatures could be used for checking so exact signature is required
+    String contextSignature
+    // when multiple signatures used, signatire name should be added to error message for clarity
+    boolean printSignatureNames
 
     List<ReportMessage> report = []
     Set<String> affectedFiles = []
@@ -54,6 +58,7 @@ class ReportCollector implements InvocationHandler {
         }
         if (method.name == 'messageLogged' && event.priority < 2) {
             ReportMessage msg = FormatUtils.parse(event.message, roots)
+            msg.signature = contextSignature
             affectedFiles.add(msg.source)
             report.add(msg)
         } else {
@@ -86,7 +91,7 @@ class ReportCollector implements InvocationHandler {
      */
     void writeToFile(File file) {
         file.newWriter().withWriter { w ->
-            w << report.collect { FormatUtils.formatForFile(it) }.join(String.format('%n'))
+            w << report.collect { FormatUtils.formatForFile(it, printSignatureNames) }.join(String.format('%n'))
         }
     }
 
@@ -96,6 +101,6 @@ class ReportCollector implements InvocationHandler {
      * @param logger build logger
      */
     void writeToConsole(Logger logger) {
-        report.each { logger.error FormatUtils.formatForConsole(it) }
+        report.each { logger.error FormatUtils.formatForConsole(it, printSignatureNames) }
     }
 }

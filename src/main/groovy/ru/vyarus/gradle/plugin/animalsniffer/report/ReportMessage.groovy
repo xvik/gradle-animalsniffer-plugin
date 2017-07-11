@@ -10,6 +10,7 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class ReportMessage {
+    String signature
     String source
     String line
     String code

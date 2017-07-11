@@ -1,6 +1,6 @@
 package valid;
 
-import org.junit.Assert;
+import org.slf4j.LoggerFactory;
 
 public class Sample {
 
@@ -11,6 +11,6 @@ public class Sample {
     }
 
     public static void main(String[] args) {
-        Assert.assertTrue(true);
+        LoggerFactory.getLogger(Sample.class);
     }
 }

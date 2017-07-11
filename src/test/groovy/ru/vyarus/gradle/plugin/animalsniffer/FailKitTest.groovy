@@ -24,7 +24,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
@@ -72,8 +72,8 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral() }
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4'
-                compile 'junit:junit:4.12'
+                signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -85,16 +85,19 @@ class FailKitTest extends AbstractKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
-        then: "found 2 violations"
-        result.output.contains("2 AnimalSniffer violations were found in 1 files")
-        result.output.contains("[Undefined reference]")
+        then: "found 4 violations"
+        result.output.contains("4 AnimalSniffer violations were found in 1 files")
+        result.output.contains("[Undefined reference (java16-sun-1.0)]")
+        result.output.contains("[Undefined reference (android-api-level-14-4.0_r4)]")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
-                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
-                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+                "invalid.Sample:11  Undefined reference (java16-sun-1.0): int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference (java16-sun-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                "invalid.Sample:11  Undefined reference (android-api-level-14-4.0_r4): int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference (android-api-level-14-4.0_r4): java.nio.file.Path java.nio.file.Paths.get(String, String[])"
         ]
     }
 
@@ -112,7 +115,7 @@ class FailKitTest extends AbstractKitTest {
 
             repositories { mavenCentral() }
             dependencies {
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -147,7 +150,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral() }
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -181,7 +184,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
@@ -216,7 +219,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'junit:junit:4.12'
+                compile 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
