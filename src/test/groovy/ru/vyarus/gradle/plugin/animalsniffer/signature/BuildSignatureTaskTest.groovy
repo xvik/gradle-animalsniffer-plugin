@@ -20,7 +20,7 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "tasks registered"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 2
+        project.tasks.withType(BuildSignatureTask).size() == 0
     }
 
 
@@ -38,7 +38,7 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "tasks registered"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 3
+        project.tasks.withType(BuildSignatureTask).size() == 1
 
         then: "defaults correct"
         BuildSignatureTask task = project.tasks.animalsnifferSignature

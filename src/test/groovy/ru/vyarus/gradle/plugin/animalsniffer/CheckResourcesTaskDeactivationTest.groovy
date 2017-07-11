@@ -23,9 +23,7 @@ class CheckResourcesTaskDeactivationTest extends AbstractTest {
 
         then: "check task registered without resources task"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 2
-        def first = project.tasks.withType(BuildSignatureTask).first()
-        !first.getOnlyIf().isSatisfiedBy(first)
+        project.tasks.withType(BuildSignatureTask).size() == 0
     }
 
 

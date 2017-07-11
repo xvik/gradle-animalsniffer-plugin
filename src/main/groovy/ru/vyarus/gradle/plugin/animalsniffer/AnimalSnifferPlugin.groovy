@@ -149,7 +149,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             }
         }
 
-        task.dependsOn(sourceSet.classesTaskName, signatureTask)
+        task.dependsOn(sourceSet.classesTaskName)
         task.conventionMapping.with {
             classpath = {
                 extension.useResourcesTask ?
@@ -163,6 +163,17 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             ignoreFailures = { extension.ignoreFailures }
             annotation = { extension.annotation }
             ignoreClasses = { extension.ignore }
+        }
+
+        project.afterEvaluate {
+            if (extension.useResourcesTask) {
+                // dependency must not be added earlier to avoid resources task appearance in log
+                task.dependsOn(signatureTask)
+            } else {
+                // resource task should be always registered to simplify usage, but, by default, it is not enabled and
+                // it's better to remove it to avoid confusion (task will not appear in the tasks list)
+                project.tasks.remove(signatureTask)
+            }
         }
     }
 
