@@ -40,21 +40,18 @@ class UpToDateKitTest extends AbstractKitTest {
         BuildResult result = run('check')
 
         then: "task successful"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
 
         when: "run one more time"
         result = run('check')
 
         then: "up to date"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
         result.task(':animalsnifferMain').outcome == TaskOutcome.UP_TO_DATE
 
         when: "run again after clean"
         result = run('clean', 'check')
 
         then: "executed"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SKIPPED
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
     }
 }
