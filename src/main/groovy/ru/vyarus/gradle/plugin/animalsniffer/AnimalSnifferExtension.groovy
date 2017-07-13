@@ -1,6 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
+import org.gradle.api.Project
 import org.gradle.api.plugins.quality.CodeQualityExtension
 
 /**
@@ -13,7 +14,10 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 @CompileStatic
 class AnimalSnifferExtension extends CodeQualityExtension {
 
-    AnimalSnifferExtension() {
+    private final Project project
+
+    AnimalSnifferExtension(Project project) {
+        this.project = project
         toolVersion = '1.15'
     }
 
@@ -38,48 +42,22 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     Collection<String> ignore = []
 
     /**
-     * Enables check task pre-processing to optimize subsequent check task calls. Useful when check called often
-     * without clean. Could be extremely helpful on large classpath (like gradle plugin project).
+     * Check task has to always load and parse entire classpath. This could be time consuming on large classpath.
+     * When cache is enabled, classpath is loaded just once and converted to a signature file, which is much faster to
+     * load.
      * <p>
-     * NOTE: it is not compatible with case when you want to check against multiple signatures: for example,
-     * jdk6 and android api. In this case do not enable resources tasks (otherwise it will merge signatures).
-     * <p>
-     * When enabled, extra task used for each animalsniffer (check) task to build source set specific signature:
-     * it will merge all configured signatures (from signature configuration) and all jars from classpath.
-     * <p>
-     * Enabled resource tasks allows using multiple signature declarations for check: they will be merged and so
-     * used "at once" (all of them at one check and not check per signature).
-     * <p>
-     * More likely, resource tasks could be enabled to greatly optimize check task speed for projects with
-     * large classpath because, without extra task, animalsniffer have to always process all jars in classpath.
-     * Resources task allow reading all jars only once and use pre-build specific signature for all subsequent
-     * check runs (much faster). Moreover, this approach allows removing not using apis from the generated signature
-     * (see {@link #resourcesExclude} below) to reduce signature size and speed up check even more.
-     * <p>
-     * In some cases, resource tasks may fail due to merge conflicts. For exampele, jdk 8 signature could not be merged
-     * with gradle jar because of different xml apis. But in most cases, there will not be any problems.
+     * Cache is disabled by default because of problematic cases when both signature and jars contains the same classes
+     * (animalsniffer limitation). Moreover, plugin exclude some rarely used classes from the signature which
+     * could lead to confusion (if would be enabled by default).
      */
-    boolean useResourcesTask = false
+    CheckCacheExtension cache = new CheckCacheExtension()
 
     /**
-     * Option ignored until {@link #useResourcesTask} is enabled (disabled by default). Specifies exclusions for
-     * source set specific signature (resources task, used before each check task). Exclusions make generated signature
-     * smaller and, as a result, faster check executions.
-     * <p>
-     * PAY ATTENTION: by default, 'sun.*' and repackaged dependencies in gradle are excluded (the last one makes
-     * check much much faster on gradle plugin projects).
-     *
-     * @see ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask to look for packages to exclude
-     * @see ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask#exclude (alias to)
+     * @param cache cache configuration closure
      */
-    Collection<String> resourcesExclude = [
-            //'com.sun.*',                       // 7115 classes in jdk6 (out of 18312)
-            'sun.*',                            // 4636 classes in jdk6 (out of 18312) .. must never be used
-            //'javax.swing.*',                   // 1781 classes in jdk6 (out of 18312)
-            //'org.gradle.internal.*',           // 17402 classes for gradle 3.3 (in contrast to 3285 in gradle.api)
-            'org.gradle.internal.impldep.*', // 16239 classes - repackaged 3rd parties
-            //'org.gradle.api.internal.*',       // 2026 classes (out of 3285 in gradle.api).. very likely to be used
-    ]
+    void setCache(@DelegatesTo(value = CheckCacheExtension, strategy = Closure.DELEGATE_FIRST) Closure cache) {
+        project.configure(this.cache, cache)
+    }
 
     /**
      * Shortcut for {@link #ignore}.
@@ -89,15 +67,5 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     @SuppressWarnings('ConfusingMethodName')
     void ignore(String... classes) {
         ignore.addAll(classes)
-    }
-
-    /**
-     * Shortcut for {@link #resourcesExclude}.
-     *
-     * @param exclude packages to exclude from generated source set signature
-     */
-    @SuppressWarnings('ConfusingMethodName')
-    void resourcesExclude(String... exclude) {
-        resourcesExclude.addAll(exclude)
     }
 }

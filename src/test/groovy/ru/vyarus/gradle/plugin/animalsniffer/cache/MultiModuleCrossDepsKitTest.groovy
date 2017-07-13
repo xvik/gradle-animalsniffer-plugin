@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.resources
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -23,7 +23,7 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
 
                 animalsniffer {
                     ignoreFailures = true
-                    useResourcesTask = true
+                    cache.enabled = true
                 }
 
                 repositories { mavenCentral()}
@@ -56,11 +56,11 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
         BuildResult result = run('animalsnifferMain')
 
         then: "all tasks executed"
-        result.task(':mod1:animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
+        result.task(':mod1:animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
         result.task(':mod1:animalsnifferMain').outcome == TaskOutcome.SUCCESS
-        result.task(':mod2:animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
+        result.task(':mod2:animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
         result.task(':mod2:animalsnifferMain').outcome == TaskOutcome.SUCCESS
-        result.task(':mod3:animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
+        result.task(':mod3:animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
         result.task(':mod3:animalsnifferMain').outcome == TaskOutcome.SUCCESS
 
         when: "mod1 modified"
@@ -68,11 +68,11 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
         result = run('animalsnifferMain', '-i')
 
         then: "signatures are not re-generated"
-        result.task(':mod1:animalsnifferResourcesMain').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':mod1:animalsnifferCacheMain').outcome == TaskOutcome.UP_TO_DATE
         result.task(':mod1:animalsnifferMain').outcome == TaskOutcome.SUCCESS
-        result.task(':mod2:animalsnifferResourcesMain').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':mod2:animalsnifferCacheMain').outcome == TaskOutcome.UP_TO_DATE
         result.task(':mod2:animalsnifferMain').outcome == TaskOutcome.SUCCESS
-        result.task(':mod3:animalsnifferResourcesMain').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':mod3:animalsnifferCacheMain').outcome == TaskOutcome.UP_TO_DATE
         result.task(':mod3:animalsnifferMain').outcome == TaskOutcome.SUCCESS
     }
 }

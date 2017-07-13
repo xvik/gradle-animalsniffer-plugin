@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.resources
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -8,9 +8,9 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  * @author Vyacheslav Rusakov
  * @since 15.05.2017
  */
-class ResourcesExcludeKitTest extends AbstractKitTest {
+class CacheExcludeKitTest extends AbstractKitTest {
 
-    def "Check signature of resources task output"() {
+    def "Check signature of cache task output"() {
         setup:
         build """
             plugins {
@@ -19,8 +19,10 @@ class ResourcesExcludeKitTest extends AbstractKitTest {
             }
             
             animalsniffer {
-                useResourcesTask = true
-                resourcesExclude 'com.sun.*', 'javax.swing.*'
+                cache {
+                    enabled = true
+                    exclude 'com.sun.*', 'javax.swing.*'
+                }
             }
 
             repositories { mavenCentral()}
@@ -29,7 +31,7 @@ class ResourcesExcludeKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferResourcesMain.outputs.files
+                signature = animalsnifferCacheMain.outputs.files
                 depth = 2
             } 
 
@@ -41,7 +43,7 @@ class ResourcesExcludeKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferResourcesMain.sig")
+        result.output.contains("Signature animalsnifferCacheMain.sig")
         result.output.contains("contains 4780 classes")
         !result.output.contains("com.sun")
     }

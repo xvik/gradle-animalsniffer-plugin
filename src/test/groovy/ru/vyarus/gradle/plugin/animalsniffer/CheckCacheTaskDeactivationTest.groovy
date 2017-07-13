@@ -7,7 +7,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
  * @author Vyacheslav Rusakov
  * @since 11.05.2017
  */
-class CheckResourcesTaskDeactivationTest extends AbstractTest {
+class CheckCacheTaskDeactivationTest extends AbstractTest {
 
     def "Check simple mode"() {
 
@@ -17,17 +17,17 @@ class CheckResourcesTaskDeactivationTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
-                useResourcesTask = false
+                cache.enabled = false
             }
         }
 
-        then: "check task registered without resources task"
+        then: "check task registered without cache task"
         project.tasks.withType(AnimalSniffer).size() == 2
         project.tasks.withType(BuildSignatureTask).size() == 0
     }
 
 
-    def "Check resources task creation"() {
+    def "Check cache task creation"() {
 
         when: "plugin configured"
         Project project = project {
@@ -35,7 +35,7 @@ class CheckResourcesTaskDeactivationTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}
@@ -44,7 +44,7 @@ class CheckResourcesTaskDeactivationTest extends AbstractTest {
             }
         }
 
-        then: "check task registered with resources task"
+        then: "check task registered with cache task"
         project.tasks.withType(AnimalSniffer).size() == 2
         project.tasks.withType(BuildSignatureTask).size() == 2
         def first = project.tasks.withType(BuildSignatureTask).first()

@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.resources
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -25,7 +25,7 @@ class ExcludeOverrideTest extends AbstractKitTest {
             }
 
             animalsniffer {
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}
@@ -38,13 +38,13 @@ class ExcludeOverrideTest extends AbstractKitTest {
         //debug()
 
         when: "run task"
-        BuildResult result = run('animalsnifferResourcesMain')
+        BuildResult result = run('animalsnifferCacheMain')
 
         then: "task successful"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.SUCCESS
+        result.task(':animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
 
         then: "signature does not contain plugin classes"
-        !SignatureReader.readSignature(file("build/animalsniffer/animalsnifferResourcesMain.sig")).contains('ru.vyarus')
+        !SignatureReader.readSignature(file("build/animalsniffer/animalsnifferCacheMain.sig")).contains('ru.vyarus')
     }
 
 }

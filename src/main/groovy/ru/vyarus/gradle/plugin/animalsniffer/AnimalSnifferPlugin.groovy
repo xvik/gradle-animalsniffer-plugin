@@ -93,7 +93,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerExtensions() {
-        extension = project.extensions.create(CHECK_SIGNATURE, AnimalSnifferExtension)
+        extension = project.extensions.create(CHECK_SIGNATURE, AnimalSnifferExtension, project)
         extension.conventionMapping.with {
             reportsDir = { project.extensions.getByType(ReportingExtension).file(CHECK_SIGNATURE) }
             sourceSets = { project.sourceSets }
@@ -135,28 +135,28 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // build special signature from provided signatures and all jars to be able to cache it
         // and perform much faster checks after the first run
         BuildSignatureTask signatureTask = project.tasks
-                .create(sourceSet.getTaskName('animalsnifferResources', null), BuildSignatureTask) {
+                .create(sourceSet.getTaskName('animalsnifferCache', null), BuildSignatureTask) {
 
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
-            onlyIf { !configuredSignatures.empty && extension.useResourcesTask }
+            onlyIf { !configuredSignatures.empty && extension.cache.enabled }
 
             conventionMapping.with {
                 animalsnifferClasspath = { animalsnifferConfiguration }
                 signatures = { configuredSignatures }
                 files = { getClasspathWithoutModules(sourceSet) }
-                exclude = { extension.resourcesExclude as Set }
+                exclude = { extension.cache.exclude as Set }
             }
         }
 
         task.dependsOn(sourceSet.classesTaskName)
         task.conventionMapping.with {
             classpath = {
-                extension.useResourcesTask ?
+                extension.cache.enabled ?
                         getModulesFromClasspath(sourceSet) : sourceSet.compileClasspath
             }
             animalsnifferSignatures = {
-                extension.useResourcesTask ? signatureTask.outputs.files : configuredSignatures
+                extension.cache.enabled ? signatureTask.outputs.files : configuredSignatures
             }
             animalsnifferClasspath = { animalsnifferConfiguration }
             sourcesDirs = { sourceSet.allJava }
@@ -166,11 +166,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
 
         project.afterEvaluate {
-            if (extension.useResourcesTask) {
-                // dependency must not be added earlier to avoid resources task appearance in log
+            if (extension.cache.enabled) {
+                // dependency must not be added earlier to avoid cache task appearance in log
                 task.dependsOn(signatureTask)
             } else {
-                // resource task should be always registered to simplify usage, but, by default, it is not enabled and
+                // cache task should be always registered to simplify usage, but, by default, it is not enabled and
                 // it's better to remove it to avoid confusion (task will not appear in the tasks list)
                 project.tasks.remove(signatureTask)
             }

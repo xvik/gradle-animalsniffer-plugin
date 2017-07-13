@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.resources
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -8,7 +8,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  * @author Vyacheslav Rusakov
  * @since 06.07.2017
  */
-class ResourceCasesKitTest extends AbstractKitTest {
+class CacheCasesKitTest extends AbstractKitTest {
 
     def "Check violation detection"() {
         setup:
@@ -20,7 +20,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}
@@ -68,7 +68,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral() }
@@ -110,7 +110,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral() }
@@ -145,7 +145,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
             animalsniffer {
                 ignoreFailures = true
                 sourceSets = [sourceSets.test]
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral() }
@@ -180,7 +180,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}
@@ -216,7 +216,7 @@ class ResourceCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}

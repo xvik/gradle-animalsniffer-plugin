@@ -1,19 +1,19 @@
-package ru.vyarus.gradle.plugin.animalsniffer.resources
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
- * Demonstrates resources task fail on classes conflict.. impossible to resolve.
+ * Demonstrates cache task fail on classes conflict.. impossible to resolve.
  * Normally this test should not pass. It exists to catch animalsniffer version with fixed behaviour.
  *
  * @author Vyacheslav Rusakov
  * @since 11.07.2017
  */
-class ResourceBuildFailCaseKitTest extends AbstractKitTest {
+class CacheBuildFailCaseKitTest extends AbstractKitTest {
 
-    def "Check resources build fail"() {
+    def "Check cache build fail"() {
         setup:
         build """
             plugins {
@@ -23,7 +23,7 @@ class ResourceBuildFailCaseKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral() }
@@ -36,10 +36,10 @@ class ResourceBuildFailCaseKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = runFailed('animalsnifferResourcesMain')
+        BuildResult result = runFailed('animalsnifferCacheMain')
 
         then: "task failed"
-        result.task(':animalsnifferResourcesMain').outcome == TaskOutcome.FAILED
+        result.task(':animalsnifferCacheMain').outcome == TaskOutcome.FAILED
         result.output.contains('java.lang.ClassCastException: Cannot merger class junit/framework/AssertionFailedError as it has changed superclass')
     }
 }

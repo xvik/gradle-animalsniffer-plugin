@@ -40,7 +40,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
         result.output.contains("com.sun                        7115")
     }
 
-    def "Check signature of resources task output"() {
+    def "Check signature of cache task output"() {
         setup:
         build """
             plugins {
@@ -49,7 +49,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             animalsniffer {
-                useResourcesTask = true
+                cache.enabled = true
             }
 
             repositories { mavenCentral()}
@@ -59,7 +59,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferResourcesMain.outputs.files
+                signature = animalsnifferCacheMain.outputs.files
                 depth = 2
             } 
 
@@ -71,7 +71,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferResourcesMain.sig (1.3 Mb) contains 14007 classes")
+        result.output.contains("Signature animalsnifferCacheMain.sig (1.3 Mb) contains 14007 classes")
         result.output.contains("com.sun                        7115")
     }
 }

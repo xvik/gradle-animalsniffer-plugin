@@ -219,8 +219,8 @@ class BuildSignatureTask extends ConventionTask {
     }
 
     /**
-     * Note that in case of check task, this will never be true because exclusions are always applied for resources
-     * task (see {@link ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension#resourcesExclude}).
+     * Note that in case of check task, this will never be true because exclusions are always applied for cache
+     * task (see {@link ru.vyarus.gradle.plugin.animalsniffer.CheckCacheExtension#exclude}).
      *
      * @return true if single signature used and it must be used as is (no processing required)
      */

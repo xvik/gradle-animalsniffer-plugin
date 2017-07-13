@@ -25,7 +25,7 @@ class SignatureInfoTask extends DefaultTask {
 
     /**
      * Signature files to analyze. Accepts file collection to simplify lazy configuration.
-     * Most likely, it would be {@code configurations.signature} and {@code animalsnifferResourcesMain.outputs.files}.
+     * Most likely, it would be {@code configurations.signature} and {@code animalsnifferCacheMain.outputs.files}.
      */
     @SkipWhenEmpty
     @InputFiles

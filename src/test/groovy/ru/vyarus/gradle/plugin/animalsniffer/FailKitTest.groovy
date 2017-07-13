@@ -9,7 +9,7 @@ import org.gradle.testkit.runner.TaskOutcome
  */
 class FailKitTest extends AbstractKitTest {
 
-    def "Check violation detection without resources task"() {
+    def "Check violation detection without cache task"() {
         setup:
         build """
             plugins {
