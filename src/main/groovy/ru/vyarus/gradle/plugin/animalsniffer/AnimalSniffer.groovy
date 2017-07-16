@@ -117,8 +117,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             replaceBuildListener(project, collector)
             getAnimalsnifferSignatures().each { signature ->
                 try {
-                    // signature file name without extension is enough for identification
-                    collector.contextSignature = signature.name.replaceAll('\\.signature$', '')
+                    collector.contextSignature(signature.name)
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
                         path(path: getSource().asPath)
                         getSourcesDirs().srcDirs.each {

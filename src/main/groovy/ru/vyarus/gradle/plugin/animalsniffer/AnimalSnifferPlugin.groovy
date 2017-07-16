@@ -146,6 +146,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 signatures = { configuredSignatures }
                 files = { getClasspathWithoutModules(sourceSet) }
                 exclude = { extension.cache.exclude as Set }
+                mergeSignatures = { extension.cache.mergeSignatures }
             }
         }
 
@@ -188,7 +189,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 task.include = buildExtension.include
                 task.exclude = buildExtension.exclude
                 // project name by default to be compatible with maven artifacts
-                task.outputName(buildExtension.outputName ?: project.name)
+                task.outputName = buildExtension.outputName ?: project.name
             }
 
             // defaults applied to all tasks (including manually created)
@@ -196,8 +197,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 if (task.animalsnifferClasspath == null) {
                     task.animalsnifferClasspath = project.configurations[CHECK_SIGNATURE]
                 }
-                if (task.output == null) {
-                    task.outputName(task.name)
+                if (task.outputName == null) {
+                    task.outputName = task.name
                 }
             }
         }

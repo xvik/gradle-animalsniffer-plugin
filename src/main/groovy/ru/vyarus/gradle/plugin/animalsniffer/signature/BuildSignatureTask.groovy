@@ -40,6 +40,14 @@ import javax.inject.Inject
 class BuildSignatureTask extends ConventionTask {
 
     /**
+     * Symbol used when {@link #mergeSignatures} disabled and so multiple signatures produced (according to input
+     * signatures count). This is used for signature caching for check task so it could print real signature name
+     * in output without cache signature name.
+     */
+    public static final String SIGNATURE_DELIMITER = '_!'
+    private static final String DOT = '.'
+
+    /**
      * The class path containing the Animal Sniffer library to be used.
      * Default set by plugin.
      */
@@ -78,10 +86,20 @@ class BuildSignatureTask extends ConventionTask {
     Set<String> exclude = []
 
     /**
-     * Output file. Default set by plugin.
+     * Output signatures directory.
      */
-    @OutputFile
-    File output
+    @Input
+    File outputDirectory = new File(project.buildDir, 'animalsniffer/')
+
+    /**
+     * Output signature name. If extension is not set then '.sig' extension will be used. By default, equal to
+     * task name (set by plugin).
+     * <p>
+     * Note: when {@link #mergeSignatures} is false, provided name is used as base to create multiple names
+     * (by adding _!signatureName postfix).
+     */
+    @Input
+    String outputName
 
     /**
      * Animalsniffer ant task does not allow empty files, but, in some cases, it could happen.
@@ -91,7 +109,17 @@ class BuildSignatureTask extends ConventionTask {
      * Option exists only to be able to switch off empty files workaround. It may be required due to
      * security restrictions which could lead to source jar resolution failure (not the case for most environments).
      */
+    @Input
     boolean allowEmptyFiles = true
+
+    /**
+     * When multiple signatures provided they will be merged. If merge disabled, multiple signatures will be provided
+     * for each incoming signature.
+     * <p>
+     * This is very special case used internally for classpath caching when multiple signatures used for check task.
+     */
+    @Input
+    boolean mergeSignatures = true
 
     @Inject
     Instantiator getInstantiator() {
@@ -104,7 +132,6 @@ class BuildSignatureTask extends ConventionTask {
     }
 
     @TaskAction
-    @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
         if (handleSimpleCase()) {
             return
@@ -113,23 +140,14 @@ class BuildSignatureTask extends ConventionTask {
         if (!getInclude().empty || !getExclude().empty) {
             logger.info("Building signature with includes=${getInclude()} and excludes=${getExclude()}")
         }
-        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
-            ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
-            ant.buildSignature(destfile: getOutput().absolutePath) {
-                if (getFiles() && !getFiles().empty) {
-                    path(path: getFiles().asPath)
-                }
-                if (getSignatures() && !getSignatures().empty) {
-                    getSignatures().files.each {
-                        signature(src: it.absolutePath)
-                    }
-                }
-                getInclude().each {
-                    includeClasses(className: it)
-                }
-                getExclude().each {
-                    excludeClasses(className: it)
-                }
+
+        Set<File> signs = getSignatures() ? getSignatures().files : [] as Set<File>
+        if (getMergeSignatures() || signs.size() <= 1) {
+            runSignatureBuild(signs, targetFile)
+        } else {
+            // use each provided signature as base (provide multiple signatures)
+            signs.each {
+                runSignatureBuild([it], getPerSignatureTargetFile(it))
             }
         }
     }
@@ -210,23 +228,37 @@ class BuildSignatureTask extends ConventionTask {
     }
 
     /**
-     * Use to override target signature file name. By default, name will be the same as task name.
+     * Task could produce one or more signatures (based on {@link #mergeSignatures}).
+     * This method computes output files on configuration phase so gradle could correctly
+     * preform up to date detection.
      *
-     * @param name signature file name
+     * @return output files (future output files)
      */
-    void outputName(String name) {
-        setOutput(new File(project.buildDir, "animalsniffer/${name}.sig"))
+    @OutputFiles
+    FileCollection getOutputFiles() {
+        Set<File> files = []
+        Set<File> signs = getSignatures() ? getSignatures().files : [] as Set<File>
+        if (getMergeSignatures() || signs.size() <= 1) {
+            files.add(targetFile)
+        } else {
+            signs.each { files.add(getPerSignatureTargetFile(it)) }
+        }
+        return project.files(files)
     }
 
     /**
      * Note that in case of check task, this will never be true because exclusions are always applied for cache
      * task (see {@link ru.vyarus.gradle.plugin.animalsniffer.CheckCacheExtension#exclude}).
      *
-     * @return true if single signature used and it must be used as is (no processing required)
+     * @return true when no processing required for configured signatures
      */
     private boolean handleSimpleCase() {
-        if (getFiles().empty && getSignatures().size() == 1 && getExclude().empty && getInclude().empty) {
-            GFileUtils.copyFile(getSignatures().first(), getOutput())
+        if (getFiles().empty
+                && (getSignatures().size() == 1 || !getMergeSignatures())
+                && getExclude().empty && getInclude().empty) {
+            getSignatures().each {
+                GFileUtils.copyFile(it, getMergeSignatures() ? targetFile : getPerSignatureTargetFile(it))
+            }
             return true
         }
         return false
@@ -243,6 +275,61 @@ class BuildSignatureTask extends ConventionTask {
             exclude('ru.vyarus.gradle.plugin.animalsniffer.*')
         } else if (getFiles().empty) {
             throw new GradleException("No files found in: ${getFiles()}")
+        }
+    }
+
+    private String getSignatureFileName() {
+        String out = getOutputName()
+        if (outputName.indexOf(DOT) < 0) {
+            out += '.sig'
+        }
+        return out
+    }
+
+    /**
+     * @return output signature file for merge mode ({@link #mergeSignatures} enabled)
+     */
+    private File getTargetFile() {
+        return new File(getOutputDirectory(), signatureFileName)
+    }
+
+    /**
+     * When {@link #mergeSignatures} is disabled, task may produce multiple signatures
+     * for each source signature. Output file name is build by convention:
+     * configured signature name + special delimiter (to be able to recognize it) +
+     * source signature name.
+     *
+     * @param sig signature file
+     * @return output signature file name for specific source signature
+     */
+    private File getPerSignatureTargetFile(File sig) {
+        // use each provided signature as base (provide multiple signatures)
+        String out = signatureFileName
+        String baseName = out[0..out.lastIndexOf(DOT) - 1]
+        String ext = out[out.lastIndexOf(DOT) + 1..-1]
+
+        String name = sig.name[0..sig.name.lastIndexOf(DOT) - 1]
+        return new File(getOutputDirectory(), "${baseName}${SIGNATURE_DELIMITER}$name.$ext")
+    }
+
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private void runSignatureBuild(Collection<File> signatures, File dest) {
+        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
+            ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
+            ant.buildSignature(destfile: dest.absolutePath) {
+                if (getFiles() && !getFiles().empty) {
+                    path(path: getFiles().asPath)
+                }
+                signatures.each {
+                    signature(src: it.absolutePath)
+                }
+                getInclude().each {
+                    includeClasses(className: it)
+                }
+                getExclude().each {
+                    excludeClasses(className: it)
+                }
+            }
         }
     }
 }

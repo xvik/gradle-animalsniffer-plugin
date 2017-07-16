@@ -60,6 +60,16 @@ class CheckCacheExtension {
     ]
 
     /**
+     * Build separate cache signature for each provided signatures or merge everything into the single signature.
+     * First (be default) option useful when provided signatures must be used separately. E.g. when java and android
+     * signatures used then 2 cache signatures will be generated (each contain entire classpath). Check task will
+     * use both for separate checks.
+     * <p>
+     * Second case could be useful when signatures must be merged (e.g. small signatures from 3rd party libraries).
+     */
+    boolean mergeSignatures = false
+
+    /**
      * Shortcut for {@link #exclude}.
      *
      * @param exclude packages to exclude from generated source set signature

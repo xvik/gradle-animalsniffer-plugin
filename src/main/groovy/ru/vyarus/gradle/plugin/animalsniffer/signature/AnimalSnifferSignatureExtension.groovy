@@ -83,16 +83,6 @@ class AnimalSnifferSignatureExtension {
     }
 
     /**
-     * Use to override target signature file name. By default, name will be the same as project name
-     * (for example, 'myproject.sig') to be more compatible with maven standard artifact naming.
-     *
-     * @param name signature file name
-     */
-    void outputName(String name) {
-        outputName = name
-    }
-
-    /**
      * @return true if anything is configured and signature build task must be attached
      */
     boolean isConfigured() {

@@ -42,7 +42,8 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "defaults correct"
         BuildSignatureTask task = project.tasks.animalsnifferSignature
-        task.output.canonicalPath.replace('\\', '/').endsWith("build/animalsniffer/${project.name}.sig")
+        task.outputDirectory.canonicalPath.replace('\\', '/').endsWith("build/animalsniffer")
+        task.outputName == project.name
         task.animalsnifferClasspath != null
     }
 
@@ -60,7 +61,8 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "defaults correct"
         BuildSignatureTask task = project.tasks.sig
-        task.output.canonicalPath.replace('\\', '/').endsWith("build/animalsniffer/sig.sig")
+        task.outputDirectory.canonicalPath.replace('\\', '/').endsWith("build/animalsniffer")
+        task.outputName == 'sig'
         task.animalsnifferClasspath != null
     }
 }

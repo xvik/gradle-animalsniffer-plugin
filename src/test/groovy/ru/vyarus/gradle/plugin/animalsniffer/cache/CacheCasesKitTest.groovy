@@ -68,7 +68,10 @@ class CacheCasesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                cache.enabled = true
+                cache {
+                    enabled = true
+                    mergeSignatures = true
+                }
             }
 
             repositories { mavenCentral() }

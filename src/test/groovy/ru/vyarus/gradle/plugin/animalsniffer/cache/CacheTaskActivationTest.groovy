@@ -1,13 +1,15 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.cache
 
 import org.gradle.api.Project
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractTest
+import ru.vyarus.gradle.plugin.animalsniffer.AnimalSniffer
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
 
 /**
  * @author Vyacheslav Rusakov
  * @since 11.05.2017
  */
-class CheckCacheTaskDeactivationTest extends AbstractTest {
+class CacheTaskActivationTest extends AbstractTest {
 
     def "Check simple mode"() {
 
