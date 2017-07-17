@@ -114,7 +114,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
         result.output.contains("com.sun                        7115")
 
         then: "android signature read"
-        result.output.contains("Signature animalsnifferCacheMain_!android-api-level-14-4.0_r4.sig (317.1 Kb) contains 3167 classes")
+        result.output.contains("Signature animalsnifferCacheMain_!android-api-level-14-4.0_r4.sig")
         result.output.contains("org.apache                     367")
     }
 }
