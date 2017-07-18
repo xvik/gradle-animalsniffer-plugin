@@ -4,14 +4,20 @@
 
 ### About
 
-Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java projects.
-AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or to check library compatibility with android.
+Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java or groovy projects.
+AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or android (sdk version).
 
 Implemented the same way as core gradle qulity plugins (checkstyle, pmd etc):
 * Task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
 * Main configuration through `animalsniffer` closure
 * Configurable tool version
 * Text report
+
+Advanced features:
+* [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
+* [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
+* [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
+* [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
 ### Setup
 
@@ -28,7 +34,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.3.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.0'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -38,9 +44,11 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.3.0'
+    id 'ru.vyarus.animalsniffer' version '1.4.0'
 }
 ```
+
+**IMPORTANT**: plugin must be declared after `java` or `groovy` plugin, otherwise nothing will be registered. 
 
 Starting from version 1.1.0 gradle >= 2.14 is required. For older gradle use version 1.0.1.
 
@@ -52,8 +60,12 @@ Additional tasks will be assigned to `check` task. So animalsniffer checks will 
 $ gradlew check
 ```
 
+#### Signatures
+
 AnimalSniffer requires signature file to check against. To define signature (or multiple signatures) use
-`signature` configuration:
+`signature` configuration.
+
+Check java version compatibility:
 
 ```groovy
 repositories { mavenCentral() }
@@ -62,10 +74,37 @@ dependencies {
 }
 ```
 
-* [Java signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
-* [Android signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
+[Java signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
+
+Check android compatibility:
+
+```groovy
+repositories { mavenCentral() }
+dependencies {
+    signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
+}
+```
+
+[Android signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
+
+Check **both** java version and android compatibility:
+
+```groovy
+dependencies {
+    signature 'org.codehaus.mojo.signature:java16:1.1@signature'
+    signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
+}
+```
+
+In the last case animalsniffer will run 2 times for each signature. You may see the same errors two times if
+class/method is absent in both signatures. Each error message in log (and file) will also contain signature name to
+avoid confusion.
 
 When no signatures defined animalsniffer tasks will always pass.
+
+You can also use custom libraries signatures to [check version compatibility](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures).
+
+#### Scope
 
 All project dependencies are excluded from analysis: only classes from your source set are checked.
 
@@ -76,6 +115,8 @@ animalsniffer {
     sourceSets = [sourceSets.main]
 }
 ```  
+
+#### Output
 
 Violations are always printed to console. Example output:
 
@@ -96,6 +137,8 @@ invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)
 invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])
 ```
 
+NOTE: when multiple signatures used, output will contain signature name in the error message to void confusion.
+
 #### Suppress violations
 
 Annotation could be used to suppress violations: 
@@ -108,6 +151,7 @@ Add dependency on annotation:
 ```groovy
 compile "org.codehaus.mojo:animal-sniffer-annotations:1.15"
 ``` 
+
 Use `provided` scope if you can. 
 Annotation is configured by default, so you can simply use annotation to suppress violation:
 
@@ -136,6 +180,7 @@ animalsniffer {
     annotation = 'com.mycompany.SuppressSignatureCheck'
 }
 ```
+
 Now check will skip blocks annotated with your annotation: 
 
 ```groovy
@@ -219,6 +264,9 @@ There are no required configurations - plugin will generate defaults for all of 
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
 | annotation | Annotation class to avoid check under annotated block | |
 | ignore    | Ignore usage of classes, not mentioned in signature | |
+| signatures    | Signatures to use for check | `configurations.signature`|
+| excludeJars    | Patterns to exclude jar names from classpath. Required for [library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) usage | |
+| cache    | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) | By default, cache disabled|
 
 **NOTE**: `ignore` does not exclude your classes from check, it allows you using classes not mentioned in signature.
 See more details above.
@@ -261,6 +309,15 @@ animalsnifferMain {
 }
 ```
 
+### Advanced features
+
+Read wiki for advanced features:
+
+* [Build your project signature](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
+* [Optimize often check task calls](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
+* [Merging library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
+* [View signature content](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
+
 ### Might also like
 
 * [quality-plugin](https://github.com/xvik/gradle-quality-plugin) - java and groovy source quality checks
@@ -269,5 +326,5 @@ animalsnifferMain {
 * [github-info-plugin](https://github.com/xvik/gradle-github-info-plugin) - pre-configure common plugins with github related info
 * [java-library generator](https://github.com/xvik/generator-lib-java) - java library project generator
 
--
+---
 [![gradle plugin generator](http://img.shields.io/badge/Powered%20by-%20Gradle%20plugin%20generator-green.svg?style=flat-square)](https://github.com/xvik/generator-gradle-plugin) 

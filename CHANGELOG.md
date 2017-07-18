@@ -1,15 +1,20 @@
-* Add build signature task, created with animalsnifferSignature configuration closure 
+### 1.4.0 (2017-07-18)
+* Add build signature task and animalsnifferSignature configuration closure 
 * (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
-* Add signature name to error message when multiple signatures used for check (for better problem identification) 
-* Add caching mode (for check): when enabled, extra task added for each source set to compose all provided signatures and jars into new project-specific signature.
- Useful to:
+* Add signature name to error message when multiple signatures used for check (for better context identification) 
+* Add caching mode (for check task): when enabled, extra task added for each source set to compose all provided signatures and jars 
+into new project-specific signature.
     - Speed up subsequent animalsniffer check runs for large classpaths (because of no need to re-read all jars all the 
      time and ability to use smaller signature for checks). Extremely helpful for gradle plugin projects.
     - Merge multiple signatures into one (rare case, when 3rd party libraries provide signatures and they must be merged with jdk signature)
-* Add cache configuration options (to `animalsniffer` configuration) :
-    - cache.enabled - to enable cache tasks usage with check tasks (for advanced caching)
-    - cache.exclude - to exclude not used packages from generated signature (when useResourcesTask enabled) and speed up check task 
+* Add cache configuration options `animalsniffer.cache` closure:
+    - enabled - to enable cache tasks usage with check tasks (for advanced caching)
+    - exclude - to exclude not used packages from generated signature and speed up check task 
     (by default, 'sun.*' and repackaged gradle dependencies packages are excluded)
+    - mergeSignatures - to enable signatures merge (no merge, by default because case is rare)
+* Add `animalsniffer` configuration options (to simplify small signatures usage):
+    - excludeJars - to be able to exclude jars from check classpath (because library signatures should be used instead)
+    - signatures - to be able to directly specify signatures for check (e.g. from custom location or output from other task)
 * Add SignatureInfoTask to analyze signature (to be able to reduce signature size and speed-up check)
 
 ### 1.3.0 (2017-03-20)
