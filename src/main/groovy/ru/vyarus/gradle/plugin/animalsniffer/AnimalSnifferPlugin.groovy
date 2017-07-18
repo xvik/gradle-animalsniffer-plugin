@@ -39,7 +39,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
 @CompileStatic
 class AnimalSnifferPlugin implements Plugin<Project> {
 
-    private static final String SIGNATURE_CONF = 'signature'
+    public static final String SIGNATURE_CONF = 'signature'
     private static final String CHECK_SIGNATURE = 'animalsniffer'
     private static final String BUILD_SIGNATURE = 'animalsnifferSignature'
 
@@ -55,8 +55,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             project.plugins.apply(ReportingBasePlugin)
 
             checkGradleCompatibility()
-            registerExtensions()
             registerConfigurations()
+            registerExtensions()
             registerCheckTasks()
             registerBuildTasks()
         }
@@ -130,7 +130,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     @CompileStatic(TypeCheckingMode.SKIP)
     private void configureCheckTask(AnimalSniffer task, SourceSet sourceSet) {
-        Configuration configuredSignatures = project.configurations[SIGNATURE_CONF]
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
 
         // build special signature from provided signatures and all jars to be able to cache it
@@ -140,11 +139,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
-            onlyIf { !configuredSignatures.empty && extension.cache.enabled }
+            onlyIf { !extension.signatures.empty && extension.cache.enabled }
 
             conventionMapping.with {
                 animalsnifferClasspath = { animalsnifferConfiguration }
-                signatures = { configuredSignatures }
+                signatures = { extension.signatures }
                 files = { excludeJars(getClasspathWithoutModules(sourceSet)) }
                 exclude = { extension.cache.exclude as Set }
                 mergeSignatures = { extension.cache.mergeSignatures }
@@ -158,7 +157,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                         getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
             }
             animalsnifferSignatures = {
-                extension.cache.enabled ? signatureTask.outputs.files : configuredSignatures
+                extension.cache.enabled ? signatureTask.outputs.files : extension.signatures
             }
             animalsnifferClasspath = { animalsnifferConfiguration }
             sourcesDirs = { sourceSet.allJava }

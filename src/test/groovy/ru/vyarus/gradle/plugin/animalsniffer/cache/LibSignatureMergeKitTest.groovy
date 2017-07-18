@@ -22,18 +22,19 @@ class LibSignatureMergeKitTest extends AbstractKitTest {
             
             configurations.create('newsig')
 
+            task sig(type: ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask) {
+                files configurations.newsig
+            }
+
             animalsniffer {
                 ignoreFailures = true
+                signatures = files(configurations.signature, sig.outputs.files)
                 excludeJars 'slf4j-*'
                 cache {
                     enabled = true
                     mergeSignatures = true
                 }
-            }
-            
-            task sig(type: ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask) {
-                files configurations.newsig
-            }
+            }                        
 
             repositories { mavenCentral()}
             dependencies {
@@ -44,9 +45,6 @@ class LibSignatureMergeKitTest extends AbstractKitTest {
                 // configuration used only to build signature
                 newsig 'org.slf4j:slf4j-api:1.5.3'
             }
-            
-            // use generated signature
-            animalsnifferCacheMain.signatures = project.files(configurations.signature, sig.outputs.files)
 
         """
         fileFromClasspath('src/main/java/custsig/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/custsig/Sample.java')

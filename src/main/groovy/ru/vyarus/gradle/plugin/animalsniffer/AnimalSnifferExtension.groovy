@@ -2,6 +2,7 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
+import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.quality.CodeQualityExtension
 
 /**
@@ -20,6 +21,13 @@ class AnimalSnifferExtension extends CodeQualityExtension {
         this.project = project
         toolVersion = '1.15'
     }
+
+    /**
+     * Signatures to use for the check. By default {@code configurations.signature}.
+     * Assumed to be used for specific cases when signature for check is built inside project
+     * or come from not standard source.
+     */
+    FileCollection signatures = project.configurations[AnimalSnifferPlugin.SIGNATURE_CONF]
 
     /**
      * Annotation class name used to disable check for annotated class/method/field.

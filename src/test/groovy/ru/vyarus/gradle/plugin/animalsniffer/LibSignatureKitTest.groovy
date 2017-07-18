@@ -49,16 +49,18 @@ class LibSignatureKitTest extends AbstractKitTest {
             }
             
             configurations.create('newsig')
-
-            animalsniffer {
-                ignoreFailures = true
-                excludeJars 'slf4j-*'
-            }
             
             task sig(type: ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask) {
                 signatures configurations.signature
                 files configurations.newsig
             }
+
+            animalsniffer {
+                ignoreFailures = true
+                // use generated signature instead of configuration
+                signatures = sig.outputs.files
+                excludeJars 'slf4j-*'
+            }                        
 
             repositories { mavenCentral()}
             dependencies {
@@ -70,9 +72,6 @@ class LibSignatureKitTest extends AbstractKitTest {
                 // configuration used only to build signature
                 newsig 'org.slf4j:slf4j-api:1.5.3'
             }
-            
-            // use generated signature
-            animalsnifferMain.animalsnifferSignatures = project.files(sig.outputs.files)
 
         """
         fileFromClasspath('src/main/java/custsig/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/custsig/Sample.java')
