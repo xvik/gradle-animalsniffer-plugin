@@ -18,6 +18,7 @@ import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
 import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
+import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
 
 /**
  * AnimalSniffer plugin. Implemented the same way as gradle quality plugins (checkstyle, pmd, findbugs):
@@ -144,7 +145,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             conventionMapping.with {
                 animalsnifferClasspath = { animalsnifferConfiguration }
                 signatures = { configuredSignatures }
-                files = { getClasspathWithoutModules(sourceSet) }
+                files = { excludeJars(getClasspathWithoutModules(sourceSet)) }
                 exclude = { extension.cache.exclude as Set }
                 mergeSignatures = { extension.cache.mergeSignatures }
             }
@@ -154,7 +155,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         task.conventionMapping.with {
             classpath = {
                 extension.cache.enabled ?
-                        getModulesFromClasspath(sourceSet) : sourceSet.compileClasspath
+                        getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
             }
             animalsnifferSignatures = {
                 extension.cache.enabled ? signatureTask.outputs.files : configuredSignatures
@@ -250,5 +251,16 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             }
         }
         patterns
+    }
+
+    /**
+     * Exclude some jars from the classpath. Required to support small 3rd party library signatures.
+     *
+     * @param classpath classpath file collection
+     * @return filtered or original classpath if nothing configured to exclude
+     */
+    private FileCollection excludeJars(FileCollection classpath) {
+        return extension.excludeJars ? classpath.filter(new ExcludeFilePatternSpec(extension.excludeJars))
+                : classpath
     }
 }

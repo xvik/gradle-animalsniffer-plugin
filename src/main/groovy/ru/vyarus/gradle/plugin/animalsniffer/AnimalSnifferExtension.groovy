@@ -42,6 +42,18 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     Collection<String> ignore = []
 
     /**
+     * Jar names to exclude from classpath. Asterisk should be used to mask version part 'slf4j-*'.
+     * File names in classpath will be named as artifactId-version (note extension is not counted!).
+     * <p>
+     * Pattern name is actually a regexp. Asterisk is just a simplification, which is replaced to '.+' in real
+     * pattern.
+     * <p>
+     * This is required for specific cases when you use 3rd party library signatures and
+     * need to exclude library jars to correctly check with signature.
+     */
+    Collection<String> excludeJars = []
+
+    /**
      * Check task has to always load and parse entire classpath. This could be time consuming on large classpath.
      * When cache is enabled, classpath is loaded just once and converted to a signature file, which is much faster to
      * load.
@@ -67,5 +79,15 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     @SuppressWarnings('ConfusingMethodName')
     void ignore(String... classes) {
         ignore.addAll(classes)
+    }
+
+    /**
+     * Shortcut for {@link #excludeJars}.
+     *
+     * @param names jar name patterns to exclude
+     */
+    @SuppressWarnings('ConfusingMethodName')
+    void excludeJars(String... names) {
+        excludeJars.addAll(names)
     }
 }
