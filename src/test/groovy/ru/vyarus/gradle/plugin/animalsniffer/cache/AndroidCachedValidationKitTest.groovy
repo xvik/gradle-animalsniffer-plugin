@@ -46,10 +46,10 @@ class AndroidCachedValidationKitTest extends AbstractKitTest {
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
-        file.readLines() == [
+        file.readLines() as Set == [
                 'android.Sample:9  Undefined reference (android-api-level-14-4.0_r4): int Boolean.compare(boolean, boolean)',
                 'android.Sample:14  Undefined reference (android-api-level-14-4.0_r4): Object javax.naming.InitialContext.doLookup(String)',
                 'android.Sample:9  Undefined reference (java16-sun-1.0): int Boolean.compare(boolean, boolean)'
-        ]
+        ] as Set
     }
 }
