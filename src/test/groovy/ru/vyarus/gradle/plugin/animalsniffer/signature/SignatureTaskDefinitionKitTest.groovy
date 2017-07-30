@@ -41,7 +41,7 @@ class SignatureTaskDefinitionKitTest extends AbstractKitTest {
         result.task(':sig').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        List<String> sigs = SignatureReader.readSignature(file('build/animalsniffer/sig.sig'))
+        List<String> sigs = SignatureReader.readSignature(file('build/animalsniffer/sig/sig.sig'))
         sigs.size() > 0
         sigs.contains('ann.Sample')
         sigs.contains('valid.Sample')

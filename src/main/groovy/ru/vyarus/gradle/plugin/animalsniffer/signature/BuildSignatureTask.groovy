@@ -10,6 +10,7 @@ import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.GFileUtils
+import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ import javax.inject.Inject
  * Task may be used directly or through registered `animalsnifferSignature' configuration closure.
  * <p>
  * AnimalsnifferClasspath will be set from 'animalsniffer' configuration. By default, output file
- * is `build/animalsniffer/${task.name}.sig`.
+ * is `build/animalsniffer/${task.name}/${task.name}.sig`. In some cases multiple signatures could be produces,
+ * so use {@code task.outputFiles} method to get correct task output.
  * <p>
  * Properties may be used for configuration directly, but it will be more convenient to use provided helper
  * methods instead.
@@ -65,7 +67,7 @@ class BuildSignatureTask extends ConventionTask {
     /**
      * Compiled classes and jars.
      * Ant task requires files, but plugin will overcome this with fake files
-     * ({@see #allowEmptyFiles)
+     * ({@see # allowEmptyFiles)
      */
     @InputFiles
     @Optional
@@ -88,8 +90,8 @@ class BuildSignatureTask extends ConventionTask {
     /**
      * Output signatures directory.
      */
-    @Input
-    File outputDirectory = new File(project.buildDir, 'animalsniffer/')
+    @OutputDirectory
+    File outputDirectory
 
     /**
      * Output signature name. If extension is not set then '.sig' extension will be used. By default, equal to
@@ -120,6 +122,14 @@ class BuildSignatureTask extends ConventionTask {
      */
     @Input
     boolean mergeSignatures = true
+
+    @SuppressWarnings('UnnecessaryGetter')
+    BuildSignatureTask() {
+        // task-specific output directory used to avoid clashes when multiple build tasks used
+        // (output files are taken from directory, so if multiple tasks used, last task output will include
+        // all tasks outputs, which is wrong).
+        conventionMapping.map('outputDirectory') { getDefaultTaskOutputDirectory() }
+    }
 
     @Inject
     Instantiator getInstantiator() {
@@ -228,22 +238,22 @@ class BuildSignatureTask extends ConventionTask {
     }
 
     /**
-     * Task could produce one or more signatures (based on {@link #mergeSignatures}).
-     * This method computes output files on configuration phase so gradle could correctly
-     * preform up to date detection.
+     * It is intentional that property is not annotated with {@code @OutputFiles}!
+     * <p>
+     * Task output depends on inputs (number of produced signatures and their names rely on
+     * configured signatures). Since gradle 4 task output property can't force dependency resolution,
+     * but in most cases input signatures are configured with 'signature' configuration. This makes impossible
+     * computation of exact output file names before execution (such computation was implemented in plugin version 1.4).
+     * <p>
+     *  Due to this limitation, task declares only output directory as task output. But that means that
+     * {@code task.outputs.files} can't be used, because it will contain only output directory (itself).
+     *  But it's a very handy to rely on task output files, and this method should be used instead of
+     *  outputs mechanism ({@code task.outputFiles}) to configure produced signatures in other tasks.
      *
-     * @return output files (future output files)
+     * @return lazy collection of resulted signatures to use as input for other tasks
      */
-    @OutputFiles
     FileCollection getOutputFiles() {
-        Set<File> files = []
-        Set<File> signs = getSignatures() ? getSignatures().files : [] as Set<File>
-        if (getMergeSignatures() || signs.size() <= 1) {
-            files.add(targetFile)
-        } else {
-            signs.each { files.add(getPerSignatureTargetFile(it)) }
-        }
-        return project.files(files)
+        return project.fileTree(getOutputDirectory()) { builtBy this }
     }
 
     /**
@@ -276,6 +286,20 @@ class BuildSignatureTask extends ConventionTask {
         } else if (getFiles().empty) {
             throw new GradleException("No files found in: ${getFiles()}")
         }
+    }
+
+    /**
+     * By default task name used for output directory.
+     * For cache tasks, 'animalsniffer' prefix cut off.
+     *
+     * @return default output directory
+     */
+    private File getDefaultTaskOutputDirectory() {
+        String subDir = name
+        if (subDir.startsWith(AnimalSnifferPlugin.ANIMALSNIFFER_CACHE)) {
+            subDir = "cache${subDir[AnimalSnifferPlugin.ANIMALSNIFFER_CACHE.length()..-1]}"
+        }
+        return new File(project.buildDir, "animalsniffer/$subDir")
     }
 
     private String getSignatureFileName() {

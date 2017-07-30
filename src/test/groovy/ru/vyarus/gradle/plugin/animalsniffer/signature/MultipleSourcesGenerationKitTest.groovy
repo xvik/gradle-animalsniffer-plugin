@@ -42,7 +42,7 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig"))
+        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig"))
         sigs.size() > 0
         sigs.contains('ann.Sample')
         sigs.contains('valid.Sample')
@@ -81,7 +81,7 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig"))
+        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig"))
         sigs.size() > 0
         sigs.contains('java.lang.Boolean')
         sigs.contains('android.icu.lang.UProperty')

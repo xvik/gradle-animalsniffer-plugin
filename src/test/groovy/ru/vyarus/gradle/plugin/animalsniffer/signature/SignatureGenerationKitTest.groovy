@@ -40,7 +40,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig")) == [
+        SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig")) == [
                 'ann.Sample',
                 'valid.Sample'
         ]
@@ -75,7 +75,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig"))
+        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig"))
         sigs.size() > 0
         sigs.contains('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
         sigs.contains('org.junit.Rule')
@@ -112,7 +112,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig"))
+        List<String> sigs = SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig"))
         sigs.size() > 0
         sigs.contains('valid.Sample')
         sigs.contains('java.lang.Boolean')
@@ -146,7 +146,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "validate signature"
-        SignatureReader.readSignature(file("build/animalsniffer/samplesig.sig")) == [
+        SignatureReader.readSignature(file("build/animalsniffer/signature/samplesig.sig")) == [
                 'ann.Sample'
         ]
     }

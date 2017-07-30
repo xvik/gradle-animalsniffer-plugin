@@ -2,25 +2,25 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.9.7'
-    id 'net.researchgate.release' version '2.5.0'
-    id 'ru.vyarus.quality' version '2.1.0'
+    id 'net.researchgate.release' version '2.6.0'
+    id 'ru.vyarus.quality' version '2.3.0'
     id 'com.jfrog.bintray' version '1.7.3'
     id 'ru.vyarus.java-lib' version '1.0.4'
     id 'ru.vyarus.github-info' version '1.1.0'
-    id 'com.github.ben-manes.versions' version '0.13.0'
+    id 'com.github.ben-manes.versions' version '0.15.0'
 }
 
 sourceCompatibility = 1.6
 
 wrapper {
-    gradleVersion = '3.4'
+    gradleVersion = '4.0.2'
 }
 
 repositories { jcenter() }
 dependencies {
     compile("org.codehaus.mojo:animal-sniffer:1.15")
 
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
     }
 }

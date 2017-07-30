@@ -38,16 +38,16 @@ class MultipleSignaturesNoMergeKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':sig').outcome == TaskOutcome.SUCCESS
-        file('build/animalsniffer').listFiles().size() == 2
+        file('build/animalsniffer/sig/').listFiles().size() == 2
 
         then: "validate signature 1"
-        List<String> sigs = SignatureReader.readSignature(file('build/animalsniffer/sig_!java16-sun-1.0.sig'))
+        List<String> sigs = SignatureReader.readSignature(file('build/animalsniffer/sig/sig_!java16-sun-1.0.sig'))
         sigs.size() > 0
         sigs.contains('java.lang.Boolean')
         sigs.contains('com.sun.media.sound.SunFileReader')
 
         then: "validate signature 2"
-        List<String> sigs2 = SignatureReader.readSignature(file('build/animalsniffer/sig_!android-api-level-24-7.0_r2.sig'))
+        List<String> sigs2 = SignatureReader.readSignature(file('build/animalsniffer/sig/sig_!android-api-level-24-7.0_r2.sig'))
         sigs2.size() > 0
         sigs2.contains('java.lang.Boolean')
         sigs2.contains('android.icu.lang.UProperty')

@@ -40,6 +40,8 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
 class AnimalSnifferPlugin implements Plugin<Project> {
 
     public static final String SIGNATURE_CONF = 'signature'
+    public static final String ANIMALSNIFFER_CACHE = 'animalsnifferCache'
+
     private static final String CHECK_SIGNATURE = 'animalsniffer'
     private static final String BUILD_SIGNATURE = 'animalsnifferSignature'
 
@@ -135,7 +137,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // build special signature from provided signatures and all jars to be able to cache it
         // and perform much faster checks after the first run
         BuildSignatureTask signatureTask = project.tasks
-                .create(sourceSet.getTaskName('animalsnifferCache', null), BuildSignatureTask) {
+                .create(sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null), BuildSignatureTask) {
 
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
@@ -157,7 +159,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                         getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
             }
             animalsnifferSignatures = {
-                extension.cache.enabled ? signatureTask.outputs.files : extension.signatures
+                extension.cache.enabled ? signatureTask.outputFiles : extension.signatures
             }
             animalsnifferClasspath = { animalsnifferConfiguration }
             sourcesDirs = { sourceSet.allJava }
@@ -190,6 +192,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 task.exclude = buildExtension.exclude
                 // project name by default to be compatible with maven artifacts
                 task.outputName = buildExtension.outputName ?: project.name
+                // for project signature use hardcoded 'signature' folder instead of task name
+                task.outputDirectory = new File(project.buildDir, '/animalsniffer/signature/')
             }
 
             // defaults applied to all tasks (including manually created)

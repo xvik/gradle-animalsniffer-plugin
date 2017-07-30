@@ -58,7 +58,7 @@ class LibSignatureKitTest extends AbstractKitTest {
             animalsniffer {
                 ignoreFailures = true
                 // use generated signature instead of configuration
-                signatures = sig.outputs.files
+                signatures = sig.outputFiles
                 excludeJars 'slf4j-*'
             }                        
 

@@ -28,7 +28,7 @@ class LibSignatureMergeKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                signatures = files(configurations.signature, sig.outputs.files)
+                signatures = files(configurations.signature, sig.outputFiles)
                 excludeJars 'slf4j-*'
                 cache {
                     enabled = true
@@ -39,7 +39,7 @@ class LibSignatureMergeKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                // dependency that must to be excluded to be able to check with newly generated signatire
+                // dependency that must to be excluded to be able to check with newly generated signature
                 compile 'org.slf4j:slf4j-api:1.7.25'
                 
                 // configuration used only to build signature

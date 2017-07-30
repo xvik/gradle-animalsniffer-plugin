@@ -59,7 +59,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferCacheMain.outputs.files
+                signature = animalsnifferCacheMain.outputFiles
                 depth = 2
             } 
 
@@ -96,7 +96,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferCacheMain.outputs.files
+                signature = animalsnifferCacheMain.outputFiles
                 depth = 2
             } 
 

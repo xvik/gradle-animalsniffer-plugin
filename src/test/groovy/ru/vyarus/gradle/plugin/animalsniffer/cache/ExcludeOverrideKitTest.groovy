@@ -13,7 +13,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureReader
  * @author Vyacheslav Rusakov
  * @since 18.05.2017
  */
-class ExcludeOverrideTest extends AbstractKitTest {
+class ExcludeOverrideKitTest extends AbstractKitTest {
 
     def "Check signature no deps case"() {
 
@@ -44,7 +44,7 @@ class ExcludeOverrideTest extends AbstractKitTest {
         result.task(':animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
 
         then: "signature does not contain plugin classes"
-        !SignatureReader.readSignature(file("build/animalsniffer/animalsnifferCacheMain.sig")).contains('ru.vyarus')
+        !SignatureReader.readSignature(file("build/animalsniffer/cacheMain/animalsnifferCacheMain.sig")).contains('ru.vyarus')
     }
 
 }

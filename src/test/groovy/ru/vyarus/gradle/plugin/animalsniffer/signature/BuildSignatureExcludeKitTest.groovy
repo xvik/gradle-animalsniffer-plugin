@@ -41,7 +41,7 @@ class BuildSignatureExcludeKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "only included classes remain in signature"
-        SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig")) == [
+        SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig")) == [
                 'valid.Sample'
         ]
     }
@@ -76,7 +76,7 @@ class BuildSignatureExcludeKitTest extends AbstractKitTest {
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
 
         then: "only included classes remain in signature"
-        SignatureReader.readSignature(file("build/animalsniffer/${projectName()}.sig")) == [
+        SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig")) == [
                 'ann.Sample'
         ]
     }

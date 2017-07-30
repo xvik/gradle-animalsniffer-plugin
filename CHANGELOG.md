@@ -1,3 +1,11 @@
+* (breaking) Fix Gradle 4 compatibility for build signature task (due to new gradle outputs resolution restriction): 
+    - Now task use output directory instead of output files, so `task.outputs.files` can't be used (will return just output directory) 
+    Use new `task.outputFiles` method instead (it will also grant dependency on signature task, the same as outputs do).
+    - Separate output directory used for each task to avoid collisions: `build/animalsniffer/$taskName`
+    For project signature (configured with animalsnifferSignature configuration), output directory would be
+    `build/animalsniffer/signature/`. For cache tasks, animalsniffer prefix cut off from task name: 
+    `build/animalsniffer/cacheMain/`.
+
 ### 1.4.0 (2017-07-18)
 * Add build signature task and animalsnifferSignature configuration closure 
 * (breaking) Plugin must be applied after java (groovy) plugin, otherwise it will do nothing
