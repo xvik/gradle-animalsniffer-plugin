@@ -34,7 +34,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.1'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -44,7 +44,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.4.0'
+    id 'ru.vyarus.animalsniffer' version '1.4.1'
 }
 ```
 
@@ -278,7 +278,7 @@ Animalsniffer task is registered for each source set:
 * `animalsnifferTest` - run AnimalSniffer for compiled test classes
 * `animalsnifferSourceSet` - run AnimalSniffer for compiled SourceSet classes
 
-`check` task will depend only on taks from configured in `animalsniffer.sourceSets` source sets.
+`check` task will depend only on tasks from configured in `animalsniffer.sourceSets` source sets.
 
 Tasks support text report, enabled by default.
 
