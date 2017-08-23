@@ -19,7 +19,7 @@ class ExtraClassesKitTest extends AbstractKitTest {
 
             animalsniffer {
                 ignoreFailures = true
-                ignore 'java.nio.file.Paths'
+                ignore 'java.nio.file.Paths', 'java.nio.file.Path'
             }
 
             repositories { mavenCentral()}

@@ -1,3 +1,10 @@
+* Update animalsniffer 1.15 -> 1.16
+* Remove error duplicates after method return type detection (introduced in 1.16)
+  For example, code line `Paths.get ( " / tmp " );` produce 2 errors: 
+  unknown return type (java.nio.file.Path), unknown method (java.nio.file.Path java.nio.file.Paths.get(String, String[]))
+  (note, in 1.15 only second error was shown).
+  To avoid such duplicates, plugin will remove first error (check that current error starts with previous error). 
+
 ### 1.4.1 (2017-07-30)
 * (breaking) Fix Gradle 4 compatibility for build signature task (due to new gradle outputs resolution restriction): 
     - Now task use output directory instead of output files, so `task.outputs.files` can't be used (will return just output directory) 

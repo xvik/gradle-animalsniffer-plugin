@@ -63,7 +63,7 @@ class ReportCollector implements InvocationHandler {
             ReportMessage msg = FormatUtils.parse(event.message, roots)
             msg.signature = signature
             affectedFiles.add(msg.source)
-            report.add(msg)
+            checkAndRemoveDuplicate(msg)
         } else {
             if (originalListener) {
                 // redirect to original listener
@@ -121,5 +121,26 @@ class ReportCollector implements InvocationHandler {
      */
     void writeToConsole(Logger logger) {
         report.each { logger.error FormatUtils.formatForConsole(it, printSignatureNames) }
+    }
+
+    /**
+     * Animalsniffer 1.16 start to check method return type (no matter if it used). This lead to error duplicates:
+     * for example, for code {@code Paths.get ( " / tmp " ) ;}, check with jdk6 signature will detect 2 errors:
+     * {@code java.nio.file.Path}, {@code java.nio.file.Path java.nio.file.Paths.get(String, String[])}
+     * (return type and method call). But this is duplication (point to the same line) so first error may be skipped
+     * (it is derivative from bad method call).
+     *
+     * @param msg new message
+     */
+    private void checkAndRemoveDuplicate(ReportMessage msg) {
+        ReportMessage prev = report.isEmpty() ? null : report.last()
+        if (prev != null
+                && prev.signature == msg.signature
+                && prev.source == msg.source
+                && prev.line == msg.line
+                && msg.code.startsWith(prev.code)) {
+            report.remove(prev)
+        }
+        report.add(msg)
     }
 }

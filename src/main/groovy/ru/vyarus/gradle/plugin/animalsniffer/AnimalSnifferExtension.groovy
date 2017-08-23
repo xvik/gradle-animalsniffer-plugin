@@ -19,7 +19,7 @@ class AnimalSnifferExtension extends CodeQualityExtension {
 
     AnimalSnifferExtension(Project project) {
         this.project = project
-        toolVersion = '1.15'
+        toolVersion = '1.16'
     }
 
     /**

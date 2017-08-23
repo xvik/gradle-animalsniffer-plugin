@@ -18,7 +18,7 @@ wrapper {
 
 repositories { jcenter() }
 dependencies {
-    compile("org.codehaus.mojo:animal-sniffer:1.15")
+    compile("org.codehaus.mojo:animal-sniffer:1.16")
 
     testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
