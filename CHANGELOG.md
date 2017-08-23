@@ -1,3 +1,4 @@
+### 1.4.2 (2017-08-24)
 * Update animalsniffer 1.15 -> 1.16
 * Remove error duplicates after method return type detection (introduced in 1.16)
   For example, code line `Paths.get ( " / tmp " );` produce 2 errors: 

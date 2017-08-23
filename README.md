@@ -34,7 +34,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.1'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.2'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -44,7 +44,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.4.1'
+    id 'ru.vyarus.animalsniffer' version '1.4.2'
 }
 ```
 
@@ -258,7 +258,7 @@ There are no required configurations - plugin will generate defaults for all of 
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
-| toolVersion | AnimalSniffer version | 1.15 |
+| toolVersion | AnimalSniffer version | 1.16 |
 | sourceSets | Source sets to check | all source sets |
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
