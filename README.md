@@ -34,7 +34,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.2'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.3'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -44,7 +44,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.4.2'
+    id 'ru.vyarus.animalsniffer' version '1.4.3'
 }
 ```
 
@@ -149,7 +149,7 @@ Annotation could be used to suppress violations:
 Add dependency on annotation:
 
 ```groovy
-compile "org.codehaus.mojo:animal-sniffer-annotations:1.15"
+compile "org.codehaus.mojo:animal-sniffer-annotations:1.16"
 ``` 
 
 Use `provided` scope if you can. 
