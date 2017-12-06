@@ -1,4 +1,5 @@
-* Fix output warnings recognition for parallel builds (#3)
+### 1.4.3 (2017-12-06)
+* Fix warnings recognition for parallel builds (#3)
 
 ### 1.4.2 (2017-08-24)
 * Update animalsniffer 1.15 -> 1.16
