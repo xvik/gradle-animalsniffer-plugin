@@ -245,7 +245,7 @@ Configuration example:
 
 ```groovy
 animalsniffer {
-    toolVersion = '1.15'
+    toolVersion = '1.16'
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
