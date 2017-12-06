@@ -114,7 +114,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
             task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
             // task operates on classes instead of sources
-            task.setSource(sourceSet.output)
+            task.source = sourceSet.output
             configureCheckTask(task, sourceSet)
             task.reports.all { report ->
                 report.conventionMapping.with {
