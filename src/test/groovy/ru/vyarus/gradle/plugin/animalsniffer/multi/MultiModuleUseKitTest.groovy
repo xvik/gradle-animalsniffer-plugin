@@ -31,7 +31,9 @@ class MultiModuleUseKitTest extends AbstractKitTest {
             subprojects {
                 apply plugin: 'java'
                 apply plugin: 'ru.vyarus.animalsniffer'
-
+                
+                sourceCompatibility = 1.6
+                
                 animalsniffer {
                     ignoreFailures = true
                 }
@@ -65,7 +67,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
         """)
 
         // amount of modules in test project
-        int cnt = 15
+        int cnt = 40
 
         file('settings.gradle') << ' include ' + (1..cnt).collect { "'mod$it'" }.join(',')
         file('proguard.txt') << """
@@ -123,7 +125,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
         }
 
         when: "run check for both modules"
-        BuildResult result = run('pg', '--parallel', '--max-workers=15')
+        BuildResult result = run('pg', '--parallel', '--max-workers=5')
 
         then: "task successful"
         (1..cnt).each {

@@ -1,3 +1,5 @@
+* Fix output warnings recognition for parallel builds (#3)
+
 ### 1.4.2 (2017-08-24)
 * Update animalsniffer 1.15 -> 1.16
 * Remove error duplicates after method return type detection (introduced in 1.16)

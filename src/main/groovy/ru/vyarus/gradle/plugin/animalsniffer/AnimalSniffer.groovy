@@ -111,7 +111,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @SuppressWarnings('CatchException')
     @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
-        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
+        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(getSourcesDirs().srcDirs)
             replaceBuildListener(project, collector)
