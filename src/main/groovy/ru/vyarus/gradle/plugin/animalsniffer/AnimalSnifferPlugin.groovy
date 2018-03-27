@@ -138,7 +138,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // and perform much faster checks after the first run
         BuildSignatureTask signatureTask = project.tasks
                 .create(sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null), BuildSignatureTask) {
-
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
             onlyIf { !extension.signatures.empty && extension.cache.enabled }

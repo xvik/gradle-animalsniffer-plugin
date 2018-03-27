@@ -1,6 +1,8 @@
 # gradle-animalsniffer-plugin
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://www.opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/travis/xvik/gradle-animalsniffer-plugin.svg)](https://travis-ci.org/xvik/gradle-animalsniffer-plugin)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/gradle-animalsniffer-plugin?svg=true)](https://ci.appveyor.com/project/xvik/gradle-animalsniffer-plugin)
+[![codecov](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin)
 
 ### About
 
@@ -8,10 +10,7 @@ Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java 
 AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or android (sdk version).
 
 Implemented the same way as core gradle qulity plugins (checkstyle, pmd etc):
-* Task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
-* Main configuration through `animalsniffer` closure
-* Configurable tool version
-* Text report
+task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
 
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
@@ -19,13 +18,25 @@ Advanced features:
 * [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
 * [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
+##### Summary
+
+* Configuration extensions: 
+    - `animalsniffer` - check configuration
+    - `animalsnifferSignature` - signature [build configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature) (optional)
+* Tasks:
+    - `check[Main]` - check source set task 
+    - `animalsnifferSignature` - build signature (active when `animalsnifferSignature` configuration declared)
+    - `type:BuildSignatureTask` - custom signature build task may be used to [merge signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures)
+    - `type:SignatureInfoTask` - view signature ["contents"](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)  
+* Dependencies configuration: `signature` - signatures for check    
+
 ### Setup
 
 Releases are published to [bintray jcenter](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/), 
 [maven central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin) and 
 [gradle plugins portal](https://plugins.gradle.org/plugin/ru.vyarus.animalsniffer).
 
-[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/gradle-animalsniffer-plugin.svg?label=jcenter)](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/_latestVersion)
+[![JCenter](https://api.bintray.com/packages/vyarus/xvik/gradle-animalsniffer-plugin/images/download.svg)](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/_latestVersion)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/gradle-animalsniffer-plugin.svg)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin)
 
 ```groovy
@@ -321,6 +332,7 @@ Read wiki for advanced features:
 ### Might also like
 
 * [quality-plugin](https://github.com/xvik/gradle-quality-plugin) - java and groovy source quality checks
+* [mkdocs-plugin](https://github.com/xvik/gradle-mkdocs-plugin) - project documentation generator
 * [pom-plugin](https://github.com/xvik/gradle-pom-plugin) - improves pom generation
 * [java-lib-plugin](https://github.com/xvik/gradle-java-lib-plugin) - avoid boilerplate for java or groovy library project
 * [github-info-plugin](https://github.com/xvik/gradle-github-info-plugin) - pre-configure common plugins with github related info

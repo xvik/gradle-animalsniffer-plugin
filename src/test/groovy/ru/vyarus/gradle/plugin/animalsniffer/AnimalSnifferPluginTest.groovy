@@ -64,7 +64,7 @@ class AnimalSnifferPluginTest extends AbstractTest {
         }
         def animalsniffer = project.configurations.animalsniffer
         // force defaults processing
-        animalsniffer.triggerWhenEmptyActionsIfNecessary()
+        animalsniffer.runDependencyActions()
 
         then: "task registered"
         animalsniffer.dependencies.first().version == '1.10'

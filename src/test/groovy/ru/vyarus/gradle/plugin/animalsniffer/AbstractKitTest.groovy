@@ -21,6 +21,8 @@ abstract class AbstractKitTest extends Specification {
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
+        // jacoco coverage support
+        fileFromClasspath('gradle.properties', 'testkit-gradle.properties')
     }
 
     def build(String file) {
@@ -34,12 +36,20 @@ abstract class AbstractKitTest extends Specification {
     File fileFromClasspath(String toFile, String source) {
         File target = file(toFile)
         target.parentFile.mkdirs()
+
+        if (target.exists()) {
+            target.delete()
+        }
         // overwrite existing
-        target.newWriter().withWriter { it.write getClass().getResourceAsStream(source).text }
+        target << (getClass().getResourceAsStream(source) ?: getClass().classLoader.getResourceAsStream(source)).text
     }
 
+    /**
+     * Allow debug TestKit vm execution. After vm start it will wait for debug connection and continue processing after.
+     * (the same effect could be achieved with GradleRunner.withDebug(true) method)
+     */
     def debug() {
-        file('gradle.properties') << "org.gradle.jvmargs=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"
+        file('gradle.properties') << "\norg.gradle.jvmargs=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"
     }
 
     String projectName() {
