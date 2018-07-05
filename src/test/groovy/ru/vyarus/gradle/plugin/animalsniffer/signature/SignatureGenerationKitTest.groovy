@@ -79,6 +79,12 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         sigs.size() > 0
         sigs.contains('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
         sigs.contains('org.junit.Rule')
+
+        when: "run again"
+        result = run('animalsnifferSignature')
+
+        then: "up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
     }
 
 
@@ -116,6 +122,12 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         sigs.size() > 0
         sigs.contains('valid.Sample')
         sigs.contains('java.lang.Boolean')
+
+        when: "run again"
+        result = run('animalsnifferSignature')
+
+        then: "up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
     }
 
     def "Check signature name override"() {
@@ -149,5 +161,11 @@ class SignatureGenerationKitTest extends AbstractKitTest {
         SignatureReader.readSignature(file("build/animalsniffer/signature/samplesig.sig")) == [
                 'ann.Sample'
         ]
+        
+        when: "run again"
+        result = run('animalsnifferSignature')
+
+        then: "up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
     }
 }

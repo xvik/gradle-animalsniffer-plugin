@@ -5,11 +5,8 @@ import groovy.transform.TypeCheckingMode
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.ConventionTask
-import org.gradle.api.internal.file.collections.FileCollectionAdapter
-import org.gradle.api.internal.file.collections.ListBackedFileSet
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.tasks.*
-import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.GFileUtils
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 
@@ -72,7 +69,7 @@ class BuildSignatureTask extends ConventionTask {
      */
     @InputFiles
     @Optional
-    FileCollection files = new FileCollectionAdapter(new ListBackedFileSet())
+    FileCollection files = project.files()
 
     /**
      * Include only packages ('com.java.*')
@@ -130,11 +127,6 @@ class BuildSignatureTask extends ConventionTask {
         // (output files are taken from directory, so if multiple tasks used, last task output will include
         // all tasks outputs, which is wrong).
         conventionMapping.map('outputDirectory') { getDefaultTaskOutputDirectory() }
-    }
-
-    @Inject
-    Instantiator getInstantiator() {
-        throw new UnsupportedOperationException()
     }
 
     @Inject

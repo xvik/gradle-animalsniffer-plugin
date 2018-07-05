@@ -48,6 +48,12 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         sigs.contains('valid.Sample')
         sigs.contains('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
         sigs.contains('org.slf4j.Logger')
+
+        when: "run again"
+        result = run('animalsnifferSignature')
+
+        then: "up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
     }
 
     def "Check multiple source signatures"() {
@@ -85,5 +91,11 @@ class MultipleSourcesGenerationKitTest extends AbstractKitTest {
         sigs.size() > 0
         sigs.contains('java.lang.Boolean')
         sigs.contains('android.icu.lang.UProperty')
+
+        when: "run again"
+        result = run('animalsnifferSignature')
+
+        then: "up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
     }
 }
