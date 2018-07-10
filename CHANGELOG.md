@@ -1,3 +1,5 @@
+* Fix ant task errors propagation (errors was silently hidden)
+
 ### 1.4.3 (2017-12-06)
 * Fix warnings recognition for parallel builds (#3)
 

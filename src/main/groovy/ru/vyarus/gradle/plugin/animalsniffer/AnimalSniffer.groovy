@@ -2,7 +2,6 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
-import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.BuildListener
 import org.gradle.api.Action
 import org.gradle.api.GradleException
@@ -131,7 +130,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     }
                 } catch (Exception ex) {
                     // rethrow not expected ant exceptions
-                    if (ex.class.name != BuildException.name) {
+                    if (!ex.message.startsWith('Signature errors found')) {
                         throw ex
                     }
                 }
