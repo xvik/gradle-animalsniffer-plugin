@@ -12,6 +12,12 @@ AnimalSniffer used to check compatibility with lower java version (when compilin
 Implemented the same way as core gradle qulity plugins (checkstyle, pmd etc):
 task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
 
+**IMPORTANT**
+
+* Plugin will use animalsniffer 1.16 by default, which is not compatible with java 9
+* Use version 1.17 (`toolVersion=1.17`) if you need to run on java 9, but note that 1.17 [can't be used on java 8](https://github.com/mojohaus/animal-sniffer/issues/53) 
+(and that's why it is not set by default) 
+
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
 * [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
