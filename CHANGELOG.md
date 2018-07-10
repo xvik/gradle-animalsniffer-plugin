@@ -1,4 +1,5 @@
 * Fix ant task errors propagation (errors was silently hidden)
+* Fix support for classes with lambdas (retrolambda plugin compatibility) (#7)
 
 ### 1.4.3 (2017-12-06)
 * Fix warnings recognition for parallel builds (#3)

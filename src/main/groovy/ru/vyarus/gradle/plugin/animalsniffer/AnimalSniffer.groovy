@@ -118,7 +118,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 try {
                     collector.contextSignature(signature.name)
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
-                        path(path: getSource().asPath)
+                        // labda case (Some$$Lambda$1). Ant removes every odd $ in a row
+                        path(path: getSource().asPath.replace('$$', '$$$'))
                         getSourcesDirs().srcDirs.each {
                             sourcepath(path: it.absoluteFile)
                         }
