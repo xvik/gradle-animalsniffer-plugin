@@ -1,3 +1,4 @@
+### 1.4.4 (2018-07-13)
 * Fix ant task errors propagation (errors was silently hidden)
 * Fix support for classes with lambdas (retrolambda plugin compatibility) (#7)
 
