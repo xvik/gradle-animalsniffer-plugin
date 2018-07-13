@@ -91,6 +91,38 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     private final AnimalSnifferReportsImpl reports
 
+    /**
+     * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
+     * Use jdk proxy to register custom listener.
+     *
+     * @param project ant project
+     * @param handler proxy handler
+     */
+    @CompileStatic(TypeCheckingMode.SKIP)
+    static void replaceBuildListener(Object project, ReportCollector handler) {
+        // use original to redirect other ant tasks output (not expected, but just in case)
+        handler.originalListener = project.buildListeners.first()
+        // cleanup default gradle listener listener to avoid console output
+        project.buildListeners.each { project.removeBuildListener(it) }
+        ClassLoader cl = project.class.classLoader
+        Object listener = Proxy.newProxyInstance(cl, [cl.loadClass(BuildListener.name)] as Class[], handler)
+        project.addBuildListener(listener)
+    }
+
+    /**
+     * Recover original listener after execution.
+     *
+     * @param project ant project
+     * @param original original listener
+     */
+    @CompileStatic(TypeCheckingMode.SKIP)
+    static void recoverOriginalListener(Object project, Object original) {
+        if (original != null) {
+            project.buildListeners.each { project.removeBuildListener(it) }
+            project.addBuildListener(original)
+        }
+    }
+
     @SuppressWarnings('ThisReferenceEscapesConstructor')
     AnimalSniffer() {
         reports = instantiator.newInstance(AnimalSnifferReportsImpl, this)
@@ -192,38 +224,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 collector.writeToConsole(logger)
                 throw new GradleException(message)
             }
-        }
-    }
-
-    /**
-     * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
-     * Use jdk proxy to register custom listener.
-     *
-     * @param project ant project
-     * @param handler proxy handler
-     */
-    @CompileStatic(TypeCheckingMode.SKIP)
-    static void replaceBuildListener(Object project, ReportCollector handler) {
-        // use original to redirect other ant tasks output (not expected, but just in case)
-        handler.originalListener = project.buildListeners.first()
-        // cleanup default gradle listener listener to avoid console output
-        project.buildListeners.each { project.removeBuildListener(it) }
-        ClassLoader cl = project.class.classLoader
-        Object listener = Proxy.newProxyInstance(cl, [cl.loadClass(BuildListener.name)] as Class[], handler)
-        project.addBuildListener(listener)
-    }
-
-    /**
-     * Recover original listener after execution.
-     *
-     * @param project ant project
-     * @param original original listener
-     */
-    @CompileStatic(TypeCheckingMode.SKIP)
-    static void recoverOriginalListener(Object project, Object original) {
-        if (original != null) {
-            project.buildListeners.each { project.removeBuildListener(it) }
-            project.addBuildListener(original)
         }
     }
 }
