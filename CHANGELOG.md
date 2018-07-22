@@ -1,3 +1,4 @@
+### 1.4.5 (2018-07-22)
 * Fix maven central and jcenter artifacts (missed dependency)
 
 ### 1.4.4 (2018-07-13)

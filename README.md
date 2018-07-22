@@ -51,7 +51,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.4'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.5'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -61,7 +61,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.4.4'
+    id 'ru.vyarus.animalsniffer' version '1.4.5'
 }
 ```
 
