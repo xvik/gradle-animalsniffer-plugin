@@ -61,7 +61,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     /**
      * Source directories
      */
-    @Input
+    @InputFiles
+    @PathSensitive(PathSensitivity.RELATIVE)
     SourceDirectorySet sourcesDirs
 
     /**

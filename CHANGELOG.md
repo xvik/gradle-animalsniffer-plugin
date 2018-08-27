@@ -1,3 +1,6 @@
+* Fix build cache support for relocated project (use relative paths for cache keys) (#10). 
+  Affects CI builds caching when project checked out into different directories  
+
 ### 1.4.5 (2018-07-22)
 * Fix maven central and jcenter artifacts (missed dependency)
 
