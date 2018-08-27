@@ -21,7 +21,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.getAbsolutePath()}')
+                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
@@ -88,7 +88,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.getAbsolutePath()}')
+                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
