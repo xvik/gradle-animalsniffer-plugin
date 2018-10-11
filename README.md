@@ -9,7 +9,7 @@
 Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java or groovy projects.
 AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or android (sdk version).
 
-Implemented the same way as core gradle qulity plugins (checkstyle, pmd etc):
+Implemented the same way as core gradle quality plugins (checkstyle, pmd etc):
 task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
 
 **IMPORTANT**
