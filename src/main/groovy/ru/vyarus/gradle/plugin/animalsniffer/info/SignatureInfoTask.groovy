@@ -29,6 +29,7 @@ class SignatureInfoTask extends DefaultTask {
      */
     @SkipWhenEmpty
     @InputFiles
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     FileCollection signature
 
     /**

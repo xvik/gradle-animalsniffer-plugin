@@ -1,9 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.TaskOutcome
-import spock.lang.Specification
-
 
 /**
  * @author Vyacheslav Rusakov
@@ -11,7 +8,7 @@ import spock.lang.Specification
  */
 class FailOldGradleKitTest extends AbstractKitTest {
 
-    def "Check build fail for gradle older 2.14"() {
+    def "Check build fail for gradle older 5.0"() {
 
         setup:
         build """
@@ -22,9 +19,9 @@ class FailOldGradleKitTest extends AbstractKitTest {
         """
 
         when: "run task"
-        BuildResult result = runFailedVer('2.13', 'clean')
+        BuildResult result = runFailedVer('4.0', 'clean')
 
         then: "task successful"
-        result.output.contains("Animalsniffer plugin requires gradle 2.14 or above")
+        result.output.contains("Animalsniffer plugin requires gradle 5.0 or above")
     }
 }

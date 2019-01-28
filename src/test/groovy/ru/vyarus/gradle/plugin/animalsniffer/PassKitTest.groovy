@@ -41,13 +41,4 @@ class PassKitTest extends AbstractKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
     }
-
-    def "Check plugin execution for gradle 2.14"() {
-
-        when: "run task for gradle 2.14"
-        BuildResult result = runVer('2.14', 'check')
-
-        then: "task successful"
-        result.task(':check').outcome == TaskOutcome.SUCCESS
-    }
 }

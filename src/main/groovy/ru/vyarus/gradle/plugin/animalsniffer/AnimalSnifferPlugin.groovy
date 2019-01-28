@@ -14,6 +14,7 @@ import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
@@ -65,12 +66,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     }
 
     private void checkGradleCompatibility() {
-        // due to base class refactor from groovy to java in gradle 2.14
-        // plugin can't be launched on prior gradle versions
+        // due to base internal api changes in gradle 5.0 plugin can't be launched on prior gradle versions
         GradleVersion version = GradleVersion.current()
-        if (version < GradleVersion.version('2.14')) {
-            throw new GradleException('Animalsniffer plugin requires gradle 2.14 or above, ' +
-                    "but your gradle version is: $version.version. Use plugin version 1.0.1.")
+        if (version < GradleVersion.version('5.0')) {
+            throw new GradleException('Animalsniffer plugin requires gradle 5.0 or above, ' +
+                    "but your gradle version is: $version.version. Use plugin version 1.4.6.")
         }
     }
 
@@ -130,14 +130,16 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
+    @SuppressWarnings('Indentation')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void configureCheckTask(AnimalSniffer task, SourceSet sourceSet) {
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
 
         // build special signature from provided signatures and all jars to be able to cache it
         // and perform much faster checks after the first run
-        BuildSignatureTask signatureTask = project.tasks
-                .create(sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null), BuildSignatureTask) {
+        TaskProvider<BuildSignatureTask> signatureTask = project.tasks
+                .<BuildSignatureTask> register(sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null),
+                BuildSignatureTask) {
             // this special task can be skipped if animalsniffer check supposed to be skipped
             // note that task is still created because signatures could be registered dynamically
             onlyIf { !extension.signatures.empty && extension.cache.enabled }
@@ -158,7 +160,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                         getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
             }
             animalsnifferSignatures = {
-                extension.cache.enabled ? signatureTask.outputFiles : extension.signatures
+                extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
             }
             animalsnifferClasspath = { animalsnifferConfiguration }
             sourcesDirs = { sourceSet.allJava }
@@ -170,11 +172,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         project.afterEvaluate {
             if (extension.cache.enabled) {
                 // dependency must not be added earlier to avoid cache task appearance in log
-                task.dependsOn(signatureTask)
+                task.dependsOn(signatureTask.get())
             } else {
-                // cache task should be always registered to simplify usage, but, by default, it is not enabled and
-                // it's better to remove it to avoid confusion (task will not appear in the tasks list)
-                project.tasks.remove(signatureTask)
+                // cache task should be always registered to simplify usage, but, by default, it is not enabled
+                // cache task is not created at this point (gradle avoidance api)
+                signatureTask.configure { enabled = false }
             }
         }
     }

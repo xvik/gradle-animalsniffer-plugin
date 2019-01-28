@@ -1,3 +1,5 @@
+* (breaking) Gradle 5 compatibility. Plugin now requires gradle 5.x due to gradle api changes (#12)
+
 ### 1.4.6 (2018-08-27)
 * Fix build cache support for relocated project (use relative paths for cache keys) (#10). 
   Affects CI builds caching when project checked out into different directories  

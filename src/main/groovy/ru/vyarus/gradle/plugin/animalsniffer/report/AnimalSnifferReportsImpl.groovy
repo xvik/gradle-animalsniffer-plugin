@@ -1,6 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer.report
 
 import org.gradle.api.Task
+import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.reporting.SingleFileReport
 import org.gradle.api.reporting.internal.TaskGeneratedSingleFileReport
 import org.gradle.api.reporting.internal.TaskReportContainer
@@ -15,8 +16,8 @@ class AnimalSnifferReportsImpl extends TaskReportContainer<SingleFileReport> imp
 
     private static final String TEXT = 'text'
 
-    AnimalSnifferReportsImpl(Task task) {
-        super(SingleFileReport, task)
+    AnimalSnifferReportsImpl(Task task, CollectionCallbackActionDecorator callbackActionDecorator) {
+        super(SingleFileReport, task, callbackActionDecorator)
 
         add(TaskGeneratedSingleFileReport, TEXT, task)
     }

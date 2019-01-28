@@ -25,7 +25,8 @@ class CacheTaskActivationTest extends AbstractTest {
 
         then: "check task registered without cache task"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 0
+        project.tasks.withType(BuildSignatureTask).size() == 2  // disabled cache tasks
+        project.tasks.withType(BuildSignatureTask).find {it.enabled} == null
     }
 
 
@@ -46,7 +47,7 @@ class CacheTaskActivationTest extends AbstractTest {
             }
         }
 
-        then: "check task registered with cache task"
+        then: "check task registered with disabled cache task"
         project.tasks.withType(AnimalSniffer).size() == 2
         project.tasks.withType(BuildSignatureTask).size() == 2
         def first = project.tasks.withType(BuildSignatureTask).first()

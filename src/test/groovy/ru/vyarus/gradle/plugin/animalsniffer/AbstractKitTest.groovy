@@ -59,7 +59,7 @@ abstract class AbstractKitTest extends Specification {
     GradleRunner gradle(File root, String... commands) {
         GradleRunner.create()
                 .withProjectDir(root)
-                .withArguments((commands + ['--stacktrace']) as String[])
+                .withArguments((commands + ['--stacktrace', '--warning-mode', 'all']) as String[])
                 .withPluginClasspath()
                 .forwardOutput()
     }

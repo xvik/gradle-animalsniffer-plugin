@@ -60,6 +60,7 @@ class BuildSignatureTask extends ConventionTask {
      */
     @InputFiles
     @Optional
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     FileCollection signatures
 
     /**
@@ -69,6 +70,7 @@ class BuildSignatureTask extends ConventionTask {
      */
     @InputFiles
     @Optional
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     FileCollection files = project.files()
 
     /**

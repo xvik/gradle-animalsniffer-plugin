@@ -8,12 +8,13 @@ import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
 import org.gradle.api.file.SourceDirectorySet
-import org.gradle.api.internal.ClosureBackedAction
+import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
+import org.gradle.util.ClosureBackedAction
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -126,11 +127,16 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
     AnimalSniffer() {
-        reports = instantiator.newInstance(AnimalSnifferReportsImpl, this)
+        reports = instantiator.newInstance(AnimalSnifferReportsImpl, this, getCallbackActionDecorator())
     }
 
     @Inject
     Instantiator getInstantiator() {
+        throw new UnsupportedOperationException()
+    }
+
+    @Inject
+    CollectionCallbackActionDecorator  getCallbackActionDecorator() {
         throw new UnsupportedOperationException()
     }
 

@@ -20,7 +20,8 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "tasks registered"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 0
+        project.tasks.withType(BuildSignatureTask).size() == 2  // disabled cache tasks
+        project.tasks.withType(BuildSignatureTask).find { it.enabled } == null
     }
 
 
@@ -38,7 +39,8 @@ class BuildSignatureTaskTest extends AbstractTest {
 
         then: "tasks registered"
         project.tasks.withType(AnimalSniffer).size() == 2
-        project.tasks.withType(BuildSignatureTask).size() == 1
+        project.tasks.withType(BuildSignatureTask).size() == 3  // +2 disabled cache tasks
+        project.tasks.withType(BuildSignatureTask).findAll { it.enabled }.size() == 1
 
         then: "defaults correct"
         BuildSignatureTask task = project.tasks.animalsnifferSignature
