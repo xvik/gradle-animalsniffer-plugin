@@ -105,34 +105,38 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         buildExtension = project.extensions.create(BUILD_SIGNATURE, AnimalSnifferSignatureExtension)
     }
 
+    @SuppressWarnings('Indentation')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerCheckTasks() {
         // create tasks for each source set
         project.sourceSets.all { SourceSet sourceSet ->
-            AnimalSniffer task = project.tasks
-                    .create(sourceSet.getTaskName(CHECK_SIGNATURE, null), AnimalSniffer)
-
-            task.description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
-            // task operates on classes instead of sources
-            task.source = sourceSet.output
-            configureCheckTask(task, sourceSet)
-            task.reports.all { report ->
-                report.conventionMapping.with {
-                    enabled = { true }
-                    destination = { new File(extension.reportsDir, "${sourceSet.name}.${report.name}") }
+            TaskProvider<AnimalSniffer> checkTask = project.tasks
+                    .<AnimalSniffer> register(sourceSet.getTaskName(CHECK_SIGNATURE, null),
+                    AnimalSniffer) {
+                description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
+                // task operates on classes instead of sources
+                source = sourceSet.output
+                reports.all { report ->
+                    report.conventionMapping.with {
+                        enabled = { true }
+                        destination = { new File(extension.reportsDir, "${sourceSet.name}.${report.name}") }
+                    }
                 }
             }
+            configureCheckTask(checkTask, sourceSet)
         }
 
         // include required animalsniffer tasks in check lifecycle
-        project.tasks.check.dependsOn {
-            extension.sourceSets*.getTaskName(CHECK_SIGNATURE, null)
+        project.tasks.named('check').configure {
+            dependsOn {
+                extension.sourceSets*.getTaskName(CHECK_SIGNATURE, null)
+            }
         }
     }
 
-    @SuppressWarnings('Indentation')
+    @SuppressWarnings(['Indentation', 'MethodSize'])
     @CompileStatic(TypeCheckingMode.SKIP)
-    private void configureCheckTask(AnimalSniffer task, SourceSet sourceSet) {
+    private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask, SourceSet sourceSet) {
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
 
         // build special signature from provided signatures and all jars to be able to cache it
@@ -152,27 +156,30 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 mergeSignatures = { extension.cache.mergeSignatures }
             }
         }
-
-        task.dependsOn(sourceSet.classesTaskName)
-        task.conventionMapping.with {
-            classpath = {
-                extension.cache.enabled ?
-                        getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
+        checkTask.configure {
+            dependsOn(sourceSet.classesTaskName)
+            conventionMapping.with {
+                classpath = {
+                    extension.cache.enabled ?
+                            getModulesFromClasspath(sourceSet) : excludeJars(sourceSet.compileClasspath)
+                }
+                animalsnifferSignatures = {
+                    extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
+                }
+                animalsnifferClasspath = { animalsnifferConfiguration }
+                sourcesDirs = { sourceSet.allJava }
+                ignoreFailures = { extension.ignoreFailures }
+                annotation = { extension.annotation }
+                ignoreClasses = { extension.ignore }
             }
-            animalsnifferSignatures = {
-                extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
-            }
-            animalsnifferClasspath = { animalsnifferConfiguration }
-            sourcesDirs = { sourceSet.allJava }
-            ignoreFailures = { extension.ignoreFailures }
-            annotation = { extension.annotation }
-            ignoreClasses = { extension.ignore }
         }
 
         project.afterEvaluate {
             if (extension.cache.enabled) {
                 // dependency must not be added earlier to avoid cache task appearance in log
-                task.dependsOn(signatureTask.get())
+                checkTask.configure {
+                    dependsOn(signatureTask)
+                }
             } else {
                 // cache task should be always registered to simplify usage, but, by default, it is not enabled
                 // cache task is not created at this point (gradle avoidance api)
@@ -181,24 +188,26 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
+    @SuppressWarnings('Indentation')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerBuildTasks() {
         project.afterEvaluate {
             // register build signature task if files specified for signature creation
             if (buildExtension.configured) {
-                BuildSignatureTask task = project.tasks.create(BUILD_SIGNATURE, BuildSignatureTask)
-                buildExtension.files.each { task.files(it) }
-                buildExtension.signatures.each { task.signatures(it) }
-                task.include = buildExtension.include
-                task.exclude = buildExtension.exclude
-                // project name by default to be compatible with maven artifacts
-                task.outputName = buildExtension.outputName ?: project.name
-                // for project signature use hardcoded 'signature' folder instead of task name
-                task.outputDirectory = new File(project.buildDir, '/animalsniffer/signature/')
+                project.tasks.register(BUILD_SIGNATURE, BuildSignatureTask) { task ->
+                    buildExtension.files.each { task.files(it) }
+                    buildExtension.signatures.each { task.signatures(it) }
+                    task.include = buildExtension.include
+                    task.exclude = buildExtension.exclude
+                    // project name by default to be compatible with maven artifacts
+                    task.outputName = buildExtension.outputName ?: project.name
+                    // for project signature use hardcoded 'signature' folder instead of task name
+                    task.outputDirectory = new File(project.buildDir, '/animalsniffer/signature/')
+                }
             }
 
             // defaults applied to all tasks (including manually created)
-            project.tasks.withType(BuildSignatureTask) { BuildSignatureTask task ->
+            project.tasks.withType(BuildSignatureTask).configureEach { task ->
                 if (task.animalsnifferClasspath == null) {
                     task.animalsnifferClasspath = project.configurations[CHECK_SIGNATURE]
                 }

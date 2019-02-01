@@ -247,6 +247,7 @@ class BuildSignatureTask extends ConventionTask {
      *
      * @return lazy collection of resulted signatures to use as input for other tasks
      */
+    @Internal
     FileCollection getOutputFiles() {
         return project.fileTree(getOutputDirectory()).builtBy(this)
     }
