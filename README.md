@@ -51,7 +51,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.4.6'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -61,13 +61,13 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.4.6'
+    id 'ru.vyarus.animalsniffer' version '1.5.0'
 }
 ```
 
 **IMPORTANT**: plugin must be declared after `java` or `groovy` plugin, otherwise nothing will be registered. 
 
-Starting from version 1.1.0 gradle >= 2.14 is required. For older gradle use version 1.0.1.
+Starting from version 1.5.0 gradle >= 5 is required. For older gradle use version 1.4.6.
 
 ### Usage
 
