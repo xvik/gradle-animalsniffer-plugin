@@ -188,7 +188,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
-    @SuppressWarnings('Indentation')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerBuildTasks() {
         project.afterEvaluate {
