@@ -18,10 +18,10 @@ buildScan {
     termsOfServiceAgree = 'yes'
 }
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 wrapper {
-    gradleVersion = '5.1.1'
+    gradleVersion = '5.2.1'
 }
 
 repositories { jcenter() }
