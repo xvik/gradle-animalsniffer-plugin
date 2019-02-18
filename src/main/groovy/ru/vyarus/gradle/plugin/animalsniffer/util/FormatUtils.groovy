@@ -60,7 +60,6 @@ class FormatUtils {
     }
 
     /**
-     *
      * @param msg message object
      * @param showSignature true to include signature name (used for multiple signatures)
      * @return error message formatted for console
@@ -84,7 +83,6 @@ class FormatUtils {
     }
 
     /**
-     *
      * @param file absolute file path
      * @param root root folder path
      * @return class name (including package)
