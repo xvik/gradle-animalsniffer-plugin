@@ -34,7 +34,7 @@ class ExcludeFilePatternSpec implements Spec<File> {
         if (!desc) {
             return null
         }
-        List<String> res = desc.collect { "(${it.replace('*', '.+')})" }
+        List<String> res = desc.collect { "(${it.replace('*', '.+')})".toString() }
         return Pattern.compile(res.join('|'))
     }
 }
