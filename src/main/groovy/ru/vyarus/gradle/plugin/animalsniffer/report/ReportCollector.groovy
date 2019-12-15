@@ -135,7 +135,7 @@ class ReportCollector implements InvocationHandler {
      * @param msg new message
      */
     private void checkAndRemoveDuplicate(ReportMessage msg) {
-        ReportMessage prev = report.isEmpty() ? null : report.last()
+        ReportMessage prev = report.empty ? null : report.last()
         if (prev != null
                 && prev.signature == msg.signature
                 && prev.source == msg.source

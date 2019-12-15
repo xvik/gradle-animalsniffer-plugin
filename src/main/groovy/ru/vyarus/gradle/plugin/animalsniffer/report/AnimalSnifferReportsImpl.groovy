@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.report
 
+import groovy.transform.CompileStatic
 import org.gradle.api.Task
 import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.reporting.SingleFileReport
@@ -12,6 +13,7 @@ import org.gradle.api.reporting.internal.TaskReportContainer
  * @author Vyacheslav Rusakov
  * @since 14.12.2015
  */
+@CompileStatic
 class AnimalSnifferReportsImpl extends TaskReportContainer<SingleFileReport> implements AnimalSnifferReports {
 
     private static final String TEXT = 'text'

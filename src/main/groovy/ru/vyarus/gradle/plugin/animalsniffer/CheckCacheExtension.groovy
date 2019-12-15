@@ -1,5 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import groovy.transform.CompileStatic
+
 /**
  * Animalsniffer check task must load and parse entire classpath in order to  perform check (otherwise it cant know
  * if class/method is missed from signature or a part of 3rd party library). For projects with a large classpath
@@ -13,6 +15,7 @@ package ru.vyarus.gradle.plugin.animalsniffer
  * @author Vyacheslav Rusakov
  * @since 13.07.2017
  */
+@CompileStatic
 class CheckCacheExtension {
 
     /**

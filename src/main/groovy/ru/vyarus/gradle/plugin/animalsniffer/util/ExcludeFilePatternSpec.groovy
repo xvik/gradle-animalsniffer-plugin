@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.util
 
+import groovy.transform.CompileStatic
 import org.gradle.api.specs.Spec
 
 import java.util.regex.Pattern
@@ -13,6 +14,7 @@ import java.util.regex.Pattern
  * @author Vyacheslav Rusakov
  * @since 18.07.2017
  */
+@CompileStatic
 class ExcludeFilePatternSpec implements Spec<File> {
 
     private final Pattern pattern

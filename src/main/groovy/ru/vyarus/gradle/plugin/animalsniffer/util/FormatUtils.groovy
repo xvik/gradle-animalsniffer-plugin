@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.util
 
+import groovy.transform.CompileStatic
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportMessage
 
 /**
@@ -8,6 +9,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.report.ReportMessage
  * @author Vyacheslav Rusakov
  * @since 19.03.2017
  */
+@CompileStatic
 class FormatUtils {
     private static final String DOT = '.'
     private static final String NL = String.format('%n')
