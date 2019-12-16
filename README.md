@@ -24,6 +24,25 @@ Advanced features:
 * [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
 * [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
+#### Applicability
+
+If you're using jdk 9 or above then you can use [--release](https://docs.oracle.com/en/java/javase/11/tools/javac.html#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9) 
+flag instead of plugin:
+
+```groovy
+compileJava {
+  options.compilerArgs.addAll(['--release', '7')]
+}
+```    
+
+See [gradle issue](https://github.com/gradle/gradle/issues/2510) about better option support.
+
+Plugin could still be useful:
+
+* For android projects to check api compatibility (because android api signatures are published).
+* To check strong compatibility with some library: you'll need to generate signatures for this library and
+will be able to use them to check project compatibility (on api level, ofc) with older library versions. 
+
 ##### Summary
 
 * Configuration extensions: 
