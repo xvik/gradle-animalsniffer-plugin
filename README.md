@@ -31,7 +31,7 @@ flag instead of plugin:
 
 ```groovy
 compileJava {
-  options.compilerArgs.addAll(['--release', '7')]
+  options.compilerArgs.addAll(['--release', '7'])
 }
 ```    
 
