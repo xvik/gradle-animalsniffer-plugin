@@ -12,12 +12,6 @@ AnimalSniffer used to check compatibility with lower java version (when compilin
 Implemented the same way as core gradle quality plugins (checkstyle, pmd etc):
 task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
 
-**IMPORTANT**
-
-* Plugin will use animalsniffer 1.16 by default, which is not compatible with java 9
-* Use version 1.17 (`toolVersion=1.17`) if you need to run on java 9, but note that 1.17 [can't be used on java 8](https://github.com/mojohaus/animal-sniffer/issues/53) 
-(and that's why it is not set by default) 
-
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
 * [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
@@ -57,12 +51,10 @@ will be able to use them to check project compatibility (on api level, ofc) with
 
 ### Setup
 
-Releases are published to [bintray jcenter](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/), 
-[maven central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin) and 
-[gradle plugins portal](https://plugins.gradle.org/plugin/ru.vyarus.animalsniffer).
-
-[![JCenter](https://api.bintray.com/packages/vyarus/xvik/gradle-animalsniffer-plugin/images/download.svg)](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/_latestVersion)
+[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/gradle-animalsniffer-plugin.svg?label=jcenter)](https://bintray.com/vyarus/xvik/gradle-animalsniffer-plugin/_latestVersion)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/gradle-animalsniffer-plugin.svg)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/gradle-animalsniffer-plugin)
+[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/ru/vyarus/animalsniffer/ru.vyarus.animalsniffer.gradle.plugin/maven-metadata.xml.svg?colorB=007ec6&label=plugins%20portal)](https://plugins.gradle.org/plugin/ru.vyarus.animalsniffer)
+
 
 ```groovy
 buildscript {
@@ -70,7 +62,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.1'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -80,13 +72,21 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.5.0'
+    id 'ru.vyarus.animalsniffer' version '1.5.1'
 }
 ```
 
-**IMPORTANT**: plugin must be declared after `java` or `groovy` plugin, otherwise nothing will be registered. 
+#### Compatibility
 
-Starting from version 1.5.0 gradle >= 5 is required. For older gradle use version 1.4.6.
+**IMPORTANT**: plugin works only when `java` or `groovy` plugin enabled, otherwise nothing will be registered.
+No support for android plugin (java plugin must be used to perform animalsniffer check). 
+
+Plugin compiled for java 8, compatible with java 11
+
+Gradle | Version
+--------|-------
+5-6     | 1.5.1
+4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
 
@@ -281,7 +281,7 @@ Configuration example:
 
 ```groovy
 animalsniffer {
-    toolVersion = '1.16'
+    toolVersion = '1.18'
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
@@ -294,7 +294,7 @@ There are no required configurations - plugin will generate defaults for all of 
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
-| toolVersion | AnimalSniffer version | 1.16 |
+| toolVersion | AnimalSniffer version | 1.18 |
 | sourceSets | Source sets to check | all source sets |
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |

@@ -1,3 +1,4 @@
+### 1.5.1 (2020-06-06)
 * Update animalsniffer 1.16 -> 1.18 (support java > 8)
 
 ### 1.5.0 (2019-02-05)
