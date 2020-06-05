@@ -132,7 +132,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
             File report = file("mod$it/build/reports/animalsniffer/main.text")
             if (it % 2 == 0) {
                 assert report.exists()
-                assert report.readLines() == [
+                assert report.readLines() as Set == [
                         "invalid.Sample:11  Undefined reference (java16-1.0): int Boolean.compare(boolean, boolean)",
                         "invalid.Sample:16  Undefined reference (java16-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
                         "invalid.Sample2:11  Undefined reference (java16-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
@@ -149,11 +149,11 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                         "invalid.Sample:16  Undefined reference (java12-1.0): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
                         "invalid.Sample2:11  Undefined reference (java12-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
                         "invalid.Sample2:11  Undefined reference (java12-1.0): Iterable java.nio.file.FileSystem.getFileStores()"
-                ]
+                ] as Set
                 println "case 1 ok for $it"
             } else if (it % 3 == 0) {
                 assert report.exists()
-                assert report.readLines() == [
+                assert report.readLines() as Set == [
                         "invalid.Sample2:11  Undefined reference (java16-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
                         "invalid.Sample2:11  Undefined reference (java16-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
                         "invalid.Sample2:11  Undefined reference (java15-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
@@ -162,7 +162,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                         "invalid.Sample2:11  Undefined reference (java14-1.0): Iterable java.nio.file.FileSystem.getFileStores()",
                         "invalid.Sample2:11  Undefined reference (java12-1.0): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
                         "invalid.Sample2:11  Undefined reference (java12-1.0): Iterable java.nio.file.FileSystem.getFileStores()"
-                ]
+                ] as Set
                 println "case 2 ok for $it"
             } else {
                 if (report.exists()) {
@@ -172,7 +172,5 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                 println "case 3 ok for $it"
             }
         }
-
-
     }
 }
