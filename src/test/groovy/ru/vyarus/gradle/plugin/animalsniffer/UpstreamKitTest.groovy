@@ -9,6 +9,8 @@ import org.gradle.testkit.runner.TaskOutcome
  */
 class UpstreamKitTest extends AbstractKitTest {
 
+    public static final String GRADLE_VERSION = '6.0.1'
+
     def "Check violation detection without cache task"() {
         setup:
         build """
@@ -32,7 +34,7 @@ class UpstreamKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = runVer('6.0.1', 'check')
+        BuildResult result = runVer(GRADLE_VERSION, 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS

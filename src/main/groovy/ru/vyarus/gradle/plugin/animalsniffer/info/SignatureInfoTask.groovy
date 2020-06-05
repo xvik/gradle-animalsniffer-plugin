@@ -36,7 +36,6 @@ class SignatureInfoTask extends DefaultTask {
      * Aggregation packages depth.
      */
     @Input
-    @Optional
     int depth = 2
 
     /**
@@ -44,7 +43,6 @@ class SignatureInfoTask extends DefaultTask {
      * Useful for reducing signature. When false, use signature order - most likely alphabetical.
      */
     @Input
-    @Optional
     boolean sortBySize = true
 
     @TaskAction
@@ -75,7 +73,7 @@ class SignatureInfoTask extends DefaultTask {
     }
 
     private String formatSize(long size) {
-        double preciseSize = size
+        BigDecimal preciseSize = size
         String label = ['bytes', 'Kb', 'Mb', 'Gb', 'Tb'].find {
             if (preciseSize < EDGE) {
                 true

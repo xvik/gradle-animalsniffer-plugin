@@ -1,35 +1,30 @@
 plugins {
-    id 'com.gradle.build-scan' version '2.1'
+    id 'com.gradle.build-scan' version '3.0'
+    id 'com.gradle.plugin-publish' version '0.12.0'
+    id 'java-gradle-plugin'
     id 'groovy'
     id 'jacoco'
-    id 'java-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '0.10.0'
-    id 'net.researchgate.release' version '2.8.0'
-    id 'ru.vyarus.quality' version '3.4.0'
-    id 'com.jfrog.bintray' version '1.8.4'
-    id 'ru.vyarus.java-lib' version '1.1.2'
-    id 'ru.vyarus.github-info' version '1.1.0'
-    id 'com.github.ben-manes.versions' version '0.20.0'
-    id "pl.droidsonroids.jacoco.testkit" version "1.0.3"
-}
-
-buildScan {
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-    termsOfServiceAgree = 'yes'
+    id 'net.researchgate.release' version '2.8.1'
+    id 'ru.vyarus.quality' version '4.3.0'
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'ru.vyarus.java-lib' version '2.1.0'
+    id 'ru.vyarus.github-info' version '1.2.0'
+    id 'com.github.ben-manes.versions' version '0.28.0'
+    id "pl.droidsonroids.jacoco.testkit" version "1.0.7"
 }
 
 sourceCompatibility = 1.8
 
 wrapper {
-    gradleVersion = '5.2.1'
+    gradleVersion = '5.6.4'
 }
 
-repositories { jcenter() }
+repositories { mavenCentral(); gradlePluginPortal() }
 dependencies {
-    compile("org.codehaus.mojo:animal-sniffer:1.16")
+    implementation "org.codehaus.mojo:animal-sniffer:1.18"
 
-    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
-        exclude module: 'groovy-all'
+    testImplementation('org.spockframework:spock-core:1.3-groovy-2.5') {
+        exclude group: 'org.codehaus.groovy'
     }
 }
 
@@ -77,16 +72,18 @@ bintray {
     }
 }
 
-pluginBundle {
-    description = 'Gradle AnimalSniffer plugin for Java projects'
-    tags = ['animalsniffer']
-
+gradlePlugin {
     plugins {
         animalsnifferPlugin {
             id = 'ru.vyarus.animalsniffer'
             displayName = project.description
+            implementationClass = 'ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin'
         }
     }
+}
+pluginBundle {
+    description = 'Gradle AnimalSniffer plugin for Java projects'
+    tags = ['animalsniffer']
 
     mavenCoordinates {
         groupId = project.group
@@ -106,7 +103,7 @@ test {
         events 'skipped', 'failed', 'standard_error'
         exceptionFormat 'full'
     }
-    maxHeapSize = '2g'
+    maxHeapSize = '512m'
     doLast {
         sleep(1000)
     }
@@ -114,4 +111,9 @@ test {
 
 dependencyUpdates.revision = 'release'
 jacocoTestReport.reports.xml.enabled = true
-generateJacocoTestKitProperties.destinationFile = file('build/jacoco/test.exec').absolutePath.replace("\\", '/')
+
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+    publishOnFailure()
+}

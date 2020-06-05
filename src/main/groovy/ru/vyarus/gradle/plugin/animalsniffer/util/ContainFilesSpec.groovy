@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.util
 
+import groovy.transform.CompileStatic
 import org.gradle.api.specs.Spec
 
 /**
@@ -12,6 +13,7 @@ import org.gradle.api.specs.Spec
  * @author Vyacheslav Rusakov
  * @since 24.05.2017
  */
+@CompileStatic
 class ContainFilesSpec implements Spec<File> {
 
     private final Set<File> files

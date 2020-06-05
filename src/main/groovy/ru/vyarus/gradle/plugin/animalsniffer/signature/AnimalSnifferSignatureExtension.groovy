@@ -1,5 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer.signature
 
+import groovy.transform.CompileStatic
+
 /**
  * Animalsniffer signature build extension. Registered as 'animalsnifferSignature' configuration.
  * When used, custom task 'animalsnifferSignature' is registered for building signature.
@@ -10,6 +12,7 @@ package ru.vyarus.gradle.plugin.animalsniffer.signature
  * @since 23.04.2017
  * @see BuildSignatureTask for signature build task (which may be used directly)
  */
+@CompileStatic
 @SuppressWarnings('ConfusingMethodName')
 class AnimalSnifferSignatureExtension {
 
