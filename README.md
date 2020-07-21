@@ -14,7 +14,7 @@ task registered for each source set (animalsnifferMain, animalsnifferTest) and a
 
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
-* [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
+* [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up subsequent checks (useful when check runs often without clean)
 * [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
 * [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
@@ -350,7 +350,7 @@ animalsnifferMain {
 Read wiki for advanced features:
 
 * [Build your project signature](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
-* [Optimize often check task calls](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up consequent checks (useful when check runs often without clean)
+* [Optimize often check task calls](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up subsequent checks (useful when check runs often without clean)
 * [Merging library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
 * [View signature content](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
