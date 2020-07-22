@@ -6,22 +6,22 @@
 
 ### About
 
-Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java or groovy projects.
-AnimalSniffer used to check compatibility with lower java version (when compiling with newer java) or android (sdk version).
+Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java or Groovy projects.
+AnimalSniffer is used to check compatibility with lower Java versions (when compiling with a newer Java version) or Android (SDK version).
 
-Implemented the same way as core gradle quality plugins (checkstyle, pmd etc):
-task registered for each source set (animalsnifferMain, animalsnifferTest) and attached to `check` task
+It is implemented the same way as core Gradle quality plugins (Checkstyle, PMD etc):
+A task is registered for each source set (animalsnifferMain, animalsnifferTest) and attached to the `check` task.
 
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
 * [Check task classpath caching](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) to speed-up subsequent checks (useful when check runs often without clean)
-* [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures used)
+* [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures are used)
 * [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
 #### Applicability
 
-If you're using jdk 9 or above then you can use [--release](https://docs.oracle.com/en/java/javase/11/tools/javac.html#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9) 
-flag instead of plugin:
+If you're using JDK 9 or above then you can use the [--release](https://docs.oracle.com/en/java/javase/11/tools/javac.html#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9)
+flag instead of the plugin:
 
 ```groovy
 compileJava {
@@ -29,13 +29,13 @@ compileJava {
 }
 ```    
 
-See [gradle issue](https://github.com/gradle/gradle/issues/2510) about better option support.
+See [Gradle issue](https://github.com/gradle/gradle/issues/2510) about better option support.
 
-Plugin could still be useful:
+The plugin could still be useful:
 
-* For android projects to check api compatibility (because android api signatures are published).
+* For Android projects to check API compatibility (because Android API signatures are published).
 * To check strong compatibility with some library: you'll need to generate signatures for this library and
-will be able to use them to check project compatibility (on api level, ofc) with older library versions. 
+will be able to use them to check project compatibility (on API level, ofc) with older library versions.
 
 ##### Summary
 
@@ -78,10 +78,10 @@ plugins {
 
 #### Compatibility
 
-**IMPORTANT**: plugin works only when `java` or `groovy` plugin enabled, otherwise nothing will be registered.
-No support for android plugin (java plugin must be used to perform animalsniffer check). 
+**IMPORTANT**: The plugin only works when the `java` or `groovy` plugin is enabled, otherwise nothing will be registered.
+There is no support for the Android plugin (the `java` plugin must be used to perform the animalsniffer check).
 
-Plugin compiled for java 8, compatible with java 11
+The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
@@ -90,7 +90,7 @@ Gradle | Version
 
 ### Usage
 
-Additional tasks will be assigned to `check` task. So animalsniffer checks will be executed during:
+Additional tasks will be assigned to the `check` task. So animalsniffer checks will be executed during:
 
 ```bash
 $ gradlew check
@@ -98,10 +98,10 @@ $ gradlew check
 
 #### Signatures
 
-AnimalSniffer requires signature file to check against. To define signature (or multiple signatures) use
-`signature` configuration.
+AnimalSniffer requires a signature file to check against. To define a signature (or multiple signatures) use
+the `signature` configuration.
 
-Check java version compatibility:
+To check Java version compatibility:
 
 ```groovy
 repositories { mavenCentral() }
@@ -112,7 +112,7 @@ dependencies {
 
 [Java signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
 
-Check android compatibility:
+To check Android compatibility:
 
 ```groovy
 repositories { mavenCentral() }
@@ -123,7 +123,7 @@ dependencies {
 
 [Android signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3Anet.sf.androidscents.signature)
 
-Check **both** java version and android compatibility:
+To check **both** Java version and Android compatibility:
 
 ```groovy
 dependencies {
@@ -132,19 +132,19 @@ dependencies {
 }
 ```
 
-In the last case animalsniffer will run 2 times for each signature. You may see the same errors two times if
-class/method is absent in both signatures. Each error message in log (and file) will also contain signature name to
-avoid confusion.
+In the last case animalsniffer will run 2 times for each signature. You may see the same errors two times if a
+class/method is absent in both signatures. Each error message in the log (and file) will also contain the
+signature name to avoid confusion.
 
-When no signatures defined animalsniffer tasks will always pass.
+When no signatures are defined animalsniffer tasks will always pass.
 
 You can also use custom libraries signatures to [check version compatibility](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures).
 
 #### Scope
 
-All project dependencies are excluded from analysis: only classes from your source set are checked.
+All project dependencies are excluded from the analysis: only classes from your source set are checked.
 
-By default, all source sets are checked. To check only main sources:
+By default, all source sets are checked. To only check main sources:
 
 ```groovy
 animalsniffer {
@@ -154,7 +154,7 @@ animalsniffer {
 
 #### Output
 
-Violations are always printed to console. Example output:
+Violations are always printed to the console. Example output:
 
 ```
 2 AnimalSniffer violations were found in 1 files. See the report at: file:///myproject/build/reports/animalsniffer/main.text
@@ -173,16 +173,16 @@ invalid.Sample:9  Undefined reference: int Boolean.compare(boolean, boolean)
 invalid.Sample:14  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])
 ```
 
-NOTE: when multiple signatures used, output will contain signature name in the error message to void confusion.
+NOTE: when multiple signatures are used, output will contain the signature name in the error message to avoid confusion.
 
 #### Suppress violations
 
-Annotation could be used to suppress violations: 
+An annotation could be used to suppress violations:
 [examples](http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations/index.html)
 
 ##### Default annotation
 
-Add dependency on annotation:
+Add dependency on the annotation artifact:
 
 ```groovy
 compile "org.codehaus.mojo:animal-sniffer-annotations:1.16"
@@ -226,10 +226,10 @@ private Optional param;
 
 #### Extend signature
 
-Project could target multiple java versions and so reference classes, not present in signature.
+Your project could target multiple Java versions and so reference classes, not present in a signature.
 
-For example, implementation could try to use java 7 `Paths` and if class is not available, fall back
-to java 6 implementation. In this case `Paths` could be added to ignored classes:
+For example, your implementation could try to use Java 7 `Paths` and if the class is not available, fall back
+to the Java 6 implementation. In this case `Paths` could be added to the ignored classes:
 
 ```groovy
 animalsniffer {
@@ -273,7 +273,7 @@ animalsniffer {
 ```
 
 See more info in 
-[documentation](http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/checking-signatures.html#Ignoring_classes_not_in_the_signature).
+[the documentation](http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/checking-signatures.html#Ignoring_classes_not_in_the_signature).
 
 ### Configuration
 
@@ -290,7 +290,7 @@ animalsniffer {
 }
 ```
 
-There are no required configurations - plugin will generate defaults for all of them.
+There are no required configurations - the plugin will generate defaults for all of them.
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
@@ -304,21 +304,21 @@ There are no required configurations - plugin will generate defaults for all of 
 | excludeJars    | Patterns to exclude jar names from classpath. Required for [library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) usage | |
 | cache    | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) | By default, cache disabled|
 
-**NOTE**: `ignore` does not exclude your classes from check, it allows you using classes not mentioned in signature.
+**NOTE**: `ignore` does not exclude your classes from check, it allows you to use classes not mentioned in the signature.
 See more details above.
 
 ### Tasks
 
-Animalsniffer task is registered for each source set:
+The animalsniffer task is registered for each source set:
 * `animalsnifferMain` - run AnimalAniffer for compiled main classes
 * `animalsnifferTest` - run AnimalSniffer for compiled test classes
 * `animalsnifferSourceSet` - run AnimalSniffer for compiled SourceSet classes
 
-`check` task will depend only on tasks from configured in `animalsniffer.sourceSets` source sets.
+The `check` task will depend only on tasks from configured in `animalsniffer.sourceSets` source sets.
 
 Tasks support text report, enabled by default.
 
-To disable reports for task:
+To disable reports for a task:
 
 ```groovy
 animalsnifferMain.reports.text.enabled = false
@@ -335,9 +335,9 @@ tasks.withType(AnimalSniffer) {
 Animalsniffer task is a [SourceTask](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.SourceTask.html) and may be configured 
 to include/exclude classes from check.
 
-NOTE: task operate on compiled classes and not sources! Be careful when defining patterns.
+NOTE: The task operates on compiled classes and not sources! Be careful when defining patterns.
 
-For example, to exclude classes in 'invalid' subpackage from check:
+For example, to exclude classes in a 'invalid' subpackage from check:
 
 ```groovy
 animalsnifferMain {
