@@ -29,7 +29,8 @@ compileJava {
 }
 ```    
 
-See [Gradle issue](https://github.com/gradle/gradle/issues/2510) about better option support.
+Direct `release` option support [available in gradle 6.6](https://docs.gradle.org/6.6/release-notes.html#javacompile-release)
+([feature discussion](https://github.com/gradle/gradle/issues/2510)).
 
 The plugin could still be useful:
 
