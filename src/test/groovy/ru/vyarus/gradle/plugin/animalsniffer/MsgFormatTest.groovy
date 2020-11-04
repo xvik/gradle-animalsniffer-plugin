@@ -51,7 +51,7 @@ class MsgFormatTest extends Specification {
         when: "format with signature"
         res = FormatUtils.formatForConsole(message, true)
         then: "correct"
-        res.replaceAll('\r', '') == '[Undefined reference (java16-sun-1.0)] some.(Sample.java:2)\n  >> bla\n'
+        res.replaceAll('\r', '') == '[Undefined reference | java16-sun-1.0] some.(Sample.java:2)\n  >> bla\n'
 
         when: "no line"
         res = FormatUtils.formatForConsole(new ReportMessage(source: "some.Sample.java", code: 'bla'), false)

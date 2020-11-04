@@ -41,7 +41,7 @@ class AndroidCachedValidationKitTest extends AbstractKitTest {
 
         then: "found 2 violations"
         result.output.contains("3 AnimalSniffer violations were found in 1 files")
-        result.output.contains("[Undefined reference (java16-sun-1.0)]")
+        result.output.contains("[Undefined reference | java16-sun-1.0]")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')

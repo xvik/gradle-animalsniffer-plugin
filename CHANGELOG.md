@@ -1,5 +1,7 @@
 * Fix inner/anonymous classes check order: enclosing class must be processed first
   to correctly apply ignoring annotation (#25)
+* Fix source link recognition in IDEA console when multiple signatures used: 
+  changed "[Undefined reference (signature)]" to "[Undefined reference | signature]".
 
 ### 1.5.1 (2020-06-06)
 * Update animalsniffer 1.16 -> 1.18 (support java > 8)

@@ -75,7 +75,7 @@ class FormatUtils {
         if (extIdx > 0) {
             clsIdx = msg.source[0..(extIdx - 1)].lastIndexOf(DOT)
         }
-        String sig = showSignature ? " (${msg.signature})" : ''
+        String sig = showSignature ? " | ${msg.signature}" : ''
         // if can't find class fallback to simple format
         String srcLine = clsIdx > 0 ?
                 "${msg.source[0..clsIdx]}(${msg.source[(clsIdx + 1)..-1]}:${msg.line ?: 1})" :

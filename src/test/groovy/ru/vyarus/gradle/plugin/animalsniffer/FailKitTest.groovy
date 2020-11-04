@@ -87,8 +87,8 @@ class FailKitTest extends AbstractKitTest {
 
         then: "found 4 violations"
         result.output.contains("4 AnimalSniffer violations were found in 1 files")
-        result.output.contains("[Undefined reference (java16-sun-1.0)]")
-        result.output.contains("[Undefined reference (android-api-level-14-4.0_r4)]")
+        result.output.contains("[Undefined reference | java16-sun-1.0]")
+        result.output.contains("[Undefined reference | android-api-level-14-4.0_r4]")
 
         then: "report correct"
         File file = file('/build/reports/animalsniffer/main.text')
