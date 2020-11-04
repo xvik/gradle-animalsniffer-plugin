@@ -15,6 +15,7 @@ import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.ClosureBackedAction
+import org.gradle.util.GUtil
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -136,7 +137,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     @Inject
-    CollectionCallbackActionDecorator  getCallbackActionDecorator() {
+    CollectionCallbackActionDecorator getCallbackActionDecorator() {
         throw new UnsupportedOperationException()
     }
 
@@ -153,12 +154,15 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(getSourcesDirs().srcDirs)
             replaceBuildListener(project, collector)
+            String sortedPath = preparePath(getSource())
             getAnimalsnifferSignatures().each { signature ->
                 try {
                     collector.contextSignature(signature.name)
                     ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
-                        // labda case (Some$$Lambda$1). Ant removes every odd $ in a row
-                        path(path: getSource().asPath.replace('$$', '$$$'))
+                        // the same as getSource().asPath, but have to apply sorting because otherwise
+                        // enclosing class could be parsed after inlined and so ignoring annotation on enclosing class
+                        // would be ignored (actually, this problem appears only on windows)
+                        path(path: sortedPath)
                         getSourcesDirs().srcDirs.each {
                             sourcepath(path: it.absoluteFile)
                         }
@@ -232,5 +236,26 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 throw new GradleException(message)
             }
         }
+    }
+
+    @SuppressWarnings(['Indentation', 'UnnecessaryCollectCall', 'UnnecessarySubstring'])
+    private static String preparePath(FileTree source) {
+        int clsExtSize = '.class'.length()
+        String innerIndicator = '$'
+        List<String> sortedPath = source
+                .collect { it.toString() }
+                .toSorted { a, b ->
+                    if (a.contains(innerIndicator) || b.contains(innerIndicator)) {
+                        String a1 = a.substring(0, a.length() - clsExtSize) // - .class
+                        String b1 = b.substring(0, b.length() - clsExtSize)
+                        // trick is to compare names without extension, so inner class would
+                        // become longer and go last automatically;
+                        // compare: Some.class < Some$1.class, but Some > Some$1
+                        return a1 <=> b1
+                    }
+                    return a <=> b
+                }
+        // lambda case (Some$$Lambda$1). Ant removes every odd $ in a row
+        return GUtil.asPath(sortedPath).replace('$$', '$$$')
     }
 }
