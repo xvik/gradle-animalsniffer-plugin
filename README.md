@@ -38,6 +38,9 @@ The plugin could still be useful:
 * To check strong compatibility with some library: you'll need to generate signatures for this library and
 will be able to use them to check project compatibility (on API level, ofc) with older library versions.
 
+WARNING: animalsniffer can't be used (yet!) with classes compiled for java 9 (language level!) or above.
+[The fix should be released with 1.20](https://github.com/mojohaus/animal-sniffer/issues/76) 
+
 ##### Summary
 
 * Configuration extensions: 

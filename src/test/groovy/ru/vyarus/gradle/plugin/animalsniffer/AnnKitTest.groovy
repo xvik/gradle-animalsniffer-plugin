@@ -2,6 +2,7 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import spock.lang.IgnoreIf
 
 /**
  * @author Vyacheslav Rusakov
@@ -51,7 +52,10 @@ class AnnKitTest extends AbstractKitTest {
         ]
     }
 
-
+    // ignored because current animalsniffer 1.18 does not support running on java 9 or above
+    // https://github.com/mojohaus/animal-sniffer/issues/76
+    // the fix is going to be released in 1.20
+    @IgnoreIf({ jvm.java9Compatible })
     def "Check enclosing class annotation detection for inner class"() {
         setup:
         build """
