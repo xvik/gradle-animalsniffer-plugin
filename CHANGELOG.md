@@ -1,3 +1,4 @@
+### 1.5.2 (2020-11-05)
 * Fix inner/anonymous classes check order: enclosing class must be processed first
   to correctly apply ignoring annotation (#25)
 * Fix source link recognition in IDEA console when multiple signatures used: 
