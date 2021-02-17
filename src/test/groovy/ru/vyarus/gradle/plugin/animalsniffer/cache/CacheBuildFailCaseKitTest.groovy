@@ -40,6 +40,6 @@ class CacheBuildFailCaseKitTest extends AbstractKitTest {
 
         then: "task failed"
         result.task(':animalsnifferCacheMain').outcome == TaskOutcome.FAILED
-        result.output.contains('java.lang.ClassCastException: Cannot merger class junit/framework/AssertionFailedError as it has changed superclass')
+        result.output.contains('java.lang.ClassCastException: Cannot merge class junit/framework/AssertionFailedError as it has changed superclass')
     }
 }

@@ -1,3 +1,5 @@
+* Update animalsniffer 1.18 -> 1.20 (asm 9; java 8 minimum)
+
 ### 1.5.2 (2020-11-05)
 * Fix inner/anonymous classes check order: enclosing class must be processed first
   to correctly apply ignoring annotation (#25)
