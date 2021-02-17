@@ -9,7 +9,7 @@ import org.gradle.testkit.runner.TaskOutcome
  */
 class UpstreamKitTest extends AbstractKitTest {
 
-    public static final String GRADLE_VERSION = '6.7'
+    public static final String GRADLE_VERSION = '6.8.1'
 
     def "Check violation detection without cache task"() {
         setup:
@@ -26,7 +26,7 @@ class UpstreamKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """

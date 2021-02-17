@@ -21,13 +21,13 @@ class SignatureTaskDefinitionKitTest extends AbstractKitTest {
 
             task sig(type: ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask) {
                 files sourceSets.main.output
-                files configurations.compile
+                files configurations.compileClasspath
             }
 
             repositories { mavenCentral()}
             dependencies {
-                compile 'org.slf4j:slf4j-api:1.7.25'
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation 'org.slf4j:slf4j-api:1.7.25'
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')

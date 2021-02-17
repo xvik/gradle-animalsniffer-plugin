@@ -25,8 +25,8 @@ class SignatureGenerationKitTest extends AbstractKitTest {
 
             repositories { mavenCentral()}
             dependencies {
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')
@@ -56,13 +56,13 @@ class SignatureGenerationKitTest extends AbstractKitTest {
             }
 
             animalsnifferSignature {
-                files configurations.compile                    
+                files configurations.compileClasspath                    
             }
 
             repositories { mavenCentral()}
             dependencies {
-                compile 'junit:junit:4.12'
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation 'junit:junit:4.12'
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
 
         """
@@ -104,7 +104,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {                
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
@@ -145,7 +145,7 @@ class SignatureGenerationKitTest extends AbstractKitTest {
 
             repositories { mavenCentral()}
             dependencies {
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
         """
         fileFromClasspath('src/main/java/ann/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/ann/Sample.java')

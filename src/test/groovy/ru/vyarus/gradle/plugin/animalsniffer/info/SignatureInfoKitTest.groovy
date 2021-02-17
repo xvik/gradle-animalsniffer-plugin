@@ -55,7 +55,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'junit:junit:4.12'
+                implementation 'junit:junit:4.12'
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
@@ -92,7 +92,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
                 signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'                
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {

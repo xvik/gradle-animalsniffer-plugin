@@ -29,19 +29,19 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
                 repositories { mavenCentral()}
                 dependencies {
                     signature 'org.codehaus.mojo.signature:java16:1.0@signature'
-                    compile 'org.slf4j:slf4j-api:1.7.25'
+                    implementation 'org.slf4j:slf4j-api:1.7.25'
                 }
             }
             
             project(':mod2') {
                 dependencies {                    
-                    compile project(':mod1')
+                    implementation project(':mod1')
                 }
             }
             
             project(':mod3') {
                 dependencies {                    
-                    compile project(':mod2')
+                    implementation project(':mod2')
                 }
             }
         """)
@@ -73,6 +73,7 @@ class MultiModuleCrossDepsKitTest extends AbstractKitTest {
         result.task(':mod2:animalsnifferCacheMain').outcome == TaskOutcome.UP_TO_DATE
         result.task(':mod2:animalsnifferMain').outcome == TaskOutcome.SUCCESS
         result.task(':mod3:animalsnifferCacheMain').outcome == TaskOutcome.UP_TO_DATE
-        result.task(':mod3:animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        // not SUCCESS because mod2 uses mod1 as impl and so did not pass it as transitive dep
+        result.task(':mod3:animalsnifferMain').outcome == TaskOutcome.UP_TO_DATE
     }
 }

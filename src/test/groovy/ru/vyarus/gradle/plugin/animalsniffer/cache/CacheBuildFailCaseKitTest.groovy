@@ -29,7 +29,7 @@ class CacheBuildFailCaseKitTest extends AbstractKitTest {
             repositories { mavenCentral() }
             dependencies {
                 signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
-                compile 'junit:junit:4.12'
+                implementation 'junit:junit:4.12'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')

@@ -27,7 +27,7 @@ class AndroidCachedValidationKitTest extends AbstractKitTest {
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
                 signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/android/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/android/Sample.java')

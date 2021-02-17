@@ -189,7 +189,7 @@ An annotation could be used to suppress violations:
 Add dependency on the annotation artifact:
 
 ```groovy
-compile "org.codehaus.mojo:animal-sniffer-annotations:1.16"
+implementation "org.codehaus.mojo:animal-sniffer-annotations:1.16"
 ``` 
 
 Use `provided` scope if you can. 

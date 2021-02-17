@@ -24,7 +24,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
@@ -73,7 +73,7 @@ class FailKitTest extends AbstractKitTest {
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
                 signature 'net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -115,7 +115,7 @@ class FailKitTest extends AbstractKitTest {
 
             repositories { mavenCentral() }
             dependencies {
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -150,7 +150,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral() }
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
         """
         fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
@@ -184,7 +184,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
@@ -219,7 +219,7 @@ class FailKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile 'org.slf4j:slf4j-api:1.7.25'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """

@@ -45,7 +45,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                     signature 'org.codehaus.mojo.signature:java15:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java14:1.0@signature'
                     signature 'org.codehaus.mojo.signature:java12:1.0@signature'
-                    compile 'org.slf4j:slf4j-api:1.7.25'
+                    implementation 'org.slf4j:slf4j-api:1.7.25'
                 }
 
 

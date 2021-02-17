@@ -24,7 +24,7 @@ class AnnKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
 
         """
@@ -66,7 +66,7 @@ class AnnKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                compile "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+                implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
             }
 
         """
