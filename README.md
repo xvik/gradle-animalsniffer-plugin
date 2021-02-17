@@ -37,10 +37,7 @@ The plugin could still be useful:
 * For Android projects to check API compatibility (because Android API signatures are published).
 * To check strong compatibility with some library: you'll need to generate signatures for this library and
 will be able to use them to check project compatibility (on API level, ofc) with older library versions.
-
-WARNING: animalsniffer can't be used (yet!) with classes compiled for java 9 (language level!) or above.
-[The fix should be released with 1.20](https://github.com/mojohaus/animal-sniffer/issues/76) 
-
+  
 ##### Summary
 
 * Configuration extensions: 
@@ -66,7 +63,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.2'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.3'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -76,20 +73,20 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.5.2'
+    id 'ru.vyarus.animalsniffer' version '1.5.3'
 }
 ```
 
 #### Compatibility
 
-**IMPORTANT**: The plugin only works when the `java` or `groovy` plugin is enabled, otherwise nothing will be registered.
+**IMPORTANT**: The plugin only works when the `java` (or `java-library`) or `groovy` plugin is enabled, otherwise nothing will be registered.
 There is no support for the Android plugin (the `java` plugin must be used to perform the animalsniffer check).
 
 The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-6     | 1.5.2
+5-6     | 1.5.3
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
@@ -285,7 +282,7 @@ Configuration example:
 
 ```groovy
 animalsniffer {
-    toolVersion = '1.18'
+    toolVersion = '1.20'
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
@@ -298,7 +295,7 @@ There are no required configurations - the plugin will generate defaults for all
 
 | Property | Description |  Default value |
 |----------|-------------|----------------|
-| toolVersion | AnimalSniffer version | 1.18 |
+| toolVersion | AnimalSniffer version | 1.20 |
 | sourceSets | Source sets to check | all source sets |
 | ignoreFailures | False to stop build when violations found, true to continue | false |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
