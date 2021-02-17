@@ -63,7 +63,7 @@ WARNING: animalsniffer can't be used (yet!) with classes compiled for java 9 (la
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.2'
