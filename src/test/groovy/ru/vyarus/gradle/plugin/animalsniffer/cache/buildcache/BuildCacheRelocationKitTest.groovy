@@ -2,9 +2,8 @@ package ru.vyarus.gradle.plugin.animalsniffer.cache.buildcache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
+import spock.lang.TempDir
 
 /**
  * Relocation is a CI case when project is checked out always into new directory, but cache still must be
@@ -15,11 +14,11 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  */
 class BuildCacheRelocationKitTest extends AbstractKitTest {
 
-    @Rule
-    final TemporaryFolder cacheDir = new TemporaryFolder()
+    @TempDir
+    File cacheDir
 
-    @Rule
-    final TemporaryFolder relocatedDir = new TemporaryFolder()
+    @TempDir
+    File relocatedDir
 
     def "Check build cache support"() {
         setup:
@@ -27,7 +26,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
+                    directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
@@ -51,8 +50,8 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 //        debug()
 
         // create complete project copy
-        new AntBuilder().copy(todir: relocatedDir.root) {
-            fileset(dir: testProjectDir.root)
+        new AntBuilder().copy(todir: relocatedDir) {
+            fileset(dir: testProjectDir)
         }
 
         when: "run task"
@@ -68,7 +67,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 
 
         when: "run other project from cache"
-        result = gradle(relocatedDir.root, 'check', '--build-cache').build()
+        result = gradle(relocatedDir, 'check', '--build-cache').build()
 
         then: "tasks cached"
         result.task(':compileJava').outcome == TaskOutcome.FROM_CACHE
@@ -79,7 +78,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 
 
         then: "report correct"
-        File file = new File(relocatedDir.root, '/build/reports/animalsniffer/main.text')
+        File file = new File(relocatedDir, '/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
                 "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
@@ -94,7 +93,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
+                    directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
@@ -119,8 +118,8 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 //        debug()
 
         // create complete project copy
-        new AntBuilder().copy(todir: relocatedDir.root) {
-            fileset(dir: testProjectDir.root)
+        new AntBuilder().copy(todir: relocatedDir) {
+            fileset(dir: testProjectDir)
         }
 
 
@@ -137,7 +136,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 
 
         when: "run other project from cache"
-        result = gradle(relocatedDir.root, 'check', '--build-cache').build()
+        result = gradle(relocatedDir, 'check', '--build-cache').build()
 
         then: "tasks cached"
         result.task(':compileJava').outcome == TaskOutcome.FROM_CACHE
@@ -149,7 +148,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
 
 
         then: "report correct"
-        File file = new File(relocatedDir.root,'/build/reports/animalsniffer/main.text')
+        File file = new File(relocatedDir,'/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
                 "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",

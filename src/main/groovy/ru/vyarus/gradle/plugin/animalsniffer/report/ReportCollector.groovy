@@ -127,7 +127,7 @@ class ReportCollector implements InvocationHandler {
 
     /**
      * Animalsniffer 1.16 start to check method return type (no matter if it used). This lead to error duplicates:
-     * for example, for code {@code Paths.get ( " / tmp " ) ;}, check with jdk6 signature will detect 2 errors:
+     * for example, for code {@code Paths.get (" / tmp ") ;}, check with jdk6 signature will detect 2 errors:
      * {@code java.nio.file.Path}, {@code java.nio.file.Path java.nio.file.Paths.get(String, String[])}
      * (return type and method call). But this is duplication (point to the same line) so first error may be skipped
      * (it is derivative from bad method call).

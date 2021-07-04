@@ -2,9 +2,8 @@ package ru.vyarus.gradle.plugin.animalsniffer.cache.buildcache
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
+import spock.lang.TempDir
 
 /**
  * @author Vyacheslav Rusakov
@@ -12,8 +11,8 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  */
 class BuildCacheSupportKitTest extends AbstractKitTest {
 
-    @Rule
-    final TemporaryFolder cacheDir = new TemporaryFolder()
+    @TempDir
+    File cacheDir
 
     def "Check build cache support"() {
         setup:
@@ -21,7 +20,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
+                    directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
@@ -88,7 +87,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         file("settings.gradle") << """
             buildCache {
                 local(DirectoryBuildCache) {
-                    directory = new File('${cacheDir.root.canonicalPath.replace('\\', '\\\\')}')
+                    directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
 """
