@@ -23,7 +23,7 @@ repositories { mavenLocal(); mavenCentral(); gradlePluginPortal() }
 dependencies {
     implementation "org.codehaus.mojo:animal-sniffer:1.20"
 
-    testImplementation('org.spockframework:spock-core:2.0-groovy-2.5') {
+    testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }
 }
