@@ -1,3 +1,5 @@
+* Fix gradle 7 deprecation warnings 
+
 ### 1.5.3 (2021-02-18)
 * Update animalsniffer 1.18 -> 1.20 (asm 9; java 8 minimum)
 

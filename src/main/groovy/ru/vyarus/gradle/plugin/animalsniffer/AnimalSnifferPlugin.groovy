@@ -9,6 +9,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.FileCollection
+import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
@@ -105,7 +106,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         buildExtension = project.extensions.create(BUILD_SIGNATURE, AnimalSnifferSignatureExtension)
     }
 
-    @SuppressWarnings('Indentation')
+    @SuppressWarnings(['Indentation', 'NestedBlockDepth'])
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerCheckTasks() {
         // create tasks for each source set
@@ -117,9 +118,16 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 // task operates on classes instead of sources
                 source = sourceSet.output
                 reports.all { report ->
-                    report.conventionMapping.with {
-                        enabled = { true }
-                        destination = { new File(extension.reportsDir, "${sourceSet.name}.${report.name}") }
+                    if (GradleVersion.current() >= GradleVersion.version('7.0')) {
+                        report.required.convention(true)
+                        report.outputLocation.convention(project.provider {
+                            { -> new File(extension.reportsDir, "${sourceSet.name}.${report.name}") } as RegularFile
+                        })
+                    } else {
+                        report.conventionMapping.with {
+                            it.enabled = { true }
+                            it.destination = { new File(extension.reportsDir, "${sourceSet.name}.${report.name}") }
+                        }
                     }
                 }
             }
