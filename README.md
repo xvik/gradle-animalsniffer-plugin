@@ -62,7 +62,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.3'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.4'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -72,7 +72,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.5.3'
+    id 'ru.vyarus.animalsniffer' version '1.5.4'
 }
 ```
 
@@ -85,7 +85,7 @@ The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-6     | 1.5.3
+5-6     | 1.5.4
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage

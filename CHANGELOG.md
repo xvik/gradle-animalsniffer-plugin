@@ -1,3 +1,4 @@
+### 1.5.4 (2021-11-06)
 * Fix gradle 7 deprecation warnings 
 
 ### 1.5.3 (2021-02-18)
