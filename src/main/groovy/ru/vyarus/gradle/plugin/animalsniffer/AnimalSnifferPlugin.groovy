@@ -15,6 +15,7 @@ import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetOutput
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
@@ -111,22 +112,24 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerCheckTasks() {
         // create tasks for each source set
         project.sourceSets.all { SourceSet sourceSet ->
+            String sourceSetName = sourceSet.name
+            SourceSetOutput sourceSetOut = sourceSet.output
             TaskProvider<AnimalSniffer> checkTask = project.tasks
                     .<AnimalSniffer> register(sourceSet.getTaskName(CHECK_SIGNATURE, null),
                     AnimalSniffer) {
-                description = "Run AnimalSniffer checks for ${sourceSet.name} classes"
-                // task operates on classes instead of sources
-                source = sourceSet.output
+                        description = "Run AnimalSniffer checks for ${ sourceSetName} classes"
+                        // task operates on classes instead of sources
+                        source = sourceSetOut
                 reports.all { report ->
                     if (GradleVersion.current() >= GradleVersion.version('7.0')) {
                         report.required.convention(true)
                         report.outputLocation.convention(project.provider {
-                            { -> new File(extension.reportsDir, "${sourceSet.name}.${report.name}") } as RegularFile
+                            { -> new File(extension.reportsDir, "${sourceSetName}.${report.name}") } as RegularFile
                         })
                     } else {
                         report.conventionMapping.with {
                             it.enabled = { true }
-                            it.destination = { new File(extension.reportsDir, "${sourceSet.name}.${report.name}") }
+                            it.destination = { new File(extension.reportsDir, "${sourceSetName}.${report.name}") }
                         }
                     }
                 }
@@ -175,7 +178,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
                 }
                 animalsnifferClasspath = { animalsnifferConfiguration }
-                sourcesDirs = { sourceSet.allJava }
+                sourcesDirs = { sourceSet.allJava.srcDirs }
                 ignoreFailures = { extension.ignoreFailures }
                 annotation = { extension.annotation }
                 ignoreClasses = { extension.ignore }

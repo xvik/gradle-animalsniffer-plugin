@@ -7,7 +7,6 @@ import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
-import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.reporting.Report
@@ -66,7 +65,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
      */
     @InputFiles
     @PathSensitive(PathSensitivity.RELATIVE)
-    SourceDirectorySet sourcesDirs
+    Set<File> sourcesDirs
 
     /**
      * Annotation class name to avoid check
@@ -153,7 +152,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     void run() {
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
-            ReportCollector collector = new ReportCollector(getSourcesDirs().srcDirs)
+            ReportCollector collector = new ReportCollector(getSourcesDirs())
             replaceBuildListener(project, collector)
             String sortedPath = preparePath(getSource())
             getAnimalsnifferSignatures().each { signature ->
@@ -164,7 +163,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                         // enclosing class could be parsed after inlined and so ignoring annotation on enclosing class
                         // would be ignored (actually, this problem appears only on windows)
                         path(path: sortedPath)
-                        getSourcesDirs().srcDirs.each {
+                        getSourcesDirs().each {
                             sourcepath(path: it.absoluteFile)
                         }
                         annotation(className: 'org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')

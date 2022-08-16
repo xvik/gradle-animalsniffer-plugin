@@ -58,5 +58,37 @@ class UpstreamKitTest extends AbstractKitTest {
         ]
     }
 
+    def "Check configuration cache support"() {
 
+        setup:
+        build """
+            plugins {
+                id 'java'
+                id 'ru.vyarus.animalsniffer'
+            }
+            
+            animalsniffer {
+                ignoreFailures = true                
+            }
+
+            repositories { mavenCentral()}
+            dependencies {
+                signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
+            }
+        """
+
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
+        //debug()
+
+        when: "run task"
+        BuildResult result = runFailedVer(GRADLE_VERSION, 'check', '--configuration-cache')
+
+        then: "task successful"
+        result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        // testKit is incompatible with configuration cache, but I can check number of errors!
+        result.output.contains('1 problem was found storing the configuration cache.\n' +
+                '- Gradle runtime: support for using a Java agent with TestKit builds is not yet implemented with the configuration cache.')
+
+    }
 }
