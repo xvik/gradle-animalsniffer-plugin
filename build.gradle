@@ -21,9 +21,9 @@ wrapper {
 
 repositories { mavenLocal(); mavenCentral(); gradlePluginPortal() }
 dependencies {
-    implementation "org.codehaus.mojo:animal-sniffer:1.21"
+    implementation "org.codehaus.mojo:animal-sniffer:1.22"
 
-    testImplementation('org.spockframework:spock-core:2.0-groovy-2.5') {
+    testImplementation('org.spockframework:spock-core:2.1-groovy-2.5') {
         exclude group: 'org.codehaus.groovy'
     }
 }
