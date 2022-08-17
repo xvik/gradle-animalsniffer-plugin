@@ -6,11 +6,17 @@
 
 ### About
 
-Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java or Groovy projects.
-AnimalSniffer is used to check compatibility with lower Java versions (when compiling with a newer Java version) or Android (SDK version).
+Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java, Groovy (only with `@CompileStatic`!), 
+Kotlin or Scala projects.
+Initially, AnimalSniffer was created to check compatibility with [lower Java versions](https://search.maven.org/search?q=g:org.codehaus.mojo.signature) 
+(to prevent situations when newer API methods called). 
 
-It is implemented the same way as core Gradle quality plugins (Checkstyle, PMD etc):
-A task is registered for each source set (animalsnifferMain, animalsnifferTest) and attached to the `check` task.
+But it's a general tool: signatures could be created for any library 
+to check api compatibility against older library versions.
+For example, AnimalSniffer was [adopted by Android community](https://github.com/open-toast/gummy-bears) to verify lower android SDK compatibility.
+
+Plugin implemented in the same way as core Gradle quality plugins (Checkstyle, PMD, etc.):
+Verification task is registered for each source set (animalsnifferMain, animalsnifferTest) and attached to the `check` task.
 
 Advanced features:
 * [Signature build task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature)
@@ -78,7 +84,8 @@ plugins {
 
 #### Compatibility
 
-**IMPORTANT**: The plugin only works when the `java` (or `java-library`) or `groovy` plugin is enabled, otherwise nothing will be registered.
+**IMPORTANT**: The plugin only works when the `java`-related (`java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`) plugin is enabled, 
+otherwise nothing will be registered.
 There is no support for the Android plugin (the `java` plugin must be used to perform the animalsniffer check).
 
 The plugin is compiled for Java 8, and is compatible with Java 11.
