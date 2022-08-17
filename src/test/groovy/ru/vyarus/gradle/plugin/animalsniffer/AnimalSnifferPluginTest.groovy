@@ -69,4 +69,30 @@ class AnimalSnifferPluginTest extends AbstractTest {
         then: "task registered"
         animalsniffer.dependencies.first().version == '1.10'
     }
+
+    def "Check source set modifications visible"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            sourceSets {
+                main {
+                    java {
+                        srcDir("src/main2")
+                    }
+                }
+                itest {
+                    java {
+                        srcDirs("src/itest")
+                    }
+                }
+            }
+        }
+
+        then: "task registered"
+        project.tasks.withType(AnimalSniffer).size() == 3
+        (project.tasks.getByName('animalsnifferMain') as AnimalSniffer).sourcesDirs.size() == 2
+    }
 }
