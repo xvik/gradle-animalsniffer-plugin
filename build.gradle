@@ -107,6 +107,7 @@ test {
     doLast {
         sleep(1000)
     }
+    systemProperty 'jna.nosys', 'true'
 }
 
 dependencyUpdates.revision = 'release'
