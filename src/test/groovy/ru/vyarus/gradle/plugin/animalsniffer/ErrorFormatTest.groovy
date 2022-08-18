@@ -77,7 +77,7 @@ class ErrorFormatTest extends Specification {
         msg.line == null
         !msg.parseFail
         msg.code == 'java.util.function.Consumer'
-        FormatUtils.formatForConsole(msg, false) == '[Undefined reference] retrolambda.(Sample.java:1)\n  >> java.util.function.Consumer\n'
+        FormatUtils.formatForConsole(msg, false).replaceAll('\r', '') == '[Undefined reference] retrolambda.(Sample.java:1)\n  >> java.util.function.Consumer\n'
         FormatUtils.formatForFile(msg, false) == 'retrolambda.Sample  Undefined reference: java.util.function.Consumer'
     }
 }
