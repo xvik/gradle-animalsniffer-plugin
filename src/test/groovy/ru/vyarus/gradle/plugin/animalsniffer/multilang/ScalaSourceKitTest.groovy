@@ -1,13 +1,17 @@
 package ru.vyarus.gradle.plugin.animalsniffer.multilang
 
+
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
+import spock.lang.IgnoreIf
 
 /**
  * @author Vyacheslav Rusakov
  * @since 17.08.2022
  */
+// ignore test on appveyor due to jni problem
+@IgnoreIf({ env.containsKey('APPVEYOR') })
 class ScalaSourceKitTest extends AbstractKitTest {
 
     def "Check scala lang support"() {
