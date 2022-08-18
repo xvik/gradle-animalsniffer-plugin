@@ -131,6 +131,8 @@ class ReportCollector implements InvocationHandler {
      * {@code java.nio.file.Path}, {@code java.nio.file.Path java.nio.file.Paths.get(String, String[])}
      * (return type and method call). But this is duplication (point to the same line) so first error may be skipped
      * (it is derivative from bad method call).
+     * <p>
+     * Also, it can duplicate some errors with and without line number - this should also be avoided
      *
      * @param msg new message
      */
@@ -142,6 +144,13 @@ class ReportCollector implements InvocationHandler {
                 && prev.line == msg.line
                 && msg.code.startsWith(prev.code)) {
             report.remove(prev)
+        }
+        if (!msg.line) {
+            // search for the same error but with line
+            if (report.find { it.source == msg.source && it.code == msg.code }) {
+                // avoid duplicate message addition
+                return
+            }
         }
         report.add(msg)
     }

@@ -68,5 +68,16 @@ class ErrorFormatTest extends Specification {
         msg.parseFail
         msg.code == '/opt/foo/invalid/Sample.java:12 Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])'
 
+        when: "no source line set"
+        msg = FormatUtils.parse(
+                '/opt/foo/retrolambda/Sample.java: Undefined reference: java.util.function.Consumer'
+                , [new File("/opt/foo") ] as Set)
+        then: "parsed"
+        msg.source == 'retrolambda.Sample.java'
+        msg.line == null
+        !msg.parseFail
+        msg.code == 'java.util.function.Consumer'
+        FormatUtils.formatForConsole(msg, false) == '[Undefined reference] retrolambda.(Sample.java:1)\n  >> java.util.function.Consumer\n'
+        FormatUtils.formatForFile(msg, false) == 'retrolambda.Sample  Undefined reference: java.util.function.Consumer'
     }
 }

@@ -12,6 +12,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.report.ReportMessage
 @CompileStatic
 class FormatUtils {
     private static final String DOT = '.'
+    private static final String LINE_SEP = ':'
     private static final String NL = String.format('%n')
     private static final String UND_REF = 'Undefined reference:'
 
@@ -30,6 +31,10 @@ class FormatUtils {
             msgStartIdx = message.indexOf(' ')
         }
         String vclass = message[0..(msgStartIdx - 1)].trim()
+        if (vclass.endsWith(LINE_SEP)) {
+            // case when line number is not specified
+            vclass = vclass[0..(vclass.length() - 2)]
+        }
         String line = vclass.find(~/^(.+):(\d+)/) { match, file, line -> vclass = file; return line }
         vclass = extractJavaClass(vclass, roots)
         if (vclass == null) {
@@ -79,7 +84,7 @@ class FormatUtils {
         // if can't find class fallback to simple format
         String srcLine = clsIdx > 0 ?
                 "${msg.source[0..clsIdx]}(${msg.source[(clsIdx + 1)..-1]}:${msg.line ?: 1})" :
-                "${msg.source}${msg.line ? ':' + msg.line : ''}"
+                "${msg.source}${msg.line ? LINE_SEP + msg.line : ''}"
         return "[Undefined reference$sig] $srcLine$NL" +
                 "  >> ${msg.code}$NL"
     }

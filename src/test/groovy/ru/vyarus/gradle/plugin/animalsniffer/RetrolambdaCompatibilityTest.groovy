@@ -2,14 +2,11 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import spock.lang.Ignore
 
 /**
  * @author Vyacheslav Rusakov
  * @since 10.07.2018
  */
-// current retrolambda plugin version is not compatible  with gradle 5
-@Ignore
 class RetrolambdaCompatibilityTest extends AbstractKitTest {
 
     def "Check no signatures defined"() {
@@ -18,7 +15,7 @@ class RetrolambdaCompatibilityTest extends AbstractKitTest {
             plugins {
                 id 'java'
                 id 'ru.vyarus.animalsniffer'
-                id 'me.tatarka.retrolambda' version '3.7.0'
+                id 'me.tatarka.retrolambda' version '3.7.1'
             }
 
             animalsniffer {

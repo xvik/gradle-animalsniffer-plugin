@@ -1,5 +1,7 @@
 * Update animalsniffer 1.20 -> 1.22 (java 9 support)
 * Fix configuration cache support for check tasks (#26)
+* Fix formatting messages without source line number
+* Remove duplicate animalsniffer messages without line number
 
 ### 1.5.4 (2021-11-06)
 * Fix gradle 7 deprecation warnings 
