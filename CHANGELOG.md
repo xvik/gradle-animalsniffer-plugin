@@ -1,5 +1,7 @@
+### 1.6.0 (2022-08-20)
 * Update animalsniffer 1.20 -> 1.22 (java 9 support)
 * Fix configuration cache support for check tasks (#26)
+  - Type of sourcesDirs property of AnimalSniffer tasks changed, but it should not be a problem
 * Fix formatting messages without source line number
 * Remove duplicate animalsniffer messages without line number
 

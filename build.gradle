@@ -76,7 +76,7 @@ gradlePlugin {
     }
 }
 pluginBundle {
-    description = 'Gradle AnimalSniffer plugin for Java projects'
+    description = 'Gradle AnimalSniffer plugin for Java, Groovy, Kotlin and Scala projects'
     tags = ['animalsniffer']
 
     mavenCoordinates {

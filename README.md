@@ -6,8 +6,8 @@
 
 ### About
 
-Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for Java, Groovy (only with `@CompileStatic`!), 
-Kotlin or Scala projects.
+Gradle [AnimalSniffer](http://www.mojohaus.org/animal-sniffer/) plugin for **Java**, **Groovy** (only with `@CompileStatic`!), 
+**Kotlin** or **Scala** projects (may work with other jvm-based languages too).
 Initially, AnimalSniffer was created to check compatibility with [lower Java versions](https://search.maven.org/search?q=g:org.codehaus.mojo.signature) 
 (to prevent situations when newer API methods called). 
 
@@ -68,7 +68,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.4'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.6.0'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -78,21 +78,21 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.5.4'
+    id 'ru.vyarus.animalsniffer' version '1.6.0'
 }
 ```
 
 #### Compatibility
 
-**IMPORTANT**: The plugin only works when the `java`-related (`java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`) plugin is enabled, 
+**IMPORTANT**: Plugin only works when `java`-related plugin (`java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`) is enabled, 
 otherwise nothing will be registered.
-There is no support for the Android plugin (the `java` plugin must be used to perform the animalsniffer check).
+There is **no support for the Android plugin** (`java` plugin must be used to perform animalsniffer check).
 
 The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-6     | 1.5.4
+5-6     | 1.6.0
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
@@ -119,7 +119,7 @@ dependencies {
 
 [Java signatures](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo.signature%22)
 
-To check Android compatibility:
+To check Android compatibility (in java project):
 
 ```groovy
 repositories { mavenCentral() }
@@ -299,17 +299,17 @@ animalsniffer {
 
 There are no required configurations - the plugin will generate defaults for all of them.
 
-| Property | Description |  Default value |
-|----------|-------------|----------------|
-| toolVersion | AnimalSniffer version | 1.20 |
-| sourceSets | Source sets to check | all source sets |
-| ignoreFailures | False to stop build when violations found, true to continue | false |
+| Property | Description | Default value                                   |
+|----------|-------------|-------------------------------------------------|
+| toolVersion | AnimalSniffer version | 1.22                                            |
+| sourceSets | Source sets to check | all source sets                                 |
+| ignoreFailures | False to stop build when violations found, true to continue | false                                           |
 | reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
-| annotation | Annotation class to avoid check under annotated block | |
-| ignore    | Ignore usage of classes, not mentioned in signature | |
-| signatures    | Signatures to use for check | `configurations.signature`|
-| excludeJars    | Patterns to exclude jar names from classpath. Required for [library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) usage | |
-| cache    | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) | By default, cache disabled|
+| annotation | Annotation class to avoid check under annotated block |                                                 |
+| ignore    | Ignore usage of classes, not mentioned in signature |                                                 |
+| signatures    | Signatures to use for check | `configurations.signature`                      |
+| excludeJars    | Patterns to exclude jar names from classpath. Required for [library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) usage |                                                 |
+| cache    | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) | By default, cache disabled                      |
 
 **NOTE**: `ignore` does not exclude your classes from check, it allows you to use classes not mentioned in the signature.
 See more details above.
@@ -319,7 +319,7 @@ See more details above.
 The animalsniffer task is registered for each source set:
 * `animalsnifferMain` - run AnimalAniffer for compiled main classes
 * `animalsnifferTest` - run AnimalSniffer for compiled test classes
-* `animalsnifferSourceSet` - run AnimalSniffer for compiled SourceSet classes
+* `animalsniffer[SourceSet]` - run AnimalSniffer for compiled `[SourceSet]` classes
 
 The `check` task will depend only on tasks from configured in `animalsniffer.sourceSets` source sets.
 
