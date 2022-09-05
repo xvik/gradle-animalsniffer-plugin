@@ -56,6 +56,53 @@ class FailKitTest extends AbstractKitTest {
         ]
     }
 
+    def "Check field type violation"() {
+        setup:
+        build """
+            plugins {
+                id 'java'
+                id 'ru.vyarus.animalsniffer'
+            }
+
+            animalsniffer {
+                ignoreFailures = true
+            }
+
+            repositories { mavenCentral()}
+            dependencies {
+                signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+                implementation 'org.slf4j:slf4j-api:1.7.25'
+            }
+
+        """
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/field/Sample.java')
+//        debug()
+
+        when: "run task"
+        BuildResult result = run('check')
+
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.SUCCESS
+
+        then: "found 2 violations"
+        result.output.contains("2 AnimalSniffer violations were found in 1 files")
+        result.output.replaceAll('\r', '').contains(
+                """[Undefined reference] invalid.(Sample.java:1)
+  >> java.nio.file.Path
+
+[Undefined reference] invalid.(Sample.java:13)
+  >> int Boolean.compare(boolean, boolean)
+""")
+
+        then: "report correct"
+        File file = file('/build/reports/animalsniffer/main.text')
+        file.exists()
+        file.readLines() == [
+                "invalid.Sample:1  Undefined reference: java.nio.file.Path",
+                "invalid.Sample:13  Undefined reference: int Boolean.compare(boolean, boolean)"
+        ]
+    }
+
 
     def "Check multiple signatures"() {
         setup:

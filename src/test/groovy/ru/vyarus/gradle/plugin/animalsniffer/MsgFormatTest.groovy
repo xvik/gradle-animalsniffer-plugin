@@ -27,12 +27,12 @@ class MsgFormatTest extends Specification {
         when: "no line"
         res = FormatUtils.formatForFile(new ReportMessage(source: "some.Sample.java", code: 'bla'), false)
         then: "correct"
-        res == 'some.Sample  Undefined reference: bla'
+        res == 'some.Sample:1  Undefined reference: bla'
 
         when: "incorrect source"
         res = FormatUtils.formatForFile(new ReportMessage(source: "failed source", code: 'bla'), false)
         then: "correct"
-        res == 'failed source  Undefined reference: bla'
+        res == 'failed source:1  Undefined reference: bla'
 
         when: "failed parse"
         res = FormatUtils.formatForFile(new ReportMessage(parseFail: true, code: 'bla bla'), false)

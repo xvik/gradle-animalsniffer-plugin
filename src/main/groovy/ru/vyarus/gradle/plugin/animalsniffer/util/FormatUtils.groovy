@@ -15,10 +15,14 @@ class FormatUtils {
     private static final String LINE_SEP = ':'
     private static final String NL = String.format('%n')
     private static final String UND_REF = 'Undefined reference:'
+    private static final String FIELD_REF = ' Field '
 
     /**
      * Parse animasniffer ant task error.
      * Error format: <code>file_path:lineNum: Undefined reference: type source line</code>
+     * <p>
+     * In case of fields, it is impossible (for animalsniffer) to detect source line, instead, it would add field name
+     * in the message: <code>file_path Field 'name': Undefined reference: type source line</code>
      *
      * @param message animalsniffer error
      * @param roots source directories (roots)
@@ -30,7 +34,20 @@ class FormatUtils {
             // try to look for first space (this will lead to wrong result if file path contain space)
             msgStartIdx = message.indexOf(' ')
         }
-        String vclass = message[0..(msgStartIdx - 1)].trim()
+        String position = message[0..(msgStartIdx - 1)].trim()
+        int fieldIdx = position.indexOf(FIELD_REF)
+        String vclass
+        String field = null
+        if (fieldIdx > 0) {
+            // -2 to cut off trailing ':'
+            vclass = position[0..(fieldIdx - 1)].trim()
+            field = position[fieldIdx..-2].trim()
+            // use "field" instead of "Field"
+            field = field.uncapitalize()
+        } else {
+            vclass = position
+        }
+
         if (vclass.endsWith(LINE_SEP)) {
             // case when line number is not specified
             vclass = vclass[0..(vclass.length() - 2)]
@@ -42,7 +59,7 @@ class FormatUtils {
         }
         String code = message[msgStartIdx..-1]
         code = code.replace(UND_REF, '').trim()
-        return new ReportMessage(source: vclass, line: line, code: code)
+        return new ReportMessage(source: vclass, line: line, field: field, code: code)
     }
 
     /**
@@ -60,9 +77,10 @@ class FormatUtils {
             idx = 0
         }
         String sig = showSignature ? " (${msg.signature})" : ''
-        String srcLine = msg.line ?
-                "${msg.source[0..(idx - 1)]}:${msg.line}" :
-                "${msg.source[0..(idx - 1)]}"
+        String srcLine = "${msg.source[0..(idx - 1)]}:${msg.line ? msg.line : 1}"
+        if (msg.field) {
+            srcLine += ' (' + msg.field + ')'
+        }
         return "$srcLine  Undefined reference$sig: ${msg.code}"
     }
 
@@ -85,6 +103,9 @@ class FormatUtils {
         String srcLine = clsIdx > 0 ?
                 "${msg.source[0..clsIdx]}(${msg.source[(clsIdx + 1)..-1]}:${msg.line ?: 1})" :
                 "${msg.source}${msg.line ? LINE_SEP + msg.line : ''}"
+        if (msg.field) {
+            srcLine += " $msg.field"
+        }
         return "[Undefined reference$sig] $srcLine$NL" +
                 "  >> ${msg.code}$NL"
     }

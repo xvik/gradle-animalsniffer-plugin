@@ -13,6 +13,7 @@ class ReportMessage {
     String signature
     String source
     String line
+    String field
     String code
     boolean parseFail
 }

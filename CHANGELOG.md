@@ -1,3 +1,6 @@
+* Support animalsniffer messages for field violations (#25)
+* Always put line number in file report, even if it wasn't declared (consistency with console reporting)
+
 ### 1.6.0 (2022-08-20)
 * Update animalsniffer 1.20 -> 1.22 (java 9 support)
 * Fix configuration cache support for check tasks (#26)

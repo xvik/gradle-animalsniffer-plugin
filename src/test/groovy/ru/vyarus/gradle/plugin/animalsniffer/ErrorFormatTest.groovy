@@ -78,6 +78,25 @@ class ErrorFormatTest extends Specification {
         !msg.parseFail
         msg.code == 'java.util.function.Consumer'
         FormatUtils.formatForConsole(msg, false).replaceAll('\r', '') == '[Undefined reference] retrolambda.(Sample.java:1)\n  >> java.util.function.Consumer\n'
-        FormatUtils.formatForFile(msg, false) == 'retrolambda.Sample  Undefined reference: java.util.function.Consumer'
+        FormatUtils.formatForFile(msg, false) == 'retrolambda.Sample:1  Undefined reference: java.util.function.Consumer'
+    }
+
+    def "Check field reference support"() {
+
+        Set<File> roots = [new File("/opt/foo") ]
+
+        when: "line with field"
+        ReportMessage msg = FormatUtils.parse(
+                '/opt/foo/invalid/Sample.java Field \'field\': Undefined reference: java.nio.file.Path'
+                , roots)
+        then: "parsed"
+        msg.source == 'invalid.Sample.java'
+        msg.line == null
+        msg.field == 'field \'field\''
+        msg.code == 'java.nio.file.Path'
+
+        then: "formatting"
+        FormatUtils.formatForFile(msg, false) == "invalid.Sample:1 (field 'field')  Undefined reference: java.nio.file.Path"
+        FormatUtils.formatForConsole(msg, false) == "[Undefined reference] invalid.(Sample.java:1) field 'field'\n  >> java.nio.file.Path\n"
     }
 }
