@@ -97,6 +97,6 @@ class ErrorFormatTest extends Specification {
 
         then: "formatting"
         FormatUtils.formatForFile(msg, false) == "invalid.Sample:1 (field 'field')  Undefined reference: java.nio.file.Path"
-        FormatUtils.formatForConsole(msg, false) == "[Undefined reference] invalid.(Sample.java:1) field 'field'\n  >> java.nio.file.Path\n"
+        FormatUtils.formatForConsole(msg, false).replaceAll('\r', '') == "[Undefined reference] invalid.(Sample.java:1) field 'field'\n  >> java.nio.file.Path\n"
     }
 }
