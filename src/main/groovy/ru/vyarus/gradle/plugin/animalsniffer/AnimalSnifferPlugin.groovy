@@ -169,6 +169,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
         checkTask.configure {
             dependsOn(sourceSet.classesTaskName)
+            onlyIf { !getAnimalsnifferSignatures().empty }
             conventionMapping.with {
                 classpath = {
                     extension.cache.enabled ?

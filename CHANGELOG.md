@@ -1,6 +1,8 @@
 * Support animalsniffer messages for field violations (#25)
 * Always put line number in file report, even if it wasn't declared (consistency with console reporting)
 * Fix gradle deprecation warning (#67)
+* Skip check task when no signatures configured (to differentiate with success execution 
+  and easily spot configuration problems)
 
 ### 1.6.0 (2022-08-20)
 * Update animalsniffer 1.20 -> 1.22 (java 9 support)

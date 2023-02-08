@@ -128,7 +128,8 @@ class CacheCasesKitTest extends AbstractKitTest {
         BuildResult result = run('check')
 
         then: "task successful"
-        result.task(':check').outcome == TaskOutcome.SUCCESS
+        result.task(':check').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':animalsnifferMain').outcome == TaskOutcome.SKIPPED
 
         then: "animalsniffer skipepd"
         !result.output.contains("AnimalSniffer violations were found")
