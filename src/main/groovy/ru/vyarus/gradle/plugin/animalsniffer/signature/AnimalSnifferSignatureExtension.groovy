@@ -21,6 +21,10 @@ class AnimalSnifferSignatureExtension {
     Set<String> include = []
     Set<String> exclude = []
     String outputName
+    /**
+     * Enable plugin configuration debug output.
+     */
+    boolean debug = false
 
     /**
      * Files to use for signature generation. Includes classes (compiled) or jars.

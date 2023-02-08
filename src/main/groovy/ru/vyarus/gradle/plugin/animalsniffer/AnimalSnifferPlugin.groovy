@@ -165,11 +165,14 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 files = { excludeJars(getClasspathWithoutModules(sourceSet)) }
                 exclude = { extension.cache.exclude as Set }
                 mergeSignatures = { extension.cache.mergeSignatures }
+                // debug for cache tasks controlled by check debug
+                debug = { extension.debug }
             }
         }
         checkTask.configure {
             dependsOn(sourceSet.classesTaskName)
-            onlyIf { !getAnimalsnifferSignatures().empty }
+            // skip if no signatures configured or no sources to check
+            onlyIf { !getAnimalsnifferSignatures().empty && getSource().size() > 0 }
             conventionMapping.with {
                 classpath = {
                     extension.cache.enabled ?
@@ -183,6 +186,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 ignoreFailures = { extension.ignoreFailures }
                 annotation = { extension.annotation }
                 ignoreClasses = { extension.ignore }
+                debug = { extension.debug }
             }
         }
 
@@ -214,6 +218,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     task.outputName = buildExtension.outputName ?: project.name
                     // for project signature use hardcoded 'signature' folder instead of task name
                     task.outputDirectory = new File(project.buildDir, '/animalsniffer/signature/')
+                    task.conventionMapping.debug = { buildExtension.debug }
                 }
             }
 

@@ -31,10 +31,12 @@ import java.lang.reflect.Proxy
  * @author Vyacheslav Rusakov
  * @since 14.12.2015
  */
-@SuppressWarnings('UnnecessaryGetter')
+@SuppressWarnings(['UnnecessaryGetter', 'Println'])
 @CompileStatic
 @CacheableTask
 class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
+
+    private static final String NL = '\n'
 
     /**
      * The class path containing the Animal Sniffer library to be used.
@@ -90,6 +92,12 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
      */
     @Console
     boolean ignoreFailures
+
+    /**
+     * Configuration debug output
+     */
+    @Console
+    boolean debug
 
     private final AnimalSnifferReportsImpl reports
 
@@ -149,11 +157,14 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @SuppressWarnings('CatchException')
     @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
+        String sortedPath = preparePath(getSource())
+        if (getDebug()) {
+            printTaskConfig(sortedPath)
+        }
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(getSourcesDirs())
             replaceBuildListener(project, collector)
-            String sortedPath = preparePath(getSource())
             getAnimalsnifferSignatures().each { signature ->
                 try {
                     collector.contextSignature(signature.name)
@@ -221,7 +232,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             Report report = reports.firstEnabled
             if (report) {
                 File target = GradleVersion.current() < GradleVersion.version('7.0')
-                    ? report.destination : report.outputLocation.get().asFile
+                        ? report.destination : report.outputLocation.get().asFile
                 collector.writeToFile(target)
 
                 String reportUrl = "file:///${target.canonicalPath.replaceAll('\\\\', '/')}"
@@ -237,6 +248,28 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 throw new GradleException(message)
             }
         }
+    }
+
+    void printTaskConfig(String path) {
+        String rootDir = "${project.rootDir.absolutePath}/"
+        StringBuilder res = new StringBuilder()
+                .append('\n\tsignatures:\n')
+                .append(getAnimalsnifferSignatures().files.collect { "\t\t$it.name" }.join(NL))
+                .append(NL)
+                .append('\n\tsources:\n')
+                .append(getSourcesDirs().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
+                .append(NL)
+                .append('\n\tfiles:\n')
+                .append(path.split(File.pathSeparator).collect { "\t\t${it.replace(rootDir, '')}" }.join(NL))
+                .append(NL)
+
+        if (!getIgnoreClasses().empty) {
+            res.append('\n\tignored:\n')
+                    .append(getIgnoreClasses().collect { "\t\t$it" }.join(NL))
+                    .append(NL)
+        }
+
+        println res.toString()
     }
 
     @SuppressWarnings(['Indentation', 'UnnecessaryCollectCall', 'UnnecessarySubstring'])

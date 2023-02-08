@@ -36,7 +36,7 @@ import javax.inject.Inject
  */
 @CompileStatic
 @CacheableTask
-@SuppressWarnings('ConfusingMethodName')
+@SuppressWarnings(['ConfusingMethodName', 'Println'])
 class BuildSignatureTask extends ConventionTask {
 
     /**
@@ -46,6 +46,7 @@ class BuildSignatureTask extends ConventionTask {
      */
     public static final String SIGNATURE_DELIMITER = '_!'
     private static final String DOT = '.'
+    private static final String NL = '\n'
 
     /**
      * The class path containing the Animal Sniffer library to be used.
@@ -122,6 +123,12 @@ class BuildSignatureTask extends ConventionTask {
      */
     @Input
     boolean mergeSignatures = true
+
+    /**
+     * Configuration debug output
+     */
+    @Console
+    boolean debug
 
     @SuppressWarnings('UnnecessaryGetter')
     BuildSignatureTask() {
@@ -263,7 +270,12 @@ class BuildSignatureTask extends ConventionTask {
                 && (getSignatures().size() == 1 || !getMergeSignatures())
                 && getExclude().empty && getInclude().empty) {
             getSignatures().each {
-                GFileUtils.copyFile(it, getMergeSignatures() ? targetFile : getPerSignatureTargetFile(it))
+                File target = getMergeSignatures() ? targetFile : getPerSignatureTargetFile(it)
+                if (getDebug()) {
+                    println 'No signature build required, simply copying signature:\n' +
+                            "\t$it.name -> ${project.relativePath(target)}"
+                }
+                GFileUtils.copyFile(it, target)
             }
             return true
         }
@@ -334,11 +346,15 @@ class BuildSignatureTask extends ConventionTask {
 
     @CompileStatic(TypeCheckingMode.SKIP)
     private void runSignatureBuild(Collection<File> signatures, File dest) {
+        String filesPath = getFiles() && !getFiles().empty ? getFiles().asPath : null
+        if (getDebug()) {
+            printTaskConfig(signatures, dest, filesPath)
+        }
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
             ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
             ant.buildSignature(destfile: dest.absolutePath) {
-                if (getFiles() && !getFiles().empty) {
-                    path(path: getFiles().asPath)
+                if (filesPath) {
+                    path(path: filesPath)
                 }
                 signatures.each {
                     signature(src: it.absolutePath)
@@ -351,5 +367,30 @@ class BuildSignatureTask extends ConventionTask {
                 }
             }
         }
+    }
+
+    private void printTaskConfig(Collection<File> signatures, File dest, String path) {
+        StringBuilder res = new StringBuilder("$dest.name\n")
+        String rootDir = "${project.rootDir.absolutePath}/"
+        if (!signatures.empty) {
+            res.append('\n\tsignatures:\n')
+                    .append(signatures.sort().collect { "\t\t$it.name" }.join(NL)).append(NL)
+        }
+        if (!getFiles().empty) {
+            res.append('\n\tfiles:\n')
+                    .append(path.split(File.pathSeparator)
+                            .collect { "\t\t${it.replace(rootDir, '')}" }
+                            .join(NL))
+                    .append(NL)
+        }
+        if (!getInclude().empty) {
+            res.append('\n\tinclude:\n')
+                    .append(getInclude().collect { "\t\t$it" }.join(NL)).append(NL)
+        }
+        if (!getExclude().empty) {
+            res.append('\n\texclude:\n')
+                    .append(getExclude().collect { "\t\t$it" }.join(NL)).append(NL)
+        }
+        println "$res\n"
     }
 }

@@ -208,7 +208,7 @@ class FailKitTest extends AbstractKitTest {
         BuildResult result = run('check')
 
         then: "task successful"
-        result.task(':check').outcome == TaskOutcome.SUCCESS
+        result.task(':check').outcome == TaskOutcome.UP_TO_DATE
 
         then: "found no violations"
         !result.output.contains("AnimalSniffer violations were found")

@@ -23,6 +23,11 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     }
 
     /**
+     * Enable plugin configuration debug output.
+     */
+    boolean debug = false
+
+    /**
      * Signatures to use for the check. By default {@code configurations.signature}.
      * Assumed to be used for specific cases when signature for check is built inside project
      * or come from not standard source.
