@@ -38,7 +38,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
@@ -78,7 +78,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 \t\tandroid-api-level-14-4.0_r4.signature
@@ -121,7 +121,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
@@ -166,20 +166,20 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        result.output.contains """animalsnifferCacheMain.sig
+        clean(result.output).contains """animalsnifferCacheMain.sig
 
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
 \tfiles:"""
-        result.output.contains """caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
+        clean(result.output).contains """caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
 
 \texclude:
 \t\tsun.*
 \t\torg.gradle.internal.impldep.*
 """
 
-        result.output.contains """
+        clean(result.output).contains """
 \tsignatures:
 \t\tanimalsnifferCacheMain.sig
 
@@ -189,5 +189,9 @@ class DebugCheckKitTest extends AbstractKitTest {
 \tfiles:
 \t\tbuild/classes/java/main/invalid/Sample.class
 """
+    }
+
+    private clean(String out) {
+        return out.replace('\r', '').replace(File.separator, '/')
     }
 }

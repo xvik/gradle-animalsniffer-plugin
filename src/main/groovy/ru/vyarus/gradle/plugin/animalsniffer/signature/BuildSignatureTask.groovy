@@ -371,7 +371,7 @@ class BuildSignatureTask extends ConventionTask {
 
     private void printTaskConfig(Collection<File> signatures, File dest, String path) {
         StringBuilder res = new StringBuilder("$dest.name\n")
-        String rootDir = "${project.rootDir.absolutePath}/"
+        String rootDir = "${project.rootDir.canonicalPath}${File.separator}"
         if (!signatures.empty) {
             res.append('\n\tsignatures:\n')
                     .append(signatures.sort().collect { "\t\t$it.name" }.join(NL)).append(NL)

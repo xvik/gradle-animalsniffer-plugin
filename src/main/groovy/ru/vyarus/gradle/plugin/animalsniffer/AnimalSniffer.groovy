@@ -251,7 +251,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     void printTaskConfig(String path) {
-        String rootDir = "${project.rootDir.absolutePath}/"
+        String rootDir = "${project.rootDir.canonicalPath}${File.separator}"
         StringBuilder res = new StringBuilder()
                 .append('\n\tsignatures:\n')
                 .append(getAnimalsnifferSignatures().files.collect { "\t\t$it.name" }.join(NL))

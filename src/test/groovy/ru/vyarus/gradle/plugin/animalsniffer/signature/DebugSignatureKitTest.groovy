@@ -38,7 +38,7 @@ class DebugSignatureKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tfiles:
 \t\tbuild/classes/java/main
 \t\tbuild/resources/main
@@ -73,10 +73,10 @@ class DebugSignatureKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains "files:\n\t\t"
-        result.output.contains "caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"
-        result.output.contains "caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.14/775b7e22fb10026eed3f86e8dc556dfafe35f2d5/animal-sniffer-annotations-1.14.jar"
-        result.output.contains "caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
+        clean(result.output).contains "files:\n\t\t"
+        clean(result.output).contains "caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"
+        clean(result.output).contains "caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.14/775b7e22fb10026eed3f86e8dc556dfafe35f2d5/animal-sniffer-annotations-1.14.jar"
+        clean(result.output).contains "caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
     }
 
 
@@ -109,7 +109,7 @@ class DebugSignatureKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
@@ -150,7 +150,7 @@ class DebugSignatureKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains """
+        clean(result.output).contains """
 \tfiles:
 \t\tbuild/classes/java/main
 \t\tbuild/resources/main
@@ -192,10 +192,14 @@ class DebugSignatureKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':sig').outcome == TaskOutcome.SUCCESS
-        result.output.contains """No signature build required, simply copying signature:
+        clean(result.output).contains """No signature build required, simply copying signature:
 \tjava16-sun-1.0.signature -> build/animalsniffer/sig/sig_!java16-sun-1.0.sig
 No signature build required, simply copying signature:
 \tandroid-api-level-24-7.0_r2.signature -> build/animalsniffer/sig/sig_!android-api-level-24-7.0_r2.sig
 """
+    }
+
+    private clean(String out) {
+        return out.replace('\r', '').replace(File.separator, '/')
     }
 }
