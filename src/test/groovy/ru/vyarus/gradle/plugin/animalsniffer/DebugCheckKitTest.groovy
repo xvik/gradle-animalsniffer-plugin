@@ -171,8 +171,8 @@ class DebugCheckKitTest extends AbstractKitTest {
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
-\tfiles:
-\t\t/tmp/.gradle-test-kit-xvik/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
+\tfiles:"""
+        result.output.contains """caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
 
 \texclude:
 \t\tsun.*
