@@ -14,7 +14,6 @@ import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.ClosureBackedAction
-import org.gradle.util.GUtil
 import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
@@ -258,6 +257,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     return a <=> b
                 }
         // lambda case (Some$$Lambda$1). Ant removes every odd $ in a row
-        return GUtil.asPath(sortedPath).replace('$$', '$$$')
+        return sortedPath.join(File.pathSeparator).replace('$$', '$$$')
     }
 }
