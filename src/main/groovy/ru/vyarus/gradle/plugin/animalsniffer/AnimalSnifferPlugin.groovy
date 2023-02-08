@@ -145,7 +145,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
-    @SuppressWarnings(['Indentation', 'MethodSize'])
+    @SuppressWarnings(['Indentation', 'MethodSize', 'UnnecessaryGetter'])
     @CompileStatic(TypeCheckingMode.SKIP)
     private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask, SourceSet sourceSet) {
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
