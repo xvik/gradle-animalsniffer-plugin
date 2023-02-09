@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'ru.vyarus.animalsniffer' version '1.6.0'
+    id 'ru.vyarus.animalsniffer' version '1.7.0'
 }
 
 animalsniffer {
