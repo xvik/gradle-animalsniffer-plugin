@@ -1,3 +1,4 @@
+### 1.7.0 (2023-02-09)
 * Support animalsniffer messages for field violations (#25)
 * Always put line number in file report, even if it wasn't declared (consistency with console reporting)
 * Fix gradle deprecation warning (#67)
