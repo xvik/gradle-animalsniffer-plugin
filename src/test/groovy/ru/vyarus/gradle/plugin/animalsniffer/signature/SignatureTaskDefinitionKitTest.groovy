@@ -19,7 +19,7 @@ class SignatureTaskDefinitionKitTest extends AbstractKitTest {
                 id 'ru.vyarus.animalsniffer'
             }
 
-            task sig(type: ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask) {
+            task sig(type: BuildSignatureTask) {
                 files sourceSets.main.output
                 files configurations.compileClasspath
             }

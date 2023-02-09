@@ -4,6 +4,7 @@
 * Fix gradle deprecation warning (#67)
 * Skip check task when no signatures configured or no files to check (to differentiate with success execution 
   and easily spot configuration problems)
+* Add custom task shortcuts: allow custom build signature and signature info tasks declaration without task package
 * Add debug output for check and build tasks (to simplify configuration debugging)
   - animalsniffer.debug = true for check tasks
   - animalsnifferSignatire.debug = true for signature build task

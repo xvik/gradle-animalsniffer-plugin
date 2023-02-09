@@ -23,7 +23,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
             }
             
-            task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
+            task printSignature(type: SignatureInfoTask) {
                 signature = configurations.signature
                 depth = 2
             } 

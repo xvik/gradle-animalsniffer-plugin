@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
+import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
@@ -18,6 +19,7 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetOutput
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
+import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
 import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
@@ -60,6 +62,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             project.plugins.apply(ReportingBasePlugin)
 
             checkGradleCompatibility()
+            registerShortcuts()
             registerConfigurations()
             registerExtensions()
             registerCheckTasks()
@@ -74,6 +77,13 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             throw new GradleException('Animalsniffer plugin requires gradle 5.0 or above, ' +
                     "but your gradle version is: $version.version. Use plugin version 1.4.6.")
         }
+    }
+
+    private void registerShortcuts() {
+        ExtraPropertiesExtension props = project.extensions.extraProperties
+        // to allow custom tasks declaration without package
+        props.set(BuildSignatureTask.simpleName, BuildSignatureTask)
+        props.set(SignatureInfoTask.simpleName, SignatureInfoTask)
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
