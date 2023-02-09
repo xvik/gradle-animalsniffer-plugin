@@ -7,7 +7,7 @@
 * Add custom task shortcuts: allow custom build signature and signature info tasks declaration without task package
 * Add debug output for check and build tasks (to simplify configuration debugging)
   - animalsniffer.debug = true for check tasks
-  - animalsnifferSignatire.debug = true for signature build task
+  - animalsnifferSignature.debug = true for signature build task
 
 ### 1.6.0 (2022-08-20)
 * Update animalsniffer 1.20 -> 1.22 (java 9 support)
