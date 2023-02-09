@@ -1,0 +1,12 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+    }
+}
+
+include 'java', 'groovy', 'kotlin', 'scala',
+        'buildSignature:fromClasses',
+        'buildSignature:fromJars',
+        'buildSignature:fromSignatures',
+        'buildSignature:fromMix'

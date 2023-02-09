@@ -24,6 +24,10 @@ Advanced features:
 * [Merging check signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) (when small 3rd party lib signatures are used)
 * [Viewing signature content task](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/View-signature-content)
 
+Used by:
+* [Mockito](https://github.com/mockito/mockito/blob/main/build.gradle#L101) for java and android compatibility checks
+* [Okhttp](https://github.com/square/okhttp/blob/master/build.gradle.kts#L126) for java and android compatibility checks (using kotlin multiplatform)
+
 #### Applicability
 
 If you're using JDK 9 or above then you can use the [--release](https://docs.oracle.com/en/java/javase/11/tools/javac.html#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9)
@@ -81,6 +85,14 @@ plugins {
     id 'ru.vyarus.animalsniffer' version '1.7.0'
 }
 ```
+
+Example projects (with intentional errors to see output):
+
+* [Java](examples/java) (including android signatures)
+* [Groovy](examples/groovy)
+* [Kotlin](examples/kotlin)
+* [Scala](examples/scala) 
+* [Signature build examples](examples/buildSignature)
 
 #### Compatibility
 

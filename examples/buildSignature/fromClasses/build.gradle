@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'ru.vyarus.animalsniffer' version '1.6.0'
+}
+
+animalsnifferSignature {
+//    debug = true
+    // signature from project classes
+    files sourceSets.main.output
+    // by default project name
+    outputName 'mySignature'
+}
+
+repositories { mavenCentral()}
+dependencies {
+    implementation "org.codehaus.mojo:animal-sniffer-annotations:1.14"
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+}
+
+tasks.register('printSignature', ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
+    signature = tasks.animalsnifferSignature.outputFiles
+    depth = 2
+}
+
+tasks.build.dependsOn 'printSignature'

@@ -1,0 +1,18 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'ru.vyarus.animalsniffer' version '1.6.0'
+}
+
+animalsniffer {
+//    debug = true
+    // only show errors
+    ignoreFailures = true
+}
+
+repositories { mavenCentral()}
+dependencies {
+    signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+}
