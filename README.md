@@ -68,7 +68,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.6.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.0'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -78,7 +78,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.6.0'
+    id 'ru.vyarus.animalsniffer' version '1.7.0'
 }
 ```
 
@@ -92,7 +92,7 @@ The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-7     | 1.6.0
+5-7     | 1.7.0
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
@@ -102,6 +102,8 @@ Additional tasks will be assigned to the `check` task. So animalsniffer checks w
 ```bash
 $ gradlew check
 ```
+
+NOTE: in case of configuration problems use `animalsniffer.debug` option to see actual task configuration 
 
 #### Signatures
 
@@ -299,17 +301,18 @@ animalsniffer {
 
 There are no required configurations - the plugin will generate defaults for all of them.
 
-| Property | Description | Default value                                   |
-|----------|-------------|-------------------------------------------------|
-| toolVersion | AnimalSniffer version | 1.22                                            |
-| sourceSets | Source sets to check | all source sets                                 |
-| ignoreFailures | False to stop build when violations found, true to continue | false                                           |
-| reportsDir | Reports directory | file("$project.buildDir/reports/animalsniffer") |
-| annotation | Annotation class to avoid check under annotated block |                                                 |
-| ignore    | Ignore usage of classes, not mentioned in signature |                                                 |
-| signatures    | Signatures to use for check | `configurations.signature`                      |
+| Property       | Description                                                                                                                                                       | Default value                                   |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
+| toolVersion    | AnimalSniffer version                                                                                                                                             | 1.22                                            |
+| sourceSets     | Source sets to check                                                                                                                                              | all source sets                                 |
+| ignoreFailures | False to stop build when violations found, true to continue                                                                                                       | false                                           |
+| debug          | Log animalsniffer configuration (useful in case of configuration problems)                                                                                        | false                                           |
+| reportsDir     | Reports directory                                                                                                                                                 | file("$project.buildDir/reports/animalsniffer") |
+| annotation     | Annotation class to avoid check under annotated block                                                                                                             |                                                 |
+| ignore         | Ignore usage of classes, not mentioned in signature                                                                                                               |                                                 |
+| signatures     | Signatures to use for check                                                                                                                                       | `configurations.signature`                      |
 | excludeJars    | Patterns to exclude jar names from classpath. Required for [library signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Library-signatures) usage |                                                 |
-| cache    | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance) | By default, cache disabled                      |
+| cache          | [Cache configuration](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Check-task-performance)                                                            | By default, cache disabled                      |
 
 **NOTE**: `ignore` does not exclude your classes from check, it allows you to use classes not mentioned in the signature.
 See more details above.
