@@ -104,7 +104,7 @@ The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-7     | 1.7.0
+5-8     | 1.7.0
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
