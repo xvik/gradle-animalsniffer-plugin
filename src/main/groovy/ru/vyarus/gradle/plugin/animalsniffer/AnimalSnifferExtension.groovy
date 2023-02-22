@@ -80,7 +80,7 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     /**
      * @param cache cache configuration closure
      */
-    void setCache(@DelegatesTo(value = CheckCacheExtension, strategy = Closure.DELEGATE_FIRST) Closure cache) {
+    void setCache(@DelegatesTo(value = CheckCacheExtension, strategy = Closure.OWNER_FIRST) Closure cache) {
         project.configure(this.cache, cache)
     }
 
