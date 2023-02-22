@@ -73,14 +73,9 @@ gradlePlugin {
             displayName = project.description
             implementationClass = 'ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin'
             description = 'Gradle AnimalSniffer plugin for Java, Groovy, Kotlin and Scala projects'
-            //tags = ['animalsniffer'] // Only after Gradle 7.5
+            tags.add('animalsniffer')
         }
     }
-}
-
-pluginBundle {
-    // TODO move to gradlePlugin.plugins.animalsnifferPlugin.tags after using Gradle 7.5+
-    pluginTags = ['ru.vyarus.animalsniffer': ['animalsniffer']]
 }
 
 release.git.requireBranch.set('master')
