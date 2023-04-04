@@ -1,3 +1,8 @@
+* Update animalsniffer 1.22 -> 1.23
+
+NOTE: animalsniffer 1.23 reports problems on fields without line number (but with field name),
+Plugin output would contain line 1 (default for not defined line)
+
 ### 1.7.0 (2023-02-09)
 * Support animalsniffer messages for field violations (#25)
 * Always put line number in file report, even if it wasn't declared (consistency with console reporting)
