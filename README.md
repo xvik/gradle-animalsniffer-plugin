@@ -72,7 +72,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.1'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -82,7 +82,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.7.0'
+    id 'ru.vyarus.animalsniffer' version '1.7.1'
 }
 ```
 
@@ -96,15 +96,23 @@ Example projects (with intentional errors to see output):
 
 #### Compatibility
 
-**IMPORTANT**: Plugin only works when `java`-related plugin (`java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`) is enabled, 
+**IMPORTANT**: Plugin only works when `java-base` plugin (activated by any java-related plugin like `java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`, etc.) is enabled, 
 otherwise nothing will be registered.
-There is **no support for the Android plugin** (`java` plugin must be used to perform animalsniffer check).
+There is **no support for the Android plugin** (`java-base` plugin must be used to perform animalsniffer check).
+
+For *kotlin multiplatform* plugin enable java support:
+
+```groovy
+kotlin {
+    jvm().withJava()
+}
+```
 
 The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-8     | 1.7.0
+5-8     | 1.7.1
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
@@ -302,7 +310,7 @@ Configuration example:
 
 ```groovy
 animalsniffer {
-    toolVersion = '1.20'
+    toolVersion = '1.23'
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/animalsnifferReports")
@@ -315,7 +323,7 @@ There are no required configurations - the plugin will generate defaults for all
 
 | Property       | Description                                                                                                                                                       | Default value                                   |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| toolVersion    | AnimalSniffer version                                                                                                                                             | 1.22                                            |
+| toolVersion    | AnimalSniffer version                                                                                                                                             | 1.23                                            |
 | sourceSets     | Source sets to check                                                                                                                                              | all source sets                                 |
 | ignoreFailures | False to stop build when violations found, true to continue                                                                                                       | false                                           |
 | debug          | Log animalsniffer configuration (useful in case of configuration problems)                                                                                        | false                                           |
