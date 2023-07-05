@@ -87,8 +87,7 @@ class UpstreamKitTest extends AbstractKitTest {
         then: "task successful"
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
         // testKit is incompatible with configuration cache, but I can check number of errors!
-        result.output.contains('1 problem was found storing the configuration cache.\n' +
-                '- Gradle runtime: support for using a Java agent with TestKit builds is not yet implemented with the configuration cache.')
+        result.output.contains('2 problems were found storing the configuration cache.')
 
     }
 }

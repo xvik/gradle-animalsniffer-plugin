@@ -11,7 +11,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.ExtraPropertiesExtension
-import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
@@ -57,7 +57,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         // activated only when java plugin is enabled
-        project.plugins.withType(JavaPlugin) {
+        project.plugins.withType(JavaBasePlugin) {
             this.project = project
             project.plugins.apply(ReportingBasePlugin)
 

@@ -1,4 +1,6 @@
 * Update animalsniffer 1.22 -> 1.23
+* Plugin requires now JavaBasePlugin instead of JavaPlugin.
+  Required for kotlin multiplatform 1.9.20 activating only base plugin with jvm().withJava() (#84)
 
 NOTE: animalsniffer 1.23 reports problems on fields without line number (but with field name),
 Plugin output would contain line 1 (default for not defined line)

@@ -154,16 +154,17 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     @TaskAction
-    @SuppressWarnings('CatchException')
+    @SuppressWarnings(['CatchException', 'VariableName'])
     @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
         String sortedPath = preparePath(getSource())
         if (getDebug()) {
             printTaskConfig(sortedPath)
         }
+        Set<File> _sourceDirs = collectSourceDirs()
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
-            ReportCollector collector = new ReportCollector(getSourcesDirs())
+            ReportCollector collector = new ReportCollector(_sourceDirs)
             replaceBuildListener(project, collector)
             getAnimalsnifferSignatures().each { signature ->
                 try {
@@ -173,7 +174,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                         // enclosing class could be parsed after inlined and so ignoring annotation on enclosing class
                         // would be ignored (actually, this problem appears only on windows)
                         path(path: sortedPath)
-                        getSourcesDirs().each {
+                        _sourceDirs.each {
                             sourcepath(path: it.absoluteFile)
                         }
                         annotation(className: 'org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
@@ -257,7 +258,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 .append(getAnimalsnifferSignatures().files.collect { "\t\t$it.name" }.join(NL))
                 .append(NL)
                 .append('\n\tsources:\n')
-                .append(getSourcesDirs().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
+                .append(collectSourceDirs().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
                 .append(NL)
                 .append('\n\tfiles:\n')
                 .append(path.split(File.pathSeparator).collect { "\t\t${it.replace(rootDir, '')}" }.join(NL))
@@ -291,5 +292,20 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 }
         // lambda case (Some$$Lambda$1). Ant removes every odd $ in a row
         return sortedPath.join(File.pathSeparator).replace('$$', '$$$')
+    }
+
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private Set<File> collectSourceDirs() {
+        Set<File> res = [] as Set
+        res.addAll(getSourcesDirs())
+        // HACK to support kotlin multiplatform source path for jvm case (when withJava() active)
+        // this MUST BE rewritten into separate support for multiplatform
+        if (project.plugins.findPlugin('org.jetbrains.kotlin.multiplatform')) {
+            project.kotlin.sourceSets.each {
+                println it.kotlin.sourceDirectories.files
+                res.addAll(it.kotlin.sourceDirectories.files)
+            }
+        }
+        return res
     }
 }
