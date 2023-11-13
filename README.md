@@ -30,22 +30,25 @@ Used by:
 
 #### Applicability
 
-If you're using JDK 9 or above then you can use the [--release](https://docs.oracle.com/en/java/javase/11/tools/javac.html#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9)
-flag instead of the plugin:
+NOTE: JDK 9+ signatires are [not published](https://github.com/mojohaus/animal-sniffer/issues/62):
+
+```
+Starting with JDK9+ you can't define a full API signature cause based on the module system you can define your own (limited view on JDK). Apart from that you can use the release configuration in maven-compiler-plugin with JDK9+ to have exactly what animal sniffer offers and that's the reason why there are no JDK9+ signatures.
+```
+
+To check JDK 9+ compatibility use [--release flag](https://docs.gradle.org/current/userguide/building_java_projects.html#sec:compiling_with_release) instead of plugin
+(or build signatures [manually with maven plugin](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/examples/generating-java-signatures.html)):
 
 ```groovy
 compileJava {
-  options.compilerArgs.addAll(['--release', '7'])
+  options.release = 11
 }
-```    
+```
 
-Direct `release` option support [available in gradle 6.6](https://docs.gradle.org/6.6/release-notes.html#javacompile-release)
-([feature discussion](https://github.com/gradle/gradle/issues/2510)).
-
-The plugin could still be useful:
+**Plugin could still be useful**:
 
 * For Android projects to check API compatibility (because Android API signatures are published).
-* To check strong compatibility with some library: you'll need to generate signatures for this library and
+* To check strong compatibility with some library: you'll need to [generate signatures](https://github.com/xvik/gradle-animalsniffer-plugin/wiki/Buid-project-signature) for this library and
 will be able to use them to check project compatibility (on API level, ofc) with older library versions.
   
 ##### Summary
