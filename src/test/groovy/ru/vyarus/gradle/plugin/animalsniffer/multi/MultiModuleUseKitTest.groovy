@@ -32,7 +32,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                 apply plugin: 'java'
                 apply plugin: 'ru.vyarus.animalsniffer'
                 
-                sourceCompatibility = 1.6
+                sourceCompatibility = 1.8
                 
                 animalsniffer {
                     ignoreFailures = true
