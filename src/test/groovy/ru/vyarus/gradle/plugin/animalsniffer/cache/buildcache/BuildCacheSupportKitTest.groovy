@@ -19,7 +19,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         // build cache will survive within test only!!
         file("settings.gradle") << """
             buildCache {
-                local(DirectoryBuildCache) {
+                local {
                     directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
@@ -86,7 +86,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
         // build cache will survive within test only!!
         file("settings.gradle") << """
             buildCache {
-                local(DirectoryBuildCache) {
+                local {
                     directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }

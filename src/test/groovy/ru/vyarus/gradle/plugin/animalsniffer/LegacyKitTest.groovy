@@ -8,7 +8,7 @@ import org.gradle.testkit.runner.TaskOutcome
  * @since 09.02.2023
  */
 class LegacyKitTest extends AbstractKitTest {
-    public static final String GRADLE_VERSION = '5.1'
+    public static final String GRADLE_VERSION = '7.0'
 
     def "Check violation detection without cache task"() {
         setup:

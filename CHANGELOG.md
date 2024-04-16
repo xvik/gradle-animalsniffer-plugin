@@ -1,3 +1,5 @@
+* (breaking) Drop gradle 5 and 6 support
+
 ### 1.7.1 (2023-07-05)
 * Update animalsniffer 1.22 -> 1.23
 * Plugin requires now JavaBasePlugin instead of JavaPlugin.

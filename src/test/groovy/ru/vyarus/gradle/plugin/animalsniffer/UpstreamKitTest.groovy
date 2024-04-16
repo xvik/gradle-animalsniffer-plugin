@@ -9,7 +9,7 @@ import org.gradle.testkit.runner.TaskOutcome
  */
 class UpstreamKitTest extends AbstractKitTest {
 
-    public static final String GRADLE_VERSION = '8.0'
+    public static final String GRADLE_VERSION = '8.7'
 
     def "Check violation detection without cache task"() {
         setup:

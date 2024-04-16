@@ -226,6 +226,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         return super.getSource()
     }
 
+    @CompileStatic(TypeCheckingMode.SKIP)
     void processErrors(ReportCollector collector) {
         if (collector.errorsCnt() > 0) {
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +

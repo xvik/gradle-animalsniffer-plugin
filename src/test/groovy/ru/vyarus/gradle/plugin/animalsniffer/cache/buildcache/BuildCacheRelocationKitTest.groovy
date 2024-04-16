@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.cache.buildcache
 
+import groovy.ant.AntBuilder
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
@@ -25,7 +26,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
         // build cache will survive within test only!!
         file("settings.gradle") << """
             buildCache {
-                local(DirectoryBuildCache) {
+                local {
                     directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }
@@ -92,7 +93,7 @@ class BuildCacheRelocationKitTest extends AbstractKitTest {
         // build cache will survive within test only!!
         file("settings.gradle") << """
             buildCache {
-                local(DirectoryBuildCache) {
+                local {
                     directory = new File('${cacheDir.canonicalPath.replace('\\', '\\\\')}')
                 }
             }

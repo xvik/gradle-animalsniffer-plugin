@@ -1,29 +1,32 @@
 plugins {
-    id 'com.gradle.plugin-publish' version '0.21.0'
+    id 'com.gradle.plugin-publish' version '1.2.1'
     id 'java-gradle-plugin'
     id 'groovy'
     id 'jacoco'
     id 'signing'
     id 'net.researchgate.release' version '3.0.2'
-    id 'ru.vyarus.quality' version '4.9.0'
+    id 'ru.vyarus.quality' version '5.0.0'
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
-    id 'ru.vyarus.java-lib' version '2.4.0'
-    id 'ru.vyarus.github-info' version '1.5.0'
+    id 'ru.vyarus.java-lib' version '3.0.0'
+    id 'ru.vyarus.github-info' version '2.0.0'
     id 'com.github.ben-manes.versions' version '0.51.0'
     id "pl.droidsonroids.jacoco.testkit" version "1.0.12"
 }
 
-sourceCompatibility = 1.8
+java {
+    sourceCompatibility = 1.8
+}
 
 wrapper {
     gradleVersion = '8.6'
+    distributionType = Wrapper.DistributionType.BIN
 }
 
 repositories { mavenLocal(); mavenCentral(); gradlePluginPortal() }
 dependencies {
     implementation "org.codehaus.mojo:animal-sniffer:1.23"
 
-    testImplementation('org.spockframework:spock-core:2.1-groovy-2.5') {
+    testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }
 }
@@ -36,12 +39,12 @@ github {
     license 'MIT'
 }
 
-pom {
+maven.pom {
     developers {
         developer {
-            id 'xvik'
-            name 'Vyacheslav Rusakov'
-            email 'vyarus@gmail.com'
+            id = 'xvik'
+            name = 'Vyacheslav Rusakov'
+            email = 'vyarus@gmail.com'
         }
     }
 }
@@ -71,17 +74,10 @@ gradlePlugin {
         animalsnifferPlugin {
             id = 'ru.vyarus.animalsniffer'
             displayName = project.description
+            description = 'Gradle AnimalSniffer plugin for Java, Groovy, Kotlin and Scala projects'
+            tags.set(['animalsniffer'])
             implementationClass = 'ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin'
         }
-    }
-}
-pluginBundle {
-    description = 'Gradle AnimalSniffer plugin for Java, Groovy, Kotlin and Scala projects'
-    tags = ['animalsniffer']
-
-    mavenCoordinates {
-        groupId = project.group
-        artifactId = project.name
     }
 }
 

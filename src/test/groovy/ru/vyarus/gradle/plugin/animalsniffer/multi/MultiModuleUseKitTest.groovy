@@ -20,7 +20,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                     mavenCentral()
                 }
                 dependencies {
-                    classpath 'net.sf.proguard:proguard-gradle:5.3.1'
+                    classpath 'com.guardsquare:proguard-gradle:7.4.2'
                 }
             }
 
@@ -56,7 +56,7 @@ class MultiModuleUseKitTest extends AbstractKitTest {
                 }
 
                 task pg(type: proguard.gradle.ProGuardTask, dependsOn: build) {
-                    configuration rootProject.file('proguard.txt').absolutePath
+                    configuration rootProject.file('proguard.txt')
 
                     ignorewarnings
 
