@@ -2,11 +2,13 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import spock.lang.IgnoreIf
 
 /**
  * @author Vyacheslav Rusakov
  * @since 09.02.2023
  */
+@IgnoreIf({jvm.java17Compatible}) // only gradle 7.3 supports java 17
 class LegacyKitTest extends AbstractKitTest {
     public static final String GRADLE_VERSION = '7.0'
 
