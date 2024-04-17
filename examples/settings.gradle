@@ -5,6 +5,8 @@ pluginManagement {
     }
 }
 
+enableFeaturePreview "STABLE_CONFIGURATION_CACHE"
+
 include 'java', 'groovy', 'kotlin', 'scala',
         'buildSignature:fromClasses',
         'buildSignature:fromJars',
