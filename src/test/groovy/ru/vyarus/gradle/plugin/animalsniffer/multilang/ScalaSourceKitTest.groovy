@@ -29,7 +29,7 @@ class ScalaSourceKitTest extends AbstractKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                implementation 'org.scala-lang:scala-library:2.11.12'
+                implementation 'org.scala-lang:scala-library:2.13.13'
                 implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 

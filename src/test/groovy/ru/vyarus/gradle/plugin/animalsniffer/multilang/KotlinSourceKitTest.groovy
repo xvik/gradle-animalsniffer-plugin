@@ -14,7 +14,7 @@ class KotlinSourceKitTest extends AbstractKitTest {
         setup:
         build """
             plugins {
-                id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+                id 'org.jetbrains.kotlin.jvm' version '1.9.23'
                 id 'ru.vyarus.animalsniffer'
             }
 
