@@ -126,24 +126,17 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             SourceSetOutput sourceSetOut = sourceSet.output
             TaskProvider<AnimalSniffer> checkTask = project.tasks
                     .<AnimalSniffer> register(sourceSet.getTaskName(CHECK_SIGNATURE, null),
-                    AnimalSniffer) {
-                        description = "Run AnimalSniffer checks for ${ sourceSetName} classes"
+                            AnimalSniffer) {
+                        description = "Run AnimalSniffer checks for ${sourceSetName} classes"
                         // task operates on classes instead of sources
                         source = sourceSetOut
-                reports.all { report ->
-                    if (GradleVersion.current() >= GradleVersion.version('7.0')) {
-                        report.required.convention(true)
-                        report.outputLocation.convention(project.provider {
-                            { -> new File(extension.reportsDir, "${sourceSetName}.${report.name}") } as RegularFile
-                        })
-                    } else {
-                        report.conventionMapping.with {
-                            it.enabled = { true }
-                            it.destination = { new File(extension.reportsDir, "${sourceSetName}.${report.name}") }
+                        reports.all { report ->
+                            report.required.convention(true)
+                            report.outputLocation.convention(project.provider {
+                                { -> new File(extension.reportsDir, "${sourceSetName}.${report.name}") } as RegularFile
+                            })
                         }
                     }
-                }
-            }
             configureCheckTask(checkTask, sourceSet)
         }
 
@@ -164,21 +157,21 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // and perform much faster checks after the first run
         TaskProvider<BuildSignatureTask> signatureTask = project.tasks
                 .<BuildSignatureTask> register(sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null),
-                BuildSignatureTask) {
-            // this special task can be skipped if animalsniffer check supposed to be skipped
-            // note that task is still created because signatures could be registered dynamically
-            onlyIf { !extension.signatures.empty && extension.cache.enabled }
+                        BuildSignatureTask) {
+                    // this special task can be skipped if animalsniffer check supposed to be skipped
+                    // note that task is still created because signatures could be registered dynamically
+                    onlyIf { !extension.signatures.empty && extension.cache.enabled }
 
-            conventionMapping.with {
-                animalsnifferClasspath = { animalsnifferConfiguration }
-                signatures = { extension.signatures }
-                files = { excludeJars(getClasspathWithoutModules(sourceSet)) }
-                exclude = { extension.cache.exclude as Set }
-                mergeSignatures = { extension.cache.mergeSignatures }
-                // debug for cache tasks controlled by check debug
-                debug = { extension.debug }
-            }
-        }
+                    conventionMapping.with {
+                        animalsnifferClasspath = { animalsnifferConfiguration }
+                        signatures = { extension.signatures }
+                        files = { excludeJars(getClasspathWithoutModules(sourceSet)) }
+                        exclude = { extension.cache.exclude as Set }
+                        mergeSignatures = { extension.cache.mergeSignatures }
+                        // debug for cache tasks controlled by check debug
+                        debug = { extension.debug }
+                    }
+                }
         checkTask.configure {
             dependsOn(sourceSet.classesTaskName)
             // skip if no signatures configured or no sources to check
