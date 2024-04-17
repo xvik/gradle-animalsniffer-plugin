@@ -118,6 +118,42 @@ Gradle | Version
 5-8     | 1.7.1
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
+#### Snapshots
+
+<details>
+      <summary>Snapshots may be used through JitPack</summary>
+
+* Go to [JitPack project page](https://jitpack.io/#ru.vyarus/gradle-animalsniffer-plugin)
+* Select `Commits` section and click `Get it` on commit you want to use
+  or use `master-SNAPSHOT` to use the most recent snapshot
+
+* Add to `settings.gradle` (top most!) (exact commit hash might be used as version) :
+
+  ```groovy
+  pluginManagement {
+      resolutionStrategy {
+          eachPlugin {
+              if (requested.id.id == 'ru.vyarus.use-python') {
+                  useModule('ru.vyarus:gradle-animalsniffer-plugin:master-SNAPSHOT')
+              }
+          }
+      }
+      repositories {
+          gradlePluginPortal()      
+          maven { url 'https://jitpack.io' }              
+      }
+  }    
+  ``` 
+* Use plugin without declaring version:
+
+  ```groovy
+  plugins {
+      id 'ru.vyarus.animalsniffer'
+  }
+  ```  
+
+</details>
+
 ### Usage
 
 Additional tasks will be assigned to the `check` task. So animalsniffer checks will be executed during:
