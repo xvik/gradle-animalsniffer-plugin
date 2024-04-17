@@ -73,9 +73,9 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void checkGradleCompatibility() {
         // due to base internal api changes in gradle 5.0 plugin can't be launched on prior gradle versions
         GradleVersion version = GradleVersion.current()
-        if (version < GradleVersion.version('5.0')) {
-            throw new GradleException('Animalsniffer plugin requires gradle 5.0 or above, ' +
-                    "but your gradle version is: $version.version. Use plugin version 1.4.6.")
+        if (version < GradleVersion.version('7.0')) {
+            throw new GradleException('Animalsniffer plugin requires gradle 7.0 or above, ' +
+                    "but your gradle version is: $version.version. Use plugin version 1.7.1.")
         }
     }
 
