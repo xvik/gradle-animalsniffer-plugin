@@ -1,6 +1,6 @@
 plugins {
     id 'groovy'
-    id 'ru.vyarus.animalsniffer' version '1.7.0'
+    id 'ru.vyarus.animalsniffer' version '1.7.1'
 }
 
 // NOTE for groovy works ONLY with @CompileStatic
