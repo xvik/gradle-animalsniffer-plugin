@@ -1,7 +1,8 @@
-plugins {
-    // unify plugin version
-    id 'ru.vyarus.animalsniffer' version '1.7.1' apply false
-}
+// see settings.gradle for plugin version
+//plugins {
+//    // unify plugin version
+//    id 'ru.vyarus.animalsniffer' version '1.7.1' apply false
+//}
 
 wrapper {
     gradleVersion = '8.6'

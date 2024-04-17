@@ -1,7 +1,15 @@
 pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'ru.vyarus.animalsniffer') {
+                useModule('ru.vyarus:gradle-animalsniffer-plugin:master-SNAPSHOT')
+            }
+        }
+    }
     repositories {
         mavenLocal()
         gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
     }
 }
 
