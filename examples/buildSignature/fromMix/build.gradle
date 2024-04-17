@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'ru.vyarus.animalsniffer' version '1.7.1'
+    id 'ru.vyarus.animalsniffer'
 }
 
 // just an example of custom configuration usage, it might be defailt 'signature' configuration, but it would affect
