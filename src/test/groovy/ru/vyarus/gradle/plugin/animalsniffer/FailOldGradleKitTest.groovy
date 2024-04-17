@@ -10,7 +10,7 @@ import spock.lang.IgnoreIf
 @IgnoreIf({ jvm.isJava9Compatible()})
 class FailOldGradleKitTest extends AbstractKitTest {
 
-    def "Check build fail for gradle older 5.0"() {
+    def "Check build fail for gradle older 7.0"() {
 
         setup:
         build """
@@ -21,9 +21,9 @@ class FailOldGradleKitTest extends AbstractKitTest {
         """
 
         when: "run task"
-        BuildResult result = runFailedVer('4.0', 'clean')
+        BuildResult result = runFailedVer('6.0', 'clean')
 
         then: "task successful"
-        result.output.contains("Animalsniffer plugin requires gradle 5.0 or above")
+        result.output.contains("Animalsniffer plugin requires gradle 7.0 or above")
     }
 }
