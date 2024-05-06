@@ -9,7 +9,6 @@ import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
 import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.internal.project.IsolatedAntBuilder
-import org.gradle.api.internal.project.antbuilder.AntBuilderDelegate
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
