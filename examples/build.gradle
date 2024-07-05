@@ -7,3 +7,5 @@
 wrapper {
     gradleVersion = '8.6'
 }
+
+repositories { mavenLocal(); mavenCentral() }
