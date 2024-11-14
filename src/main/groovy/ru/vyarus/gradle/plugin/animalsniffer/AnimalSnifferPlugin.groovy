@@ -170,7 +170,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             void execute(LibraryVariant libraryVariant) {
                 String sourceSetName = libraryVariant.name
                 String capitalizedSourceSetName = sourceSetName.capitalize()
-                String classesCollectorTaskName = sourceSetName + "AnimalSnifferCollectClasses"
+                String classesCollectorTaskName = sourceSetName + "AnimalSnifferClassesCollector"
                 TaskProvider<AndroidClassesCollector> classesCollector = createAndroidClassesCollector(classesCollectorTaskName, libraryVariant)
                 TaskProvider<AnimalSniffer> checkTask = project.tasks
                         .<AnimalSniffer> register(CHECK_SIGNATURE + capitalizedSourceSetName,
