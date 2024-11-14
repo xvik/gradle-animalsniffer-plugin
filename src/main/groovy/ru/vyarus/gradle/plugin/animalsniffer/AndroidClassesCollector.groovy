@@ -27,7 +27,7 @@ abstract class AndroidClassesCollector extends DefaultTask {
 
     @TaskAction
     void execute() {
-        project.copy {
+        project.sync {
             from(classesDirs)
             into(outputDirectory)
         }
