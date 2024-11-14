@@ -66,7 +66,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
      */
     @InputFiles
     @PathSensitive(PathSensitivity.RELATIVE)
-    Set<File> sourcesDirs
+    FileCollection sourcesDirs
 
     /**
      * Annotation class name to avoid check
@@ -298,7 +298,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @CompileStatic(TypeCheckingMode.SKIP)
     private Set<File> collectSourceDirs() {
         Set<File> res = [] as Set
-        res.addAll(getSourcesDirs())
+        res.addAll(getSourcesDirs().getFiles())
         // HACK to support kotlin multiplatform source path for jvm case (when withJava() active)
         // this MUST BE rewritten into separate support for multiplatform
         if (project.plugins.findPlugin('org.jetbrains.kotlin.multiplatform')) {

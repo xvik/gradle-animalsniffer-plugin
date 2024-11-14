@@ -1,22 +1,26 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
-
+import com.android.build.api.artifact.ScopedArtifact
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.api.variant.LibraryVariant
+import com.android.build.api.variant.ScopedArtifacts
 import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 import groovy.transform.TypeCheckingMode
+import kotlin.jvm.functions.Function1
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.file.Directory
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.ReportingBasePlugin
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
@@ -143,7 +147,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                             })
                         }
                     }
-            configureCheckTask(checkTask, sourceSet.allJava.srcDirs, sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null), sourceSet.classesTaskName, sourceSet.compileClasspath)
+            configureCheckTask(checkTask,
+                    project.files(sourceSet.allJava.srcDirs),
+                    sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null),
+                    sourceSet.classesTaskName,
+                    sourceSet.compileClasspath)
         }
 
         // include required animalsniffer tasks in check lifecycle
@@ -154,19 +162,63 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
+    @CompileStatic(TypeCheckingMode.SKIP)
     void registerAndroidCheckTasks() {
         def androidComponents = project.extensions.getByType(LibraryAndroidComponentsExtension)
         androidComponents.onVariants(androidComponents.selector().all(), new Action<LibraryVariant>() {
             @Override
             void execute(LibraryVariant libraryVariant) {
+                String sourceSetName = libraryVariant.name
+                String capitalizedSourceSetName = sourceSetName.capitalize()
+                String classesCollectorTaskName = sourceSetName + "AnimalSnifferCollectClasses"
+                TaskProvider<AndroidClassesCollector> classesCollector = createAndroidClassesCollector(classesCollectorTaskName, libraryVariant)
+                TaskProvider<AnimalSniffer> checkTask = project.tasks
+                        .<AnimalSniffer> register(CHECK_SIGNATURE + capitalizedSourceSetName,
+                                AnimalSniffer) {
+                            description = "Run AnimalSniffer checks for ${sourceSetName} classes"
+                            // task operates on classes instead of sources
+                            source = classesCollector.flatMap { it.outputDirectory }
+                            reports.all { report ->
+                                report.required.convention(true)
+                                report.outputLocation.convention(project.provider {
+                                    { ->
+                                        new File(extension.reportsDir, "${sourceSetName}.${report.name}")
+                                    } as RegularFile
+                                })
+                            }
+                        }
+
+                configureCheckTask(checkTask,
+                        project.files(libraryVariant.sources.java.all, libraryVariant.sources.kotlin.all),
+                        ANIMALSNIFFER_CACHE + capitalizedSourceSetName,
+                        classesCollectorTaskName,
+                        libraryVariant.compileClasspath)
 
             }
+
         })
+    }
+
+    private TaskProvider<AndroidClassesCollector> createAndroidClassesCollector(String taskName, LibraryVariant libraryVariant) {
+        TaskProvider<AndroidClassesCollector> collectClasses = project.tasks.register(taskName, AndroidClassesCollector)
+        libraryVariant.artifacts.forScope(ScopedArtifacts.Scope.PROJECT).use(collectClasses)
+                .toGet(ScopedArtifact.CLASSES.INSTANCE, new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
+                    @Override
+                    ListProperty<RegularFile> invoke(AndroidClassesCollector task) {
+                        return task.jarFiles
+                    }
+                }, new Function1<AndroidClassesCollector, ListProperty<Directory>>() {
+                    @Override
+                    ListProperty<Directory> invoke(AndroidClassesCollector task) {
+                        return task.classesDirs
+                    }
+                })
+        return collectClasses
     }
 
     @SuppressWarnings(['Indentation', 'MethodSize', 'UnnecessaryGetter'])
     @CompileStatic(TypeCheckingMode.SKIP)
-    private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask, Set<File> srcDirs, String signatureTaskName, String classesTaskName, FileCollection compileClasspath) {
+    private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask, FileCollection srcDirs, String signatureTaskName, String classesTaskName, FileCollection compileClasspath) {
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
 
         // build special signature from provided signatures and all jars to be able to cache it
@@ -200,7 +252,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
                 }
                 animalsnifferClasspath = { animalsnifferConfiguration }
-                sourcesDirs = { srcDirs }
+                sourcesDirs = srcDirs
                 ignoreFailures = { extension.ignoreFailures }
                 annotation = { extension.annotation }
                 ignoreClasses = { extension.ignore }
