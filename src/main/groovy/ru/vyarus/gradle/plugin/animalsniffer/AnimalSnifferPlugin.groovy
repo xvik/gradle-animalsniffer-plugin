@@ -196,8 +196,10 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @CompileStatic(TypeCheckingMode.SKIP)
     private TaskProvider<AndroidClassesCollector> createAndroidClassesCollector(String taskName, Object variant) {
         TaskProvider<AndroidClassesCollector> collectClasses = project.tasks.register(taskName, AndroidClassesCollector)
-        variant.artifacts.forScope(com.android.build.api.variant.ScopedArtifacts.Scope.PROJECT).use(collectClasses)
-                .toGet(com.android.build.api.artifact.ScopedArtifact.CLASSES.INSTANCE, new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
+        def scopedArtifactsScopeType = Class.forName("com.android.build.api.variant.ScopedArtifacts\$Scope")
+        def scopedArtifactTypeClasses = Class.forName("com.android.build.api.artifact.ScopedArtifact\$CLASSES")
+        variant.artifacts.forScope(scopedArtifactsScopeType.PROJECT).use(collectClasses)
+                .toGet(scopedArtifactTypeClasses.INSTANCE, new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
                     @Override
                     ListProperty<RegularFile> invoke(AndroidClassesCollector task) {
                         return task.jarFiles
