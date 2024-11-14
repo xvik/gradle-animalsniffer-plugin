@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.util
 
 
 import org.gradle.api.DefaultTask

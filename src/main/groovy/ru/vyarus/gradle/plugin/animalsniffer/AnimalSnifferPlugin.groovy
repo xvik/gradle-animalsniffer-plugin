@@ -25,6 +25,7 @@ import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
+import ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
 import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
 
