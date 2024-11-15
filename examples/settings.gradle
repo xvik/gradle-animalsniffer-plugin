@@ -17,7 +17,7 @@ pluginManagement {
 enableFeaturePreview "STABLE_CONFIGURATION_CACHE"
 
 include 'java', 'groovy', 'kotlin', 'scala',
-        'android-lib',
+        'android-lib', 'android-app',
         'buildSignature:fromClasses',
         'buildSignature:fromJars',
         'buildSignature:fromSignatures',
