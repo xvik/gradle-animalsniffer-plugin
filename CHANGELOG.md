@@ -1,4 +1,5 @@
 * (breaking) Drop gradle 5 and 6 support
+* Update animalsniffer 1.23 -> 1.24
 
 ### 1.7.1 (2023-07-05)
 * Update animalsniffer 1.22 -> 1.23
