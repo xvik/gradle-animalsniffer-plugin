@@ -74,6 +74,9 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         project.plugins.withId("com.android.library") {
             registerAndroidCheckTasks()
         }
+        project.plugins.withId("com.android.application") {
+            registerAndroidCheckTasks()
+        }
     }
 
     private void checkGradleCompatibility() {
