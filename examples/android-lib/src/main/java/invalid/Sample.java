@@ -5,8 +5,8 @@ import java.io.File;
 public class Sample {
 
     public static void main(String[] args) {
-        // method added in 1.7
-        Boolean.compare(true, true);
+        // method added in 11
+        "".repeat(5);
     }
 
     public void someth() {
