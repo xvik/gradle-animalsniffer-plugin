@@ -9,6 +9,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
+        google()
         maven { url 'https://jitpack.io' }
     }
 }
@@ -16,6 +17,7 @@ pluginManagement {
 enableFeaturePreview "STABLE_CONFIGURATION_CACHE"
 
 include 'java', 'groovy', 'kotlin', 'scala',
+        'android-lib',
         'buildSignature:fromClasses',
         'buildSignature:fromJars',
         'buildSignature:fromSignatures',
