@@ -1,4 +1,4 @@
-# Java project with animalsniffer check
+# Android application project with animalsniffer check
 
 Output:
 
