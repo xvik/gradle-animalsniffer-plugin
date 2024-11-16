@@ -99,7 +99,12 @@ Example projects (with intentional errors to see output):
 
 #### Compatibility
 
-Support for the Android plugin requires Android plugin version `7.4.0` or greater.
+**IMPORTANT**: Plugin only works when `java-base` plugin (activated by any java-related plugin like `java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`, etc.) is enabled,
+otherwise nothing will be registered.
+Currently, there is **no support for the Android plugin** (`java-base` plugin must be used to perform animalsniffer check),
+but android support will be released with the next version.
+
+[//]: # (Support for the Android plugin requires Android plugin version `7.4.0` or greater.)
 
 For *kotlin multiplatform* plugin enable java support:
 
