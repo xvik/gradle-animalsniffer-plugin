@@ -28,7 +28,8 @@ abstract class AndroidClassesCollector extends DefaultTask {
     @OutputDirectory
     abstract DirectoryProperty getOutputDirectory()
 
-    protected AndroidClassesCollector() {
+    @SuppressWarnings('AbstractClassWithPublicConstructor')
+    AndroidClassesCollector() {
         outputDirectory.value(project.layout.buildDirectory.dir('intermediates/animal_sniffer/' + name))
     }
 

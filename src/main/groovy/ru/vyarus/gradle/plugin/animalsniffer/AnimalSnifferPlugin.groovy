@@ -58,7 +58,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private Project project
     private AnimalSnifferExtension extension
     private AnimalSnifferSignatureExtension buildExtension
-    private boolean init;
+    private boolean init
 
     @Override
     void apply(Project project) {
@@ -158,7 +158,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                         }
                     }
             configureCheckTask(checkTask,
-                    project.provider { project.files(sourceSet.allJava.srcDirs ) },
+                    project.provider { project.files(sourceSet.allJava.srcDirs) },
                     sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null),
                     sourceSet.classesTaskName,
                     sourceSet.compileClasspath)
@@ -209,10 +209,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @SuppressWarnings('ClassForName')
     private TaskProvider<AndroidClassesCollector> createAndroidClassesCollector(String taskName, Object variant) {
         TaskProvider<AndroidClassesCollector> collectClasses = project.tasks.register(taskName, AndroidClassesCollector)
-        Class scopedArtifactsScopeType = Class
-                .forName('com.android.build.api.variant.ScopedArtifacts.Scope')
-        Class scopedArtifactTypeClasses = Class
-                .forName('com.android.build.api.artifact.ScopedArtifact.CLASSES')
+        // use variant class loader because plugin classpath did not "see" android deps
+        Class scopedArtifactsScopeType = variant.class.classLoader
+                .loadClass('com.android.build.api.variant.ScopedArtifacts$Scope')
+        Class scopedArtifactTypeClasses = variant.class.classLoader
+                .loadClass('com.android.build.api.artifact.ScopedArtifact$CLASSES')
 
         variant.artifacts.forScope(scopedArtifactsScopeType.PROJECT).use(collectClasses)
                 .toGet(scopedArtifactTypeClasses.INSTANCE,
