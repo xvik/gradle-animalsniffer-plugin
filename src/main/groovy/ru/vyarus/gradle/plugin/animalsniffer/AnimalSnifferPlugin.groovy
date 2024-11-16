@@ -16,6 +16,7 @@ import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Provider
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
@@ -57,26 +58,36 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private Project project
     private AnimalSnifferExtension extension
     private AnimalSnifferSignatureExtension buildExtension
+    private boolean init;
 
     @Override
     void apply(Project project) {
         this.project = project
-        project.plugins.apply(ReportingBasePlugin)
-
-        checkGradleCompatibility()
-        registerShortcuts()
-        registerConfigurations()
-        registerExtensions()
-        registerBuildTasks()
         project.plugins.withType(JavaBasePlugin) {
+            initialize()
             registerJavaCheckTasks()
         }
-        project.plugins.withId("com.android.library") {
+        project.plugins.withId('com.android.library') {
+            initialize()
             registerAndroidCheckTasks()
         }
-        project.plugins.withId("com.android.application") {
+        project.plugins.withId('com.android.application') {
+            initialize()
             registerAndroidCheckTasks()
         }
+    }
+
+    private void initialize() {
+        if (!init) {
+            project.plugins.apply(ReportingBasePlugin)
+
+            checkGradleCompatibility()
+            registerShortcuts()
+            registerConfigurations()
+            registerExtensions()
+            registerBuildTasks()
+        }
+        init = true
     }
 
     private void checkGradleCompatibility() {
@@ -147,7 +158,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                         }
                     }
             configureCheckTask(checkTask,
-                    project.files(sourceSet.allJava.srcDirs),
+                    project.provider { project.files(sourceSet.allJava.srcDirs ) },
                     sourceSet.getTaskName(ANIMALSNIFFER_CACHE, null),
                     sourceSet.classesTaskName,
                     sourceSet.compileClasspath)
@@ -163,62 +174,70 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     @SuppressWarnings('GroovyAssignabilityCheck')
     @CompileStatic(TypeCheckingMode.SKIP)
-    void registerAndroidCheckTasks() {
-        def androidComponents = project.androidComponents
-        androidComponents.onVariants(androidComponents.selector().all(), { variant ->
+    private void registerAndroidCheckTasks() {
+        Object androidComponents = project.androidComponents
+        androidComponents.onVariants(androidComponents.selector().all()) { variant ->
             String sourceSetName = variant.name
             String capitalizedSourceSetName = sourceSetName.capitalize()
-            String classesCollectorTaskName = sourceSetName + "AnimalSnifferClassesCollector"
-            TaskProvider<AndroidClassesCollector> classesCollector = createAndroidClassesCollector(classesCollectorTaskName, variant)
-            TaskProvider<AnimalSniffer> checkTask = project.tasks
-                    .<AnimalSniffer> register(CHECK_SIGNATURE + capitalizedSourceSetName,
-                            AnimalSniffer) {
-                        description = "Run AnimalSniffer checks for ${sourceSetName} classes"
-                        // task operates on classes instead of sources
-                        source = classesCollector.flatMap { it.outputDirectory }
-                        reports.all { report ->
-                            report.required.convention(true)
-                            report.outputLocation.convention(project.provider {
-                                { ->
-                                    new File(extension.reportsDir, "${sourceSetName}.${report.name}")
-                                } as RegularFile
-                            })
-                        }
-                    }
+            String classesCollectorTaskName = sourceSetName + 'AnimalSnifferClassesCollector'
+            TaskProvider<AndroidClassesCollector> classesCollector =
+                    createAndroidClassesCollector(classesCollectorTaskName, variant)
+            TaskProvider<AnimalSniffer> checkTask = project.tasks.<AnimalSniffer> register(
+                    CHECK_SIGNATURE + capitalizedSourceSetName, AnimalSniffer) {
+                description = "Run AnimalSniffer checks for ${sourceSetName} classes"
+                // task operates on classes instead of sources
+                source = classesCollector.flatMap { it.outputDirectory }
+                reports.all { report ->
+                    report.required.convention(true)
+                    report.outputLocation.convention(project.provider {
+                        { ->
+                            new File(extension.reportsDir, "${sourceSetName}.${report.name}")
+                        } as RegularFile
+                    })
+                }
+            }
 
             configureCheckTask(checkTask,
-                    project.files(variant.sources.java.all, variant.sources.kotlin.all),
+                    project.provider { project.files(variant.sources.java.all, variant.sources.kotlin.all) },
                     ANIMALSNIFFER_CACHE + capitalizedSourceSetName,
                     classesCollectorTaskName,
                     variant.compileClasspath)
-
-        })
-
+        }
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
+    @SuppressWarnings('ClassForName')
     private TaskProvider<AndroidClassesCollector> createAndroidClassesCollector(String taskName, Object variant) {
         TaskProvider<AndroidClassesCollector> collectClasses = project.tasks.register(taskName, AndroidClassesCollector)
-        def scopedArtifactsScopeType = Class.forName("com.android.build.api.variant.ScopedArtifacts\$Scope")
-        def scopedArtifactTypeClasses = Class.forName("com.android.build.api.artifact.ScopedArtifact\$CLASSES")
+        Class scopedArtifactsScopeType = Class
+                .forName('com.android.build.api.variant.ScopedArtifacts.Scope')
+        Class scopedArtifactTypeClasses = Class
+                .forName('com.android.build.api.artifact.ScopedArtifact.CLASSES')
+
         variant.artifacts.forScope(scopedArtifactsScopeType.PROJECT).use(collectClasses)
-                .toGet(scopedArtifactTypeClasses.INSTANCE, new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
-                    @Override
-                    ListProperty<RegularFile> invoke(AndroidClassesCollector task) {
-                        return task.jarFiles
-                    }
-                }, new Function1<AndroidClassesCollector, ListProperty<Directory>>() {
-                    @Override
-                    ListProperty<Directory> invoke(AndroidClassesCollector task) {
-                        return task.classesDirs
-                    }
-                })
+                .toGet(scopedArtifactTypeClasses.INSTANCE,
+                        new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
+                            @Override
+                            ListProperty<RegularFile> invoke(AndroidClassesCollector task) {
+                                return task.jarFiles
+                            }
+                        },
+                        new Function1<AndroidClassesCollector, ListProperty<Directory>>() {
+                            @Override
+                            ListProperty<Directory> invoke(AndroidClassesCollector task) {
+                                return task.classesDirs
+                            }
+                        })
         return collectClasses
     }
 
     @SuppressWarnings(['Indentation', 'MethodSize', 'UnnecessaryGetter'])
     @CompileStatic(TypeCheckingMode.SKIP)
-    private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask, FileCollection srcDirs, String signatureTaskName, String classesTaskName, FileCollection compileClasspath) {
+    private void configureCheckTask(TaskProvider<AnimalSniffer> checkTask,
+                                    Provider<FileCollection> srcDirs,
+                                    String signatureTaskName,
+                                    String classesTaskName,
+                                    FileCollection compileClasspath) {
         Configuration animalsnifferConfiguration = project.configurations[CHECK_SIGNATURE]
 
         // build special signature from provided signatures and all jars to be able to cache it
@@ -252,7 +271,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     extension.cache.enabled ? signatureTask.get().outputFiles : extension.signatures
                 }
                 animalsnifferClasspath = { animalsnifferConfiguration }
-                sourcesDirs = srcDirs
+                // important to use provider here, because otherwise source set configuration changes would be ignored
+                sourcesDirs = { srcDirs.get() }
                 ignoreFailures = { extension.ignoreFailures }
                 annotation = { extension.annotation }
                 ignoreClasses = { extension.ignore }

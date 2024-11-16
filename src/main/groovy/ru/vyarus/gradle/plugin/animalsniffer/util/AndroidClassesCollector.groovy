@@ -1,6 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer.util
 
-
+import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
@@ -10,6 +10,13 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
+/**
+ * Android classes collector.
+ *
+ * @author Cesar Munoz
+ * @since 14.11.2024
+ */
+@CompileStatic
 abstract class AndroidClassesCollector extends DefaultTask {
 
     @InputFiles
@@ -21,15 +28,15 @@ abstract class AndroidClassesCollector extends DefaultTask {
     @OutputDirectory
     abstract DirectoryProperty getOutputDirectory()
 
-    AndroidClassesCollector() {
-        getOutputDirectory().value(project.layout.buildDirectory.dir("intermediates/animal_sniffer/" + name))
+    protected AndroidClassesCollector() {
+        outputDirectory.value(project.layout.buildDirectory.dir('intermediates/animal_sniffer/' + name))
     }
 
     @TaskAction
     void execute() {
         project.sync {
-            from(classesDirs)
-            into(outputDirectory)
+            it.from(classesDirs)
+            it.into(outputDirectory)
         }
     }
 }
