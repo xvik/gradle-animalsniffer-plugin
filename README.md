@@ -1,6 +1,6 @@
 # gradle-animalsniffer-plugin
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://www.opensource.org/licenses/MIT)
-[![CI](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml/badge.svg)?branch=1.x](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml?query=branch%3A1.x)
+[![CI](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml/badge.svg?branch=1.x)](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml?query=branch%3A1.x)
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/gradle-animalsniffer-plugin?branch=1.x&svg=true)](https://ci.appveyor.com/project/xvik/gradle-animalsniffer-plugin/branch/1.x)
 [![codecov](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/branch/1.x/graph/badge.svg)](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/tree/1.x)
 
