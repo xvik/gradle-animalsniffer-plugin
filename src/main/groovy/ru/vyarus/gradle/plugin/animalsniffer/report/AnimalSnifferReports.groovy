@@ -1,6 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer.report
 
 import groovy.transform.CompileStatic
+import org.gradle.api.Action
 import org.gradle.api.reporting.ReportContainer
 import org.gradle.api.reporting.SingleFileReport
 import org.gradle.api.tasks.Internal
@@ -19,4 +20,11 @@ interface AnimalSnifferReports extends ReportContainer<SingleFileReport> {
      */
     @Internal
     SingleFileReport getText()
+
+    /**
+     * Configures the text report.
+     *
+     * @param action The Configuration closure/action.
+     */
+    void text(Action<SingleFileReport> action);
 }

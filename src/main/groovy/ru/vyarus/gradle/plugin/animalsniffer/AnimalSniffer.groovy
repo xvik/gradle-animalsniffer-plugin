@@ -9,6 +9,7 @@ import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
 import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.internal.project.IsolatedAntBuilder
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
@@ -17,6 +18,7 @@ import org.gradle.util.ClosureBackedAction
 import org.gradle.util.GradleVersion
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
+import ru.vyarus.gradle.plugin.animalsniffer.report.LegacyAnimalsnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
 
 import javax.inject.Inject
@@ -99,7 +101,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     @Console
     boolean debug
 
-    private final AnimalSnifferReportsImpl reports
+    private final AnimalSnifferReports reports
 
     /**
      * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
@@ -135,11 +137,18 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
     AnimalSniffer() {
-        reports = instantiator.newInstance(AnimalSnifferReportsImpl, this, getCallbackActionDecorator())
+        reports = GradleVersion.current() < GradleVersion.version('7.0')
+                ? instantiator.newInstance(LegacyAnimalsnifferReports, this, getCallbackActionDecorator())
+                : instantiator.newInstance(AnimalSnifferReportsImpl, this, getObjectFactory())
     }
 
     @Inject
     Instantiator getInstantiator() {
+        throw new UnsupportedOperationException()
+    }
+
+    @Inject
+    ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException()
     }
 
@@ -230,10 +239,10 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         if (collector.errorsCnt() > 0) {
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
                     "in ${collector.filesCnt()} files."
-            Report report = reports.firstEnabled
-            if (report) {
-                File target = GradleVersion.current() < GradleVersion.version('7.0')
-                        ? report.destination : report.outputLocation.get().asFile
+            Report report = reports.text
+            boolean legacy = GradleVersion.current() < GradleVersion.version('7.0')
+            if (report && (legacy ? report.enabled : report.required.get())) {
+                File target = legacy ? report.destination : report.outputLocation.get().asFile
                 collector.writeToFile(target)
 
                 String reportUrl = "file:///${target.canonicalPath.replaceAll('\\\\', '/')}"

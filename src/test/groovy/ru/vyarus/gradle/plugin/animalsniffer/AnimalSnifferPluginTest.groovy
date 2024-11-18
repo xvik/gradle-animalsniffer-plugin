@@ -95,4 +95,23 @@ class AnimalSnifferPluginTest extends AbstractTest {
         project.tasks.withType(AnimalSniffer).size() == 3
         (project.tasks.getByName('animalsnifferMain') as AnimalSniffer).sourcesDirs.size() == 2
     }
+
+    def "Check report file location override"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            tasks.withType(AnimalSniffer) {
+                reports.text {
+                    required = false
+                    outputLocation = file('build/custom.txt')
+                }
+            }
+        }
+
+        then: "task registered"
+        project.tasks.withType(AnimalSniffer).size() == 2
+    }
 }
