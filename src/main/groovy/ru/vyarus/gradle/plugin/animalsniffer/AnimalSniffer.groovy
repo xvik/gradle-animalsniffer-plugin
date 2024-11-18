@@ -7,14 +7,14 @@ import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
-import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.api.internal.project.IsolatedAntBuilder
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
-import org.gradle.util.ClosureBackedAction
 import org.gradle.util.GradleVersion
+import org.gradle.util.internal.ClosureBackedAction
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -135,7 +135,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
     AnimalSniffer() {
-        reports = instantiator.newInstance(AnimalSnifferReportsImpl, this, getCallbackActionDecorator())
+        reports = instantiator.newInstance(AnimalSnifferReportsImpl, this, getObjectFactory())
     }
 
     @Inject
@@ -144,7 +144,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     @Inject
-    CollectionCallbackActionDecorator getCallbackActionDecorator() {
+    ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException()
     }
 
@@ -231,8 +231,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         if (collector.errorsCnt() > 0) {
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
                     "in ${collector.filesCnt()} files."
-            Report report = reports.firstEnabled
-            if (report) {
+            Report report = reports.text
+            if (report && report.required.get()) {
                 File target = GradleVersion.current() < GradleVersion.version('7.0')
                         ? report.destination : report.outputLocation.get().asFile
                 collector.writeToFile(target)

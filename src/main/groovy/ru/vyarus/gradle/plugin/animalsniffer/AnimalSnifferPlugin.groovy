@@ -102,6 +102,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerShortcuts() {
         ExtraPropertiesExtension props = project.extensions.extraProperties
         // to allow custom tasks declaration without package
+        props.set(AnimalSniffer.simpleName, AnimalSniffer)
         props.set(BuildSignatureTask.simpleName, BuildSignatureTask)
         props.set(SignatureInfoTask.simpleName, SignatureInfoTask)
     }
