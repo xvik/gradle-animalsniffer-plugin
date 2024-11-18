@@ -1,8 +1,8 @@
 # gradle-animalsniffer-plugin
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://www.opensource.org/licenses/MIT)
-[![CI](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml/badge.svg)](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml)
-[![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/gradle-animalsniffer-plugin?svg=true)](https://ci.appveyor.com/project/xvik/gradle-animalsniffer-plugin)
-[![codecov](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin)
+[![CI](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml/badge.svg)?branch=1.x](https://github.com/xvik/gradle-animalsniffer-plugin/actions/workflows/CI.yml?query=branch%3A1.x)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/gradle-animalsniffer-plugin?branch=1.x&svg=true)](https://ci.appveyor.com/project/xvik/gradle-animalsniffer-plugin/branch/1.x)
+[![codecov](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/branch/1.x/graph/badge.svg)](https://codecov.io/gh/xvik/gradle-animalsniffer-plugin/tree/1.x)
 
 ### About
 
@@ -75,7 +75,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.1'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.2'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -85,7 +85,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '1.7.1'
+    id 'ru.vyarus.animalsniffer' version '1.7.2'
 }
 ```
 
@@ -115,7 +115,7 @@ The plugin is compiled for Java 8, and is compatible with Java 11.
 
 Gradle | Version
 --------|-------
-5-8     | 1.7.1
+5-8     | 1.7.2
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 
 ### Usage
