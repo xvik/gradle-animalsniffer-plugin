@@ -17,17 +17,17 @@ import org.gradle.api.reporting.internal.TaskReportContainer
 @CompileStatic
 class LegacyAnimalsnifferReports extends TaskReportContainer<SingleFileReport> implements AnimalSnifferReports {
 
-    private static final String TEXT = 'text'
+    private static final String TYPE_TEXT = 'text'
 
     LegacyAnimalsnifferReports(Task task, CollectionCallbackActionDecorator callbackActionDecorator) {
         super(SingleFileReport, task, callbackActionDecorator)
 
-        add(TaskGeneratedSingleFileReport, TEXT, task)
+        add(TaskGeneratedSingleFileReport, TYPE_TEXT, task)
     }
 
     @Override
     SingleFileReport getText() {
-        return getByName(TEXT)
+        return getByName(TYPE_TEXT)
     }
 
     @Override

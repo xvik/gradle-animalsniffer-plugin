@@ -31,7 +31,7 @@ class Reports<T extends Report> implements ReportContainer<T> {
 
     Reports(final Project project, final Class<T> clazz) {
         this.reports = project.objects.namedDomainObjectSet(clazz)
-        this.enabled = this.reports.matching {report -> (report as Report).required.get()}
+        this.enabled = this.reports.matching { report -> (report as Report).required.get() }
     }
 
     @Override
@@ -39,6 +39,7 @@ class Reports<T extends Report> implements ReportContainer<T> {
         return this.enabled
     }
 
+    @SuppressWarnings('UnusedMethodParameter')
     boolean add(final T report) {
         throw new ImmutableViolationException()
     }
@@ -85,7 +86,7 @@ class Reports<T extends Report> implements ReportContainer<T> {
 
     @Override
     Namer<T> getNamer() {
-        return {it.name }
+        return { it.name }
     }
 
     @Override

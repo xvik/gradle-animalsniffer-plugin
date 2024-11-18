@@ -103,6 +103,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     private final AnimalSnifferReports reports
 
+    private final boolean isLegacy = GradleVersion.current() < GradleVersion.version('7.0')
+
     /**
      * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
      * Use jdk proxy to register custom listener.
@@ -137,7 +139,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     @SuppressWarnings('ThisReferenceEscapesConstructor')
     AnimalSniffer() {
-        reports = GradleVersion.current() < GradleVersion.version('7.0')
+        reports = isLegacy
                 ? instantiator.newInstance(LegacyAnimalsnifferReports, this, getCallbackActionDecorator())
                 : instantiator.newInstance(AnimalSnifferReportsImpl, this, getObjectFactory())
     }
@@ -240,9 +242,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
                     "in ${collector.filesCnt()} files."
             Report report = reports.text
-            boolean legacy = GradleVersion.current() < GradleVersion.version('7.0')
-            if (report && (legacy ? report.enabled : report.required.get())) {
-                File target = legacy ? report.destination : report.outputLocation.get().asFile
+            if (report && (isLegacy ? report.enabled : report.required.get())) {
+                File target = isLegacy ? report.destination : report.outputLocation.get().asFile
                 collector.writeToFile(target)
 
                 String reportUrl = "file:///${target.canonicalPath.replaceAll('\\\\', '/')}"
