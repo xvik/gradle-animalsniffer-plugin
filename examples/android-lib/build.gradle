@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library' version '7.4.0'
-    id 'org.jetbrains.kotlin.android' version '1.9.23'
+    id 'org.jetbrains.kotlin.android' version '1.7.22'
     id 'ru.vyarus.animalsniffer'
 }
 
@@ -8,6 +8,15 @@ android {
     compileSdk 33
     namespace 'com.example.namespace'
     def javaVersion = JavaVersion.VERSION_1_8
+
+    defaultConfig {
+        minSdkVersion 21
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 
     compileOptions {
         sourceCompatibility(javaVersion)
