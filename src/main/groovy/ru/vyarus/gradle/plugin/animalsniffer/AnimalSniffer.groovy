@@ -13,7 +13,6 @@ import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
-import org.gradle.util.GradleVersion
 import org.gradle.util.internal.ClosureBackedAction
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
@@ -233,8 +232,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     "in ${collector.filesCnt()} files."
             Report report = reports.text
             if (report && report.required.get()) {
-                File target = GradleVersion.current() < GradleVersion.version('7.0')
-                        ? report.destination : report.outputLocation.get().asFile
+                File target = report.outputLocation.get().asFile
                 collector.writeToFile(target)
 
                 String reportUrl = "file:///${target.canonicalPath.replaceAll('\\\\', '/')}"
