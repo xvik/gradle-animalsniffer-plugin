@@ -25,7 +25,7 @@ animalsniffer {
     ignoreFailures = true
 }
 
-repositories { mavenCentral() }
+repositories { mavenCentral(); google() }
 dependencies {
     signature 'org.codehaus.mojo.signature:java18:1.0@signature'
     signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
