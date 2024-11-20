@@ -22,3 +22,7 @@ include 'java', 'groovy', 'kotlin', 'scala',
         'buildSignature:fromJars',
         'buildSignature:fromSignatures',
         'buildSignature:fromMix'
+
+if (JavaVersion.current() >= JavaVersion.VERSION_17) {
+    include 'android-full'
+}
