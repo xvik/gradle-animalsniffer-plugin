@@ -78,6 +78,13 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     CheckCacheExtension cache = new CheckCacheExtension()
 
     /**
+     * When used with android, {@link #sourceSets} can't be used to configure what tasks to link "check" task.
+     * Instead, use this option to specify target android variants. Leave empty to not run animalsniffer after
+     * "check" task execution.
+     */
+    Set<String> androidVariants = ['debug'] as Set
+
+    /**
      * @param cache cache configuration closure
      */
     void setCache(@DelegatesTo(value = CheckCacheExtension) Closure cache) {

@@ -1,4 +1,8 @@
 * (breaking) Drop gradle 5 and 6 support
+* Add android projects support (activates for android library and application plugins
+   and use variants (debug, release) instead of source sets)
+* Add androidVariants configuration option to use instead of sourceSets in android projects
+  (to define which animalsniffer tasks would run with check task (together with build))
 
 ### 1.7.2 (2024-11-18)
 * Update animalsniffer 1.23 -> 1.24

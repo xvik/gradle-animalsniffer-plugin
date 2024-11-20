@@ -54,6 +54,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     private static final String CHECK_SIGNATURE = 'animalsniffer'
     private static final String BUILD_SIGNATURE = 'animalsnifferSignature'
+    private static final String CHECK_TASK = 'check'
 
     private Project project
     private AnimalSnifferExtension extension
@@ -166,7 +167,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
 
         // include required animalsniffer tasks in check lifecycle
-        project.tasks.named('check').configure {
+        project.tasks.named(CHECK_TASK).configure {
             dependsOn {
                 extension.sourceSets*.getTaskName(CHECK_SIGNATURE, null)
             }
@@ -177,6 +178,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerAndroidCheckTasks() {
         Object androidComponents = project.androidComponents
+        Map<String, TaskProvider> sourceIndex = [:]
+
         androidComponents.onVariants(androidComponents.selector().all()) { variant ->
             String sourceSetName = variant.name
             String capitalizedSourceSetName = sourceSetName.capitalize()
@@ -197,12 +200,22 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     })
                 }
             }
+            sourceIndex.put(sourceSetName, checkTask)
 
             configureCheckTask(checkTask,
                     project.provider { project.files(variant.sources.java.all, variant.sources.kotlin.all) },
                     ANIMALSNIFFER_CACHE + capitalizedSourceSetName,
                     classesCollectorTaskName,
                     variant.compileClasspath)
+        }
+
+        // include required animalsniffer tasks in check lifecycle
+        project.tasks.named(CHECK_TASK).configure { task ->
+            extension.androidVariants.each {
+                if (sourceIndex.containsKey(it)) {
+                    task.dependsOn(sourceIndex[it])
+                }
+            }
         }
     }
 
