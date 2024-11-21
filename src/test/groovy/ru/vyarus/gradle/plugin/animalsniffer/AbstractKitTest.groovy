@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
@@ -17,6 +18,7 @@ abstract class AbstractKitTest extends Specification {
     boolean debug
     @TempDir File testProjectDir
     File buildFile
+    boolean isWin = Os.isFamily(Os.FAMILY_WINDOWS)
 
     def setup() {
         buildFile = file('build.gradle')
@@ -54,12 +56,12 @@ abstract class AbstractKitTest extends Specification {
     }
 
     GradleRunner gradle(File root, String... commands) {
-        GradleRunner.create()
+        applyCommonConfiguration(GradleRunner.create()
                 .withProjectDir(root)
                 .withArguments((commands + ['--stacktrace']) as String[])
                 .withPluginClasspath()
                 .withDebug(debug)
-                .forwardOutput()
+                .forwardOutput())
     }
 
     GradleRunner gradle(String... commands) {
@@ -80,6 +82,11 @@ abstract class AbstractKitTest extends Specification {
 
     BuildResult runFailedVer(String gradleVersion, String... commands) {
         return gradle(commands).withGradleVersion(gradleVersion).buildAndFail()
+    }
+
+    GradleRunner applyCommonConfiguration(GradleRunner runner) {
+        // do nothing, but could be used in tests to additionally configure (like apply environment)
+        runner
     }
 
     protected String unifyString(String input) {

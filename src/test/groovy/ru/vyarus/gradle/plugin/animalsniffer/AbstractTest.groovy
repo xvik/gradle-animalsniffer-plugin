@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
@@ -14,6 +15,7 @@ import spock.lang.TempDir
 abstract class AbstractTest extends Specification{
 
     @TempDir File testProjectDir
+    boolean isWin = Os.isFamily(Os.FAMILY_WINDOWS)
 
     Project project(Closure<Project> config = null) {
         projectBuilder(config).build()
