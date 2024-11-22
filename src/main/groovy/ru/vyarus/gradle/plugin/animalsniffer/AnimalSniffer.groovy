@@ -301,7 +301,6 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         // this MUST BE rewritten into separate support for multiplatform
         if (project.plugins.findPlugin('org.jetbrains.kotlin.multiplatform')) {
             project.kotlin.sourceSets.each {
-                println it.kotlin.sourceDirectories.files
                 res.addAll(it.kotlin.sourceDirectories.files)
             }
         }
