@@ -24,6 +24,13 @@ class AbstractAndroidKitTest extends AbstractKitTest {
             """
     }
 
+    // required for application plugin
+    protected void generateManifest() {
+        file('src/main/AndroidManifest.xml') << """<?xml version="1.0" encoding="utf-8"?>
+<manifest/>
+"""
+    }
+
     @Override
     GradleRunner applyCommonConfiguration(GradleRunner runner) {
         runner.withEnvironment(['ANDROID_HOME': detectSdk()])

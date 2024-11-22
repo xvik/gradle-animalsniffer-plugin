@@ -2,22 +2,22 @@ package ru.vyarus.gradle.plugin.animalsniffer.android
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
 import spock.lang.IgnoreIf
 
 /**
  * @author Vyacheslav Rusakov
- * @since 20.11.2024
+ * @since 22.11.2024
  */
-@IgnoreIf({ !jvm.java11Compatible })
-// android plugin requires java 11
-class AndroidKitTest extends AbstractAndroidKitTest {
+@IgnoreIf({ !jvm.java17Compatible })
+class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
 
     def "Check android library support"() {
         setup:
         build """
             plugins {
-                id 'com.android.library' version '7.4.0'
-                id 'org.jetbrains.kotlin.android' version '1.7.22'
+                id 'com.android.library' version '8.7.2'
+                id 'org.jetbrains.kotlin.android' version '2.0.21'
                 id 'ru.vyarus.animalsniffer'
             }
 
@@ -29,7 +29,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
             android {
                 compileSdk 33
                 namespace 'com.example.namespace'
-                def javaVersion = JavaVersion.VERSION_1_8
+                def javaVersion = JavaVersion.VERSION_17
             
                 defaultConfig {
                     minSdkVersion 21
@@ -65,7 +65,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = runVer(UpstreamKitTest.GRADLE_VERSION, 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
@@ -99,8 +99,8 @@ class AndroidKitTest extends AbstractAndroidKitTest {
         setup:
         build """
             plugins {
-                id 'com.android.application' version '7.4.0'
-                id 'org.jetbrains.kotlin.android' version '1.7.22'
+                id 'com.android.application' version '8.7.2'
+                id 'org.jetbrains.kotlin.android' version '2.0.21'
                 id 'ru.vyarus.animalsniffer'
             }
 
@@ -112,7 +112,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
             android {
                 compileSdk 33
                 namespace 'com.example.namespace'
-                def javaVersion = JavaVersion.VERSION_1_8
+                def javaVersion = JavaVersion.VERSION_17
             
                 defaultConfig {
                     minSdkVersion 21
@@ -150,7 +150,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = runVer(UpstreamKitTest.GRADLE_VERSION, 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
@@ -179,5 +179,4 @@ class AndroidKitTest extends AbstractAndroidKitTest {
                 "invalid.Sample2:11  Undefined reference (android-api-level-21-5.0.1_r2): Iterable java.nio.file.FileSystem.getFileStores()"
         ]
     }
-
 }
