@@ -31,7 +31,9 @@ abstract class AbstractKitTest extends Specification {
     }
 
     File file(String path) {
-        new File(testProjectDir, path)
+        File res = new File(testProjectDir, path)
+        res.parentFile.mkdirs()
+        res
     }
 
     File fileFromClasspath(String toFile, String source) {
