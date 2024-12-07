@@ -1,6 +1,5 @@
 package ru.vyarus.gradle.plugin.animalsniffer.android
 
-
 import org.gradle.testkit.runner.GradleRunner
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
@@ -8,7 +7,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
  * @author Vyacheslav Rusakov
  * @since 21.11.2024
  */
-class AbstractAndroidKitTest extends AbstractKitTest {
+abstract class AbstractAndroidKitTest extends AbstractKitTest {
 
     @Override
     def setup() {
@@ -21,12 +20,24 @@ class AbstractAndroidKitTest extends AbstractKitTest {
                     google()
                 }
             }
+            dependencyResolutionManagement {
+                repositories {
+                    google {
+                        mavenContent {
+                            includeGroupAndSubgroups("androidx")
+                            includeGroupAndSubgroups("com.android")
+                            includeGroupAndSubgroups("com.google")
+                        }
+                    }
+                    mavenCentral()
+                }
+            }
             """
     }
 
     // required for application plugin
-    protected void generateManifest() {
-        file('src/main/AndroidManifest.xml') << """<?xml version="1.0" encoding="utf-8"?>
+    protected void generateManifest(String path = 'src/main') {
+        file("$path/AndroidManifest.xml") << """<?xml version="1.0" encoding="utf-8"?>
 <manifest/>
 """
     }
@@ -50,6 +61,6 @@ class AbstractAndroidKitTest extends AbstractKitTest {
                 return path
             }
         }
-        return null;
+        return null
     }
 }

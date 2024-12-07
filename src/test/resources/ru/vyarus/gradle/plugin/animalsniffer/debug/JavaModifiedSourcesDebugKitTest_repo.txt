@@ -1,0 +1,186 @@
+== [Plugins] ===============================================================
+
+	Plugins of potential interest ------------------------------------------ (2)
+		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
+		org.gradle.java                          java                      org.gradle.api.plugins.JavaPlugin
+
+	Other plugins ----------------------------------------------------------- (11)
+		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+		<no id>                                                            org.gradle.api.plugins.BasePlugin
+		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmEcosystemPlugin
+		org.gradle.jvm-test-suite                jvm-test-suite            org.gradle.api.plugins.JvmTestSuitePlugin
+		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
+		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
+		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		<no id>                                                            org.gradle.testing.base.plugins.TestSuiteBasePlugin
+		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
+
+
+== [Compile Tasks] ===============================================================
+
+	Tasks containing 'compile' in name ------------------------------------ (6)
+
+		classes                                  org.gradle.api.DefaultTask
+		itestClasses                             org.gradle.api.DefaultTask
+		testClasses                              org.gradle.api.DefaultTask
+		compileItestJava                         org.gradle.api.tasks.compile.JavaCompile
+		compileJava                              org.gradle.api.tasks.compile.JavaCompile
+		compileTestJava                          org.gradle.api.tasks.compile.JavaCompile
+
+	Compile tasks tree -------------------------------------------------------- (2 roots)
+
+		[itestClasses]                           org.gradle.api.DefaultTask
+			[compileItestJava]                       org.gradle.api.tasks.compile.JavaCompile
+			processItestResources                    (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[testClasses]                            org.gradle.api.DefaultTask
+			[compileTestJava]                        org.gradle.api.tasks.compile.JavaCompile
+				[classes]                                org.gradle.api.DefaultTask
+					[compileJava]                            org.gradle.api.tasks.compile.JavaCompile
+					processResources                         (org.gradle.language.jvm.tasks.ProcessResources)
+			processTestResources                     (org.gradle.language.jvm.tasks.ProcessResources)
+
+	Java compile tasks --------------------------------------------- (3)
+
+		[compileItestJava] -----
+
+			Sources
+				src/itest/java                                                                   NOT EXISTS
+
+			Output
+				build/classes/java/itest
+				build/generated/sources/annotationProcessor/java/itest
+				build/generated/sources/headers/java/itest
+				build/tmp/compileItestJava/previous-compilation-data.bin
+
+		[compileJava] -----
+
+			Sources
+				src/main/java
+				src/main2/java                                                                   NOT EXISTS
+
+			Output
+				build/classes/java/main
+				build/generated/sources/annotationProcessor/java/main
+				build/generated/sources/headers/java/main
+				build/tmp/compileJava/previous-compilation-data.bin
+
+			Classpath
+				groovy-3.0.17.jar
+				groovy-ant-3.0.17.jar
+				groovy-astbuilder-3.0.17.jar
+				groovy-console-3.0.17.jar
+				groovy-datetime-3.0.17.jar
+				groovy-dateutil-3.0.17.jar
+				groovy-groovydoc-3.0.17.jar
+				groovy-json-3.0.17.jar
+				groovy-nio-3.0.17.jar
+				groovy-sql-3.0.17.jar
+				groovy-templates-3.0.17.jar
+				groovy-test-3.0.17.jar
+				groovy-xml-3.0.17.jar
+				javaparser-core-3.17.0.jar
+				slf4j-api-1.7.25.jar
+
+		[compileTestJava] -----
+
+			Sources
+				src/test/java                                                                    NOT EXISTS
+
+			Output
+				build/classes/java/test
+				build/generated/sources/annotationProcessor/java/test
+				build/generated/sources/headers/java/test
+				build/tmp/compileTestJava/previous-compilation-data.bin
+
+			Classpath
+				build/classes/java/main
+				build/resources/main
+				groovy-3.0.17.jar
+				groovy-ant-3.0.17.jar
+				groovy-astbuilder-3.0.17.jar
+				groovy-console-3.0.17.jar
+				groovy-datetime-3.0.17.jar
+				groovy-dateutil-3.0.17.jar
+				groovy-groovydoc-3.0.17.jar
+				groovy-json-3.0.17.jar
+				groovy-nio-3.0.17.jar
+				groovy-sql-3.0.17.jar
+				groovy-templates-3.0.17.jar
+				groovy-test-3.0.17.jar
+				groovy-xml-3.0.17.jar
+				javaparser-core-3.17.0.jar
+				slf4j-api-1.7.25.jar
+
+
+== [SourceSets] ===============================================================
+
+	Java Source Sets ------------------------------------------------------- (3)
+
+		itest -----
+
+			Sources
+				src/itest/java                                                                   NOT EXISTS
+
+			Output
+				build/classes/java/itest
+				build/resources/itest
+
+		main -----
+
+			Sources
+				src/main/java
+				src/main2/java                                                                   NOT EXISTS
+
+			Output
+				build/classes/java/main
+				build/resources/main
+
+			Classpath
+				groovy-3.0.17.jar
+				groovy-ant-3.0.17.jar
+				groovy-astbuilder-3.0.17.jar
+				groovy-console-3.0.17.jar
+				groovy-datetime-3.0.17.jar
+				groovy-dateutil-3.0.17.jar
+				groovy-groovydoc-3.0.17.jar
+				groovy-json-3.0.17.jar
+				groovy-nio-3.0.17.jar
+				groovy-sql-3.0.17.jar
+				groovy-templates-3.0.17.jar
+				groovy-test-3.0.17.jar
+				groovy-xml-3.0.17.jar
+				javaparser-core-3.17.0.jar
+				slf4j-api-1.7.25.jar
+
+		test -----
+
+			Sources
+				src/test/java                                                                    NOT EXISTS
+
+			Output
+				build/classes/java/test
+				build/resources/test
+
+			Classpath
+				build/classes/java/main
+				build/resources/main
+				groovy-3.0.17.jar
+				groovy-ant-3.0.17.jar
+				groovy-astbuilder-3.0.17.jar
+				groovy-console-3.0.17.jar
+				groovy-datetime-3.0.17.jar
+				groovy-dateutil-3.0.17.jar
+				groovy-groovydoc-3.0.17.jar
+				groovy-json-3.0.17.jar
+				groovy-nio-3.0.17.jar
+				groovy-sql-3.0.17.jar
+				groovy-templates-3.0.17.jar
+				groovy-test-3.0.17.jar
+				groovy-xml-3.0.17.jar
+				javaparser-core-3.17.0.jar
+				slf4j-api-1.7.25.jar
+
+\===========================================================================================

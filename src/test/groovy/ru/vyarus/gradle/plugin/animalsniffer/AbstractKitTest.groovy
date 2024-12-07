@@ -45,6 +45,10 @@ abstract class AbstractKitTest extends Specification {
         target
     }
 
+    String readFileFromClasspath(String source) {
+        (getClass().getResourceAsStream(source) ?: getClass().classLoader.getResourceAsStream(source)).text
+    }
+
     /**
      * Enable it and run test with debugger (no manual attach required). Not always enabled to speed up tests during
      * normal execution.

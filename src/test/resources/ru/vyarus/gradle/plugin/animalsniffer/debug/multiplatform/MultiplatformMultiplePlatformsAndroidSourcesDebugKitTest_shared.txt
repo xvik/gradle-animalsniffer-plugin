@@ -1,0 +1,828 @@
+== [Plugins] ===============================================================
+
+	Plugins of potential interest ------------------------------------------ (7)
+		<no id>                                                            com.android.build.gradle.api.AndroidBasePlugin
+		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
+		org.jetbrains.kotlin.multiplatform       multiplatform             org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+		com.android.library                      library                   com.android.build.gradle.LibraryPlugin
+		com.android.internal.library             library                   com.android.build.gradle.internal.plugins.LibraryPlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin
+		com.android.internal.version-check       version-check             com.android.build.gradle.internal.plugins.VersionCheckPlugin
+
+	Other plugins ----------------------------------------------------------- (10)
+		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+		<no id>                                                            org.gradle.api.plugins.BasePlugin
+		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmEcosystemPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
+		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
+		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin
+		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
+
+
+== [Compile Tasks] ===============================================================
+
+	Tasks containing 'compile' in name ------------------------------------ (40)
+
+		debugAnimalSnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseAnimalSnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		bundleLibCompileToJarDebug               com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+		bundleLibCompileToJarRelease             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+		checkDebugAndroidTestDuplicateClasses    com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+		compileDebugLibraryResources             com.android.build.gradle.tasks.CompileLibraryResourcesTask
+		compileReleaseLibraryResources           com.android.build.gradle.tasks.CompileLibraryResourcesTask
+		compileDebugAndroidTestSources           org.gradle.api.DefaultTask
+		compileDebugSources                      org.gradle.api.DefaultTask
+		compileDebugUnitTestSources              org.gradle.api.DefaultTask
+		compileLintChecks                        org.gradle.api.DefaultTask
+		compileReleaseSources                    org.gradle.api.DefaultTask
+		compileReleaseUnitTestSources            org.gradle.api.DefaultTask
+		jvmMainClasses                           org.gradle.api.DefaultTask
+		jvmTestClasses                           org.gradle.api.DefaultTask
+		metadataCommonMainClasses                org.gradle.api.DefaultTask
+		metadataMainClasses                      org.gradle.api.DefaultTask
+		compileDebugAndroidTestJavaWithJavac     org.gradle.api.tasks.compile.JavaCompile
+		compileDebugJavaWithJavac                org.gradle.api.tasks.compile.JavaCompile
+		compileDebugUnitTestJavaWithJavac        org.gradle.api.tasks.compile.JavaCompile
+		compileReleaseJavaWithJavac              org.gradle.api.tasks.compile.JavaCompile
+		compileReleaseUnitTestJavaWithJavac      org.gradle.api.tasks.compile.JavaCompile
+		javaPreCompileDebug                      com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileDebugAndroidTest           com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileDebugUnitTest              com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileRelease                    com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileReleaseUnitTest            com.android.build.gradle.tasks.JavaPreCompileTask
+		compileDebugAndroidTestKotlinAndroid     org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileDebugKotlinAndroid                org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileDebugUnitTestKotlinAndroid        org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileKotlinJvm                         org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileReleaseKotlinAndroid              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileReleaseUnitTestKotlinAndroid      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileTestKotlinJvm                     org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileCommonMainKotlinMetadata          org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileKotlinMetadata                    org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileLint                              com.android.build.gradle.internal.tasks.LintCompile
+		compileDebugAndroidTestShaders           com.android.build.gradle.tasks.ShaderCompile
+		compileDebugShaders                      com.android.build.gradle.tasks.ShaderCompile
+		compileReleaseShaders                    com.android.build.gradle.tasks.ShaderCompile
+
+	Compile tasks tree -------------------------------------------------------- (18 roots)
+
+		[debugAnimalSnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[releaseAnimalSnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateReleaseRFile                     (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[checkDebugAndroidTestDuplicateClasses]  com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+			preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+
+		[compileDebugLibraryResources]           com.android.build.gradle.tasks.CompileLibraryResourcesTask
+			preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			packageDebugResources                    (com.android.build.gradle.tasks.MergeResources)
+
+		[compileReleaseLibraryResources]         com.android.build.gradle.tasks.CompileLibraryResourcesTask
+			preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			packageReleaseResources                  (com.android.build.gradle.tasks.MergeResources)
+
+		[compileDebugAndroidTestSources]         org.gradle.api.DefaultTask
+			[compileDebugAndroidTestJavaWithJavac]   org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugAndroidTest]         com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugAndroidTestKotlinAndroid]   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarDebug]             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					processDebugAndroidTestResources         (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[compileDebugSources]                    org.gradle.api.DefaultTask
+			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[compileDebugUnitTestSources]            org.gradle.api.DefaultTask
+			[compileDebugUnitTestJavaWithJavac]      org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugUnitTest]            com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugUnitTestBuild                    (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugUnitTestKotlinAndroid]      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarDebug]             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					generateDebugUnitTestStubRFile           (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+			processDebugJavaRes                      (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+			processDebugUnitTestJavaRes              (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+
+		[compileLintChecks]                      org.gradle.api.DefaultTask
+
+		[compileReleaseSources]                  org.gradle.api.DefaultTask
+			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateReleaseRFile                     (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[compileReleaseUnitTestSources]          org.gradle.api.DefaultTask
+			[compileReleaseUnitTestJavaWithJavac]    org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileReleaseUnitTest]          com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseUnitTestBuild                  (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseUnitTestKotlinAndroid]    org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarRelease]           com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+								preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateReleaseRFile                     (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					generateReleaseUnitTestStubRFile         (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+			processReleaseJavaRes                    (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+			processReleaseUnitTestJavaRes            (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+
+		[jvmTestClasses]                         org.gradle.api.DefaultTask
+			[compileTestKotlinJvm]                   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+				[jvmMainClasses]                         org.gradle.api.DefaultTask
+					[compileKotlinJvm]                       org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+						checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					jvmProcessResources                      (org.gradle.language.jvm.tasks.ProcessResources)
+				jvmJar                                   (org.gradle.api.tasks.bundling.Jar)
+			jvmTestProcessResources                  (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataCommonMainClasses]              org.gradle.api.DefaultTask
+			[compileCommonMainKotlinMetadata]        org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+				transformCommonMainDependenciesMetadata  (org.jetbrains.kotlin.gradle.plugin.mpp.MetadataDependencyTransformationTask)
+			metadataCommonMainProcessResources       (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataMainClasses]                    org.gradle.api.DefaultTask
+			[compileKotlinMetadata]                  org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+			metadataProcessResources                 (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[compileLint]                            com.android.build.gradle.internal.tasks.LintCompile
+
+		[compileDebugAndroidTestShaders]         com.android.build.gradle.tasks.ShaderCompile
+			preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeDebugAndroidTestShaders             (com.android.build.gradle.tasks.MergeSourceSetFolders)
+
+		[compileDebugShaders]                    com.android.build.gradle.tasks.ShaderCompile
+			preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeDebugShaders                        (com.android.build.gradle.tasks.MergeSourceSetFolders)
+
+		[compileReleaseShaders]                  com.android.build.gradle.tasks.ShaderCompile
+			preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeReleaseShaders                      (com.android.build.gradle.tasks.MergeSourceSetFolders)
+
+	Java compile tasks --------------------------------------------- (5)
+
+		[compileDebugAndroidTestJavaWithJavac] -----
+
+			Sources
+				shared/src/androidTest/java                                                      NOT EXISTS
+				shared/src/androidTestDebug/java                                                 NOT EXISTS
+
+			Output
+				shared/build/generated/ap_generated_sources/debugAndroidTest/out
+				shared/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+				shared/build/tmp/compileDebugAndroidTestJavaWithJavac/previous-compilation-data.bin
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
+				shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+		[compileDebugJavaWithJavac] -----
+
+			Sources
+				shared/src/debug/java                                                            NOT EXISTS
+				shared/src/main/java                                                             NOT EXISTS
+
+			Output
+				shared/build/generated/ap_generated_sources/debug/out
+				shared/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+				shared/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar
+
+		[compileDebugUnitTestJavaWithJavac] -----
+
+			Sources
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/testDebug/java                                                        NOT EXISTS
+
+			Output
+				shared/build/generated/ap_generated_sources/debugUnitTest/out
+				shared/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+				shared/build/tmp/compileDebugUnitTestJavaWithJavac/previous-compilation-data.bin
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugUnitTest/generateDebugUnitTestStubRFile/R.jar
+				shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+		[compileReleaseJavaWithJavac] -----
+
+			Sources
+				shared/src/main/java                                                             NOT EXISTS
+				shared/src/release/java                                                          NOT EXISTS
+
+			Output
+				shared/build/generated/ap_generated_sources/release/out
+				shared/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+				shared/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar
+
+		[compileReleaseUnitTestJavaWithJavac] -----
+
+			Sources
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/testRelease/java                                                      NOT EXISTS
+
+			Output
+				shared/build/generated/ap_generated_sources/releaseUnitTest/out
+				shared/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+				shared/build/tmp/compileReleaseUnitTestJavaWithJavac/previous-compilation-data.bin
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/releaseUnitTest/generateReleaseUnitTestStubRFile/R.jar
+				shared/build/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar
+
+	Kotlin compile tasks ------------------------------------------ (7)
+
+		[compileDebugAndroidTestKotlinAndroid] -----
+
+			Sources
+				shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+				shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+				shared/src/androidTest/java                                                      NOT EXISTS
+				shared/src/androidTest/kotlin                                                    NOT EXISTS
+				shared/src/androidTestDebug/java                                                 NOT EXISTS
+				shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+			Output
+				shared/build/kotlin/compileDebugAndroidTestKotlinAndroid/cacheable
+				shared/build/kotlin/compileDebugAndroidTestKotlinAndroid/classpath-snapshot
+				shared/build/tmp/kotlin-classes/debugAndroidTest
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
+				shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+		[compileDebugKotlinAndroid] -----
+
+			Sources
+				shared/src/androidDebug/kotlin                                                   NOT EXISTS
+				shared/src/androidMain/kotlin                                                    NOT EXISTS
+				shared/src/commonMain/kotlin                                                     NOT EXISTS
+				shared/src/debug/java                                                            NOT EXISTS
+				shared/src/debug/kotlin                                                          NOT EXISTS
+				shared/src/main/java                                                             NOT EXISTS
+				shared/src/main/kotlin                                                           NOT EXISTS
+
+			Output
+				shared/build/kotlin/compileDebugKotlinAndroid/cacheable
+				shared/build/kotlin/compileDebugKotlinAndroid/classpath-snapshot
+				shared/build/tmp/kotlin-classes/debug
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar
+
+		[compileDebugUnitTestKotlinAndroid] -----
+
+			Sources
+				shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+				shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+				shared/src/commonTest/kotlin                                                     NOT EXISTS
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/test/kotlin                                                           NOT EXISTS
+				shared/src/testDebug/java                                                        NOT EXISTS
+				shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+			Output
+				shared/build/kotlin/compileDebugUnitTestKotlinAndroid/cacheable
+				shared/build/kotlin/compileDebugUnitTestKotlinAndroid/classpath-snapshot
+				shared/build/tmp/kotlin-classes/debugUnitTest
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugUnitTest/generateDebugUnitTestStubRFile/R.jar
+				shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+		[compileKotlinJvm] -----
+
+			Sources
+				shared/src/commonMain/kotlin                                                     NOT EXISTS
+				shared/src/jvmMain/kotlin                                                        NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/jvm/main
+				shared/build/kotlin/compileKotlinJvm/cacheable
+				shared/build/kotlin/compileKotlinJvm/classpath-snapshot
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+		[compileReleaseKotlinAndroid] -----
+
+			Sources
+				shared/src/androidMain/kotlin                                                    NOT EXISTS
+				shared/src/androidRelease/kotlin                                                 NOT EXISTS
+				shared/src/commonMain/kotlin                                                     NOT EXISTS
+				shared/src/main/java                                                             NOT EXISTS
+				shared/src/main/kotlin                                                           NOT EXISTS
+				shared/src/release/java                                                          NOT EXISTS
+				shared/src/release/kotlin                                                        NOT EXISTS
+
+			Output
+				shared/build/kotlin/compileReleaseKotlinAndroid/cacheable
+				shared/build/kotlin/compileReleaseKotlinAndroid/classpath-snapshot
+				shared/build/tmp/kotlin-classes/release
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar
+
+		[compileReleaseUnitTestKotlinAndroid] -----
+
+			Sources
+				shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+				shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+				shared/src/commonTest/kotlin                                                     NOT EXISTS
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/test/kotlin                                                           NOT EXISTS
+				shared/src/testRelease/java                                                      NOT EXISTS
+				shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+			Output
+				shared/build/kotlin/compileReleaseUnitTestKotlinAndroid/cacheable
+				shared/build/kotlin/compileReleaseUnitTestKotlinAndroid/classpath-snapshot
+				shared/build/tmp/kotlin-classes/releaseUnitTest
+
+			Classpath
+				android.jar
+				annotations-13.0.jar
+				core-lambda-stubs.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/releaseUnitTest/generateReleaseUnitTestStubRFile/R.jar
+				shared/build/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar
+
+		[compileTestKotlinJvm] -----
+
+			Sources
+				shared/src/commonTest/kotlin                                                     NOT EXISTS
+				shared/src/jvmTest/kotlin                                                        NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/jvm/test
+				shared/build/kotlin/compileTestKotlinJvm/cacheable
+				shared/build/kotlin/compileTestKotlinJvm/classpath-snapshot
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/classes/kotlin/jvm/main
+
+
+== [SourceSets] ===============================================================
+
+	Kotlin Multiplatform Source Sets ------------------------------------------------------- (12)
+
+		androidDebug ----- (consumed by compilation 'debug' (target android (androidJvm)))
+			shared/src/androidDebug/kotlin                                                   NOT EXISTS
+			shared/src/debug/java                                                            NOT EXISTS
+			shared/src/debug/kotlin                                                          NOT EXISTS
+
+		androidInstrumentedTest ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+			shared/src/androidTest/java                                                      NOT EXISTS
+			shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+		androidInstrumentedTestDebug ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+			shared/src/androidTestDebug/java                                                 NOT EXISTS
+			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+		androidMain ----- (consumed by compilation 'release' (target android (androidJvm)))
+			shared/src/androidMain/kotlin                                                    NOT EXISTS
+			shared/src/main/java                                                             NOT EXISTS
+			shared/src/main/kotlin                                                           NOT EXISTS
+
+		androidRelease ----- (consumed by compilation 'release' (target android (androidJvm)))
+			shared/src/androidRelease/kotlin                                                 NOT EXISTS
+			shared/src/release/java                                                          NOT EXISTS
+			shared/src/release/kotlin                                                        NOT EXISTS
+
+		androidUnitTest ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+			shared/src/test/java                                                             NOT EXISTS
+			shared/src/test/kotlin                                                           NOT EXISTS
+
+		androidUnitTestDebug ----- (consumed by compilation 'debugUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+			shared/src/testDebug/java                                                        NOT EXISTS
+			shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+		androidUnitTestRelease ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+			shared/src/testRelease/java                                                      NOT EXISTS
+			shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+		commonMain ----- (consumed by compilation 'main' (target metadata (common)))
+			shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+		commonTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			shared/src/commonTest/kotlin                                                     NOT EXISTS
+
+		jvmMain ----- (consumed by compilation 'main' (target jvm (jvm)))
+			shared/src/jvmMain/kotlin                                                        NOT EXISTS
+
+		jvmTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			shared/src/jvmTest/kotlin                                                        NOT EXISTS
+
+	Android sources NOT COVERED by kotlin source sets
+		shared/src/androidTestRelease/java                                     (androidTestRelease)
+		shared/src/androidTestRelease/kotlin                                   (androidTestRelease)
+		shared/src/testFixtures/java                                           (testFixtures)
+		shared/src/testFixtures/kotlin                                         (testFixtures)
+		shared/src/testFixturesDebug/java                                      (testFixturesDebug)
+		shared/src/testFixturesDebug/kotlin                                    (testFixturesDebug)
+		shared/src/testFixturesRelease/java                                    (testFixturesRelease)
+		shared/src/testFixturesRelease/kotlin                                  (testFixturesRelease)
+
+	Android library Source Sets ------------------------------------------------------ (12)
+
+		androidTest -----
+			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+			shared/src/androidTest/java                                                      NOT EXISTS
+			shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+		androidTestDebug -----
+			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+			shared/src/androidTestDebug/java                                                 NOT EXISTS
+			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+		androidTestRelease -----
+			shared/src/androidTestRelease/java                                               NOT EXISTS
+			shared/src/androidTestRelease/kotlin                                             NOT EXISTS
+
+		debug ----- (consumed by variant debug)
+			shared/src/androidDebug/kotlin                                                   NOT EXISTS
+			shared/src/debug/java                                                            NOT EXISTS
+			shared/src/debug/kotlin                                                          NOT EXISTS
+
+		main ----- (consumed by variant release)
+			shared/src/androidMain/kotlin                                                    NOT EXISTS
+			shared/src/main/java                                                             NOT EXISTS
+			shared/src/main/kotlin                                                           NOT EXISTS
+
+		release ----- (consumed by variant release)
+			shared/src/androidRelease/kotlin                                                 NOT EXISTS
+			shared/src/release/java                                                          NOT EXISTS
+			shared/src/release/kotlin                                                        NOT EXISTS
+
+		test -----
+			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+			shared/src/test/java                                                             NOT EXISTS
+			shared/src/test/kotlin                                                           NOT EXISTS
+
+		testDebug -----
+			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+			shared/src/testDebug/java                                                        NOT EXISTS
+			shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+		testFixtures -----
+			shared/src/testFixtures/java                                                     NOT EXISTS
+			shared/src/testFixtures/kotlin                                                   NOT EXISTS
+
+		testFixturesDebug -----
+			shared/src/testFixturesDebug/java                                                NOT EXISTS
+			shared/src/testFixturesDebug/kotlin                                              NOT EXISTS
+
+		testFixturesRelease -----
+			shared/src/testFixturesRelease/java                                              NOT EXISTS
+			shared/src/testFixturesRelease/kotlin                                            NOT EXISTS
+
+		testRelease -----
+			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+			shared/src/testRelease/java                                                      NOT EXISTS
+			shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+	Kotlin sources NOT COVERED by android source sets
+		shared/src/commonMain/kotlin                                           (commonMain)
+		shared/src/commonTest/kotlin                                           (commonTest)
+		shared/src/jvmMain/kotlin                                              (jvmMain)
+		shared/src/jvmTest/kotlin                                              (jvmTest)
+
+== [Kotlin targets] ========================================================= (3)
+
+	android ----- (androidJvm platform, 5 compilations)
+
+		compilation 'debug' (target android (androidJvm)) (compiled by androidDebugClasses task)
+
+			Source sets (3)
+
+				androidDebug -----
+					shared/src/androidDebug/kotlin                                                   NOT EXISTS
+					shared/src/debug/java                                                            NOT EXISTS
+					shared/src/debug/kotlin                                                          NOT EXISTS
+
+				androidMain -----
+					shared/src/androidMain/kotlin                                                    NOT EXISTS
+					shared/src/main/java                                                             NOT EXISTS
+					shared/src/main/kotlin                                                           NOT EXISTS
+
+				commonMain -----
+					shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+				shared/build/tmp/kotlin-classes/debug
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+		compilation 'debugAndroidTest' (target android (androidJvm)) (compiled by androidDebugAndroidTestClasses task)
+
+			Source sets (2)
+
+				androidInstrumentedTestDebug -----
+					shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+					shared/src/androidTestDebug/java                                                 NOT EXISTS
+					shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+				androidInstrumentedTest -----
+					shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+					shared/src/androidTest/java                                                      NOT EXISTS
+					shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+			Output
+				shared/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+				shared/build/tmp/kotlin-classes/debugAndroidTest
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+			Associated compilations (1)
+				debug
+
+		compilation 'debugUnitTest' (target android (androidJvm)) (compiled by androidDebugUnitTestClasses task)
+
+			Source sets (3)
+
+				androidUnitTestDebug -----
+					shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+					shared/src/testDebug/java                                                        NOT EXISTS
+					shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+				androidUnitTest -----
+					shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+					shared/src/test/java                                                             NOT EXISTS
+					shared/src/test/kotlin                                                           NOT EXISTS
+
+				commonTest -----
+					shared/src/commonTest/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+				shared/build/tmp/kotlin-classes/debugUnitTest
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+			Associated compilations (1)
+				debug
+
+		compilation 'release' (target android (androidJvm)) (compiled by androidReleaseClasses task)
+
+			Source sets (3)
+
+				androidRelease -----
+					shared/src/androidRelease/kotlin                                                 NOT EXISTS
+					shared/src/release/java                                                          NOT EXISTS
+					shared/src/release/kotlin                                                        NOT EXISTS
+
+				androidMain -----
+					shared/src/androidMain/kotlin                                                    NOT EXISTS
+					shared/src/main/java                                                             NOT EXISTS
+					shared/src/main/kotlin                                                           NOT EXISTS
+
+				commonMain -----
+					shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+				shared/build/tmp/kotlin-classes/release
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+		compilation 'releaseUnitTest' (target android (androidJvm)) (compiled by androidReleaseUnitTestClasses task)
+
+			Source sets (3)
+
+				androidUnitTestRelease -----
+					shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+					shared/src/testRelease/java                                                      NOT EXISTS
+					shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+				androidUnitTest -----
+					shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+					shared/src/test/java                                                             NOT EXISTS
+					shared/src/test/kotlin                                                           NOT EXISTS
+
+				commonTest -----
+					shared/src/commonTest/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+				shared/build/tmp/kotlin-classes/releaseUnitTest
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+			Associated compilations (1)
+				release
+
+	jvm ----- (jvm platform, 2 compilations)
+
+		compilation 'main' (target jvm (jvm)) (compiled by jvmMainClasses task)
+
+			Source sets (2)
+
+				jvmMain -----
+					shared/src/jvmMain/kotlin                                                        NOT EXISTS
+
+				commonMain -----
+					shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/jvm/main
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+		compilation 'test' (target jvm (jvm)) (compiled by jvmTestClasses task)
+
+			Source sets (2)
+
+				jvmTest -----
+					shared/src/jvmTest/kotlin                                                        NOT EXISTS
+
+				commonTest -----
+					shared/src/commonTest/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/jvm/test
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				shared/build/classes/kotlin/jvm/main
+
+			Associated compilations (1)
+				main
+
+	metadata ----- (common platform, 2 compilations)
+
+		compilation 'commonMain' (target metadata (common)) (compiled by metadataCommonMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/metadata/commonMain
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+		compilation 'main' (target metadata (common)) (compiled by metadataMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+			Output
+				shared/build/classes/kotlin/metadata/main
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+
+== [Android Variants] ========================================================== (2)
+
+	debug ===== (compiled by compileDebugJavaWithJavac task)
+
+		Source sets (2)
+
+			main -----
+				shared/src/androidMain/kotlin                                                    NOT EXISTS
+				shared/src/main/java                                                             NOT EXISTS
+				shared/src/main/kotlin                                                           NOT EXISTS
+
+			debug -----
+				shared/src/androidDebug/kotlin                                                   NOT EXISTS
+				shared/src/debug/java                                                            NOT EXISTS
+				shared/src/debug/kotlin                                                          NOT EXISTS
+
+		Output
+			shared/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+
+		Classpath
+			android.jar
+			annotations-13.0.jar
+			core-lambda-stubs.jar
+			kotlin-stdlib-2.0.21.jar
+			shared/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar
+
+	release ===== (compiled by compileReleaseJavaWithJavac task)
+
+		Source sets (2)
+
+			main -----
+				shared/src/androidMain/kotlin                                                    NOT EXISTS
+				shared/src/main/java                                                             NOT EXISTS
+				shared/src/main/kotlin                                                           NOT EXISTS
+
+			release -----
+				shared/src/androidRelease/kotlin                                                 NOT EXISTS
+				shared/src/release/java                                                          NOT EXISTS
+				shared/src/release/kotlin                                                        NOT EXISTS
+
+		Output
+			shared/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+
+		Classpath
+			android.jar
+			annotations-13.0.jar
+			core-lambda-stubs.jar
+			kotlin-stdlib-2.0.21.jar
+			shared/build/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar
+
+\===========================================================================================

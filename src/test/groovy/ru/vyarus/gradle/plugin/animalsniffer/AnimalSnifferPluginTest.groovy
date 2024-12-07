@@ -90,10 +90,12 @@ class AnimalSnifferPluginTest extends AbstractTest {
                 }
             }
         }
+        println (project.tasks.withType(AnimalSniffer))
 
         then: "task registered"
         project.tasks.withType(AnimalSniffer).size() == 3
         (project.tasks.getByName('animalsnifferMain') as AnimalSniffer).sourcesDirs.size() == 2
+        (project.tasks.getByName('animalsnifferItest') as AnimalSniffer).sourcesDirs.size() == 1
     }
 
     def "Check report file location override"() {

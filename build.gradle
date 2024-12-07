@@ -1,3 +1,5 @@
+import org.gradle.api.attributes.java.TargetJvmVersion
+
 plugins {
     id 'com.gradle.plugin-publish' version '1.3.0'
     id 'java-gradle-plugin'
@@ -22,9 +24,16 @@ wrapper {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-repositories { mavenLocal(); mavenCentral(); gradlePluginPortal() }
+// workaround to keep compileOnly android dependency together with target jdk 1.8
+// attributes: https://docs.gradle.org/current/userguide/variant_attributes.html
+// definition example https://docs.gradle.org/current/userguide/variant_aware_resolution.html#2_create_a_custom_outgoing_configuration
+configurations.compileClasspath.attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 11)
+
+repositories { mavenLocal(); mavenCentral(); google(); gradlePluginPortal() }
 dependencies {
-    implementation "org.codehaus.mojo:animal-sniffer:1.24"
+    implementation 'org.codehaus.mojo:animal-sniffer:1.24'
+    compileOnly 'com.android.tools.build:gradle:8.4.0'
+    compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'

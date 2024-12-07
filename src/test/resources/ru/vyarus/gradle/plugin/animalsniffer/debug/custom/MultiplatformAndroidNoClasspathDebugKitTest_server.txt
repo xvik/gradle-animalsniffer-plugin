@@ -1,0 +1,114 @@
+== [Plugins] ===============================================================
+
+	Plugins of potential interest ------------------------------------------ (5)
+		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
+		<no id>                                                            org.gradle.api.plugins.JavaPlugin
+		org.jetbrains.kotlin.jvm                 jvm                       org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin
+		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowJavaPlugin
+
+	Other plugins ----------------------------------------------------------- (19)
+		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+		<no id>                                                            org.gradle.api.plugins.ApplicationPlugin
+		<no id>                                                            org.gradle.api.plugins.BasePlugin
+		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		<no id>                                                            org.gradle.api.distribution.plugins.DistributionPlugin
+		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
+		<no id>                                                            com.google.cloud.tools.jib.gradle.JibPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmEcosystemPlugin
+		org.gradle.jvm-test-suite                jvm-test-suite            org.gradle.api.plugins.JvmTestSuitePlugin
+		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
+		io.ktor.plugin                           plugin                    io.ktor.plugin.KtorGradlePlugin
+		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
+		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin
+		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowApplicationPlugin
+		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowBasePlugin
+		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
+		<no id>                                                            org.gradle.testing.base.plugins.TestSuiteBasePlugin
+		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
+
+
+== [Compile Tasks] ===============================================================
+
+	Tasks containing 'compile' in name ------------------------------------ (7)
+
+		classes                                  org.gradle.api.DefaultTask
+		testClasses                              org.gradle.api.DefaultTask
+		mainClasses                              org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetProcessor$createAdditionalClassesTaskForIdeRunner$IDEClassesTask
+		compileJava                              org.gradle.api.tasks.compile.JavaCompile
+		compileTestJava                          org.gradle.api.tasks.compile.JavaCompile
+		compileKotlin                            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileTestKotlin                        org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+	Compile tasks tree -------------------------------------------------------- (2 roots)
+
+		[testClasses]                            org.gradle.api.DefaultTask
+			[compileTestJava]                        org.gradle.api.tasks.compile.JavaCompile
+				[compileTestKotlin]                      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[classes]                                org.gradle.api.DefaultTask
+						[compileJava]                            org.gradle.api.tasks.compile.JavaCompile
+							[compileKotlin]                          org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								jvmJar                                   (org.gradle.api.tasks.bundling.Jar)
+						processResources                         (org.gradle.language.jvm.tasks.ProcessResources)
+					jar                                      (org.gradle.api.tasks.bundling.Jar)
+			processTestResources                     (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[mainClasses]                            org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetProcessor$createAdditionalClassesTaskForIdeRunner$IDEClassesTask
+			[classes]                                org.gradle.api.DefaultTask
+				[compileJava]                            org.gradle.api.tasks.compile.JavaCompile
+					[compileKotlin]                          org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+						checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+						jvmJar                                   (org.gradle.api.tasks.bundling.Jar)
+				processResources                         (org.gradle.language.jvm.tasks.ProcessResources)
+
+	Java compile tasks --------------------------------------------- (2)
+
+		[compileJava] -----
+
+			Sources
+				server/src/main/java                                                             NOT EXISTS
+
+			Output
+				server/build/classes/java/main
+				server/build/generated/sources/annotationProcessor/java/main
+				server/build/generated/sources/headers/java/main
+				server/build/tmp/compileJava/previous-compilation-data.bin
+
+		[compileTestJava] -----
+
+			Sources
+				server/src/test/java                                                             NOT EXISTS
+
+			Output
+				server/build/classes/java/test
+				server/build/generated/sources/annotationProcessor/java/test
+				server/build/generated/sources/headers/java/test
+				server/build/tmp/compileTestJava/previous-compilation-data.bin
+
+	Kotlin compile tasks ------------------------------------------ (2)
+
+		[compileKotlin] -----
+
+			Sources
+				server/src/main/java                                                             NOT EXISTS
+				server/src/main/kotlin                                                           NOT EXISTS
+
+			Output
+				server/build/classes/kotlin/main
+				server/build/kotlin/compileKotlin/cacheable
+				server/build/kotlin/compileKotlin/classpath-snapshot
+
+		[compileTestKotlin] -----
+
+			Sources
+				server/src/test/java                                                             NOT EXISTS
+				server/src/test/kotlin                                                           NOT EXISTS
+
+			Output
+				server/build/classes/kotlin/test
+				server/build/kotlin/compileTestKotlin/cacheable
+				server/build/kotlin/compileTestKotlin/classpath-snapshot
+
+\===========================================================================================

@@ -1,0 +1,155 @@
+== [Plugins] ===============================================================
+
+	Plugins of potential interest ------------------------------------------ (7)
+		<no id>                                                            com.android.build.gradle.api.AndroidBasePlugin
+		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
+		org.jetbrains.kotlin.multiplatform       multiplatform             org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+		com.android.library                      library                   com.android.build.gradle.LibraryPlugin
+		com.android.internal.library             library                   com.android.build.gradle.internal.plugins.LibraryPlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin
+		com.android.internal.version-check       version-check             com.android.build.gradle.internal.plugins.VersionCheckPlugin
+
+	Other plugins ----------------------------------------------------------- (10)
+		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+		<no id>                                                            org.gradle.api.plugins.BasePlugin
+		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmEcosystemPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
+		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
+		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin
+		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
+
+
+== [SourceSets] ===============================================================
+
+	Kotlin Multiplatform Source Sets ------------------------------------------------------- (12)
+
+		androidDebug ----- (consumed by compilation 'debug' (target android (androidJvm)))
+			shared/src/androidDebug/kotlin                                                   NOT EXISTS
+			shared/src/debug/java                                                            NOT EXISTS
+			shared/src/debug/kotlin                                                          NOT EXISTS
+
+		androidInstrumentedTest ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+			shared/src/androidTest/java                                                      NOT EXISTS
+			shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+		androidInstrumentedTestDebug ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+			shared/src/androidTestDebug/java                                                 NOT EXISTS
+			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+		androidMain ----- (consumed by compilation 'release' (target android (androidJvm)))
+			shared/src/androidMain/kotlin                                                    NOT EXISTS
+			shared/src/main/java                                                             NOT EXISTS
+			shared/src/main/kotlin                                                           NOT EXISTS
+
+		androidRelease ----- (consumed by compilation 'release' (target android (androidJvm)))
+			shared/src/androidRelease/kotlin                                                 NOT EXISTS
+			shared/src/release/java                                                          NOT EXISTS
+			shared/src/release/kotlin                                                        NOT EXISTS
+
+		androidUnitTest ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+			shared/src/test/java                                                             NOT EXISTS
+			shared/src/test/kotlin                                                           NOT EXISTS
+
+		androidUnitTestDebug ----- (consumed by compilation 'debugUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+			shared/src/testDebug/java                                                        NOT EXISTS
+			shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+		androidUnitTestRelease ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+			shared/src/testRelease/java                                                      NOT EXISTS
+			shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+		commonMain ----- (consumed by compilation 'main' (target metadata (common)))
+			shared/src/commonMain/kotlin                                                     NOT EXISTS
+
+		commonTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			shared/src/commonTest/kotlin                                                     NOT EXISTS
+
+		jvmMain ----- (consumed by compilation 'main' (target jvm (jvm)))
+			shared/src/jvmMain/kotlin                                                        NOT EXISTS
+
+		jvmTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			shared/src/jvmTest/kotlin                                                        NOT EXISTS
+
+	Android sources NOT COVERED by kotlin source sets
+		shared/src/androidTestRelease/java                                     (androidTestRelease)
+		shared/src/androidTestRelease/kotlin                                   (androidTestRelease)
+		shared/src/testFixtures/java                                           (testFixtures)
+		shared/src/testFixtures/kotlin                                         (testFixtures)
+		shared/src/testFixturesDebug/java                                      (testFixturesDebug)
+		shared/src/testFixturesDebug/kotlin                                    (testFixturesDebug)
+		shared/src/testFixturesRelease/java                                    (testFixturesRelease)
+		shared/src/testFixturesRelease/kotlin                                  (testFixturesRelease)
+
+	Android library Source Sets ------------------------------------------------------ (12)
+
+		androidTest -----
+			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+			shared/src/androidTest/java                                                      NOT EXISTS
+			shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+		androidTestDebug -----
+			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+			shared/src/androidTestDebug/java                                                 NOT EXISTS
+			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+		androidTestRelease -----
+			shared/src/androidTestRelease/java                                               NOT EXISTS
+			shared/src/androidTestRelease/kotlin                                             NOT EXISTS
+
+		debug ----- (consumed by variant debug)
+			shared/src/androidDebug/kotlin                                                   NOT EXISTS
+			shared/src/debug/java                                                            NOT EXISTS
+			shared/src/debug/kotlin                                                          NOT EXISTS
+
+		main ----- (consumed by variant release)
+			shared/src/androidMain/kotlin                                                    NOT EXISTS
+			shared/src/main/java                                                             NOT EXISTS
+			shared/src/main/kotlin                                                           NOT EXISTS
+
+		release ----- (consumed by variant release)
+			shared/src/androidRelease/kotlin                                                 NOT EXISTS
+			shared/src/release/java                                                          NOT EXISTS
+			shared/src/release/kotlin                                                        NOT EXISTS
+
+		test -----
+			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+			shared/src/test/java                                                             NOT EXISTS
+			shared/src/test/kotlin                                                           NOT EXISTS
+
+		testDebug -----
+			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+			shared/src/testDebug/java                                                        NOT EXISTS
+			shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+		testFixtures -----
+			shared/src/testFixtures/java                                                     NOT EXISTS
+			shared/src/testFixtures/kotlin                                                   NOT EXISTS
+
+		testFixturesDebug -----
+			shared/src/testFixturesDebug/java                                                NOT EXISTS
+			shared/src/testFixturesDebug/kotlin                                              NOT EXISTS
+
+		testFixturesRelease -----
+			shared/src/testFixturesRelease/java                                              NOT EXISTS
+			shared/src/testFixturesRelease/kotlin                                            NOT EXISTS
+
+		testRelease -----
+			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+			shared/src/testRelease/java                                                      NOT EXISTS
+			shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+	Kotlin sources NOT COVERED by android source sets
+		shared/src/commonMain/kotlin                                           (commonMain)
+		shared/src/commonTest/kotlin                                           (commonTest)
+		shared/src/jvmMain/kotlin                                              (jvmMain)
+		shared/src/jvmTest/kotlin                                              (jvmTest)
+
+\===========================================================================================

@@ -1,0 +1,887 @@
+== [Compile Tasks] ===============================================================
+
+	Tasks containing 'compile' in name ------------------------------------ (44)
+
+		debugAnimalSnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseAnimalSnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		bundleDebugClassesToCompileJar           com.android.build.gradle.internal.feature.BundleAllClasses
+		bundleDebugClassesToRuntimeJar           com.android.build.gradle.internal.feature.BundleAllClasses
+		bundleReleaseClassesToCompileJar         com.android.build.gradle.internal.feature.BundleAllClasses
+		bundleReleaseClassesToRuntimeJar         com.android.build.gradle.internal.feature.BundleAllClasses
+		checkDebugAndroidTestDuplicateClasses    com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+		checkDebugDuplicateClasses               com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+		checkReleaseDuplicateClasses             com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+		compileDebugArtProfile                   com.android.build.gradle.internal.tasks.CompileArtProfileTask
+		compileReleaseArtProfile                 com.android.build.gradle.internal.tasks.CompileArtProfileTask
+		compileDebugAndroidTestSources           org.gradle.api.DefaultTask
+		compileDebugSources                      org.gradle.api.DefaultTask
+		compileDebugUnitTestSources              org.gradle.api.DefaultTask
+		compileLintChecks                        org.gradle.api.DefaultTask
+		compileReleaseSources                    org.gradle.api.DefaultTask
+		compileReleaseUnitTestSources            org.gradle.api.DefaultTask
+		desktopMainClasses                       org.gradle.api.DefaultTask
+		desktopTestClasses                       org.gradle.api.DefaultTask
+		metadataCommonMainClasses                org.gradle.api.DefaultTask
+		metadataMainClasses                      org.gradle.api.DefaultTask
+		compileDebugAndroidTestJavaWithJavac     org.gradle.api.tasks.compile.JavaCompile
+		compileDebugJavaWithJavac                org.gradle.api.tasks.compile.JavaCompile
+		compileDebugUnitTestJavaWithJavac        org.gradle.api.tasks.compile.JavaCompile
+		compileReleaseJavaWithJavac              org.gradle.api.tasks.compile.JavaCompile
+		compileReleaseUnitTestJavaWithJavac      org.gradle.api.tasks.compile.JavaCompile
+		javaPreCompileDebug                      com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileDebugAndroidTest           com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileDebugUnitTest              com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileRelease                    com.android.build.gradle.tasks.JavaPreCompileTask
+		javaPreCompileReleaseUnitTest            com.android.build.gradle.tasks.JavaPreCompileTask
+		compileDebugAndroidTestKotlinAndroid     org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileDebugKotlinAndroid                org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileDebugUnitTestKotlinAndroid        org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileKotlinDesktop                     org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileReleaseKotlinAndroid              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileReleaseUnitTestKotlinAndroid      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileTestKotlinDesktop                 org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileCommonMainKotlinMetadata          org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileKotlinMetadata                    org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileLint                              com.android.build.gradle.internal.tasks.LintCompile
+		compileDebugAndroidTestShaders           com.android.build.gradle.tasks.ShaderCompile
+		compileDebugShaders                      com.android.build.gradle.tasks.ShaderCompile
+		compileReleaseShaders                    com.android.build.gradle.tasks.ShaderCompile
+
+	Compile tasks tree -------------------------------------------------------- (22 roots)
+
+		[debugAnimalSnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[releaseAnimalSnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			buildKotlinToolingMetadata               (org.jetbrains.kotlin.gradle.tooling.BuildKotlinToolingMetadataTask$FromKotlinExtension)
+			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarRelease             (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[bundleDebugClassesToRuntimeJar]         com.android.build.gradle.internal.feature.BundleAllClasses
+			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[bundleReleaseClassesToRuntimeJar]       com.android.build.gradle.internal.feature.BundleAllClasses
+			buildKotlinToolingMetadata               (org.jetbrains.kotlin.gradle.tooling.BuildKotlinToolingMetadataTask$FromKotlinExtension)
+			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarRelease             (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[checkDebugAndroidTestDuplicateClasses]  com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+			preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.TestPreBuildTask)
+
+		[checkDebugDuplicateClasses]             com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+			preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+
+		[checkReleaseDuplicateClasses]           com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
+			preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+
+		[compileDebugArtProfile]                 com.android.build.gradle.internal.tasks.CompileArtProfileTask
+			preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeExtDexDebug                         (com.android.build.gradle.internal.tasks.DexMergingTask)
+			mergeLibDexDebug                         (com.android.build.gradle.internal.tasks.DexMergingTask)
+			mergeProjectDexDebug                     (com.android.build.gradle.internal.tasks.DexMergingTask)
+			mergeDebugArtProfile                     (com.android.build.gradle.internal.tasks.MergeArtProfileTask)
+
+		[compileReleaseArtProfile]               com.android.build.gradle.internal.tasks.CompileArtProfileTask
+			preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeDexRelease                          (com.android.build.gradle.internal.tasks.DexMergingTask)
+			mergeReleaseGlobalSynthetics             (com.android.build.gradle.internal.tasks.GlobalSyntheticsMergeTask)
+			mergeReleaseArtProfile                   (com.android.build.gradle.internal.tasks.MergeArtProfileTask)
+
+		[compileDebugAndroidTestSources]         org.gradle.api.DefaultTask
+			copyDebugAndroidTestComposeResourcesToAndroidAssets (org.jetbrains.compose.resources.CopyResourcesToAndroidAssetsTask)
+			[compileDebugAndroidTestJavaWithJavac]   org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugAndroidTest]         com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.TestPreBuildTask)
+				[compileDebugAndroidTestKotlinAndroid]   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleDebugClassesToCompileJar]         com.android.build.gradle.internal.feature.BundleAllClasses
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidInstrumentedTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidInstrumentedTestDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processDebugAndroidTestResources         (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[compileDebugSources]                    org.gradle.api.DefaultTask
+			copyDebugComposeResourcesToAndroidAssets (org.jetbrains.compose.resources.CopyResourcesToAndroidAssetsTask)
+			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[compileDebugUnitTestSources]            org.gradle.api.DefaultTask
+			[compileDebugUnitTestJavaWithJavac]      org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugUnitTest]            com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugUnitTestBuild                    (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugUnitTestKotlinAndroid]      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleDebugClassesToCompileJar]         com.android.build.gradle.internal.feature.BundleAllClasses
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidUnitTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidUnitTestDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonTest   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+			processDebugJavaRes                      (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+			processDebugUnitTestJavaRes              (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+
+		[compileLintChecks]                      org.gradle.api.DefaultTask
+
+		[compileReleaseSources]                  org.gradle.api.DefaultTask
+			copyReleaseComposeResourcesToAndroidAssets (org.jetbrains.compose.resources.CopyResourcesToAndroidAssetsTask)
+			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					bundleLibCompileToJarRelease             (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+					generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+					generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+					generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[compileReleaseUnitTestSources]          org.gradle.api.DefaultTask
+			[compileReleaseUnitTestJavaWithJavac]    org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileReleaseUnitTest]          com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseUnitTestBuild                  (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseUnitTestKotlinAndroid]    org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleReleaseClassesToCompileJar]       com.android.build.gradle.internal.feature.BundleAllClasses
+						buildKotlinToolingMetadata               (org.jetbrains.kotlin.gradle.tooling.BuildKotlinToolingMetadataTask$FromKotlinExtension)
+						[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+								preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarRelease             (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidUnitTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidUnitTestRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonTest   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+			processReleaseJavaRes                    (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+			processReleaseUnitTestJavaRes            (com.android.build.gradle.internal.tasks.ProcessJavaResTask)
+
+		[desktopTestClasses]                     org.gradle.api.DefaultTask
+			[compileTestKotlinDesktop]               org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+				[desktopMainClasses]                     org.gradle.api.DefaultTask
+					[compileKotlinDesktop]                   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+						checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+						generateActualResourceCollectorsForDesktopMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+						generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+						generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+						generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+						generateResourceAccessorsForDesktopMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+						jvmJar                                   (org.gradle.api.tasks.bundling.Jar)
+					desktopProcessResources                  (org.gradle.language.jvm.tasks.ProcessResources)
+				generateResourceAccessorsForCommonTest   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+				generateResourceAccessorsForDesktopTest  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+				desktopJar                               (org.gradle.api.tasks.bundling.Jar)
+			desktopTestProcessResources              (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataCommonMainClasses]              org.gradle.api.DefaultTask
+			[compileCommonMainKotlinMetadata]        org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+				generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+				generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+				generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+				allMetadataJar                           (org.gradle.api.tasks.bundling.Jar)
+				transformCommonMainDependenciesMetadata  (org.jetbrains.kotlin.gradle.plugin.mpp.MetadataDependencyTransformationTask)
+			metadataCommonMainProcessResources       (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataMainClasses]                    org.gradle.api.DefaultTask
+			[compileKotlinMetadata]                  org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+				generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+				generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+				generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+			metadataProcessResources                 (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[compileLint]                            com.android.build.gradle.internal.tasks.LintCompile
+
+		[compileDebugAndroidTestShaders]         com.android.build.gradle.tasks.ShaderCompile
+			mergeDebugAndroidTestShaders             (com.android.build.gradle.tasks.MergeSourceSetFolders)
+			preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.TestPreBuildTask)
+
+		[compileDebugShaders]                    com.android.build.gradle.tasks.ShaderCompile
+			preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeDebugShaders                        (com.android.build.gradle.tasks.MergeSourceSetFolders)
+
+		[compileReleaseShaders]                  com.android.build.gradle.tasks.ShaderCompile
+			preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+			mergeReleaseShaders                      (com.android.build.gradle.tasks.MergeSourceSetFolders)
+
+	Java compile tasks --------------------------------------------- (5)
+
+		[compileDebugAndroidTestJavaWithJavac] -----
+
+			Sources
+				composeApp/src/androidTest/java                                                  NOT EXISTS
+				composeApp/src/androidTestDebug/java                                             NOT EXISTS
+
+			Output
+				composeApp/build/generated/ap_generated_sources/debugAndroidTest/out
+				composeApp/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+				composeApp/build/tmp/compileDebugAndroidTestJavaWithJavac/previous-compilation-data.bin
+
+		[compileDebugJavaWithJavac] -----
+
+			Sources
+				composeApp/src/debug/java                                                        NOT EXISTS
+				composeApp/src/main/java                                                         NOT EXISTS
+
+			Output
+				composeApp/build/generated/ap_generated_sources/debug/out
+				composeApp/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+				composeApp/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
+
+		[compileDebugUnitTestJavaWithJavac] -----
+
+			Sources
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/testDebug/java                                                    NOT EXISTS
+
+			Output
+				composeApp/build/generated/ap_generated_sources/debugUnitTest/out
+				composeApp/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+				composeApp/build/tmp/compileDebugUnitTestJavaWithJavac/previous-compilation-data.bin
+
+		[compileReleaseJavaWithJavac] -----
+
+			Sources
+				composeApp/src/main/java                                                         NOT EXISTS
+				composeApp/src/release/java                                                      NOT EXISTS
+
+			Output
+				composeApp/build/generated/ap_generated_sources/release/out
+				composeApp/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+				composeApp/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin
+
+		[compileReleaseUnitTestJavaWithJavac] -----
+
+			Sources
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/testRelease/java                                                  NOT EXISTS
+
+			Output
+				composeApp/build/generated/ap_generated_sources/releaseUnitTest/out
+				composeApp/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+				composeApp/build/tmp/compileReleaseUnitTestJavaWithJavac/previous-compilation-data.bin
+
+	Kotlin compile tasks ------------------------------------------ (7)
+
+		[compileDebugAndroidTestKotlinAndroid] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+				composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+				composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+				composeApp/src/androidTest/java                                                  NOT EXISTS
+				composeApp/src/androidTest/kotlin                                                NOT EXISTS
+				composeApp/src/androidTestDebug/java                                             NOT EXISTS
+				composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+			Output
+				composeApp/build/kotlin/compileDebugAndroidTestKotlinAndroid/cacheable
+				composeApp/build/kotlin/compileDebugAndroidTestKotlinAndroid/classpath-snapshot
+				composeApp/build/tmp/kotlin-classes/debugAndroidTest
+
+		[compileDebugKotlinAndroid] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidDebugResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+				composeApp/src/androidDebug/kotlin                                               NOT EXISTS
+				composeApp/src/androidMain/kotlin                                                NOT EXISTS
+				composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+				composeApp/src/debug/java                                                        NOT EXISTS
+				composeApp/src/debug/kotlin                                                      NOT EXISTS
+				composeApp/src/main/java                                                         NOT EXISTS
+				composeApp/src/main/kotlin                                                       NOT EXISTS
+
+			Output
+				composeApp/build/kotlin/compileDebugKotlinAndroid/cacheable
+				composeApp/build/kotlin/compileDebugKotlinAndroid/classpath-snapshot
+				composeApp/build/tmp/kotlin-classes/debug
+
+		[compileDebugUnitTestKotlinAndroid] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+				composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+				composeApp/src/testDebug/java                                                    NOT EXISTS
+				composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+			Output
+				composeApp/build/kotlin/compileDebugUnitTestKotlinAndroid/cacheable
+				composeApp/build/kotlin/compileDebugUnitTestKotlinAndroid/classpath-snapshot
+				composeApp/build/tmp/kotlin-classes/debugUnitTest
+
+		[compileKotlinDesktop] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceCollectors NOT EXISTS
+				composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+				composeApp/src/desktopMain/kotlin                                                NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/desktop/main
+				composeApp/build/kotlin/compileKotlinDesktop/cacheable
+				composeApp/build/kotlin/compileKotlinDesktop/classpath-snapshot
+
+		[compileReleaseKotlinAndroid] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidReleaseResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+				composeApp/src/androidMain/kotlin                                                NOT EXISTS
+				composeApp/src/androidRelease/kotlin                                             NOT EXISTS
+				composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+				composeApp/src/main/java                                                         NOT EXISTS
+				composeApp/src/main/kotlin                                                       NOT EXISTS
+				composeApp/src/release/java                                                      NOT EXISTS
+				composeApp/src/release/kotlin                                                    NOT EXISTS
+
+			Output
+				composeApp/build/kotlin/compileReleaseKotlinAndroid/cacheable
+				composeApp/build/kotlin/compileReleaseKotlinAndroid/classpath-snapshot
+				composeApp/build/tmp/kotlin-classes/release
+
+		[compileReleaseUnitTestKotlinAndroid] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+				composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+				composeApp/src/testRelease/java                                                  NOT EXISTS
+				composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+			Output
+				composeApp/build/kotlin/compileReleaseUnitTestKotlinAndroid/cacheable
+				composeApp/build/kotlin/compileReleaseUnitTestKotlinAndroid/classpath-snapshot
+				composeApp/build/tmp/kotlin-classes/releaseUnitTest
+
+		[compileTestKotlinDesktop] -----
+
+			Sources
+				composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/desktopTestResourceAccessors NOT EXISTS
+				composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+				composeApp/src/desktopTest/kotlin                                                NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/desktop/test
+				composeApp/build/kotlin/compileTestKotlinDesktop/cacheable
+				composeApp/build/kotlin/compileTestKotlinDesktop/classpath-snapshot
+
+
+== [SourceSets] ===============================================================
+
+	Kotlin Multiplatform Source Sets ------------------------------------------------------- (12)
+
+		androidDebug ----- (consumed by compilation 'debug' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidDebug/kotlin                                               NOT EXISTS
+			composeApp/src/debug/java                                                        NOT EXISTS
+			composeApp/src/debug/kotlin                                                      NOT EXISTS
+
+		androidInstrumentedTest ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+			composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+			composeApp/src/androidTest/java                                                  NOT EXISTS
+			composeApp/src/androidTest/kotlin                                                NOT EXISTS
+
+		androidInstrumentedTestDebug ----- (consumed by compilation 'debugAndroidTest' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+			composeApp/src/androidTestDebug/java                                             NOT EXISTS
+			composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+		androidMain ----- (consumed by compilation 'release' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+			composeApp/src/androidMain/kotlin                                                NOT EXISTS
+			composeApp/src/main/java                                                         NOT EXISTS
+			composeApp/src/main/kotlin                                                       NOT EXISTS
+
+		androidRelease ----- (consumed by compilation 'release' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidReleaseResourceAccessors NOT EXISTS
+			composeApp/src/androidRelease/kotlin                                             NOT EXISTS
+			composeApp/src/release/java                                                      NOT EXISTS
+			composeApp/src/release/kotlin                                                    NOT EXISTS
+
+		androidUnitTest ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+			composeApp/src/test/java                                                         NOT EXISTS
+			composeApp/src/test/kotlin                                                       NOT EXISTS
+
+		androidUnitTestDebug ----- (consumed by compilation 'debugUnitTest' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+			composeApp/src/testDebug/java                                                    NOT EXISTS
+			composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+		androidUnitTestRelease ----- (consumed by compilation 'releaseUnitTest' (target android (androidJvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+			composeApp/src/testRelease/java                                                  NOT EXISTS
+			composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+		commonMain ----- (consumed by compilation 'main' (target metadata (common)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+			composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+			composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+			composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+		commonTest ----- (consumed by compilation 'test' (target desktop (jvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+			composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+
+		desktopMain ----- (consumed by compilation 'main' (target desktop (jvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceAccessors NOT EXISTS
+			composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceCollectors NOT EXISTS
+			composeApp/src/desktopMain/kotlin                                                NOT EXISTS
+
+		desktopTest ----- (consumed by compilation 'test' (target desktop (jvm)))
+			composeApp/build/generated/compose/resourceGenerator/kotlin/desktopTestResourceAccessors NOT EXISTS
+			composeApp/src/desktopTest/kotlin                                                NOT EXISTS
+
+	Android sources NOT COVERED by kotlin source sets
+		composeApp/src/androidTestRelease/java                                 (androidTestRelease)
+		composeApp/src/androidTestRelease/kotlin                               (androidTestRelease)
+		composeApp/src/testFixtures/java                                       (testFixtures)
+		composeApp/src/testFixtures/kotlin                                     (testFixtures)
+		composeApp/src/testFixturesDebug/java                                  (testFixturesDebug)
+		composeApp/src/testFixturesDebug/kotlin                                (testFixturesDebug)
+		composeApp/src/testFixturesRelease/java                                (testFixturesRelease)
+		composeApp/src/testFixturesRelease/kotlin                              (testFixturesRelease)
+
+	Android application Source Sets ------------------------------------------------------ (12)
+
+		androidTest -----
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+			composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+			composeApp/src/androidTest/java                                                  NOT EXISTS
+			composeApp/src/androidTest/kotlin                                                NOT EXISTS
+
+		androidTestDebug -----
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+			composeApp/src/androidTestDebug/java                                             NOT EXISTS
+			composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+		androidTestRelease -----
+			composeApp/src/androidTestRelease/java                                           NOT EXISTS
+			composeApp/src/androidTestRelease/kotlin                                         NOT EXISTS
+
+		debug ----- (consumed by variant debug)
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidDebug/kotlin                                               NOT EXISTS
+			composeApp/src/debug/java                                                        NOT EXISTS
+			composeApp/src/debug/kotlin                                                      NOT EXISTS
+
+		main ----- (consumed by variant release)
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+			composeApp/src/androidMain/kotlin                                                NOT EXISTS
+			composeApp/src/main/java                                                         NOT EXISTS
+			composeApp/src/main/kotlin                                                       NOT EXISTS
+
+		release ----- (consumed by variant release)
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidReleaseResourceAccessors NOT EXISTS
+			composeApp/src/androidRelease/kotlin                                             NOT EXISTS
+			composeApp/src/release/java                                                      NOT EXISTS
+			composeApp/src/release/kotlin                                                    NOT EXISTS
+
+		test -----
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+			composeApp/src/test/java                                                         NOT EXISTS
+			composeApp/src/test/kotlin                                                       NOT EXISTS
+
+		testDebug -----
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+			composeApp/src/testDebug/java                                                    NOT EXISTS
+			composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+		testFixtures -----
+			composeApp/src/testFixtures/java                                                 NOT EXISTS
+			composeApp/src/testFixtures/kotlin                                               NOT EXISTS
+
+		testFixturesDebug -----
+			composeApp/src/testFixturesDebug/java                                            NOT EXISTS
+			composeApp/src/testFixturesDebug/kotlin                                          NOT EXISTS
+
+		testFixturesRelease -----
+			composeApp/src/testFixturesRelease/java                                          NOT EXISTS
+			composeApp/src/testFixturesRelease/kotlin                                        NOT EXISTS
+
+		testRelease -----
+			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+			composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+			composeApp/src/testRelease/java                                                  NOT EXISTS
+			composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+	Kotlin sources NOT COVERED by android source sets
+		composeApp/src/commonMain/kotlin                                       (commonMain)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass (commonMain)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors (commonMain)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors (commonMain)
+		composeApp/src/commonTest/kotlin                                       (commonTest)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors (commonTest)
+		composeApp/src/desktopMain/kotlin                                      (desktopMain)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceAccessors (desktopMain)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceCollectors (desktopMain)
+		composeApp/src/desktopTest/kotlin                                      (desktopTest)
+		composeApp/build/generated/compose/resourceGenerator/kotlin/desktopTestResourceAccessors (desktopTest)
+
+== [Kotlin targets] ========================================================= (3)
+
+	android ----- (androidJvm platform, 5 compilations)
+
+		compilation 'debug' (target android (androidJvm)) (compiled by androidDebugClasses task)
+
+			Source sets (3)
+
+				androidDebug -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidDebugResourceAccessors NOT EXISTS
+					composeApp/src/androidDebug/kotlin                                               NOT EXISTS
+					composeApp/src/debug/java                                                        NOT EXISTS
+					composeApp/src/debug/kotlin                                                      NOT EXISTS
+
+				androidMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+					composeApp/src/androidMain/kotlin                                                NOT EXISTS
+					composeApp/src/main/java                                                         NOT EXISTS
+					composeApp/src/main/kotlin                                                       NOT EXISTS
+
+				commonMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+					composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+				composeApp/build/tmp/kotlin-classes/debug
+
+		compilation 'debugAndroidTest' (target android (androidJvm)) (compiled by androidDebugAndroidTestClasses task)
+
+			Source sets (2)
+
+				androidInstrumentedTestDebug -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+					composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+					composeApp/src/androidTestDebug/java                                             NOT EXISTS
+					composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+				androidInstrumentedTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+					composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+					composeApp/src/androidTest/java                                                  NOT EXISTS
+					composeApp/src/androidTest/kotlin                                                NOT EXISTS
+
+			Output
+				composeApp/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+				composeApp/build/tmp/kotlin-classes/debugAndroidTest
+
+			Associated compilations (1)
+				debug
+
+		compilation 'debugUnitTest' (target android (androidJvm)) (compiled by androidDebugUnitTestClasses task)
+
+			Source sets (3)
+
+				androidUnitTestDebug -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+					composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+					composeApp/src/testDebug/java                                                    NOT EXISTS
+					composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+				androidUnitTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+					composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+					composeApp/src/test/java                                                         NOT EXISTS
+					composeApp/src/test/kotlin                                                       NOT EXISTS
+
+				commonTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+					composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+				composeApp/build/tmp/kotlin-classes/debugUnitTest
+
+			Associated compilations (1)
+				debug
+
+		compilation 'release' (target android (androidJvm)) (compiled by androidReleaseClasses task)
+
+			Source sets (3)
+
+				androidRelease -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidReleaseResourceAccessors NOT EXISTS
+					composeApp/src/androidRelease/kotlin                                             NOT EXISTS
+					composeApp/src/release/java                                                      NOT EXISTS
+					composeApp/src/release/kotlin                                                    NOT EXISTS
+
+				androidMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+					composeApp/src/androidMain/kotlin                                                NOT EXISTS
+					composeApp/src/main/java                                                         NOT EXISTS
+					composeApp/src/main/kotlin                                                       NOT EXISTS
+
+				commonMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+					composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+				composeApp/build/tmp/kotlin-classes/release
+
+		compilation 'releaseUnitTest' (target android (androidJvm)) (compiled by androidReleaseUnitTestClasses task)
+
+			Source sets (3)
+
+				androidUnitTestRelease -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+					composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+					composeApp/src/testRelease/java                                                  NOT EXISTS
+					composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+				androidUnitTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+					composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+					composeApp/src/test/java                                                         NOT EXISTS
+					composeApp/src/test/kotlin                                                       NOT EXISTS
+
+				commonTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+					composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+				composeApp/build/tmp/kotlin-classes/releaseUnitTest
+
+			Associated compilations (1)
+				release
+
+	desktop ----- (jvm platform, 2 compilations)
+
+		compilation 'main' (target desktop (jvm)) (compiled by desktopMainClasses task)
+
+			Source sets (2)
+
+				desktopMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/desktopMainResourceCollectors NOT EXISTS
+					composeApp/src/desktopMain/kotlin                                                NOT EXISTS
+
+				commonMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+					composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/desktop/main
+
+		compilation 'test' (target desktop (jvm)) (compiled by desktopTestClasses task)
+
+			Source sets (2)
+
+				desktopTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/desktopTestResourceAccessors NOT EXISTS
+					composeApp/src/desktopTest/kotlin                                                NOT EXISTS
+
+				commonTest -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonTestResourceAccessors NOT EXISTS
+					composeApp/src/commonTest/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/desktop/test
+
+			Associated compilations (1)
+				main
+
+	metadata ----- (common platform, 2 compilations)
+
+		compilation 'commonMain' (target metadata (common)) (compiled by metadataCommonMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+					composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/metadata/commonMain
+
+		compilation 'main' (target metadata (common)) (compiled by metadataMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceAccessors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonMainResourceCollectors NOT EXISTS
+					composeApp/build/generated/compose/resourceGenerator/kotlin/commonResClass       NOT EXISTS
+					composeApp/src/commonMain/kotlin                                                 NOT EXISTS
+
+			Output
+				composeApp/build/classes/kotlin/metadata/main
+
+== [Android Variants] ========================================================== (2)
+
+	debug ===== (compiled by compileDebugJavaWithJavac task)
+
+		Source sets (2)
+
+			main -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+				composeApp/src/androidMain/kotlin                                                NOT EXISTS
+				composeApp/src/main/java                                                         NOT EXISTS
+				composeApp/src/main/kotlin                                                       NOT EXISTS
+
+			debug -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidDebugResourceAccessors NOT EXISTS
+				composeApp/src/androidDebug/kotlin                                               NOT EXISTS
+				composeApp/src/debug/java                                                        NOT EXISTS
+				composeApp/src/debug/kotlin                                                      NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+
+	release ===== (compiled by compileReleaseJavaWithJavac task)
+
+		Source sets (2)
+
+			main -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceAccessors NOT EXISTS
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidMainResourceCollectors NOT EXISTS
+				composeApp/src/androidMain/kotlin                                                NOT EXISTS
+				composeApp/src/main/java                                                         NOT EXISTS
+				composeApp/src/main/kotlin                                                       NOT EXISTS
+
+			release -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidReleaseResourceAccessors NOT EXISTS
+				composeApp/src/androidRelease/kotlin                                             NOT EXISTS
+				composeApp/src/release/java                                                      NOT EXISTS
+				composeApp/src/release/kotlin                                                    NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+
+\===========================================================================================

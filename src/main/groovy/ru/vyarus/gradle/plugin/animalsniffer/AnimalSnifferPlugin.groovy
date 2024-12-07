@@ -23,6 +23,7 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetOutput
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
+import ru.vyarus.gradle.plugin.animalsniffer.debug.DebugSourcesTask
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
@@ -87,6 +88,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             registerConfigurations()
             registerExtensions()
             registerBuildTasks()
+            registerDebugTask()
         }
         init = true
     }
@@ -337,6 +339,10 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 }
             }
         }
+    }
+
+    private void registerDebugTask() {
+        project.tasks.register('debugAnimalsnifferSources', DebugSourcesTask)
     }
 
     /**
