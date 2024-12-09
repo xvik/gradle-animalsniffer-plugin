@@ -3,7 +3,14 @@ pluginManagement {
         mavenLocal()
         gradlePluginPortal()
         google()
-        maven { url 'https://maven.pkg.github.com/xvik/gradle-animalsniffer-plugin' }
+        // for github package (used on CI)
+        maven {
+            url  = 'https://maven.pkg.github.com/xvik/gradle-animalsniffer-plugin'
+            credentials {
+                username = settings.ext.find('gpr.user') ?: System.getenv("USERNAME")
+                password = settings.ext.find('gpr.key') ?: System.getenv("TOKEN")
+            }
+        }
     }
 }
 

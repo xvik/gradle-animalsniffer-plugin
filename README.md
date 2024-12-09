@@ -124,11 +124,45 @@ Gradle | Version
 #### Snapshots
 
 <details>
-      <summary>Snapshots may be used through JitPack</summary>
+      <summary>Snapshots may be used through JitPack or GitHub packages</summary>
 
-* Go to [JitPack project page](https://jitpack.io/#ru.vyarus/gradle-animalsniffer-plugin)
-* Select `Commits` section and click `Get it` on commit you want to use
-  or use `master-SNAPSHOT` to use the most recent snapshot
+##### GitHub package
+
+WARNING: Accessing GitHub package requires [GitHub authorization](https://docs.github.com/en/enterprise-cloud@latest/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#authenticating-to-github-packages)!
+
+* Add to `settings.gradle` (top most!) (exact commit hash might be used as version) :
+
+  ```groovy
+  pluginManagement {
+      repositories {
+          gradlePluginPortal()      
+          maven { 
+              url = 'https://maven.pkg.github.com/xvik/gradle-animalsniffer-plugin'
+              credentials {
+                 username = settings.ext.find('gpr.user') ?: System.getenv("USERNAME")
+                 password = settings.ext.find('gpr.key') ?: System.getenv("TOKEN")
+            } 
+          }             
+      }
+  }    
+  ```   
+* In global gradle file `~/.gradle/gradle.properties` add
+  ```
+  gpr.user=<your github user name>
+  gpr.key=<your github password or classic token>
+  ```                                            
+  (or credentials must be declared in environment: USERNAME/TOKEN (more usable for CI))
+  Read [personal access tokens creation guide](https://docs.github.com/en/enterprise-cloud@latest/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic)
+  Note that token needs only "package/read" permission 
+* Use plugin snapshot (see [the latest published package version](https://github.com/xvik/gradle-animalsniffer-plugin/packages/2339003)):
+
+  ```groovy
+  plugins {
+      id 'ru.vyarus.animalsniffer' version '2.0.0-SNAPSHOT'
+  }
+  ```  
+
+##### JitPack
 
 * Add to `settings.gradle` (top most!) (exact commit hash might be used as version) :
 
@@ -146,14 +180,16 @@ Gradle | Version
           maven { url 'https://jitpack.io' }              
       }
   }    
-  ``` 
+  ```  
+  Note: this would use the latest snapshot. To use exact commit version, go to
+  [JitPack project page](https://jitpack.io/#ru.vyarus/gradle-animalsniffer-plugin)
 * Use plugin without declaring version:
 
   ```groovy
   plugins {
       id 'ru.vyarus.animalsniffer'
   }
-  ```  
+  ```
 
 </details>
 

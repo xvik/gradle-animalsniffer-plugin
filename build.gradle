@@ -84,7 +84,7 @@ if (System.getenv("SNAPSHOT")) {
 }
 
 // skip signing for jitpack (snapshots)
-tasks.withType(Sign) { onlyIf { !System.getenv('JITPACK') || !System.getenv('SNAPSHOT') }}
+tasks.withType(Sign) { onlyIf { !(System.getenv('JITPACK') || System.getenv('SNAPSHOT')) }}
 
 // Required signing properties for release: signing.keyId, signing.password and signing.secretKeyRingFile
 // (https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials)
