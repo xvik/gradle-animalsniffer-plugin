@@ -3,11 +3,13 @@ package ru.vyarus.gradle.plugin.animalsniffer.debug.custom
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import spock.lang.IgnoreIf
 
 /**
  * @author Vyacheslav Rusakov
  * @since 06.12.2024
  */
+@IgnoreIf({ !jvm.java17Compatible })
 class MultiplatformAndroidNoClasspathDebugKitTest extends AbstractDebugKitTest {
 
     def "Check multiple declared platforms debug (with android)"() {
