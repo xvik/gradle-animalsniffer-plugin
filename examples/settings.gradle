@@ -1,16 +1,9 @@
 pluginManagement {
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == 'ru.vyarus.animalsniffer') {
-                useModule('ru.vyarus:gradle-animalsniffer-plugin:master-SNAPSHOT')
-            }
-        }
-    }
     repositories {
         mavenLocal()
         gradlePluginPortal()
         google()
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.pkg.github.com/xvik/gradle-animalsniffer-plugin' }
     }
 }
 
