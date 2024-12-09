@@ -169,9 +169,22 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
 
         // include required animalsniffer tasks in check lifecycle
-        project.tasks.named(CHECK_TASK).configure {
-            dependsOn {
-                extension.sourceSets*.getTaskName(CHECK_SIGNATURE, null)
+        project.tasks.named(CHECK_TASK).configure { check ->
+            Set<String> filter = extension.stringSourceSets
+            Set<String> found = []
+            extension.sourceSets.each {
+                // string source sets used as an additional filter (to simplify configuration)
+                if (!filter || filter.contains(it.name)) {
+                    found.add(it.name)
+                    check.dependsOn(it.getTaskName(CHECK_SIGNATURE, null))
+                }
+            }
+            if (filter && found.size() != filter.size()) {
+                List unknown = []
+                unknown.addAll(filter)
+                unknown.removeAll(found)
+                throw new GradleException(
+                        "Configured animalsniffer source sets not found: ${String.join(', ', unknown)}")
             }
         }
     }

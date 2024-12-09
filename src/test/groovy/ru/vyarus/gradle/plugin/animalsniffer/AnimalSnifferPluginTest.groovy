@@ -1,5 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
@@ -49,6 +50,49 @@ class AnimalSnifferPluginTest extends AbstractTest {
 
         then: "task registered"
         project.tasks.withType(AnimalSniffer).size() == 2
+        def check = project.tasks.findByName('check')
+        def dependencies = check.taskDependencies.getDependencies(check)
+        !dependencies.contains(project.tasks.findByName('animalsnifferTest'))
+        dependencies.contains(project.tasks.findByName('animalsnifferMain'))
+    }
+
+    def "Check scope reduce 2"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            animalsniffer {
+                sourceSets 'main'
+            }
+        }
+
+        then: "task registered"
+        project.tasks.withType(AnimalSniffer).size() == 2
+        def check = project.tasks.findByName('check')
+        def dependencies = check.taskDependencies.getDependencies(check)
+        !dependencies.contains(project.tasks.findByName('animalsnifferTest'))
+        dependencies.contains(project.tasks.findByName('animalsnifferMain'))
+    }
+
+    def "Check unknown source set"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            animalsniffer {
+                sourceSets 'main', 'ababa'
+            }
+        }
+        // force configuration
+        def check = project.tasks.findByName('check')
+
+        then: "error thrown"
+        def ex = thrown(GradleException)
+        ex.cause.message == 'Configured animalsniffer source sets not found: ababa'
     }
 
     def "Tool version override"() {
@@ -80,17 +124,16 @@ class AnimalSnifferPluginTest extends AbstractTest {
             sourceSets {
                 main {
                     java {
-                        srcDir("src/main2")
+                        srcDir("src/main2/java")
                     }
                 }
                 itest {
                     java {
-                        srcDirs("src/itest")
+                        srcDirs("src/itest/java")
                     }
                 }
             }
         }
-        println (project.tasks.withType(AnimalSniffer))
 
         then: "task registered"
         project.tasks.withType(AnimalSniffer).size() == 3

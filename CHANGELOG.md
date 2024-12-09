@@ -4,6 +4,8 @@
 * Add androidVariants configuration option to use instead of sourceSets in android projects
   (to define which animalsniffer tasks would run with check task (together with build))
 * Add debugAnimalsnifferSources task for debug purposes (shows registered source sets, tasks, plugins)
+* Add ability to declare target (java) source sets with strings  
+  (new method in extension: animalsniffer.sourceSets 'main', 'other')
 
 ### 1.7.2 (2024-11-18)
 * Update animalsniffer 1.23 -> 1.24

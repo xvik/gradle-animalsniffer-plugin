@@ -1,6 +1,7 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.quality.CodeQualityExtension
@@ -16,6 +17,7 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 class AnimalSnifferExtension extends CodeQualityExtension {
 
     private final Project project
+    protected Set<String> stringSourceSets = []
 
     AnimalSnifferExtension(Project project) {
         this.project = project
@@ -109,5 +111,36 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     @SuppressWarnings('ConfusingMethodName')
     void excludeJars(String... names) {
         excludeJars.addAll(names)
+    }
+
+    /**
+     * Shortcut to specify source sets by name (instead of calling {@link #setSourceSets(java.util.Collection)}).
+     * <p>
+     * For unknown source set error would be thrown. The error is delayed until "check" task configuration!
+     * <p>
+     * Not that old source sets - bases method still works. String-based declaration just puts filter above it.
+     * So, for example, if some source set was excluded with old method, it would not be added with a string!
+     *
+     * @param sets source set names
+     */
+    void sourceSets(String... sets) {
+        sourceSets(Arrays.asList(sets))
+    }
+
+    /**
+     * Shortcut to specify source sets by name (instead of calling {@link #setSourceSets(java.util.Collection)}).
+     * <p>
+     * For unknown source set error would be thrown. The error is delayed until "check" task configuration!
+     * <p>
+     * Not that old source sets - bases method still works. String-based declaration just puts filter above it.
+     * So, for example, if some source set was excluded with old method, it would not be added with a string!
+     *
+     * @param sets source set names
+     */
+    @CompileStatic(TypeCheckingMode.SKIP)
+    void sourceSets(Iterable<String> sets) {
+        if (sets) {
+            stringSourceSets.addAll(sets)
+        }
     }
 }
