@@ -2,6 +2,7 @@ package ru.vyarus.gradle.plugin.animalsniffer.debug.model
 
 import groovy.transform.CompileStatic
 import org.jetbrains.annotations.NotNull
+import ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils
 
 /**
  * Plugin representation.
@@ -19,6 +20,9 @@ class PluginInfo implements Comparable<PluginInfo> {
     @Override
     int compareTo(@NotNull PluginInfo o) {
         // plugins could be named the same (e.g. android library and internal android library)
-        return type.simpleName == o.type.simpleName ? type.name <=> o.type.name : type.simpleName <=> o.type.simpleName
+        String simpleName = PrintUtils.simpleName(type)
+        String oSimpleName = PrintUtils.simpleName(o.type)
+
+        return simpleName == oSimpleName ? type.name <=> o.type.name : simpleName <=> oSimpleName
     }
 }

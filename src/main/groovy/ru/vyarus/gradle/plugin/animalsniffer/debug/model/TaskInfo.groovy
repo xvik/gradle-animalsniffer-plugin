@@ -2,6 +2,7 @@ package ru.vyarus.gradle.plugin.animalsniffer.debug.model
 
 import groovy.transform.CompileStatic
 import org.jetbrains.annotations.NotNull
+import ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils
 
 /**
  * Task representation.
@@ -18,7 +19,8 @@ class TaskInfo implements Comparable<TaskInfo> {
 
     @Override
     int compareTo(@NotNull TaskInfo o) {
-        int res = type.simpleName <=> o.type.simpleName
+        // not simplename directly because behaviour differ on different java
+        int res = PrintUtils.simpleName(type) <=> PrintUtils.simpleName(o.type)
         if (res == 0) {
             res = name <=> o.name
         }

@@ -37,6 +37,16 @@ class PrintUtils {
     }
     private static final String NL = '\n'
 
+    static String simpleName(Class type) {
+        // count class name as everything after dot - it is more correct for grouping
+        String res = type.name
+        int idx = res.lastIndexOf('.')
+        if (idx > 0) {
+            res = res.substring(idx)
+        }
+        return res
+    }
+
     static Class taskClass(Class type) {
         return type.simpleName.endsWith('_Decorated') ? type.superclass : type
     }

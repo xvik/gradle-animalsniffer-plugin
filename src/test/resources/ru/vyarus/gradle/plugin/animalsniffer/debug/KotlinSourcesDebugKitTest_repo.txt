@@ -27,11 +27,11 @@
 
 		classes                                  org.gradle.api.DefaultTask
 		testClasses                              org.gradle.api.DefaultTask
-		mainClasses                              org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetProcessor$createAdditionalClassesTaskForIdeRunner$IDEClassesTask
 		compileJava                              org.gradle.api.tasks.compile.JavaCompile
 		compileTestJava                          org.gradle.api.tasks.compile.JavaCompile
 		compileKotlin                            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 		compileTestKotlin                        org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		mainClasses                              org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetProcessor$createAdditionalClassesTaskForIdeRunner$IDEClassesTask
 
 	Compile tasks tree -------------------------------------------------------- (2 roots)
 
