@@ -15,7 +15,7 @@ jobs:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
-        java: [11, 17]
+        java: [17, 21]
 
     steps:
       - uses: actions/checkout@v4
