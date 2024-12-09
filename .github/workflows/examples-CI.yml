@@ -11,7 +11,7 @@ jobs:
         working-directory: examples
     name: Java ${{ matrix.java }}
     env:
-      USERNAME: ${{ GITHUB_ACTOR }}
+      USERNAME: ${{ github.actor }}
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
