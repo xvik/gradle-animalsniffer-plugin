@@ -33,7 +33,7 @@ repositories { mavenLocal(); mavenCentral(); google(); gradlePluginPortal() }
 dependencies {
     implementation 'org.codehaus.mojo:animal-sniffer:1.24'
     compileOnly 'com.android.tools.build:gradle:8.4.0'
-    compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
+    compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
