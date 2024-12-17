@@ -1,29 +1,27 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug.android
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task.android
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
 import spock.lang.IgnoreIf
 
 /**
- * Sample: https://docs.gradle.org/current/samples/sample_building_android_apps.html
- *
  * @author Vyacheslav Rusakov
  * @since 02.12.2024
  */
 @IgnoreIf({ !jvm.java11Compatible })
-class AndroidAppJavaSourcesDebugKitTest extends AbstractDebugKitTest {
+class AndroidLibKotlinSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check java android application debug support"() {
+    def "Check kotlin android library debug support"() {
         setup:
         build """
             plugins {
-                id 'com.android.application' version '7.4.0'
+                id 'com.android.library' version '7.4.0'
+                id 'org.jetbrains.kotlin.android' version '1.7.22'
                 id 'ru.vyarus.animalsniffer'
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             
@@ -71,4 +69,5 @@ class AndroidAppJavaSourcesDebugKitTest extends AbstractDebugKitTest {
         extractReport(result) == readReport("repo")
         !result.output.contains('WARN:')
     }
+
 }

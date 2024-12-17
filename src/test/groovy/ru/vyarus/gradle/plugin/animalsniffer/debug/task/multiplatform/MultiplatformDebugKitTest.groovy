@@ -1,8 +1,8 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug.multiplatform
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task.multiplatform
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
 import spock.lang.IgnoreIf
 
 /**
@@ -67,7 +67,6 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
 

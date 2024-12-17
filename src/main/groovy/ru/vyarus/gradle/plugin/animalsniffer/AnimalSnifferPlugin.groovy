@@ -5,6 +5,7 @@ import groovy.transform.Memoized
 import groovy.transform.TypeCheckingMode
 import kotlin.jvm.functions.Function1
 import org.gradle.api.GradleException
+import org.gradle.api.NamedDomainObjectCollection
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -21,16 +22,20 @@ import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import ru.vyarus.gradle.plugin.animalsniffer.debug.AnimalsnifferTasksDebug
 import ru.vyarus.gradle.plugin.animalsniffer.debug.DebugSourcesTask
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
 import ru.vyarus.gradle.plugin.animalsniffer.support.AndroidVariantTaskConfigurationProvider
 import ru.vyarus.gradle.plugin.animalsniffer.support.AnimalsnifferTaskConfigurationProvider
+import ru.vyarus.gradle.plugin.animalsniffer.support.MultiplatformTaskConfigurationProvider
 import ru.vyarus.gradle.plugin.animalsniffer.support.SourceSetTaskConfigurationProvider
 import ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
 import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
+import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 /**
  * AnimalSniffer plugin. Implemented the same way as gradle quality plugins (checkstyle, pmd, findbugs):
@@ -57,6 +62,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private static final String CHECK_SIGNATURE = 'animalsniffer'
     private static final String BUILD_SIGNATURE = 'animalsnifferSignature'
     private static final String CHECK_TASK = 'check'
+    private static final String AS_CHECK_TASK_DESCR = 'Run AnimalSniffer checks'
+
+    private static final String PLUGIN_MULTIPLATFORM = 'org.jetbrains.kotlin.multiplatform'
+    private static final String PLUGIN_ANDROID_LIB = 'com.android.library'
+    private static final String PLUGIN_ANDROID_APP = 'com.android.application'
 
     private Project project
     private AnimalSnifferExtension extension
@@ -67,16 +77,23 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     void apply(Project project) {
         this.project = project
         project.plugins.withType(JavaBasePlugin) {
-            initialize()
-            registerJavaCheckTasks()
+            // ignore if multiplatform registered (in case of jvm().withJava() duplicate tasks would appear)
+            if (!project.plugins.findPlugin(PLUGIN_MULTIPLATFORM)) {
+                initialize()
+                registerJavaCheckTasks()
+            }
         }
-        project.plugins.withId('com.android.library') {
+        project.plugins.withId(PLUGIN_ANDROID_LIB) {
             initialize()
             registerAndroidCheckTasks()
         }
-        project.plugins.withId('com.android.application') {
+        project.plugins.withId(PLUGIN_ANDROID_APP) {
             initialize()
             registerAndroidCheckTasks()
+        }
+        project.plugins.withId(PLUGIN_MULTIPLATFORM) {
+            initialize()
+            registerMultiplatformCheckTasks()
         }
     }
 
@@ -90,12 +107,13 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             registerExtensions()
             registerBuildTasks()
             registerDebugTask()
+
+            AnimalsnifferTasksDebug.printTasks(project, CHECK_TASK, AS_CHECK_TASK_DESCR)
         }
         init = true
     }
 
     private void checkGradleCompatibility() {
-        // due to base internal api changes in gradle 5.0 plugin can't be launched on prior gradle versions
         GradleVersion version = GradleVersion.current()
         if (version < GradleVersion.version('7.0')) {
             throw new GradleException('Animalsniffer plugin requires gradle 7.0 or above, ' +
@@ -109,6 +127,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         props.set(AnimalSniffer.simpleName, AnimalSniffer)
         props.set(BuildSignatureTask.simpleName, BuildSignatureTask)
         props.set(SignatureInfoTask.simpleName, SignatureInfoTask)
+        props.set(TargetType.simpleName, TargetType)
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
@@ -149,33 +168,13 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         project.sourceSets.all { SourceSet sourceSet ->
             registerCheckTask(new SourceSetTaskConfigurationProvider(project.objects, project.providers, sourceSet))
         }
-
-        // include required animalsniffer tasks in check lifecycle
-        project.tasks.named(CHECK_TASK).configure { check ->
-            Set<String> filter = extension.stringSourceSets
-            Set<String> found = []
-            extension.sourceSets.each {
-                // string source sets used as an additional filter (to simplify configuration)
-                if (!filter || filter.contains(it.name)) {
-                    found.add(it.name)
-                    check.dependsOn(it.getTaskName(CHECK_SIGNATURE, null))
-                }
-            }
-            if (filter && found.size() != filter.size()) {
-                List unknown = []
-                unknown.addAll(filter)
-                unknown.removeAll(found)
-                throw new GradleException(
-                        "Configured animalsniffer source sets not found: ${String.join(', ', unknown)}")
-            }
-        }
     }
 
     @SuppressWarnings('GroovyAssignabilityCheck')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerAndroidCheckTasks() {
+        // new android api examples: https://github.com/android/gradle-recipes/tree/agp-8.7
         Object androidComponents = project.androidComponents
-        Map<String, TaskProvider> sourceIndex = [:]
 
         androidComponents.onVariants(androidComponents.selector().all()) { variant ->
             TaskProvider<AndroidClassesCollector> classesCollector =
@@ -184,16 +183,6 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             TaskProvider<AnimalSniffer> task = registerCheckTask(
                     new AndroidVariantTaskConfigurationProvider(
                             project.objects, project.providers, variant, classesCollector))
-            sourceIndex.put(variant.name, task.name)
-        }
-
-        // include required animalsniffer tasks in check lifecycle
-        project.tasks.named(CHECK_TASK).configure { task ->
-            extension.androidVariants.each {
-                if (sourceIndex.containsKey(it)) {
-                    task.dependsOn(sourceIndex[it])
-                }
-            }
         }
     }
 
@@ -224,11 +213,34 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         return collectClasses
     }
 
+    @SuppressWarnings('GroovyAssignabilityCheck')
+    @CompileStatic(TypeCheckingMode.SKIP)
+    private void registerMultiplatformCheckTasks() {
+        // org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+        NamedDomainObjectCollection<KotlinTarget> targets = project.extensions.getByName('kotlin').targets
+        boolean androidPlugin = project.plugins.findPlugin(PLUGIN_ANDROID_LIB)
+                || project.plugins.findPlugin(PLUGIN_ANDROID_APP)
+
+        targets.all { target ->
+            // when android plugin registered - avoid creating tasks for android platform (duplication)
+            if (!androidPlugin || target.targetName != 'android') {
+                target.compilations.all {
+                    MultiplatformTaskConfigurationProvider provider = new MultiplatformTaskConfigurationProvider(
+                            project.objects, project.providers, it)
+                    registerCheckTask(provider)
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings('UnnecessaryObjectReferences')
     private TaskProvider<AnimalSniffer> registerCheckTask(AnimalsnifferTaskConfigurationProvider config) {
         String taskName = CHECK_SIGNATURE + config.targetName.capitalize()
         // registration action would be evaluated lazily!
         TaskProvider<AnimalSniffer> checkTask = project.tasks.<AnimalSniffer> register(taskName, AnimalSniffer) {
-            it.description = "Run AnimalSniffer checks for ${config.targetName} classes"
+            it.targetType = config.type
+            it.targetName = config.targetName
+            it.description = AS_CHECK_TASK_DESCR + config.description
             it.dependsOn config.compileTaskName
             // task operates on classes instead of sources
             it.source = config.classes
@@ -298,6 +310,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                 // cache task is not created at this point (gradle avoidance api)
                 signatureTask.configure { enabled = false }
             }
+
+            assignToDefaultBuildIfRequired(checkTask, config)
         }
 
         return checkTask
@@ -334,7 +348,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     }
 
     private void registerDebugTask() {
-        project.tasks.register('debugAnimalsnifferSources', DebugSourcesTask)
+        project.tasks.register(DebugSourcesTask.NAME, DebugSourcesTask)
     }
 
     /**
@@ -394,5 +408,37 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private FileCollection excludeJars(FileCollection classpath) {
         return extension.excludeJars ? classpath.filter(new ExcludeFilePatternSpec(extension.excludeJars))
                 : classpath
+    }
+
+    private void assignToDefaultBuildIfRequired(TaskProvider<AnimalSniffer> task,
+                                                AnimalsnifferTaskConfigurationProvider config) {
+        if (!extension.checkTestSources && config.targetName.containsIgnoreCase('test')) {
+            // skip test sources
+            return
+        }
+
+        if (extension.ignoreTargets.contains(config.type)) {
+            // skip by target ignorance
+            return
+        }
+
+        Set<String> targets = extension.defaultTasks
+        boolean assign
+        if (targets) {
+            // match configured names
+            assign = targets.find { config.targetName.containsIgnoreCase(it) }
+        } else {
+            // all tasks are default
+            // for java tasks, consult legacy sourceSets configuration
+            assign = config.type != TargetType.SourceSet
+                    || extension.sourceSets.find { it.name == config.targetName }
+        }
+
+        if (assign) {
+            // include required animalsniffer tasks in check lifecycle
+            project.tasks.named(CHECK_TASK).configure {
+                it.dependsOn(task)
+            }
+        }
     }
 }

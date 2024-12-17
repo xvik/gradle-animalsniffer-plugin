@@ -1,7 +1,8 @@
-package ru.vyarus.gradle.plugin.animalsniffer
+package ru.vyarus.gradle.plugin.animalsniffer.debug
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
  * @author Vyacheslav Rusakov
@@ -38,7 +39,32 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        clean(result.output).contains """
+
+        and: "contains tasks list"
+        def out = clean(result.output)
+        out.contains("""Registered animalsniffer tasks:
+
+\tanimalsnifferMain                   [default]       for 'main' source set
+\t\treport: build/reports/animalsniffer/main.text
+\t\tdepends on: classes
+\t\tsignatures: 
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/main
+\t\t\tbuild/resources/main
+
+\tanimalsnifferTest                                   for 'test' source set
+\t\treport: build/reports/animalsniffer/test.text
+\t\tdepends on: testClasses
+\t\tsignatures: 
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/test
+\t\t\tbuild/resources/test
+""")
+
+        and: "contains task info"
+        out.contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
@@ -78,7 +104,34 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        clean(result.output).contains """
+
+        and: "contains tasks list"
+        def out = clean(result.output)
+        out.contains("""Registered animalsniffer tasks:
+
+\tanimalsnifferMain                   [default]       for 'main' source set
+\t\treport: build/reports/animalsniffer/main.text
+\t\tdepends on: classes
+\t\tsignatures: 
+\t\t\tandroid-api-level-14-4.0_r4.signature
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/main
+\t\t\tbuild/resources/main
+
+\tanimalsnifferTest                                   for 'test' source set
+\t\treport: build/reports/animalsniffer/test.text
+\t\tdepends on: testClasses
+\t\tsignatures: 
+\t\t\tandroid-api-level-14-4.0_r4.signature
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/test
+\t\t\tbuild/resources/test
+""")
+
+        and: "correct task info"
+        out.contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 \t\tandroid-api-level-14-4.0_r4.signature
@@ -121,7 +174,33 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        clean(result.output).contains """
+
+        and: "contain tasks list"
+        def out = clean(result.output)
+        out.contains("""Registered animalsniffer tasks:
+
+\tanimalsnifferMain                   [default]       for 'main' source set
+\t\treport: build/reports/animalsniffer/main.text
+\t\tdepends on: classes
+\t\tsignatures: 
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/main
+\t\t\tbuild/resources/main
+
+\tanimalsnifferTest                                   for 'test' source set
+\t\treport: build/reports/animalsniffer/test.text
+\t\tdepends on: testClasses
+\t\tsignatures: 
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/test
+\t\t\tbuild/resources/test
+
+""")
+
+        and: "task info"
+        out.contains """
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
@@ -166,20 +245,45 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
-        clean(result.output).contains """animalsnifferCacheMain.sig
+
+        and: "contain tasks list"
+        def out = clean(result.output)
+        out.contains("""Registered animalsniffer tasks:
+
+\tanimalsnifferMain                   [default]       for 'main' source set
+\t\treport: build/reports/animalsniffer/main.text
+\t\tdepends on: animalsnifferCacheMain, classes
+\t\tsignatures: (cached signature)
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/main
+\t\t\tbuild/resources/main
+
+\tanimalsnifferTest                                   for 'test' source set
+\t\treport: build/reports/animalsniffer/test.text
+\t\tdepends on: animalsnifferCacheTest, testClasses
+\t\tsignatures: (cached signature)
+\t\t\tjava16-sun-1.0.signature
+\t\tsource classes:
+\t\t\tbuild/classes/java/test
+\t\t\tbuild/resources/test
+""")
+
+        and: "task info"
+        out.contains """animalsnifferCacheMain.sig
 
 \tsignatures:
 \t\tjava16-sun-1.0.signature
 
 \tfiles:"""
-        clean(result.output).contains """caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
+        out.contains """caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar
 
 \texclude:
 \t\tsun.*
 \t\torg.gradle.internal.impldep.*
 """
 
-        clean(result.output).contains """
+        out.contains """
 \tsignatures:
 \t\tanimalsnifferCacheMain.sig
 

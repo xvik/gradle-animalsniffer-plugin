@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -7,13 +7,13 @@ import org.gradle.testkit.runner.TaskOutcome
  * @author Vyacheslav Rusakov
  * @since 02.12.2024
  */
-class ScalaSourcesDebugKitTest extends AbstractDebugKitTest {
+class GroovySourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check simple scala project debug"() {
+    def "Check simple groovy project debug"() {
         setup:
         build """
             plugins {
-                id 'scala'
+                id 'groovy'
                 id 'ru.vyarus.animalsniffer'
             }
 
@@ -24,12 +24,12 @@ class ScalaSourcesDebugKitTest extends AbstractDebugKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                implementation 'org.scala-lang:scala-library:2.13.13'
+                implementation localGroovy()
                 implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
-        fileFromClasspath('src/main/scala/invalid/Sample.scala', '/ru/vyarus/gradle/plugin/animalsniffer/scala/invalid/Sample.scala')
+        fileFromClasspath('src/main/groovy/invalid/Sample.groovy', '/ru/vyarus/gradle/plugin/animalsniffer/groovy/invalid/Sample.groovy')
 //        debug()
 
         when: "run task"
@@ -38,7 +38,7 @@ class ScalaSourcesDebugKitTest extends AbstractDebugKitTest {
         then: "task successful"
         result.task(':debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
 
-        then: "report validation"
+        then: "report validation (no special groovy treatment)"
         extractReport(result) == readReport("repo")
         !result.output.contains('WARN:')
     }

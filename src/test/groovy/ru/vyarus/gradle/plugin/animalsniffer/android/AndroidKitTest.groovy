@@ -22,7 +22,6 @@ class AndroidKitTest extends AbstractAndroidKitTest {
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             
@@ -70,7 +69,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-        result.task(':animalsnifferRelease') == null
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violation"
         result.output.contains("3 AnimalSniffer violations were found in 2 files")
@@ -105,7 +104,6 @@ class AndroidKitTest extends AbstractAndroidKitTest {
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             
@@ -155,7 +153,7 @@ class AndroidKitTest extends AbstractAndroidKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-        result.task(':animalsnifferRelease') == null
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violation"
         result.output.contains("3 AnimalSniffer violations were found in 2 files")

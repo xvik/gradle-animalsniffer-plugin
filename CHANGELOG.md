@@ -1,11 +1,20 @@
 * (breaking) Drop gradle 5 and 6 support
+* Improve debug:
+  - Add debugAnimalsnifferSources task for debug purposes (shows registered source sets, tasks, plugins)
+  - Debug option now also lists all registered animalsniffer tasks with short description
 * Add android projects support (activates for android library and application plugins
-   and use variants (debug, release) instead of source sets)
-* Add androidVariants configuration option to use instead of sourceSets in android projects
-  (to define which animalsniffer tasks would run with check task (together with build))
-* Add debugAnimalsnifferSources task for debug purposes (shows registered source sets, tasks, plugins)
-* Add ability to declare target (java) source sets with strings  
-  (new method in extension: animalsniffer.sourceSets 'main', 'other')
+   and use variants (debug, release) instead of source sets). Not cover tests.
+* Add kotlin multiplatform projects support (tasks created for each platform compilation)
+* Change default tasks selection (tasks applied as dependency to the check task):
+  - Add checkTestSources = false option to avoid tests sources checks by default
+  - Add defaultTasks = [] (strings) option to limit default animalsniffer tasks. 
+     Specified names checked as contains for animalsniffer targets (due to many tasks in multiplatform builds 
+     with common signs)
+  - Add ignoreTargets = [] option to be able to switch of all tasks by type (source set, android or multiplatform)
+  - Legacy sourceSets option still supported, but checkTestSources and defaultTasks override it
+* Add new properties to AnimalSniffer task to simplify detailed configuration:
+  - targetType: type of task (SourceSet, MultiplatformTarget, AndroidVariant)
+  - targetName: name of target (used in animalsniffer task name) 
 
 ### 1.7.2 (2024-11-18)
 * Update animalsniffer 1.23 -> 1.24

@@ -8,6 +8,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.tasks.TaskProvider
 import ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 /**
  * Configuration for android variant (used for android application and library plugins).
@@ -18,23 +19,32 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 @CompileStatic(TypeCheckingMode.SKIP)
 class AndroidVariantTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
 
-    private final ObjectFactory project
     private final String name
+    private final String desc
     private final TaskProvider<AndroidClassesCollector> classesTask
+    private final Provider<FileCollection> classes
     private final Provider<FileCollection> classpath
     private final Provider<FileCollection> sources
 
     // BaseVariant (LibraryVariant or ApplicationVariant)
     AndroidVariantTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, Object variant,
                                             TaskProvider<AndroidClassesCollector> classesTask) {
-        this.project = objects
-        this.classesTask = classesTask
         name = variant.name
+        desc = "for '$name' android variant"
+        this.classesTask = classesTask
+        classes = providers.provider {
+            objects.fileCollection().from(classesTask.flatMap { it.outputDirectory })
+        }
         classpath = providers.provider { variant.compileClasspath }
         sources = providers.provider {
             // project.files
-            project.fileCollection().from(variant.sources.java.all, variant.sources.kotlin.all)
+            objects.fileCollection().from(variant.sources.java.all, variant.sources.kotlin.all)
         }
+    }
+
+    @Override
+    TargetType getType() {
+        return TargetType.AndroidVariant
     }
 
     @Override
@@ -43,9 +53,13 @@ class AndroidVariantTaskConfigurationProvider implements AnimalsnifferTaskConfig
     }
 
     @Override
+    String getDescription() {
+        return desc
+    }
+
+    @Override
     FileCollection getClasses() {
-        // project.files
-        return project.fileCollection().from(classesTask.flatMap { it.outputDirectory })
+        return classes.get()
     }
 
     @Override

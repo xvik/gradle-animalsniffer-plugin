@@ -46,7 +46,11 @@ abstract class AbstractKitTest extends Specification {
     }
 
     String readFileFromClasspath(String source) {
-        (getClass().getResourceAsStream(source) ?: getClass().classLoader.getResourceAsStream(source)).text
+        def stream = getClass().getResourceAsStream(source) ?: getClass().classLoader.getResourceAsStream(source)
+        if (stream == null) {
+            throw new FileNotFoundException("Classpath file not found: $source")
+        }
+        stream.text
     }
 
     /**

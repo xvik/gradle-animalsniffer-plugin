@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.signature
+package ru.vyarus.gradle.plugin.animalsniffer.debug
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome

@@ -1,8 +1,8 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug.android
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task.android
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
 import spock.lang.IgnoreIf
 
 /**
@@ -10,19 +10,17 @@ import spock.lang.IgnoreIf
  * @since 02.12.2024
  */
 @IgnoreIf({ !jvm.java11Compatible })
-class AndroidLibKotlinSourcesDebugKitTest extends AbstractDebugKitTest {
+class AndroidLibJavaSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check kotlin android library debug support"() {
+    def "Check java android library debug support"() {
         setup:
         build """
             plugins {
                 id 'com.android.library' version '7.4.0'
-                id 'org.jetbrains.kotlin.android' version '1.7.22'
                 id 'ru.vyarus.animalsniffer'
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             

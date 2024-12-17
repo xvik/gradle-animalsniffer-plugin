@@ -1,21 +1,21 @@
 package ru.vyarus.gradle.plugin.animalsniffer.support
 
 import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
 import org.gradle.api.file.FileCollection
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
-import org.gradle.api.tasks.SourceSet
 import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 /**
- * Configuration from source set (used for java, kotlin, scala plugins).
+ * Kotlin multiplatform support (tasks created per each platform compilation).
  *
  * @author Vyacheslav Rusakov
  * @since 11.12.2024
  */
-@CompileStatic
-class SourceSetTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
+@CompileStatic(TypeCheckingMode.SKIP)
+class MultiplatformTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
 
     private final String name
     private final String desc
@@ -24,19 +24,25 @@ class SourceSetTaskConfigurationProvider implements AnimalsnifferTaskConfigurati
     private final Provider<FileCollection> classpath
     private final Provider<FileCollection> sources
 
-    SourceSetTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, SourceSet sourceSet) {
-        name = sourceSet.name
-        desc = "for '$name' source set"
-        compileTask = sourceSet.classesTaskName
-        classes = providers.provider { sourceSet.output as FileCollection }
-        classpath = providers.provider { sourceSet.compileClasspath }
-        sources = providers.provider { objects.fileCollection().from(sourceSet.allJava.srcDirs) }
+    // KotlinCompilation
+    MultiplatformTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers,
+                                           Object compilation) {
+        name = compilation.target.targetName + compilation.name.capitalize()
+        desc = "for kotlin platform '${compilation.target.targetName}' compilation '${compilation.name}'"
+        compileTask = compilation.compileAllTaskName
+        classes = providers.provider { objects.fileCollection().from(compilation.output.classesDirs) }
                 as Provider<FileCollection>
+        classpath = providers.provider { compilation.compileDependencyFiles } as Provider<FileCollection>
+        sources = providers.provider {
+            // project.files
+            objects.fileCollection().from(
+                    compilation.allKotlinSourceSets.collect { it.kotlin.sourceDirectories })
+        } as Provider<FileCollection>
     }
 
     @Override
     TargetType getType() {
-        return TargetType.SourceSet
+        return TargetType.MultiplatformTarget
     }
 
     @Override

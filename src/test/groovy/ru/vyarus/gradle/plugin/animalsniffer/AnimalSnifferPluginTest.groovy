@@ -44,6 +44,8 @@ class AnimalSnifferPluginTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
+                // disable direct check to test legacy source set appliance
+                checkTestSources = true
                 sourceSets = [sourceSets.main]
             }
         }
@@ -64,7 +66,9 @@ class AnimalSnifferPluginTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
-                sourceSets 'main'
+                // disable direct check to test legacy source set appliance
+                checkTestSources = true
+                defaultTasks = ['main']
             }
         }
 
@@ -76,7 +80,7 @@ class AnimalSnifferPluginTest extends AbstractTest {
         dependencies.contains(project.tasks.findByName('animalsnifferMain'))
     }
 
-    def "Check unknown source set"() {
+    def "Check scope reduce 3"() {
 
         when: "plugin configured"
         Project project = project {
@@ -84,15 +88,18 @@ class AnimalSnifferPluginTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
-                sourceSets 'main', 'ababa'
+                // disable direct check to test legacy source set appliance
+                checkTestSources = true
+                ignoreTargets = [TargetType.SourceSet]
             }
         }
-        // force configuration
-        def check = project.tasks.findByName('check')
 
-        then: "error thrown"
-        def ex = thrown(GradleException)
-        ex.cause.message == 'Configured animalsniffer source sets not found: ababa'
+        then: "task registered"
+        project.tasks.withType(AnimalSniffer).size() == 2
+        def check = project.tasks.findByName('check')
+        def dependencies = check.taskDependencies.getDependencies(check)
+        !dependencies.contains(project.tasks.findByName('animalsnifferTest'))
+        !dependencies.contains(project.tasks.findByName('animalsnifferMain'))
     }
 
     def "Tool version override"() {

@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task
 
 import org.gradle.testkit.runner.BuildResult
 import ru.vyarus.gradle.plugin.animalsniffer.android.AbstractAndroidKitTest

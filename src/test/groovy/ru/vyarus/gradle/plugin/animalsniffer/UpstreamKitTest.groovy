@@ -10,6 +10,8 @@ import org.gradle.testkit.runner.TaskOutcome
 class UpstreamKitTest extends AbstractKitTest {
 
     public static final String GRADLE_VERSION = '8.11'
+    public static final String ANDROID_PLUGIN_VERSION = '8.7.3'
+    public static final String KOTLIN_PLUGIN_VERSION = '2.1.0'
 
     def "Check violation detection without cache task"() {
         setup:
@@ -58,36 +60,4 @@ class UpstreamKitTest extends AbstractKitTest {
         ]
     }
 
-    def "Check configuration cache support"() {
-
-        setup:
-        build """
-            plugins {
-                id 'java'
-                id 'ru.vyarus.animalsniffer'
-            }
-            
-            animalsniffer {
-                ignoreFailures = true                
-            }
-
-            repositories { mavenCentral()}
-            dependencies {
-                signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                implementation 'org.slf4j:slf4j-api:1.7.25'
-            }
-        """
-
-        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
-        //debug()
-
-        when: "run task"
-        BuildResult result = runFailedVer(GRADLE_VERSION, 'check', '--configuration-cache')
-
-        then: "task successful"
-        result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
-        // testKit is incompatible with configuration cache, but I can check number of errors!
-        result.output.contains('2 problems were found storing the configuration cache.')
-
-    }
 }

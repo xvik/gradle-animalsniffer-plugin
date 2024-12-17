@@ -16,13 +16,12 @@ class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
         setup:
         build """
             plugins {
-                id 'com.android.library' version '8.7.2'
-                id 'org.jetbrains.kotlin.android' version '2.0.21'
+                id 'com.android.library' version '$UpstreamKitTest.ANDROID_PLUGIN_VERSION'
+                id 'org.jetbrains.kotlin.android' version '$UpstreamKitTest.KOTLIN_PLUGIN_VERSION'
                 id 'ru.vyarus.animalsniffer'
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             
@@ -70,7 +69,7 @@ class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-        result.task(':animalsnifferRelease') == null
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violation"
         result.output.contains("3 AnimalSniffer violations were found in 2 files")
@@ -99,13 +98,12 @@ class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
         setup:
         build """
             plugins {
-                id 'com.android.application' version '8.7.2'
-                id 'org.jetbrains.kotlin.android' version '2.0.21'
+                id 'com.android.application' version '$UpstreamKitTest.ANDROID_PLUGIN_VERSION'
+                id 'org.jetbrains.kotlin.android' version '$UpstreamKitTest.KOTLIN_PLUGIN_VERSION'
                 id 'ru.vyarus.animalsniffer'
             }
 
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
             
@@ -155,7 +153,7 @@ class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-        result.task(':animalsnifferRelease') == null
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
 
         then: "found 1 violation"
         result.output.contains("3 AnimalSniffer violations were found in 2 files")

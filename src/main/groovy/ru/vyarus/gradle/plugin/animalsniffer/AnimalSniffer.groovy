@@ -17,6 +17,7 @@ import org.gradle.util.internal.ClosureBackedAction
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
+import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 import javax.inject.Inject
 import java.lang.reflect.Proxy
@@ -36,6 +37,19 @@ import java.lang.reflect.Proxy
 class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
 
     private static final String NL = '\n'
+
+    /**
+     * Type of task source (source set, multiplatform, android). Added to be able to easily disable tasks by type.
+     */
+    @Internal
+    TargetType targetType
+
+    /**
+     * Target name: source set name, kotlin platform with compilation or android variant name. Used to simplify
+     * appliance to check task.
+     */
+    @Internal
+    String targetName
 
     /**
      * The class path containing the Animal Sniffer library to be used.
@@ -160,7 +174,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         if (getDebug()) {
             printTaskConfig(sortedPath)
         }
-        Set<File> _sourceDirs = collectSourceDirs()
+        Set<File> _sourceDirs = getSourcesDirs().getFiles()
         antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
             ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
             ReportCollector collector = new ReportCollector(_sourceDirs)
@@ -257,7 +271,7 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 .append(getAnimalsnifferSignatures().files.collect { "\t\t$it.name" }.join(NL))
                 .append(NL)
                 .append('\n\tsources:\n')
-                .append(collectSourceDirs().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
+                .append(getSourcesDirs().getFiles().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
                 .append(NL)
                 .append('\n\tfiles:\n')
                 .append(path.split(File.pathSeparator).collect { "\t\t${it.replace(rootDir, '')}" }.join(NL))
@@ -291,19 +305,5 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                 }
         // lambda case (Some$$Lambda$1). Ant removes every odd $ in a row
         return sortedPath.join(File.pathSeparator).replace('$$', '$$$')
-    }
-
-    @CompileStatic(TypeCheckingMode.SKIP)
-    private Set<File> collectSourceDirs() {
-        Set<File> res = [] as Set
-        res.addAll(getSourcesDirs().getFiles())
-        // HACK to support kotlin multiplatform source path for jvm case (when withJava() active)
-        // this MUST BE rewritten into separate support for multiplatform
-        if (project.plugins.findPlugin('org.jetbrains.kotlin.multiplatform')) {
-            project.kotlin.sourceSets.each {
-                res.addAll(it.kotlin.sourceDirectories.files)
-            }
-        }
-        return res
     }
 }

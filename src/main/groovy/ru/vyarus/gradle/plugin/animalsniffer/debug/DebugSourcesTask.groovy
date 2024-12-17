@@ -35,6 +35,8 @@ import static ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils.*
         'DuplicateNumberLiteral', 'DuplicateStringLiteral'])
 class DebugSourcesTask extends DefaultTask {
 
+    public static final String NAME = 'debugAnimalsnifferSources'
+
     @Input
     boolean printPlugins = true
 

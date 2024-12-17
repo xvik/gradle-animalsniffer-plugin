@@ -1,10 +1,10 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
-import groovy.transform.TypeCheckingMode
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.quality.CodeQualityExtension
+import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 /**
  * Animal sniffer plugin extension. Use 'sourceSets' to define target source set (all by default).
@@ -17,7 +17,6 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 class AnimalSnifferExtension extends CodeQualityExtension {
 
     private final Project project
-    protected Set<String> stringSourceSets = []
 
     AnimalSnifferExtension(Project project) {
         this.project = project
@@ -80,11 +79,42 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     CheckCacheExtension cache = new CheckCacheExtension()
 
     /**
-     * When used with android, {@link #sourceSets} can't be used to configure what tasks to link "check" task.
-     * Instead, use this option to specify target android variants. Leave empty to not run animalsniffer after
-     * "check" task execution.
+     * When enabled, animalsniffer tasks for test source sets would be added as a dependency for check task.
+     * Check source detected by containing "test" work in it's name. Applies for source sets, kotlin platforms and
+     * android variants.
+     * <p>
+     * This is a simpler alternative for a common configuration: sourceSets = [project.sourceSets.main]
+     * Option overrides {@link #sourceSets} configuration: even if test source set would be defined, task would not
+     * be run by default (with check task) until this boolean option become true.
      */
-    Set<String> androidVariants = ['debug'] as Set
+    boolean checkTestSources = false
+
+    /**
+     * Supersedes old {@link #sourceSets} configuration which still would be counted ONLY if this list would be empty.
+     * <p>
+     * Defines required targets to assign animalsniffer tasks
+     * into check task (what animalsniffer tasks should run by default).
+     * <p>
+     * Naming is not strict: target must contain provided name. For example, if set {@code ['main']} then
+     * both "animalsnifferMain" and animalsnifferDesktopMain would be assigned to check task.
+     * <p>
+     * This method covers tasks from all sources: source sets, kotlin multiplatform and android variants.
+     * In case of android there are a lot of tasks, but they usually share some nameing conventions
+     * (like "main" in name).
+     * <p>
+     * Note that by default all test targets are avoided with {@link #checkTestSources}.
+     * <p>
+     * To see the full list of animalsniffer tasks use {@link #debug} option.
+     */
+    Set<String> defaultTasks = []
+
+    /**
+     * A way to hide animalsniffer tasks of particular type (prevent assigning animalsniffer task as check dependency).
+     * For example, if you want to ignore multiplatform tasks entirely:
+     * {@code ignoreTargets = [ TargetType.MultiplatformTarget ]} and all animalsniffer tasks related to kotlin
+     * multiplatform would not be added to check task.
+     */
+    Set<TargetType> ignoreTargets = []
 
     /**
      * @param cache cache configuration closure
@@ -111,36 +141,5 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     @SuppressWarnings('ConfusingMethodName')
     void excludeJars(String... names) {
         excludeJars.addAll(names)
-    }
-
-    /**
-     * Shortcut to specify source sets by name (instead of calling {@link #setSourceSets(java.util.Collection)}).
-     * <p>
-     * For unknown source set error would be thrown. The error is delayed until "check" task configuration!
-     * <p>
-     * Not that old source sets - bases method still works. String-based declaration just puts filter above it.
-     * So, for example, if some source set was excluded with old method, it would not be added with a string!
-     *
-     * @param sets source set names
-     */
-    void sourceSets(String... sets) {
-        sourceSets(Arrays.asList(sets))
-    }
-
-    /**
-     * Shortcut to specify source sets by name (instead of calling {@link #setSourceSets(java.util.Collection)}).
-     * <p>
-     * For unknown source set error would be thrown. The error is delayed until "check" task configuration!
-     * <p>
-     * Not that old source sets - bases method still works. String-based declaration just puts filter above it.
-     * So, for example, if some source set was excluded with old method, it would not be added with a string!
-     *
-     * @param sets source set names
-     */
-    @CompileStatic(TypeCheckingMode.SKIP)
-    void sourceSets(Iterable<String> sets) {
-        if (sets) {
-            stringSourceSets.addAll(sets)
-        }
     }
 }

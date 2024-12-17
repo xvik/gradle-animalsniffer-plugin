@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
@@ -7,28 +7,15 @@ import org.gradle.testkit.runner.TaskOutcome
  * @author Vyacheslav Rusakov
  * @since 02.12.2024
  */
-class JavaModifiedSourcesDebugKitTest extends AbstractDebugKitTest {
+class ScalaSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check java modified source sets debug"() {
+    def "Check simple scala project debug"() {
         setup:
         build """
             plugins {
-                id 'java'
+                id 'scala'
                 id 'ru.vyarus.animalsniffer'
             }
-            
-            sourceSets {
-                main {
-                    java {
-                        srcDir("src/main2/java")
-                    }
-                }
-                itest {
-                    java {
-                        srcDir("src/itest/java")
-                    }
-                }
-            }    
 
             animalsniffer {
                 ignoreFailures = true
@@ -37,12 +24,12 @@ class JavaModifiedSourcesDebugKitTest extends AbstractDebugKitTest {
             repositories { mavenCentral()}
             dependencies {
                 signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'
-                implementation localGroovy()
+                implementation 'org.scala-lang:scala-library:2.13.13'
                 implementation 'org.slf4j:slf4j-api:1.7.25'
             }
 
         """
-        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
+        fileFromClasspath('src/main/scala/invalid/Sample.scala', '/ru/vyarus/gradle/plugin/animalsniffer/scala/invalid/Sample.scala')
 //        debug()
 
         when: "run task"

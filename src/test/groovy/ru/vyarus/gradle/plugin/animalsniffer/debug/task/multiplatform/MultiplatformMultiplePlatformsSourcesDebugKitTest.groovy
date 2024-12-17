@@ -1,25 +1,27 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug.custom
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task.multiplatform
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
 import spock.lang.IgnoreIf
 
 /**
+ * Based on project from https://kmp.jetbrains.com/
+ * Sample app with desktop and server targets (multi-module)
+ *
  * @author Vyacheslav Rusakov
- * @since 06.12.2024
+ * @since 02.12.2024
  */
 @IgnoreIf({ !jvm.java17Compatible })
-class MultiplatformAndroidNoClasspathDebugKitTest extends AbstractDebugKitTest {
+class MultiplatformMultiplePlatformsSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check multiple declared platforms debug (with android)"() {
+
+    def "Check multiple declared platforms debug (no android)"() {
         setup:
         build """
             // this is necessary to avoid the plugins to be loaded multiple times
             // in each subproject's classloader            
             plugins {
-                id 'com.android.application' version '8.4.0' apply false
-                id 'com.android.library' version '8.4.0' apply false
                 id 'org.jetbrains.compose' version '1.7.0' apply false
                 id 'org.jetbrains.kotlin.plugin.compose' version '2.0.21' apply false
                 id 'org.jetbrains.kotlin.jvm' version '2.0.21' apply false
@@ -28,22 +30,13 @@ class MultiplatformAndroidNoClasspathDebugKitTest extends AbstractDebugKitTest {
             }            
         """
 
-        file('shared/build.gradle') << """      
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
+        file('shared/build.gradle') << """
 plugins {
     id 'org.jetbrains.kotlin.multiplatform'
-    id 'com.android.library'
     id 'ru.vyarus.animalsniffer'
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
-        }
-    }
-
     jvm()
     
     sourceSets {
@@ -51,29 +44,6 @@ kotlin {
             // put your Multiplatform dependencies here
         }
     }
-}
-
-android {
-    namespace = "org.example.project.shared"
-    compileSdk = 34
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    defaultConfig {
-        minSdk = 24
-    }
-    lint {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-}
-
-debugAnimalsnifferSources.with {
-    printClasspath = false
-    printCompileTasks = false
-    printAndroidVariants = false
-    printKotlinTargets = false
 }
 """
         file('server/build.gradle') << """
@@ -101,40 +71,22 @@ dependencies {
     testImplementation 'io.ktor:ktor-server-tests-jvm:2.3.13'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:2.1.0'        
 }
-
-debugAnimalsnifferSources.with {
-    printClasspath = false
-    printSourceSets = false
-}
 """
 
         file('composeApp/build.gradle') << """    
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id 'org.jetbrains.kotlin.multiplatform'
-    id 'com.android.application'
     id 'org.jetbrains.compose'
     id 'org.jetbrains.kotlin.plugin.compose'
     id 'ru.vyarus.animalsniffer'
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget == JvmTarget.JVM_11
-        }
-    }
-
     jvm("desktop")
     
     sourceSets {
-    
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation 'androidx.activity:activity-compose:1.9.3'
-        }
         
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -154,36 +106,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "org.example.project"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "org.example.project"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-    buildTypes {
-        getByName("release") {
-            minifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    lint {
-        quiet true
-        checkReleaseBuilds false
-        abortOnError false
-    }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
 
 compose.desktop {
     application {
@@ -196,21 +118,11 @@ compose.desktop {
         }
     }
 }
-
-debugAnimalsnifferSources.with {
-    printClasspath = false
-    printPlugins = false
-}
 """
-        generateManifest('composeApp/src/androidMain')
+
         file("settings.gradle") << """            
             include ':composeApp', ':server', ':shared'
             """
-        file("gradle.properties") << """ 
-android.nonTransitiveRClass=true
-android.useAndroidX=true
-io.ktor.development=true
-"""
 
 //        fileFromClasspath('src/androidMain/kotlin/invalid/Sample.kt', '/ru/vyarus/gradle/plugin/animalsniffer/kotlin/invalid/Sample.kt')
 //        debug()
@@ -222,9 +134,7 @@ io.ktor.development=true
         result.task(':shared:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
 
         then: "validate shared report"
-
-        def report = extractReport(result)
-        report == readReport('shared')
+        extractReport(result) == readReport("shared")
         !result.output.contains('WARN:')
 
 
@@ -235,7 +145,7 @@ io.ktor.development=true
         result.task(':server:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
 
         then: "validate server report"
-        extractReport(result) == readReport('server')
+        extractReport(result) == readReport("server")
         !result.output.contains('WARN:')
 
 
@@ -246,7 +156,10 @@ io.ktor.development=true
         result.task(':composeApp:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
 
         then: "validate compose report"
-        extractReport(result) == readReport('composeApp')
+        extractReport(result) == readReport("composeApp")
         !result.output.contains('WARN:')
     }
+
 }
+
+

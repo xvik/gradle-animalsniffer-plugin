@@ -1,22 +1,34 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 
 /**
  * @author Vyacheslav Rusakov
  * @since 02.12.2024
  */
-class GroovySourcesDebugKitTest extends AbstractDebugKitTest {
+class JavaModifiedSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check simple groovy project debug"() {
+    def "Check java modified source sets debug"() {
         setup:
         build """
             plugins {
-                id 'groovy'
+                id 'java'
                 id 'ru.vyarus.animalsniffer'
             }
+            
+            sourceSets {
+                main {
+                    java {
+                        srcDir("src/main2/java")
+                    }
+                }
+                itest {
+                    java {
+                        srcDir("src/itest/java")
+                    }
+                }
+            }    
 
             animalsniffer {
                 ignoreFailures = true
@@ -30,7 +42,7 @@ class GroovySourcesDebugKitTest extends AbstractDebugKitTest {
             }
 
         """
-        fileFromClasspath('src/main/groovy/invalid/Sample.groovy', '/ru/vyarus/gradle/plugin/animalsniffer/groovy/invalid/Sample.groovy')
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
 //        debug()
 
         when: "run task"
@@ -39,7 +51,7 @@ class GroovySourcesDebugKitTest extends AbstractDebugKitTest {
         then: "task successful"
         result.task(':debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
 
-        then: "report validation (no special groovy treatment)"
+        then: "report validation"
         extractReport(result) == readReport("repo")
         !result.output.contains('WARN:')
     }

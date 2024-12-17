@@ -1,8 +1,8 @@
-package ru.vyarus.gradle.plugin.animalsniffer.debug.multiplatform
+package ru.vyarus.gradle.plugin.animalsniffer.debug.task.multiplatform
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AbstractDebugKitTest
+import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
 import spock.lang.IgnoreIf
 
 /**
@@ -10,16 +10,16 @@ import spock.lang.IgnoreIf
  * @since 02.12.2024
  */
 @IgnoreIf({ !jvm.java17Compatible })
-class MultiplatformAndroidAppSourcesDebugKitTest extends AbstractDebugKitTest {
+class MultiplatformAndroidLibSourcesDebugKitTest extends AbstractDebugKitTest {
 
-    def "Check kotlin multiplatform android app debug"() {
+    def "Check kotlin multiplatform android lib debug"() {
         setup:
         build """
             import org.jetbrains.kotlin.gradle.dsl.JvmTarget
             
             plugins {
                 id 'org.jetbrains.kotlin.multiplatform' version '2.0.21'
-                id 'com.android.application' version '8.4.0'                
+                id 'com.android.library' version '8.4.0'                
                 id 'ru.vyarus.animalsniffer'
             }
             
@@ -36,7 +36,6 @@ class MultiplatformAndroidAppSourcesDebugKitTest extends AbstractDebugKitTest {
                 compileSdk = 33
             
                 defaultConfig {
-                    applicationId = "org.example.project"
                     minSdk = 24
                     targetSdk = 24
                     versionCode = 1
@@ -59,7 +58,6 @@ class MultiplatformAndroidAppSourcesDebugKitTest extends AbstractDebugKitTest {
             }
             
             animalsniffer {
-                debug = true
                 ignoreFailures = true
             }
 
@@ -85,5 +83,4 @@ class MultiplatformAndroidAppSourcesDebugKitTest extends AbstractDebugKitTest {
         extractReport(result) == readReport("repo")
         !result.output.contains('WARN:')
     }
-    
 }
