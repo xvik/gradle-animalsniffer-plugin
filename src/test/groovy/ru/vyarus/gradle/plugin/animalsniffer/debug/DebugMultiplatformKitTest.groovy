@@ -58,7 +58,7 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\tdepends on: jvmMainClasses
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/kotlin/jvm/main
 
 \tanimalsnifferJvmTest                                for kotlin platform 'jvm' compilation 'test'
@@ -66,7 +66,7 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\tdepends on: jvmTestClasses
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/kotlin/jvm/test
 
 \tanimalsnifferMetadataMain           [default]       for kotlin platform 'metadata' compilation 'main'
@@ -74,7 +74,7 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\tdepends on: metadataMainClasses
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/kotlin/metadata/main
 """)
 

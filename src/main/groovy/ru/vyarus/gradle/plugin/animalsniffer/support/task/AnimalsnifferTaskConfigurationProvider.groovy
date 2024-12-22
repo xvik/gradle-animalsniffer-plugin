@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.support
+package ru.vyarus.gradle.plugin.animalsniffer.support.task
 
 import groovy.transform.CompileStatic
 import org.gradle.api.file.FileCollection

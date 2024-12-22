@@ -75,7 +75,7 @@ class DebugAndroidKitTest extends AbstractAndroidKitTest {
 \t\tsignatures: 
 \t\t\tandroid-api-level-21-5.0.1_r2.signature
 \t\t\tjava18-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/intermediates/animal_sniffer/debugAnimalSnifferClassesCollector
 
 \tanimalsnifferRelease                [default]       for 'release' android variant
@@ -84,7 +84,7 @@ class DebugAndroidKitTest extends AbstractAndroidKitTest {
 \t\tsignatures: 
 \t\t\tandroid-api-level-21-5.0.1_r2.signature
 \t\t\tjava18-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/intermediates/animal_sniffer/releaseAnimalSnifferClassesCollector
 """)
 

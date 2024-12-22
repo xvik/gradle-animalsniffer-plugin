@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.support
+package ru.vyarus.gradle.plugin.animalsniffer.support.task
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
@@ -17,7 +17,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
  * @since 11.12.2024
  */
 @CompileStatic(TypeCheckingMode.SKIP)
-class AndroidVariantTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
+class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
 
     private final String name
     private final String desc
@@ -27,8 +27,8 @@ class AndroidVariantTaskConfigurationProvider implements AnimalsnifferTaskConfig
     private final Provider<FileCollection> sources
 
     // BaseVariant (LibraryVariant or ApplicationVariant)
-    AndroidVariantTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, Object variant,
-                                            TaskProvider<AndroidClassesCollector> classesTask) {
+    AndroidTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, Object variant,
+                                     TaskProvider<AndroidClassesCollector> classesTask) {
         name = variant.name
         desc = "for '$name' android variant"
         this.classesTask = classesTask

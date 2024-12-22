@@ -185,7 +185,6 @@ dependencies {
         result.task(':server:check').outcome == TaskOutcome.SUCCESS
         result.task(':server:animalsnifferMain').outcome == TaskOutcome.SUCCESS
 
-        then: "validate server report"
         then: "violations detected"
         result.output.contains("2 AnimalSniffer violations were found in 1 files")
         result.output.replaceAll('\r', '').contains(
@@ -205,7 +204,6 @@ dependencies {
         result.task(':composeApp:animalsnifferMetadataMain').outcome == TaskOutcome.SKIPPED
         result.task(':composeApp:animalsnifferDesktopMain').outcome == TaskOutcome.SUCCESS
 
-        then: "validate compose report"
         then: "violations detected"
         result.output.contains("4 AnimalSniffer violations were found in 2 files")
         result.output.replaceAll('\r', '').contains(

@@ -1,4 +1,4 @@
-package ru.vyarus.gradle.plugin.animalsniffer.support
+package ru.vyarus.gradle.plugin.animalsniffer.support.task
 
 import groovy.transform.CompileStatic
 import org.gradle.api.file.FileCollection
@@ -15,7 +15,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
  * @since 11.12.2024
  */
 @CompileStatic
-class SourceSetTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
+class JavaTaskConfigurationProvider implements AnimalsnifferTaskConfigurationProvider {
 
     private final String name
     private final String desc
@@ -24,7 +24,7 @@ class SourceSetTaskConfigurationProvider implements AnimalsnifferTaskConfigurati
     private final Provider<FileCollection> classpath
     private final Provider<FileCollection> sources
 
-    SourceSetTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, SourceSet sourceSet) {
+    JavaTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, SourceSet sourceSet) {
         name = sourceSet.name
         desc = "for '$name' source set"
         compileTask = sourceSet.classesTaskName

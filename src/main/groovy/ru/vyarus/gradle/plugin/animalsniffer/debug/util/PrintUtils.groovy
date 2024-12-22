@@ -98,19 +98,20 @@ class PrintUtils {
         return NL + buildPrefix(shift) + title
     }
 
-    static String renderSources(int shift, Collection<File> sourceDirs, Project project) {
+    static String renderSources(int shift, Collection<File> sourceDirs, Project project, boolean existsMarker = true) {
         String prefix = buildPrefix(shift)
         return sourceDirs.collect {
             String path = project.rootProject.relativePath(it)
-            it.exists() ? "$prefix$path" : String.format("$prefix%-80s %s", path, it.exists() ? '' : 'NOT EXISTS')
-        }
-                .unique().sort().join(NL)
+            it.exists() ? "$prefix$path" : String.format("$prefix%-80s %s", path,
+                    !existsMarker || it.exists() ? '' : 'NOT EXISTS')
+        }.unique().sort().join(NL)
     }
 
     static String renderClasses(int shift, Collection<File> classDirs, Project project) {
         String prefix = buildPrefix(shift)
-        return classDirs.collect { prefix + project.rootProject.relativePath(it) }
-                .unique().sort().join(NL)
+        return classDirs.collect {
+            prefix + project.rootProject.relativePath(it)
+        }.unique().sort().join(NL)
     }
 
     static String renderClasspath(Project project, int shift, Collection<File> files) {

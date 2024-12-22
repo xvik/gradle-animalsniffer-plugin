@@ -51,9 +51,9 @@ class AnimalsnifferTasksDebug {
                         }
                         println "\t\tdepends on: ${tasks.sort().join(', ')}"
                         Set<File> sigs = (sigTask?.signatures ?: task.animalsnifferSignatures).files
-                        println "\t\tsignatures: ${sigTask ? '(cached signature)' : ''}\n" + PrintUtils
-                                .renderClasspath(project, 3, sigs)
-                        println '\t\tsource classes:\n' + PrintUtils.renderClasses(
+                        println "\t\tsignatures: ${sigTask ? '(cached signature)' : ''}\n" +
+                                (sigs.empty ? '\t\t\t<No signatures>' : PrintUtils.renderClasspath(project, 3, sigs))
+                        println '\t\tclasses:\n' + PrintUtils.renderClasses(
                                 3, PrintUtils.inferSourceRoots(task.source), project)
                     }
                     println "\n*use [$DebugSourcesTask.NAME] task to see project sources configuration details\n"

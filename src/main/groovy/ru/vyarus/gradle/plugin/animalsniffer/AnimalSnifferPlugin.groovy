@@ -5,7 +5,6 @@ import groovy.transform.Memoized
 import groovy.transform.TypeCheckingMode
 import kotlin.jvm.functions.Function1
 import org.gradle.api.GradleException
-import org.gradle.api.NamedDomainObjectCollection
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -22,16 +21,17 @@ import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
-import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import ru.vyarus.gradle.plugin.animalsniffer.debug.AnimalsnifferTasksDebug
 import ru.vyarus.gradle.plugin.animalsniffer.debug.DebugSourcesTask
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
-import ru.vyarus.gradle.plugin.animalsniffer.support.AndroidVariantTaskConfigurationProvider
-import ru.vyarus.gradle.plugin.animalsniffer.support.AnimalsnifferTaskConfigurationProvider
-import ru.vyarus.gradle.plugin.animalsniffer.support.MultiplatformTaskConfigurationProvider
-import ru.vyarus.gradle.plugin.animalsniffer.support.SourceSetTaskConfigurationProvider
+import ru.vyarus.gradle.plugin.animalsniffer.support.reactor.AndroidComponentsReactor
+import ru.vyarus.gradle.plugin.animalsniffer.support.reactor.MultiplatformTargetsReactor
+import ru.vyarus.gradle.plugin.animalsniffer.support.task.AndroidTaskConfigurationProvider
+import ru.vyarus.gradle.plugin.animalsniffer.support.task.AnimalsnifferTaskConfigurationProvider
+import ru.vyarus.gradle.plugin.animalsniffer.support.task.JavaTaskConfigurationProvider
+import ru.vyarus.gradle.plugin.animalsniffer.support.task.MultiplatformTaskConfigurationProvider
 import ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 import ru.vyarus.gradle.plugin.animalsniffer.util.ContainFilesSpec
 import ru.vyarus.gradle.plugin.animalsniffer.util.ExcludeFilePatternSpec
@@ -166,23 +166,19 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerJavaCheckTasks() {
         // create tasks for each source set
         project.sourceSets.all { SourceSet sourceSet ->
-            registerCheckTask(new SourceSetTaskConfigurationProvider(project.objects, project.providers, sourceSet))
+            registerCheckTask(new JavaTaskConfigurationProvider(project.objects, project.providers, sourceSet))
         }
     }
 
     @SuppressWarnings('GroovyAssignabilityCheck')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerAndroidCheckTasks() {
-        // new android api examples: https://github.com/android/gradle-recipes/tree/agp-8.7
-        Object androidComponents = project.androidComponents
-
-        androidComponents.onVariants(androidComponents.selector().all()) { variant ->
+        new AndroidComponentsReactor(project).onTarget { Object component ->
             TaskProvider<AndroidClassesCollector> classesCollector =
-                    createAndroidClassesCollector(variant.name + 'AnimalSnifferClassesCollector', variant)
+                    createAndroidClassesCollector(component.name + 'AnimalSnifferClassesCollector', component)
 
-            TaskProvider<AnimalSniffer> task = registerCheckTask(
-                    new AndroidVariantTaskConfigurationProvider(
-                            project.objects, project.providers, variant, classesCollector))
+            registerCheckTask(new AndroidTaskConfigurationProvider(
+                    project.objects, project.providers, component, classesCollector))
         }
     }
 
@@ -216,12 +212,10 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @SuppressWarnings('GroovyAssignabilityCheck')
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerMultiplatformCheckTasks() {
-        // org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-        NamedDomainObjectCollection<KotlinTarget> targets = project.extensions.getByName('kotlin').targets
         boolean androidPlugin = project.plugins.findPlugin(PLUGIN_ANDROID_LIB)
                 || project.plugins.findPlugin(PLUGIN_ANDROID_APP)
 
-        targets.all { target ->
+        new MultiplatformTargetsReactor(project).onTarget { target ->
             // when android plugin registered - avoid creating tasks for android platform (duplication)
             if (!androidPlugin || target.targetName != 'android') {
                 target.compilations.all {

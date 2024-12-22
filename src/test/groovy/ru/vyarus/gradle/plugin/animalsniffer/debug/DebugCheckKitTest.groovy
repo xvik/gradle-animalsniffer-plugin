@@ -49,7 +49,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: classes
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/main
 \t\t\tbuild/resources/main
 
@@ -58,7 +58,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: testClasses
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/test
 \t\t\tbuild/resources/test
 """)
@@ -115,7 +115,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsignatures: 
 \t\t\tandroid-api-level-14-4.0_r4.signature
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/main
 \t\t\tbuild/resources/main
 
@@ -125,7 +125,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsignatures: 
 \t\t\tandroid-api-level-14-4.0_r4.signature
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/test
 \t\t\tbuild/resources/test
 """)
@@ -184,7 +184,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: classes
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/main
 \t\t\tbuild/resources/main
 
@@ -193,7 +193,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: testClasses
 \t\tsignatures: 
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/test
 \t\t\tbuild/resources/test
 
@@ -255,7 +255,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: animalsnifferCacheMain, classes
 \t\tsignatures: (cached signature)
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/main
 \t\t\tbuild/resources/main
 
@@ -264,7 +264,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tdepends on: animalsnifferCacheTest, testClasses
 \t\tsignatures: (cached signature)
 \t\t\tjava16-sun-1.0.signature
-\t\tsource classes:
+\t\tclasses:
 \t\t\tbuild/classes/java/test
 \t\t\tbuild/resources/test
 """)
