@@ -2,12 +2,12 @@ package ru.vyarus.gradle.plugin.animalsniffer.signature
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
+import org.apache.commons.io.FileUtils
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.ConventionTask
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.tasks.*
-import org.gradle.util.GFileUtils
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 
 import javax.inject.Inject
@@ -275,7 +275,7 @@ class BuildSignatureTask extends ConventionTask {
                     println 'No signature build required, simply copying signature:\n' +
                             "\t$it.name -> ${project.relativePath(target)}"
                 }
-                GFileUtils.copyFile(it, target)
+                FileUtils.copyFile(it, target)
             }
             return true
         }
