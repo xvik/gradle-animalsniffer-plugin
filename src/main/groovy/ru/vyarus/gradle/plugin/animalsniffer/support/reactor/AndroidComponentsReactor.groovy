@@ -16,7 +16,7 @@ class AndroidComponentsReactor implements TargetReactor<Object> {
 
     private static final List<String> TARGET_COMPONENTS = Arrays.asList(
             'com.android.build.api.variant.Variant',
-//            'com.android.build.api.variant.TestComponent'
+            'com.android.build.api.variant.TestComponent'
     )
 
     private final Project project

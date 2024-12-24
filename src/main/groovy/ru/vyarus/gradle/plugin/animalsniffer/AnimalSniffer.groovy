@@ -14,6 +14,7 @@ import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.internal.ClosureBackedAction
+import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferTasksTask
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
 import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
@@ -111,6 +112,10 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
      */
     @Console
     boolean debug
+
+    @Internal
+    // for debug print task because getSources would return anything only for non-empty dirs
+    private final List<Object> classesDirs = []
 
     private final AnimalSnifferReportsImpl reports
 
@@ -239,6 +244,28 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         return super.getSource()
     }
 
+    @Override
+    void setSource(FileTree source) {
+        classesDirs.add(source)
+        super.setSource(source)
+    }
+
+    @Override
+    void setSource(Object source) {
+        classesDirs.add(source)
+        super.setSource(source)
+    }
+
+    @Override
+    SourceTask source(Object... sources) {
+        classesDirs.add(sources)
+        return super.source(sources)
+    }
+
+    Set<File> getClassesDirs() {
+        return new TreeSet<File>(project.files(classesDirs).files)
+    }
+
     @CompileStatic(TypeCheckingMode.SKIP)
     void processErrors(ReportCollector collector) {
         if (collector.errorsCnt() > 0) {
@@ -282,6 +309,8 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
                     .append(getIgnoreClasses().collect { "\t\t$it" }.join(NL))
                     .append(NL)
         }
+
+        res.append("\n\n*use [$PrintAnimalsnifferTasksTask.NAME] task to print all tasks info\n")
 
         println res.toString()
     }

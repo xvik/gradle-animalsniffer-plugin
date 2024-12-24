@@ -44,14 +44,15 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "tasks list shown"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferJvmMain                [default]       for kotlin platform 'jvm' compilation 'main'
 \t\treport: build/reports/animalsniffer/jvmMain.text
@@ -60,6 +61,10 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/kotlin/jvm/main
+\t\tsources:
+\t\t\tsrc/commonMain/kotlin                                                            NOT EXISTS
+\t\t\tsrc/jvmMain/kotlin
+
 
 \tanimalsnifferJvmTest                                for kotlin platform 'jvm' compilation 'test'
 \t\treport: build/reports/animalsniffer/jvmTest.text
@@ -68,14 +73,11 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/kotlin/jvm/test
+\t\tsources:
+\t\t\tsrc/commonTest/kotlin                                                            NOT EXISTS
+\t\t\tsrc/jvmTest/kotlin                                                               NOT EXISTS
 
-\tanimalsnifferMetadataMain           [default]       for kotlin platform 'metadata' compilation 'main'
-\t\treport: build/reports/animalsniffer/metadataMain.text
-\t\tdepends on: metadataMainClasses
-\t\tsignatures: 
-\t\t\tjava16-sun-1.0.signature
-\t\tclasses:
-\t\t\tbuild/classes/kotlin/metadata/main
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         then: "debug validation"

@@ -24,10 +24,13 @@
 
 == [Compile Tasks] ===============================================================
 
-	Tasks containing 'compile' in name ------------------------------------ (34)
+	Tasks containing 'compile' in name ------------------------------------ (37)
 
-		debugAnimalSnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
-		releaseAnimalSnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugAndroidTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugAnimalsnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugUnitTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseAnimalsnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseUnitTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 		bundleLibCompileToJarDebug               com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
 		bundleLibCompileToJarRelease             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
 		checkDebugAndroidTestDuplicateClasses    com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
@@ -61,9 +64,23 @@
 		compileDebugShaders                      com.android.build.gradle.tasks.ShaderCompile
 		compileReleaseShaders                    com.android.build.gradle.tasks.ShaderCompile
 
-	Compile tasks tree -------------------------------------------------------- (16 roots)
+	Compile tasks tree -------------------------------------------------------- (19 roots)
 
-		[debugAnimalSnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		[debugAndroidTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugAndroidTestJavaWithJavac]   org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugAndroidTest]         com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugAndroidTestKotlinAndroid]   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarDebug]             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					processDebugAndroidTestResources         (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[debugAnimalsnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
 				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
 					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
@@ -71,13 +88,41 @@
 					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
 					generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
 
-		[releaseAnimalSnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		[debugUnitTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugUnitTestJavaWithJavac]      org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugUnitTest]            com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugUnitTestBuild                    (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugUnitTestKotlinAndroid]      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarDebug]             com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateDebugRFile                       (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					generateDebugUnitTestStubRFile           (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[releaseAnimalsnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
 				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
 					preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
 				[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 					checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
 					generateReleaseRFile                     (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+
+		[releaseUnitTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileReleaseUnitTestJavaWithJavac]    org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileReleaseUnitTest]          com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseUnitTestBuild                  (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseUnitTestKotlinAndroid]    org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleLibCompileToJarRelease]           com.android.build.gradle.internal.tasks.BundleLibraryClassesJar
+						[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+								preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateReleaseRFile                     (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
+					generateReleaseUnitTestStubRFile         (com.android.build.gradle.internal.res.GenerateLibraryRFileTask)
 
 		[checkDebugAndroidTestDuplicateClasses]  com.android.build.gradle.internal.tasks.CheckDuplicateClassesTask
 			preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.AndroidVariantTask)

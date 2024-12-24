@@ -26,10 +26,13 @@
 
 == [Compile Tasks] ===============================================================
 
-	Tasks containing 'compile' in name ------------------------------------ (44)
+	Tasks containing 'compile' in name ------------------------------------ (47)
 
-		debugAnimalSnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
-		releaseAnimalSnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugAndroidTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugAnimalsnifferClassesCollector       ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		debugUnitTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseAnimalsnifferClassesCollector     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		releaseUnitTestAnimalsnifferClassesCollector ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 		bundleDebugClassesToCompileJar           com.android.build.gradle.internal.feature.BundleAllClasses
 		bundleDebugClassesToRuntimeJar           com.android.build.gradle.internal.feature.BundleAllClasses
 		bundleReleaseClassesToCompileJar         com.android.build.gradle.internal.feature.BundleAllClasses
@@ -73,9 +76,32 @@
 		compileDebugShaders                      com.android.build.gradle.tasks.ShaderCompile
 		compileReleaseShaders                    com.android.build.gradle.tasks.ShaderCompile
 
-	Compile tasks tree -------------------------------------------------------- (22 roots)
+	Compile tasks tree -------------------------------------------------------- (25 roots)
 
-		[debugAnimalSnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		[debugAndroidTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugAndroidTestJavaWithJavac]   org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugAndroidTest]         com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugAndroidTestBuild                 (com.android.build.gradle.internal.tasks.TestPreBuildTask)
+				[compileDebugAndroidTestKotlinAndroid]   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleDebugClassesToCompileJar]         com.android.build.gradle.internal.feature.BundleAllClasses
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidInstrumentedTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidInstrumentedTestDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					processDebugAndroidTestResources         (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[debugAnimalsnifferClassesCollector]     ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
 				[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
 					preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
@@ -90,7 +116,30 @@
 					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
 					processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
 
-		[releaseAnimalSnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+		[debugUnitTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileDebugUnitTestJavaWithJavac]      org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileDebugUnitTest]            com.android.build.gradle.tasks.JavaPreCompileTask
+					preDebugUnitTestBuild                    (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileDebugUnitTestKotlinAndroid]      org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleDebugClassesToCompileJar]         com.android.build.gradle.internal.feature.BundleAllClasses
+						[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileDebug]                    com.android.build.gradle.tasks.JavaPreCompileTask
+								preDebugBuild                            (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileDebugKotlinAndroid]              org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarDebug               (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processDebugResources                    (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidUnitTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidUnitTestDebug (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonTest   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+
+		[releaseAnimalsnifferClassesCollector]   ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
 			buildKotlinToolingMetadata               (org.jetbrains.kotlin.gradle.tooling.BuildKotlinToolingMetadataTask$FromKotlinExtension)
 			[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
 				[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
@@ -105,6 +154,30 @@
 					generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
 					generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
 					processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+
+		[releaseUnitTestAnimalsnifferClassesCollector] ru.vyarus.gradle.plugin.animalsniffer.util.AndroidClassesCollector
+			[compileReleaseUnitTestJavaWithJavac]    org.gradle.api.tasks.compile.JavaCompile
+				[javaPreCompileReleaseUnitTest]          com.android.build.gradle.tasks.JavaPreCompileTask
+					preReleaseUnitTestBuild                  (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+				[compileReleaseUnitTestKotlinAndroid]    org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+					[bundleReleaseClassesToCompileJar]       com.android.build.gradle.internal.feature.BundleAllClasses
+						buildKotlinToolingMetadata               (org.jetbrains.kotlin.gradle.tooling.BuildKotlinToolingMetadataTask$FromKotlinExtension)
+						[compileReleaseJavaWithJavac]            org.gradle.api.tasks.compile.JavaCompile
+							[javaPreCompileRelease]                  com.android.build.gradle.tasks.JavaPreCompileTask
+								preReleaseBuild                          (com.android.build.gradle.internal.tasks.AndroidVariantTask)
+							[compileReleaseKotlinAndroid]            org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+								bundleLibCompileToJarRelease             (com.android.build.gradle.internal.tasks.BundleLibraryClassesJar)
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+								generateActualResourceCollectorsForAndroidMain (org.jetbrains.compose.resources.GenerateActualResourceCollectorsTask)
+								generateExpectResourceCollectorsForCommonMain (org.jetbrains.compose.resources.GenerateExpectResourceCollectorsTask)
+								generateComposeResClass                  (org.jetbrains.compose.resources.GenerateResClassTask)
+								generateResourceAccessorsForAndroidMain  (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForAndroidRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								generateResourceAccessorsForCommonMain   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+								processReleaseResources                  (com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask)
+					generateResourceAccessorsForAndroidUnitTest (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForAndroidUnitTestRelease (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
+					generateResourceAccessorsForCommonTest   (org.jetbrains.compose.resources.GenerateResourceAccessorsTask)
 
 		[bundleDebugClassesToRuntimeJar]         com.android.build.gradle.internal.feature.BundleAllClasses
 			[compileDebugJavaWithJavac]              org.gradle.api.tasks.compile.JavaCompile

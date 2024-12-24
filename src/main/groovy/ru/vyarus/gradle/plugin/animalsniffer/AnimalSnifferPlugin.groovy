@@ -3,26 +3,23 @@ package ru.vyarus.gradle.plugin.animalsniffer
 import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 import groovy.transform.TypeCheckingMode
-import kotlin.jvm.functions.Function1
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
-import org.gradle.api.file.Directory
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.ReportingBasePlugin
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
-import ru.vyarus.gradle.plugin.animalsniffer.debug.AnimalsnifferTasksDebug
 import ru.vyarus.gradle.plugin.animalsniffer.debug.DebugSourcesTask
+import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferTasksTask
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
 import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
@@ -59,10 +56,11 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     public static final String SIGNATURE_CONF = 'signature'
     public static final String ANIMALSNIFFER_CACHE = 'animalsnifferCache'
 
+    public static final String CHECK_TASK = 'check'
+    public static final String AS_CHECK_TASK_DESCR = 'Run AnimalSniffer checks'
+
     private static final String CHECK_SIGNATURE = 'animalsniffer'
     private static final String BUILD_SIGNATURE = 'animalsnifferSignature'
-    private static final String CHECK_TASK = 'check'
-    private static final String AS_CHECK_TASK_DESCR = 'Run AnimalSniffer checks'
 
     private static final String PLUGIN_MULTIPLATFORM = 'org.jetbrains.kotlin.multiplatform'
     private static final String PLUGIN_ANDROID_LIB = 'com.android.library'
@@ -106,9 +104,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             registerConfigurations()
             registerExtensions()
             registerBuildTasks()
-            registerDebugTask()
-
-            AnimalsnifferTasksDebug.printTasks(project, CHECK_TASK, AS_CHECK_TASK_DESCR)
+            registerDebugTasks()
         }
         init = true
     }
@@ -175,15 +171,23 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerAndroidCheckTasks() {
         new AndroidComponentsReactor(project).onTarget { Object component ->
             TaskProvider<AndroidClassesCollector> classesCollector =
-                    createAndroidClassesCollector(component.name + 'AnimalSnifferClassesCollector', component)
+                    createAndroidClassesCollector(
+                            AndroidClassesCollector.computeTaskName(component.name),
+                            component)
 
-            registerCheckTask(new AndroidTaskConfigurationProvider(
-                    project.objects, project.providers, component, classesCollector))
+            AndroidTaskConfigurationProvider provider = new AndroidTaskConfigurationProvider(
+                    project.objects, project.providers, component, classesCollector)
+            registerCheckTask(provider)
+
+            // can't print android info until some tasks execution
+            project.tasks.withType(PrintAnimalsnifferTasksTask).configureEach {
+                it.dependsOn(provider.compileTaskName)
+            }
         }
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    @SuppressWarnings('ClassForName')
+    @SuppressWarnings(['ClassForName', 'ClosureAsLastMethodParameter'])
     private TaskProvider<AndroidClassesCollector> createAndroidClassesCollector(String taskName, Object variant) {
         TaskProvider<AndroidClassesCollector> collectClasses = project.tasks.register(taskName, AndroidClassesCollector)
         // use variant class loader because plugin classpath did not "see" android deps
@@ -194,34 +198,37 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
         variant.artifacts.forScope(scopedArtifactsScopeType.PROJECT).use(collectClasses)
                 .toGet(scopedArtifactTypeClasses.INSTANCE,
-                        new Function1<AndroidClassesCollector, ListProperty<RegularFile>>() {
-                            @Override
-                            ListProperty<RegularFile> invoke(AndroidClassesCollector task) {
-                                return task.jarFiles
-                            }
-                        },
-                        new Function1<AndroidClassesCollector, ListProperty<Directory>>() {
-                            @Override
-                            ListProperty<Directory> invoke(AndroidClassesCollector task) {
-                                return task.classesDirs
-                            }
-                        })
+                        { it.jarFiles },
+                        { it.classesDirs })
         return collectClasses
     }
 
-    @SuppressWarnings('GroovyAssignabilityCheck')
+    @SuppressWarnings(['GroovyAssignabilityCheck', 'NestedBlockDepth'])
     @CompileStatic(TypeCheckingMode.SKIP)
     private void registerMultiplatformCheckTasks() {
         boolean androidPlugin = project.plugins.findPlugin(PLUGIN_ANDROID_LIB)
                 || project.plugins.findPlugin(PLUGIN_ANDROID_APP)
 
         new MultiplatformTargetsReactor(project).onTarget { target ->
-            // when android plugin registered - avoid creating tasks for android platform (duplication)
-            if (!androidPlugin || target.targetName != 'android') {
-                target.compilations.all {
+            target.compilations.all { compilation ->
+                if (target.targetName == 'metadata') {
+                    // skipping metadata target because it would be included in all other targets
+                    return
+                }
+
+                // when android plugin registered - avoid creating tasks for android platform (duplication)
+                if (!androidPlugin || target.targetName != 'android') {
                     MultiplatformTaskConfigurationProvider provider = new MultiplatformTaskConfigurationProvider(
-                            project.objects, project.providers, it)
+                            project.objects, project.providers, compilation)
                     registerCheckTask(provider)
+                } else {
+                    // add missed sources to existing android task
+                    project.tasks.named(AndroidClassesCollector.computeTaskName(compilation.name)).configure {
+                        (it as AndroidClassesCollector).multiplatformSourceDirs.addAll(project.provider {
+                            project.files(
+                                    compilation.allKotlinSourceSets.collect { it.kotlin.sourceDirectories }).files
+                        })
+                    }
                 }
             }
         }
@@ -341,7 +348,10 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         }
     }
 
-    private void registerDebugTask() {
+    private void registerDebugTasks() {
+        // print all registered animalsniffer tasks
+        project.tasks.register(PrintAnimalsnifferTasksTask.NAME, PrintAnimalsnifferTasksTask)
+        // prints all available info (including registered plugins, source sets, compile tasks, etc)
         project.tasks.register(DebugSourcesTask.NAME, DebugSourcesTask)
     }
 

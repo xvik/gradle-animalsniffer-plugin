@@ -28,7 +28,7 @@ class JavaTaskConfigurationProvider implements AnimalsnifferTaskConfigurationPro
         name = sourceSet.name
         desc = "for '$name' source set"
         compileTask = sourceSet.classesTaskName
-        classes = providers.provider { sourceSet.output as FileCollection }
+        classes = providers.provider { sourceSet.output.classesDirs }
         classpath = providers.provider { sourceSet.compileClasspath }
         sources = providers.provider { objects.fileCollection().from(sourceSet.allJava.srcDirs) }
                 as Provider<FileCollection>

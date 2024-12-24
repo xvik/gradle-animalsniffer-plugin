@@ -35,14 +35,15 @@ class DebugCheckKitTest extends AbstractKitTest {
         //debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         and: "contains tasks list"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferMain                   [default]       for 'main' source set
 \t\treport: build/reports/animalsniffer/main.text
@@ -51,7 +52,9 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/main
-\t\t\tbuild/resources/main
+\t\tsources:
+\t\t\tsrc/main/java
+
 
 \tanimalsnifferTest                                   for 'test' source set
 \t\treport: build/reports/animalsniffer/test.text
@@ -60,7 +63,10 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/test
-\t\t\tbuild/resources/test
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
+
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         and: "contains task info"
@@ -100,14 +106,15 @@ class DebugCheckKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         and: "contains tasks list"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferMain                   [default]       for 'main' source set
 \t\treport: build/reports/animalsniffer/main.text
@@ -117,7 +124,9 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/main
-\t\t\tbuild/resources/main
+\t\tsources:
+\t\t\tsrc/main/java
+
 
 \tanimalsnifferTest                                   for 'test' source set
 \t\treport: build/reports/animalsniffer/test.text
@@ -127,7 +136,10 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/test
-\t\t\tbuild/resources/test
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
+
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         and: "correct task info"
@@ -170,14 +182,15 @@ class DebugCheckKitTest extends AbstractKitTest {
         //debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         and: "contain tasks list"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferMain                   [default]       for 'main' source set
 \t\treport: build/reports/animalsniffer/main.text
@@ -186,7 +199,9 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/main
-\t\t\tbuild/resources/main
+\t\tsources:
+\t\t\tsrc/main/java
+
 
 \tanimalsnifferTest                                   for 'test' source set
 \t\treport: build/reports/animalsniffer/test.text
@@ -195,8 +210,10 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/test
-\t\t\tbuild/resources/test
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
 
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         and: "task info"
@@ -241,14 +258,15 @@ class DebugCheckKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         and: "contain tasks list"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferMain                   [default]       for 'main' source set
 \t\treport: build/reports/animalsniffer/main.text
@@ -257,7 +275,9 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/main
-\t\t\tbuild/resources/main
+\t\tsources:
+\t\t\tsrc/main/java
+
 
 \tanimalsnifferTest                                   for 'test' source set
 \t\treport: build/reports/animalsniffer/test.text
@@ -266,7 +286,10 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
 \t\t\tbuild/classes/java/test
-\t\t\tbuild/resources/test
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
+
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         and: "task info"

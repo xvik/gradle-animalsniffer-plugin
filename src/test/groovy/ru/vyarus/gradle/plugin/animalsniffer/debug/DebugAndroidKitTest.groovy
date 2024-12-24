@@ -60,36 +60,105 @@ class DebugAndroidKitTest extends AbstractAndroidKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = run('printAnimalsnifferTasks', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS
 
         then: "tasks alisted"
         def out = clean(result.output)
-        out.contains("""Registered animalsniffer tasks:
+        out.contains(""":printAnimalsnifferTasks
+
 
 \tanimalsnifferDebug                  [default]       for 'debug' android variant
 \t\treport: build/reports/animalsniffer/debug.text
-\t\tdepends on: debugAnimalSnifferClassesCollector
+\t\tdepends on: debugAnimalsnifferClassesCollector
 \t\tsignatures: 
 \t\t\tandroid-api-level-21-5.0.1_r2.signature
 \t\t\tjava18-1.0.signature
 \t\tclasses:
-\t\t\tbuild/intermediates/animal_sniffer/debugAnimalSnifferClassesCollector
+\t\t\tbuild/intermediates/javac/debug/classes
+\t\tsources:
+\t\t\tbuild/generated/aidl_source_output_dir/debug/out                                 NOT EXISTS
+\t\t\tbuild/generated/renderscript_source_output_dir/debug/out                         NOT EXISTS
+\t\t\tbuild/generated/source/buildConfig/debug
+\t\t\tsrc/debug/java                                                                   NOT EXISTS
+\t\t\tsrc/debug/kotlin                                                                 NOT EXISTS
+\t\t\tsrc/main/java
+\t\t\tsrc/main/kotlin                                                                  NOT EXISTS
+
+
+\tanimalsnifferDebugAndroidTest                       for 'debugAndroidTest' android test component
+\t\treport: build/reports/animalsniffer/debugAndroidTest.text
+\t\tdepends on: debugAndroidTestAnimalsnifferClassesCollector
+\t\tsignatures: 
+\t\t\tandroid-api-level-21-5.0.1_r2.signature
+\t\t\tjava18-1.0.signature
+\t\tclasses:
+\t\t\tbuild/intermediates/javac/debugAndroidTest/classes
+\t\tsources:
+\t\t\tbuild/generated/aidl_source_output_dir/debugAndroidTest/out                      NOT EXISTS
+\t\t\tbuild/generated/renderscript_source_output_dir/debugAndroidTest/out              NOT EXISTS
+\t\t\tbuild/generated/source/buildConfig/androidTest/debug
+\t\t\tsrc/androidTest/java                                                             NOT EXISTS
+\t\t\tsrc/androidTest/kotlin                                                           NOT EXISTS
+\t\t\tsrc/androidTestDebug/java                                                        NOT EXISTS
+\t\t\tsrc/androidTestDebug/kotlin                                                      NOT EXISTS
+
+
+\tanimalsnifferDebugUnitTest                          for 'debugUnitTest' android test component
+\t\treport: build/reports/animalsniffer/debugUnitTest.text
+\t\tdepends on: debugUnitTestAnimalsnifferClassesCollector
+\t\tsignatures: 
+\t\t\tandroid-api-level-21-5.0.1_r2.signature
+\t\t\tjava18-1.0.signature
+\t\tclasses:
+\t\t\t<empty>
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
+\t\t\tsrc/test/kotlin                                                                  NOT EXISTS
+\t\t\tsrc/testDebug/java                                                               NOT EXISTS
+\t\t\tsrc/testDebug/kotlin                                                             NOT EXISTS
+
 
 \tanimalsnifferRelease                [default]       for 'release' android variant
 \t\treport: build/reports/animalsniffer/release.text
-\t\tdepends on: releaseAnimalSnifferClassesCollector
+\t\tdepends on: releaseAnimalsnifferClassesCollector
 \t\tsignatures: 
 \t\t\tandroid-api-level-21-5.0.1_r2.signature
 \t\t\tjava18-1.0.signature
 \t\tclasses:
-\t\t\tbuild/intermediates/animal_sniffer/releaseAnimalSnifferClassesCollector
+\t\t\tbuild/intermediates/javac/release/classes
+\t\tsources:
+\t\t\tbuild/generated/aidl_source_output_dir/release/out                               NOT EXISTS
+\t\t\tbuild/generated/renderscript_source_output_dir/release/out                       NOT EXISTS
+\t\t\tbuild/generated/source/buildConfig/release
+\t\t\tsrc/main/java
+\t\t\tsrc/main/kotlin                                                                  NOT EXISTS
+\t\t\tsrc/release/java                                                                 NOT EXISTS
+\t\t\tsrc/release/kotlin                                                               NOT EXISTS
+
+
+\tanimalsnifferReleaseUnitTest                        for 'releaseUnitTest' android test component
+\t\treport: build/reports/animalsniffer/releaseUnitTest.text
+\t\tdepends on: releaseUnitTestAnimalsnifferClassesCollector
+\t\tsignatures: 
+\t\t\tandroid-api-level-21-5.0.1_r2.signature
+\t\t\tjava18-1.0.signature
+\t\tclasses:
+\t\t\t<empty>
+\t\tsources:
+\t\t\tsrc/test/java                                                                    NOT EXISTS
+\t\t\tsrc/test/kotlin                                                                  NOT EXISTS
+\t\t\tsrc/testRelease/java                                                             NOT EXISTS
+\t\t\tsrc/testRelease/kotlin                                                           NOT EXISTS
+
+*use [debugAnimalsnifferSources] task to see project sources configuration details
 """)
 
         then: "debug validation"
-        out.contains """
+        out.contains """:animalsnifferDebug
+
 \tsignatures:
 \t\tjava18-1.0.signature
 \t\tandroid-api-level-21-5.0.1_r2.signature
@@ -104,8 +173,30 @@ class DebugAndroidKitTest extends AbstractAndroidKitTest {
 \t\tsrc/main/kotlin
 
 \tfiles:
-\t\tbuild/intermediates/animal_sniffer/debugAnimalSnifferClassesCollector/com/example/namespace/BuildConfig.class
-\t\tbuild/intermediates/animal_sniffer/debugAnimalSnifferClassesCollector/invalid/Sample.class
+\t\tbuild/intermediates/javac/debug/classes/com/example/namespace/BuildConfig.class
+\t\tbuild/intermediates/javac/debug/classes/invalid/Sample.class
+"""
+
+
+        then: "release validation"
+        out.contains """:animalsnifferRelease
+
+\tsignatures:
+\t\tjava18-1.0.signature
+\t\tandroid-api-level-21-5.0.1_r2.signature
+
+\tsources:
+\t\tbuild/generated/aidl_source_output_dir/release/out
+\t\tbuild/generated/renderscript_source_output_dir/release/out
+\t\tbuild/generated/source/buildConfig/release
+\t\tsrc/main/java
+\t\tsrc/main/kotlin
+\t\tsrc/release/java
+\t\tsrc/release/kotlin
+
+\tfiles:
+\t\tbuild/intermediates/javac/release/classes/com/example/namespace/BuildConfig.class
+\t\tbuild/intermediates/javac/release/classes/invalid/Sample.class
 """
     }
 

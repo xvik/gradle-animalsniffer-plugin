@@ -30,15 +30,20 @@ class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfiguration
     AndroidTaskConfigurationProvider(ObjectFactory objects, ProviderFactory providers, Object variant,
                                      TaskProvider<AndroidClassesCollector> classesTask) {
         name = variant.name
-        desc = "for '$name' android variant"
+        desc = "for '$name' android ${name.containsIgnoreCase('test') ? 'test component' : 'variant'}"
         this.classesTask = classesTask
         classes = providers.provider {
-            objects.fileCollection().from(classesTask.flatMap { it.outputDirectory })
+            objects.fileCollection().from(classesTask.flatMap { it.classesDirs })
         }
         classpath = providers.provider { variant.compileClasspath }
+        // compiled multiplatform classes would be included, but not sources, so adding sources manually
         sources = providers.provider {
             // project.files
-            objects.fileCollection().from(variant.sources.java.all, variant.sources.kotlin.all)
+            objects.fileCollection().from(
+                    variant.sources.java.all,
+                    variant.sources.kotlin.all,
+                    classesTask.flatMap { it.multiplatformSourceDirs.orElse([]) }
+            )
         }
     }
 
