@@ -153,7 +153,7 @@ class DebugAndroidKitTest extends AbstractAndroidKitTest {
 \t\t\tsrc/testRelease/java                                                             NOT EXISTS
 \t\t\tsrc/testRelease/kotlin                                                           NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         then: "debug validation"

@@ -36,7 +36,7 @@ class PrintAnimalsnifferTasksTask extends DefaultTask {
                     println String.format('\n\n\t%-35s %-15s %s',
                             task.name,
                             active.contains(task) ? '[default]' : '',
-                            task.description.substring(AnimalSnifferPlugin.AS_CHECK_TASK_DESCR.length())
+                            task.description.substring(AnimalSnifferPlugin.AS_CHECK_TASK_DESCR.length() + 1)
                     )
                     println '\t\treport: ' + project.rootProject.relativePath(
                             task.reports.text.outputLocation.asFile.get())
@@ -62,7 +62,7 @@ class PrintAnimalsnifferTasksTask extends DefaultTask {
                     println '\t\tsources:\n' + PrintUtils.renderSources(
                             3, task.sourcesDirs.files, project, true)
                 }
-        println "\n*use [$DebugSourcesTask.NAME] task to see project sources configuration details\n"
+        println "\n*use [$PrintAnimalsnifferSourceInfoTask.NAME] task to see project sources configuration details\n"
     }
 
 }

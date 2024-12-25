@@ -202,10 +202,10 @@ io.ktor.development=true
 //        debug()
 
         when: "run shared task"
-        BuildResult result = run(':shared:debugAnimalsnifferSources')
+        BuildResult result = run(':shared:printAnimalsnifferSourceInfo')
 
         then: "task successful"
-        result.task(':shared:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
+        result.task(':shared:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate shared report"
 
@@ -215,10 +215,10 @@ io.ktor.development=true
 
 
         when: "run server task"
-        result = run(':server:debugAnimalsnifferSources')
+        result = run(':server:printAnimalsnifferSourceInfo')
 
         then: "task successful"
-        result.task(':server:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
+        result.task(':server:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate server report"
         extractReport(result) == readReport('server')
@@ -226,10 +226,10 @@ io.ktor.development=true
 
 
         when: "run composeApp task"
-        result = run(':composeApp:debugAnimalsnifferSources')
+        result = run(':composeApp:printAnimalsnifferSourceInfo')
 
         then: "task successful"
-        result.task(':composeApp:debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
+        result.task(':composeApp:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate compose report"
         extractReport(result) == readReport('composeApp')

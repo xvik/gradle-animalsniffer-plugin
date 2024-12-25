@@ -33,9 +33,9 @@ import static ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils.*
 @CompileStatic
 @SuppressWarnings(['Println', 'ConfusingMethodName', 'StaticMethodsBeforeInstanceMethods',
         'DuplicateNumberLiteral', 'DuplicateStringLiteral'])
-class DebugSourcesTask extends DefaultTask {
+class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
 
-    public static final String NAME = 'debugAnimalsnifferSources'
+    public static final String NAME = 'printAnimalsnifferSourceInfo'
 
     @Input
     boolean printPlugins = true

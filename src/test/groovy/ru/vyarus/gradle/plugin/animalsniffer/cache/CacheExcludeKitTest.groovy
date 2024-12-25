@@ -31,7 +31,7 @@ class CacheExcludeKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferCacheMain.outputFiles
+                signature = cacheAnimalsnifferMainSignatures.outputFiles
                 depth = 2
             } 
 
@@ -43,7 +43,7 @@ class CacheExcludeKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferCacheMain.sig")
+        result.output.contains("Signature animalsnifferMainCache.sig")
         result.output.contains("contains 4780 classes")
         !result.output.contains("com.sun")
     }

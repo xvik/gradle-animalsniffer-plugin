@@ -38,13 +38,13 @@ class ExcludeOverrideKitTest extends AbstractKitTest {
         //debug()
 
         when: "run task"
-        BuildResult result = run('animalsnifferCacheMain')
+        BuildResult result = run('cacheAnimalsnifferMainSignatures')
 
         then: "task successful"
-        result.task(':animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
+        result.task(':cacheAnimalsnifferMainSignatures').outcome == TaskOutcome.SUCCESS
 
         then: "signature does not contain plugin classes"
-        !SignatureReader.readSignature(file("build/animalsniffer/cacheMain/animalsnifferCacheMain.sig")).contains('ru.vyarus')
+        !SignatureReader.readSignature(file("build/animalsniffer/cache/animalsnifferMain/animalsnifferMainCache.sig")).contains('ru.vyarus')
     }
 
 }

@@ -77,7 +77,7 @@ class DebugMultiplatformKitTest extends AbstractKitTest {
 \t\t\tsrc/commonTest/kotlin                                                            NOT EXISTS
 \t\t\tsrc/jvmTest/kotlin                                                               NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         then: "debug validation"

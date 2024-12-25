@@ -43,10 +43,10 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('debugAnimalsnifferSources')
+        BuildResult result = run('printAnimalsnifferSourceInfo')
 
         then: "task successful"
-        result.task(':debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
+        result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate report"
         extractReport(result) == readReport("nojava")
@@ -83,10 +83,10 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('debugAnimalsnifferSources')
+        BuildResult result = run('printAnimalsnifferSourceInfo')
 
         then: "task successful"
-        result.task(':debugAnimalsnifferSources').outcome == TaskOutcome.SUCCESS
+        result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate report"
         extractReport(result) == readReport("java")

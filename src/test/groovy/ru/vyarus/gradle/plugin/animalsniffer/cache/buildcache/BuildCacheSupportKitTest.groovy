@@ -116,7 +116,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
 
         then: "tasks executes"
         result.task(':compileJava').outcome == TaskOutcome.SUCCESS
-        result.task(':animalsnifferCacheMain').outcome == TaskOutcome.SUCCESS
+        result.task(':cacheAnimalsnifferMainSignatures').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
 
         then: "found 2 violations"
@@ -134,7 +134,7 @@ class BuildCacheSupportKitTest extends AbstractKitTest {
 
         then: "tasks cached"
         result.task(':compileJava').outcome == TaskOutcome.FROM_CACHE
-        result.task(':animalsnifferCacheMain').outcome == TaskOutcome.FROM_CACHE
+        result.task(':cacheAnimalsnifferMainSignatures').outcome == TaskOutcome.FROM_CACHE
         result.task(':animalsnifferMain').outcome == TaskOutcome.FROM_CACHE
 
         then: "no console output for cached task!"

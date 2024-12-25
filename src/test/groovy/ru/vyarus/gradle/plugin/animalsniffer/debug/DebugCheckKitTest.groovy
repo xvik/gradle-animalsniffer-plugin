@@ -66,7 +66,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsources:
 \t\t\tsrc/test/java                                                                    NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         and: "contains task info"
@@ -139,7 +139,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsources:
 \t\t\tsrc/test/java                                                                    NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         and: "correct task info"
@@ -213,7 +213,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsources:
 \t\t\tsrc/test/java                                                                    NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         and: "task info"
@@ -270,7 +270,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
 \tanimalsnifferMain                   [default]       for 'main' source set
 \t\treport: build/reports/animalsniffer/main.text
-\t\tdepends on: animalsnifferCacheMain, classes
+\t\tdepends on: cacheAnimalsnifferMainSignatures, classes
 \t\tsignatures: (cached signature)
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
@@ -281,7 +281,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
 \tanimalsnifferTest                                   for 'test' source set
 \t\treport: build/reports/animalsniffer/test.text
-\t\tdepends on: animalsnifferCacheTest, testClasses
+\t\tdepends on: cacheAnimalsnifferTestSignatures, testClasses
 \t\tsignatures: (cached signature)
 \t\t\tjava16-sun-1.0.signature
 \t\tclasses:
@@ -289,11 +289,11 @@ class DebugCheckKitTest extends AbstractKitTest {
 \t\tsources:
 \t\t\tsrc/test/java                                                                    NOT EXISTS
 
-*use [debugAnimalsnifferSources] task to see project sources configuration details
+*use [printAnimalsnifferSourceInfo] task to see project sources configuration details
 """)
 
         and: "task info"
-        out.contains """animalsnifferCacheMain.sig
+        out.contains """animalsnifferMainCache.sig
 
 \tsignatures:
 \t\tjava16-sun-1.0.signature
@@ -308,7 +308,7 @@ class DebugCheckKitTest extends AbstractKitTest {
 
         out.contains """
 \tsignatures:
-\t\tanimalsnifferCacheMain.sig
+\t\tanimalsnifferMainCache.sig
 
 \tsources:
 \t\tsrc/main/java

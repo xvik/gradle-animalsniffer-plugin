@@ -44,7 +44,7 @@ class UpstreamKotlinMultiplatformKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = runVer(UpstreamKitTest.GRADLE_VERSION, 'debugAnimalsnifferSources', 'check')
+        BuildResult result = runVer(UpstreamKitTest.GRADLE_VERSION, 'printAnimalsnifferSourceInfo', 'check')
 
         then: "task successful"
         result.task(':check').outcome == TaskOutcome.SUCCESS

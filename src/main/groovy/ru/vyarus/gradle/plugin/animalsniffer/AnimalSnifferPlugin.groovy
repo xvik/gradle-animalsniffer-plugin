@@ -18,7 +18,7 @@ import org.gradle.api.specs.NotSpec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
-import ru.vyarus.gradle.plugin.animalsniffer.debug.DebugSourcesTask
+import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferSourceInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferTasksTask
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.signature.AnimalSnifferSignatureExtension
@@ -54,7 +54,9 @@ import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 class AnimalSnifferPlugin implements Plugin<Project> {
 
     public static final String SIGNATURE_CONF = 'signature'
-    public static final String ANIMALSNIFFER_CACHE = 'animalsnifferCache'
+    public static final String ANIMALSNIFFER_CACHE_START = 'cache'
+    public static final String ANIMALSNIFFER_CACHE_END = 'Signatures'
+    public static final String ANIMALSNIFFER_TASKS_GROUP = 'animalsniffer'
 
     public static final String CHECK_TASK = 'check'
     public static final String AS_CHECK_TASK_DESCR = 'Run AnimalSniffer checks'
@@ -241,7 +243,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         TaskProvider<AnimalSniffer> checkTask = project.tasks.<AnimalSniffer> register(taskName, AnimalSniffer) {
             it.targetType = config.type
             it.targetName = config.targetName
-            it.description = AS_CHECK_TASK_DESCR + config.description
+            it.group = ANIMALSNIFFER_TASKS_GROUP
+            it.description = AS_CHECK_TASK_DESCR + ' ' + config.description
             it.dependsOn config.compileTaskName
             // task operates on classes instead of sources
             it.source = config.classes
@@ -269,8 +272,12 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         // build special signature from provided signatures and all jars to be able to cache it
         // and perform much faster checks after the first run
         TaskProvider<BuildSignatureTask> signatureTask = project.tasks
-                .<BuildSignatureTask> register(ANIMALSNIFFER_CACHE + config.targetName.capitalize(),
+                .<BuildSignatureTask> register(
+                        "$ANIMALSNIFFER_CACHE_START${checkTask.name.capitalize()}$ANIMALSNIFFER_CACHE_END",
                         BuildSignatureTask) {
+                    it.description = "Signatures cache for ${checkTask.name} task"
+                    // signature file would be named the same as check task name
+                    it.outputName = checkTask.name + 'Cache'
                     // this special task can be skipped if animalsniffer check supposed to be skipped
                     // note that task is still created because signatures could be registered dynamically
                     onlyIf { !extension.signatures.empty && extension.cache.enabled }
@@ -324,6 +331,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             // register build signature task if files specified for signature creation
             if (buildExtension.configured) {
                 project.tasks.register(BUILD_SIGNATURE, BuildSignatureTask) { task ->
+                    task.description = 'Build animalsniffer signature'
                     buildExtension.files.each { task.files(it) }
                     buildExtension.signatures.each { task.signatures(it) }
                     task.include = buildExtension.include
@@ -338,6 +346,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
             // defaults applied to all tasks (including manually created)
             project.tasks.withType(BuildSignatureTask).configureEach { task ->
+                task.group = ANIMALSNIFFER_TASKS_GROUP
                 if (task.animalsnifferClasspath == null) {
                     task.animalsnifferClasspath = project.configurations[CHECK_SIGNATURE]
                 }
@@ -350,9 +359,16 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
     private void registerDebugTasks() {
         // print all registered animalsniffer tasks
-        project.tasks.register(PrintAnimalsnifferTasksTask.NAME, PrintAnimalsnifferTasksTask)
+        project.tasks.register(PrintAnimalsnifferTasksTask.NAME, PrintAnimalsnifferTasksTask) {
+            it.group = ANIMALSNIFFER_TASKS_GROUP
+            it.description = 'List animalsniffer tasks configurations'
+        }
         // prints all available info (including registered plugins, source sets, compile tasks, etc)
-        project.tasks.register(DebugSourcesTask.NAME, DebugSourcesTask)
+        project.tasks.register(PrintAnimalsnifferSourceInfoTask.NAME, PrintAnimalsnifferSourceInfoTask) {
+            it.group = ANIMALSNIFFER_TASKS_GROUP
+            it.description = 'Show plugins, compile tasks and declared source sets ' +
+                    '(for checking animalsniffer sources correctness)'
+        }
     }
 
     /**

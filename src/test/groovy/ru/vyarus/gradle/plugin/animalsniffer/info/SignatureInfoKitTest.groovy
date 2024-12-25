@@ -59,7 +59,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferCacheMain.outputFiles
+                signature = cacheAnimalsnifferMainSignatures.outputFiles
                 depth = 2
             } 
 
@@ -71,7 +71,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
-        result.output.contains("Signature animalsnifferCacheMain.sig (1.3 Mb) contains 14007 classes")
+        result.output.contains("Signature animalsnifferMainCache.sig (1.3 Mb) contains 14007 classes")
         result.output.contains("com.sun                        7115")
     }
 
@@ -96,7 +96,7 @@ class SignatureInfoKitTest extends AbstractKitTest {
             }
             
             task printSignature(type: ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
-                signature = animalsnifferCacheMain.outputFiles
+                signature = cacheAnimalsnifferMainSignatures.outputFiles
                 depth = 2
             } 
 
@@ -110,11 +110,11 @@ class SignatureInfoKitTest extends AbstractKitTest {
         result.task(':printSignature').outcome == TaskOutcome.SUCCESS
 
         then: "sun signature read"
-        result.output.contains("Signature animalsnifferCacheMain_!java16-sun-1.0.sig (1.3 Mb) contains 13710 classes")
+        result.output.contains("Signature animalsnifferMainCache_!java16-sun-1.0.sig (1.3 Mb) contains 13710 classes")
         result.output.contains("com.sun                        7115")
 
         then: "android signature read"
-        result.output.contains("Signature animalsnifferCacheMain_!android-api-level-14-4.0_r4.sig")
+        result.output.contains("Signature animalsnifferMainCache_!android-api-level-14-4.0_r4.sig")
         result.output.contains("org.apache                     367")
     }
 }

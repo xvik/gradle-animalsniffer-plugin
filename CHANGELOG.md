@@ -1,7 +1,10 @@
 * (breaking) Drop gradle 5 and 6 support
 * Improve debug:
-  - Add debugAnimalsnifferSources task for debug purposes (shows registered source sets, tasks, plugins)
+  - Add printAnimalsnifferSourceInfo task for debug purposes (shows registered source sets, tasks, plugins)
   - Add printAnimalsnifferTasks task to print info about all registered tasks
+* Put all animalsniffer tasks under 'animalsniffer' group
+* Rename signature cache tasks to differentiate with check tasks (cache tasks starts with 'cache' keyword)
+  - change cache tasks output path: /animalsniffer/cache/[checkTaskName]/[checkTaskName]Cache.sig
 * Add android projects support (activates for android library and application plugins
    and use variant components (debug, release and test) instead of source sets).
 * Add kotlin multiplatform projects support (tasks created for each platform compilation, except metadata (common))

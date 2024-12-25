@@ -303,10 +303,14 @@ class BuildSignatureTask extends ConventionTask {
      * @return default output directory
      */
     private File getDefaultTaskOutputDirectory() {
-        String subDir = name
-        if (subDir.startsWith(AnimalSnifferPlugin.ANIMALSNIFFER_CACHE)) {
-            subDir = "cache${subDir[AnimalSnifferPlugin.ANIMALSNIFFER_CACHE.length()..-1]}"
-        }
+        boolean cacheTask = name.startsWith(AnimalSnifferPlugin.ANIMALSNIFFER_CACHE_START)
+                && name.endsWith(AnimalSnifferPlugin.ANIMALSNIFFER_CACHE_END)
+
+        // for cache task output name contains cache suffix (important to indicate cache signature), but
+        // redundant in file path (because of upper cache directory)
+        String subDir =  cacheTask ? "cache/${outputName.substring(0, outputName.length() - 'cache'.length())}"
+                // otherwise use task name
+                : name
         return new File(project.buildDir, "animalsniffer/$subDir")
     }
 
