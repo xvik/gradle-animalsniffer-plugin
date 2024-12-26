@@ -311,7 +311,7 @@ class BuildSignatureTask extends ConventionTask {
         String subDir =  cacheTask ? "cache/${outputName.substring(0, outputName.length() - 'cache'.length())}"
                 // otherwise use task name
                 : name
-        return new File(project.buildDir, "animalsniffer/$subDir")
+        return new File(project.layout.buildDirectory.asFile.get(), "animalsniffer/$subDir")
     }
 
     private String getSignatureFileName() {

@@ -339,7 +339,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     // project name by default to be compatible with maven artifacts
                     task.outputName = buildExtension.outputName ?: project.name
                     // for project signature use hardcoded 'signature' folder instead of task name
-                    task.outputDirectory = new File(project.buildDir, '/animalsniffer/signature/')
+                    task.outputDirectory = new File(project.layout.buildDirectory.asFile.get(), '/animalsniffer/signature/')
                     task.conventionMapping.debug = { buildExtension.debug }
                 }
             }
