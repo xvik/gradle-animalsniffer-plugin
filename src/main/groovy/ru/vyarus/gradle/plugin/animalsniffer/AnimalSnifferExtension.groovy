@@ -106,7 +106,7 @@ class AnimalSnifferExtension extends CodeQualityExtension {
      * <p>
      * To see the full list of animalsniffer tasks use {@link #debug} option.
      */
-    Set<String> defaultTasks = []
+    Set<String> defaultTargets = []
 
     /**
      * A way to hide animalsniffer tasks of particular type (prevent assigning animalsniffer task as check dependency).

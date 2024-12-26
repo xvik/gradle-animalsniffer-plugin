@@ -224,8 +224,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                             project.objects, project.providers, compilation)
                     registerCheckTask(provider)
                 } else {
-                    // add missed sources to existing android task
                     project.tasks.named(AndroidClassesCollector.computeTaskName(compilation.name)).configure {
+                        // add missed kotlin sources to existing animalsniffer (android) task
                         (it as AndroidClassesCollector).multiplatformSourceDirs.addAll(project.provider {
                             project.files(
                                     compilation.allKotlinSourceSets.collect { it.kotlin.sourceDirectories }).files
@@ -339,7 +339,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     // project name by default to be compatible with maven artifacts
                     task.outputName = buildExtension.outputName ?: project.name
                     // for project signature use hardcoded 'signature' folder instead of task name
-                    task.outputDirectory = new File(project.layout.buildDirectory.asFile.get(), '/animalsniffer/signature/')
+                    task.outputDirectory = new File(
+                            project.layout.buildDirectory.asFile.get(), '/animalsniffer/signature/')
                     task.conventionMapping.debug = { buildExtension.debug }
                 }
             }
@@ -442,7 +443,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             return
         }
 
-        Set<String> targets = extension.defaultTasks
+        Set<String> targets = extension.defaultTargets
         boolean assign
         if (targets) {
             // match configured names

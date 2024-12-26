@@ -68,7 +68,7 @@ class AnimalSnifferPluginTest extends AbstractTest {
             animalsniffer {
                 // disable direct check to test legacy source set appliance
                 checkTestSources = true
-                defaultTasks = ['main']
+                defaultTargets = ['main']
             }
         }
 
