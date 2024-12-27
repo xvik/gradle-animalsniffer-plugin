@@ -13,6 +13,12 @@ pluginManagement {
         }
     }
 }
+// avoid caching plugin snapshot
+buildscript {
+    configurations.classpath {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
 
 enableFeaturePreview "STABLE_CONFIGURATION_CACHE"
 
@@ -24,5 +30,5 @@ include 'java', 'groovy', 'kotlin', 'scala',
         'buildSignature:fromMix'
 
 if (JavaVersion.current() >= JavaVersion.VERSION_17) {
-    include 'android-full'
+    include 'android-kotlin-multiplatform', 'kotlin-multiplatform'
 }
