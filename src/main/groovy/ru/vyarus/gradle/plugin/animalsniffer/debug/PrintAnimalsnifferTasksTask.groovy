@@ -5,6 +5,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.work.DisableCachingByDefault
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSniffer
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 import ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils
@@ -18,6 +19,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.signature.BuildSignatureTask
  * @since 13.12.2024
  */
 @CompileStatic
+@DisableCachingByDefault
 @SuppressWarnings(['Println', 'Instanceof', 'DuplicateNumberLiteral', 'NestedBlockDepth'])
 class PrintAnimalsnifferTasksTask extends DefaultTask {
 

@@ -6,6 +6,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import ru.vyarus.gradle.plugin.animalsniffer.debug.collector.*
 import ru.vyarus.gradle.plugin.animalsniffer.debug.model.*
 
@@ -31,6 +32,7 @@ import static ru.vyarus.gradle.plugin.animalsniffer.debug.util.PrintUtils.*
  * @since 24.11.2024
  */
 @CompileStatic
+@DisableCachingByDefault
 @SuppressWarnings(['Println', 'ConfusingMethodName', 'StaticMethodsBeforeInstanceMethods',
         'DuplicateNumberLiteral', 'DuplicateStringLiteral'])
 class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
