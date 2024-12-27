@@ -14,8 +14,8 @@ pluginManagement {
         maven {
             url  = uri("https://maven.pkg.github.com/xvik/gradle-animalsniffer-plugin")
             credentials {
-                username = extra["gpr.user"]?.toString() ?: System.getenv("USERNAME")
-                password = extra["gpr.key"]?.toString() ?: System.getenv("TOKEN")
+                username = extra.has("gpr.user").let { if (it) extra["gpr.user"] as String else System.getenv("USERNAME")}
+                password = extra.has("gpr.key").let { if (it) extra["gpr.key"] as String else System.getenv("TOKEN")}
             }
         }
     }
