@@ -38,22 +38,22 @@ jobs:
         working-directory: examples/standalone/android-simple
         run: |
           chmod +x gradlew
-          ./gradlew printAnimalsnifferTasks, build --no-daemon    
+          ./gradlew printAnimalsnifferTasks build --no-daemon    
 
       - name: Run standalone multiplatform with android example
         working-directory: examples/standalone/kotlin-multi-android-desktop-server
         run: |
           chmod +x gradlew
-          ./gradlew printAnimalsnifferTasks, build --no-daemon
+          ./gradlew printAnimalsnifferTasks build --no-daemon
 
       - name: Run standalone multiplatform with android only example
         working-directory: examples/standalone/kotlin-multi-android-only
         run: |
           chmod +x gradlew
-          ./gradlew printAnimalsnifferTasks, build --no-daemon
+          ./gradlew printAnimalsnifferTasks build --no-daemon
 
       - name: Run standalone pure multiplatform example
         working-directory: examples/standalone/kotlin-multi-desktop-server
         run: |
           chmod +x gradlew
-          ./gradlew printAnimalsnifferTasks, build --no-daemon
+          ./gradlew printAnimalsnifferTasks build --no-daemon
