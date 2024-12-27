@@ -35,7 +35,7 @@ dependencies {
     // required to replace deprecated gradle GFileUtils
     implementation 'commons-io:commons-io:2.18.0'
     compileOnly 'com.android.tools.build:gradle:7.4.0'
-    compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
+    compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
