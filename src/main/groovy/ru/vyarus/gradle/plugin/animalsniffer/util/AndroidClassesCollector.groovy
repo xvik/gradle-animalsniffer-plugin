@@ -10,7 +10,8 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Android classes collector.
+ * Android classes collector. It is the only way to access compilation directories with the new android api:
+ * task itself do nothing, it is required only to let android plugin configure it.
  *
  * @author Cesar Munoz
  * @since 14.11.2024
