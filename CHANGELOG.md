@@ -17,7 +17,8 @@
   - Legacy sourceSets option still supported, but checkTestSources and defaultTargets override it
 * Add new properties to AnimalSniffer task to simplify detailed configuration:
   - targetType: type of task (SourceSet, MultiplatformTarget, AndroidVariant)
-  - targetName: name of target (used in animalsniffer task name) 
+  - targetName: name of target (used in animalsniffer task name)
+* Call animalsniffer directly instead of ant tasks 
 
 ### 1.7.2 (2024-11-18)
 * Update animalsniffer 1.23 -> 1.24

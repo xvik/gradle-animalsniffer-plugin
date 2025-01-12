@@ -6,9 +6,13 @@ import org.apache.commons.io.FileUtils
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.ConventionTask
-import org.gradle.api.internal.project.IsolatedAntBuilder
+import org.gradle.api.internal.file.FileOperations
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.tasks.*
+import org.gradle.workers.WorkQueue
+import org.gradle.workers.WorkerExecutor
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+import ru.vyarus.gradle.plugin.animalsniffer.worker.BuildWorker
 
 import javax.inject.Inject
 
@@ -18,7 +22,7 @@ import javax.inject.Inject
  * Task may be used directly or through registered `animalsnifferSignature' configuration closure.
  * <p>
  * AnimalsnifferClasspath will be set from 'animalsniffer' configuration. By default, output file
- * is `build/animalsniffer/${task.name}/${task.name}.sig`. In some cases multiple signatures could be produces,
+ * is `build/animalsniffer/${task.name}/${task.name}.sig`. In some cases multiple signatures could be produced,
  * so use {@code task.outputFiles} method to get correct task output.
  * <p>
  * Properties may be used for configuration directly, but it will be more convenient to use provided helper
@@ -37,7 +41,7 @@ import javax.inject.Inject
 @CompileStatic
 @CacheableTask
 @SuppressWarnings(['ConfusingMethodName', 'Println'])
-class BuildSignatureTask extends ConventionTask {
+abstract class BuildSignatureTask extends ConventionTask {
 
     /**
      * Symbol used when {@link #mergeSignatures} disabled and so multiple signatures produced (according to input
@@ -47,6 +51,9 @@ class BuildSignatureTask extends ConventionTask {
     public static final String SIGNATURE_DELIMITER = '_!'
     private static final String DOT = '.'
     private static final String NL = '\n'
+
+    private final String projectRoot
+    private final File buildDir
 
     /**
      * The class path containing the Animal Sniffer library to be used.
@@ -130,18 +137,24 @@ class BuildSignatureTask extends ConventionTask {
     @Console
     boolean debug
 
-    @SuppressWarnings('UnnecessaryGetter')
+    @SuppressWarnings(['UnnecessaryGetter', 'AbstractClassWithPublicConstructor'])
     BuildSignatureTask() {
         // task-specific output directory used to avoid clashes when multiple build tasks used
         // (output files are taken from directory, so if multiple tasks used, last task output will include
         // all tasks outputs, which is wrong).
         conventionMapping.map('outputDirectory') { getDefaultTaskOutputDirectory() }
+        projectRoot = project.rootDir.canonicalPath
+        buildDir = project.layout.buildDirectory.asFile.get()
     }
 
     @Inject
-    IsolatedAntBuilder getAntBuilder() {
-        throw new UnsupportedOperationException()
-    }
+    abstract ObjectFactory getObjectFactory()
+
+    @Inject
+    abstract FileOperations getFileOperations();
+
+    @Inject
+    abstract WorkerExecutor getWorkerExecutor()
 
     @TaskAction
     void run() {
@@ -182,9 +195,9 @@ class BuildSignatureTask extends ConventionTask {
      */
     void files(Object input) {
         if (getFiles() == null) {
-            setFiles(project.files(input))
+            setFiles(objectFactory.fileCollection().from(input))
         } else {
-            setFiles(getFiles() + project.files(input))
+            setFiles(getFiles() + objectFactory.fileCollection().from(input))
         }
     }
 
@@ -205,9 +218,9 @@ class BuildSignatureTask extends ConventionTask {
      */
     void signatures(Object signature) {
         if (getSignatures() == null) {
-            setSignatures(project.files(signature))
+            setSignatures(objectFactory.fileCollection().from(signature))
         } else {
-            setSignatures(getSignatures() + project.files(signature))
+            setSignatures(getSignatures() + objectFactory.fileCollection().from(signature))
         }
     }
 
@@ -256,7 +269,7 @@ class BuildSignatureTask extends ConventionTask {
      */
     @Internal
     FileCollection getOutputFiles() {
-        return project.fileTree(getOutputDirectory()).builtBy(this)
+        return fileOperations.fileTree(getOutputDirectory()).builtBy(this)
     }
 
     /**
@@ -273,7 +286,7 @@ class BuildSignatureTask extends ConventionTask {
                 File target = getMergeSignatures() ? targetFile : getPerSignatureTargetFile(it)
                 if (getDebug()) {
                     println 'No signature build required, simply copying signature:\n' +
-                            "\t$it.name -> ${project.relativePath(target)}"
+                            "\t$it.name -> ${fileOperations.relativePath(target)}"
                 }
                 FileUtils.copyFile(it, target)
             }
@@ -308,10 +321,10 @@ class BuildSignatureTask extends ConventionTask {
 
         // for cache task output name contains cache suffix (important to indicate cache signature), but
         // redundant in file path (because of upper cache directory)
-        String subDir =  cacheTask ? "cache/${outputName.substring(0, outputName.length() - 'cache'.length())}"
+        String subDir = cacheTask ? "cache/${outputName.substring(0, outputName.length() - 'cache'.length())}"
                 // otherwise use task name
                 : name
-        return new File(project.layout.buildDirectory.asFile.get(), "animalsniffer/$subDir")
+        return new File(buildDir, "animalsniffer/$subDir")
     }
 
     private String getSignatureFileName() {
@@ -350,40 +363,46 @@ class BuildSignatureTask extends ConventionTask {
 
     @CompileStatic(TypeCheckingMode.SKIP)
     private void runSignatureBuild(Collection<File> signatures, File dest) {
-        String filesPath = getFiles() && !getFiles().empty ? getFiles().asPath : null
+        Set<File> files = getFiles() && !getFiles().empty ? getFiles().files : null
         if (getDebug()) {
-            printTaskConfig(signatures, dest, filesPath)
+            printTaskConfig(signatures, dest, files)
         }
-        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute { a ->
-            ant.taskdef(name: 'buildSignature', classname: 'org.codehaus.mojo.animal_sniffer.ant.BuildSignaturesTask')
-            ant.buildSignature(destfile: dest.absolutePath) {
-                if (filesPath) {
-                    path(path: filesPath)
-                }
-                signatures.each {
-                    signature(src: it.absolutePath)
-                }
-                getInclude().each {
-                    includeClasses(className: it)
-                }
-                getExclude().each {
-                    excludeClasses(className: it)
-                }
+
+        Set<File> signatureFiles = signatures
+        Set<String> include = getInclude()
+        Set<String> exclude = getExclude()
+
+        WorkQueue workQueue = workerExecutor.classLoaderIsolation {
+            it.classpath.from(getAnimalsnifferClasspath())
+        }
+
+        workQueue.submit(BuildWorker) { params ->
+            if (files) {
+                params.path.addAll(files)
             }
+            params.signatures.addAll(signatureFiles)
+            params.include.addAll(include)
+            params.exclude.addAll(exclude)
+            params.output.set(dest)
+        }
+        workQueue.await()
+
+        if (!dest.exists()) {
+            throw new GradleException('Error creating signature')
         }
     }
 
-    private void printTaskConfig(Collection<File> signatures, File dest, String path) {
+    private void printTaskConfig(Collection<File> signatures, File dest, Set<File> path) {
         StringBuilder res = new StringBuilder("$dest.name\n")
-        String rootDir = "${project.rootDir.canonicalPath}${File.separator}"
+        String rootDir = "${projectRoot}${File.separator}"
         if (!signatures.empty) {
             res.append('\n\tsignatures:\n')
                     .append(signatures.sort().collect { "\t\t$it.name" }.join(NL)).append(NL)
         }
         if (!getFiles().empty) {
             res.append('\n\tfiles:\n')
-                    .append(path.split(File.pathSeparator)
-                            .collect { "\t\t${it.replace(rootDir, '')}" }
+                    .append(path
+                            .collect { "\t\t${it.canonicalPath.replace(rootDir, '')}" }
                             .join(NL))
                     .append(NL)
         }

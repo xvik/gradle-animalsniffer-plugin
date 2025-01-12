@@ -2,32 +2,32 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
-import org.apache.tools.ant.BuildListener
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
-import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.reporting.Report
 import org.gradle.api.reporting.Reporting
 import org.gradle.api.tasks.*
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.util.internal.ClosureBackedAction
+import org.gradle.workers.WorkQueue
+import org.gradle.workers.WorkerExecutor
 import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferTasksTask
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReports
 import ru.vyarus.gradle.plugin.animalsniffer.report.AnimalSnifferReportsImpl
-import ru.vyarus.gradle.plugin.animalsniffer.report.ReportCollector
+import ru.vyarus.gradle.plugin.animalsniffer.report.ReportBuilder
 import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
+import ru.vyarus.gradle.plugin.animalsniffer.worker.CheckWorker
 
 import javax.inject.Inject
-import java.lang.reflect.Proxy
 
 /**
  * AnimalSniffer task is created for each registered source set.
  * <p>
  * Task is SourceTask, but with root in compile classes dir of current source set. This means that include/exclude
- * may be used, but they wil be applied to compiled classes and not sources.
+ * may be used, but they will be applied to compiled classes and not sources.
  *
  * @author Vyacheslav Rusakov
  * @since 14.12.2015
@@ -35,9 +35,10 @@ import java.lang.reflect.Proxy
 @SuppressWarnings(['UnnecessaryGetter', 'Println'])
 @CompileStatic
 @CacheableTask
-class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
+abstract class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<AnimalSnifferReports> {
 
     private static final String NL = '\n'
+    private final String projectRoot
 
     /**
      * Type of task source (source set, multiplatform, android). Added to be able to easily disable tasks by type.
@@ -119,99 +120,67 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
 
     private final AnimalSnifferReportsImpl reports
 
-    /**
-     * Due to many classloaders used by AntBuilder, have to avoid ant classes in custom listener.
-     * Use jdk proxy to register custom listener.
-     *
-     * @param project ant project
-     * @param handler proxy handler
-     */
-    @CompileStatic(TypeCheckingMode.SKIP)
-    static void replaceBuildListener(Object project, ReportCollector handler) {
-        // use original to redirect other ant tasks output (not expected, but just in case)
-        handler.originalListener = project.buildListeners.first()
-        // cleanup default gradle listener listener to avoid console output
-        project.buildListeners.each { project.removeBuildListener(it) }
-        ClassLoader cl = project.class.classLoader
-        Object listener = Proxy.newProxyInstance(cl, [cl.loadClass(BuildListener.name)] as Class[], handler)
-        project.addBuildListener(listener)
-    }
-
-    /**
-     * Recover original listener after execution.
-     *
-     * @param project ant project
-     * @param original original listener
-     */
-    @CompileStatic(TypeCheckingMode.SKIP)
-    static void recoverOriginalListener(Object project, Object original) {
-        if (original != null) {
-            project.buildListeners.each { project.removeBuildListener(it) }
-            project.addBuildListener(original)
-        }
-    }
-
-    @SuppressWarnings('ThisReferenceEscapesConstructor')
+    @SuppressWarnings(['ThisReferenceEscapesConstructor', 'AbstractClassWithPublicConstructor'])
     AnimalSniffer() {
         reports = instantiator.newInstance(AnimalSnifferReportsImpl, this, getObjectFactory())
+        projectRoot = project.rootDir.canonicalPath
     }
 
     @Inject
-    Instantiator getInstantiator() {
-        throw new UnsupportedOperationException()
-    }
+    abstract Instantiator getInstantiator()
 
     @Inject
-    ObjectFactory getObjectFactory() {
-        throw new UnsupportedOperationException()
-    }
+    abstract ObjectFactory getObjectFactory()
 
     @Inject
-    IsolatedAntBuilder getAntBuilder() {
-        throw new UnsupportedOperationException()
-    }
+    abstract WorkerExecutor getWorkerExecutor()
 
     @TaskAction
-    @SuppressWarnings(['CatchException', 'VariableName'])
     @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
-        String sortedPath = preparePath(getSource())
+        List<File> sortedPath = preparePath(getSource())
         if (getDebug()) {
             printTaskConfig(sortedPath)
         }
-        Set<File> _sourceDirs = getSourcesDirs().getFiles()
-        antBuilder.withClasspath(getAnimalsnifferClasspath()).execute {
-            ant.taskdef(name: 'animalsniffer', classname: 'org.codehaus.mojo.animal_sniffer.ant.CheckSignatureTask')
-            ReportCollector collector = new ReportCollector(_sourceDirs)
-            replaceBuildListener(project, collector)
-            getAnimalsnifferSignatures().each { signature ->
-                try {
-                    collector.contextSignature(signature.name)
-                    ant.animalsniffer(signature: signature.absolutePath, classpath: getClasspath()?.asPath) {
-                        // the same as getSource().asPath, but have to apply sorting because otherwise
-                        // enclosing class could be parsed after inlined and so ignoring annotation on enclosing class
-                        // would be ignored (actually, this problem appears only on windows)
-                        path(path: sortedPath)
-                        _sourceDirs.each {
-                            sourcepath(path: it.absoluteFile)
-                        }
-                        annotation(className: 'org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
-                        if (getAnnotation()) {
-                            annotation(className: getAnnotation())
-                        }
-                        getIgnoreClasses().each { ignore(className: it) }
-                    }
-                } catch (Exception ex) {
-                    // rethrow not expected ant exceptions
-                    if (!ex.message.startsWith('Signature errors found')) {
-                        throw ex
-                    }
-                }
+        Set<File> sourceDirs = getSourcesDirs().getFiles()
+        String annotation = getAnnotation()
+        FileCollection signatures = getAnimalsnifferSignatures()
+        Set<File> classpathFiles = getClasspath().asFileTree.files
+        List<String> ignoreClasses = getIgnoreClasses()
+        boolean quiet = isIgnoreFailures()
+
+        WorkQueue workQueue = workerExecutor.classLoaderIsolation {
+            it.classpath.from(getAnimalsnifferClasspath())
+        }
+
+        // report file used for errors list exchange between task and worker
+        File errors = reports.text.outputLocation.get().asFile
+        workQueue.submit(CheckWorker) { params ->
+            params.signatures.addAll(signatures)
+            params.classpath.addAll(classpathFiles)
+            params.classes.addAll(sortedPath)
+            params.sourceDirs.addAll(sourceDirs)
+            params.annotations.add('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
+            if (annotation) {
+                params.annotations.add(annotation)
             }
-            collector.printSignatureNames = getAnimalsnifferSignatures().size() > 1
+            params.ignored.addAll(ignoreClasses)
+            params.ignoreErrors.set(quiet)
+
+            // always create report file because its the only way to know if errors were found
+            params.reportOutput.set(errors)
+        }
+
+        workQueue.await()
+
+        // if file exists then violations were found (or check process failed)
+        if (errors.exists()) {
+            // read errors from file
+            ReportBuilder collector = new ReportBuilder(errors, getAnimalsnifferSignatures().size() > 1)
+            // remove intermediate file - correct report would be created, if required
+            errors.delete()
+
             processErrors(collector)
-            // it should be useless as completely custom ant used for execution, but just in case
-            recoverOriginalListener(project, collector.originalListener)
         }
     }
 
@@ -263,11 +232,11 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     Set<File> getClassesDirs() {
-        return new TreeSet<File>(project.files(classesDirs).files)
+        return new TreeSet<File>(objectFactory.fileCollection().from(classesDirs).files)
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    void processErrors(ReportCollector collector) {
+    void processErrors(ReportBuilder collector) {
         if (collector.errorsCnt() > 0) {
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
                     "in ${collector.filesCnt()} files."
@@ -291,22 +260,25 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
         }
     }
 
-    void printTaskConfig(String path) {
-        String rootDir = "${project.rootDir.canonicalPath}${File.separator}"
+    void printTaskConfig(List<File> path) {
+        String rootDir = "${projectRoot}${File.separator}"
         StringBuilder res = new StringBuilder()
                 .append('\n\tsignatures:\n')
-                .append(getAnimalsnifferSignatures().files.collect { "\t\t$it.name" }.join(NL))
+                .append(getAnimalsnifferSignatures().files
+                        .collect { "\t\t$it.name" }.join(NL))
                 .append(NL)
                 .append('\n\tsources:\n')
-                .append(getSourcesDirs().getFiles().sort().collect { "\t\t${project.relativePath(it)}" }.join(NL))
+                .append(getSourcesDirs().getFiles().sort()
+                        .collect { "\t\t${it.canonicalPath.replace(rootDir, '')}" }.join(NL))
                 .append(NL)
                 .append('\n\tfiles:\n')
-                .append(path.split(File.pathSeparator).collect { "\t\t${it.replace(rootDir, '')}" }.join(NL))
+                .append(path
+                        .collect { "\t\t${it.toString().replace(rootDir, '')}" }.join(NL))
                 .append(NL)
 
-        if (!getIgnoreClasses().empty) {
+        if (!this.getIgnoreClasses().empty) {
             res.append('\n\tignored:\n')
-                    .append(getIgnoreClasses().collect { "\t\t$it" }.join(NL))
+                    .append(this.getIgnoreClasses().collect { "\t\t$it" }.join(NL))
                     .append(NL)
         }
 
@@ -316,23 +288,22 @@ class AnimalSniffer extends SourceTask implements VerificationTask, Reporting<An
     }
 
     @SuppressWarnings(['Indentation', 'UnnecessaryCollectCall', 'UnnecessarySubstring'])
-    private static String preparePath(FileTree source) {
+    private static List<File> preparePath(FileTree source) {
         int clsExtSize = '.class'.length()
         String innerIndicator = '$'
-        List<String> sortedPath = source
-                .collect { it.toString() }
+        return source
                 .toSorted { a, b ->
-                    if (a.contains(innerIndicator) || b.contains(innerIndicator)) {
-                        String a1 = a.substring(0, a.length() - clsExtSize) // - .class
-                        String b1 = b.substring(0, b.length() - clsExtSize)
-                        // trick is to compare names without extension, so inner class would
+                    String n1 = a
+                    String n2 = b
+                    if (n1.contains(innerIndicator) || n2.contains(innerIndicator)) {
+                        String a1 = n1.substring(0, n1.length() - clsExtSize) // - .class
+                        String b1 = n2.substring(0, n2.length() - clsExtSize)
+                        // the trick is to compare names without extension, so inner class would
                         // become longer and go last automatically;
                         // compare: Some.class < Some$1.class, but Some > Some$1
                         return a1 <=> b1
                     }
-                    return a <=> b
+                    return n1 <=> n2
                 }
-        // lambda case (Some$$Lambda$1). Ant removes every odd $ in a row
-        return sortedPath.join(File.pathSeparator).replace('$$', '$$$')
     }
 }

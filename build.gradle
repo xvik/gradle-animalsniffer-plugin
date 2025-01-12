@@ -31,6 +31,7 @@ configurations.compileClasspath.attributes.attribute(TargetJvmVersion.TARGET_JVM
 
 repositories { mavenLocal(); mavenCentral(); google(); gradlePluginPortal() }
 dependencies {
+    // required for helper tasks, but check and build would use dynamic classpath
     implementation 'org.codehaus.mojo:animal-sniffer:1.24'
     // required to replace deprecated gradle GFileUtils
     implementation 'commons-io:commons-io:2.18.0'

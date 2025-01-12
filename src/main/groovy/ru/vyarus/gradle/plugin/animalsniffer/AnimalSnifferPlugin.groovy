@@ -137,7 +137,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
 
             defaultDependencies { dependencies ->
                 dependencies.add(this.project.dependencies
-                        .create("org.codehaus.mojo:animal-sniffer-ant-tasks:${this.extension.toolVersion}"))
+                        .create("org.codehaus.mojo:animal-sniffer:${this.extension.toolVersion}"))
             }
         }
 
