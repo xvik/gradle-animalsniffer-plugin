@@ -38,12 +38,16 @@ class MultiplatformSourceSetsInfoCollector {
                 Set<File> cp = []
                 if (collectClasspath) {
                     // using extra configuration to specify resolution attributes
-                    Configuration configuration = project.configurations
-                            .create("resolve$it.implementationConfigurationName")
-                    configuration.extendsFrom(project.configurations.getByName(it.compileDependencyConfigurationName))
-                    configuration.canBeResolved = true
-                    configuration.attributes {
-                        attributes.attribute(Attribute.of('ui', String), 'awt')
+                    String resolveConfName = "resolve$it.implementationConfigurationName"
+                    Configuration configuration = project.configurations.findByName(resolveConfName)
+                    if (configuration == null) {
+                        configuration = project.configurations.create(resolveConfName)
+                        configuration.extendsFrom(project.configurations
+                                .getByName(it.compileDependencyConfigurationName))
+                        configuration.canBeResolved = true
+                        configuration.attributes {
+                            attributes.attribute(Attribute.of('ui', String), 'awt')
+                        }
                     }
 
                     cp = PrintUtils.resolve(configuration, "for kotlin compilation $it.name")

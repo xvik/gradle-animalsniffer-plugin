@@ -57,12 +57,14 @@ class PrintAnimalsnifferTasksTask extends DefaultTask {
                     }
                     println "\t\tdepends on: ${tasks.sort().join(', ')}"
                     Set<File> sigs = (sigTask?.signatures ?: task.animalsnifferSignatures).files
+                    File rootDir = project.rootProject.rootDir
                     println "\t\tsignatures: ${sigTask ? '(cached signature)' : ''}\n" +
-                            (sigs.empty ? '\t\t\t<No signatures>' : PrintUtils.renderClasspath(project, 3, sigs))
+                            (sigs.empty ? '\t\t\t<No signatures>'
+                                    : PrintUtils.renderClasspath(rootDir, 3, sigs))
                     println '\t\tclasses:\n' + (task.classesDirs.empty ? '\t\t\t<empty>' : PrintUtils.renderClasses(
-                            3, task.classesDirs, project))
+                            3, task.classesDirs, rootDir))
                     println '\t\tsources:\n' + PrintUtils.renderSources(
-                            3, task.sourcesDirs.files, project, true)
+                            3, task.sourcesDirs.files, rootDir, true)
                 }
         println "\n*use [$PrintAnimalsnifferSourceInfoTask.NAME] task to see project sources configuration details\n"
     }

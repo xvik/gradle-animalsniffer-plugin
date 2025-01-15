@@ -21,7 +21,7 @@ class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfiguration
 
     private final String name
     private final String desc
-    private final TaskProvider<AndroidClassesCollector> classesTask
+    private final String classesTask
     private final Provider<FileCollection> classes
     private final Provider<FileCollection> classpath
     private final Provider<FileCollection> sources
@@ -31,7 +31,7 @@ class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfiguration
                                      TaskProvider<AndroidClassesCollector> classesTask) {
         name = variant.name
         desc = "for '$name' android ${name.containsIgnoreCase('test') ? 'test component' : 'variant'}"
-        this.classesTask = classesTask
+        this.classesTask = classesTask.name
         classes = providers.provider {
             objects.fileCollection().from(classesTask.flatMap { it.classesDirs })
         }
@@ -79,6 +79,6 @@ class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfiguration
 
     @Override
     String getCompileTaskName() {
-        return classesTask.name
+        return classesTask
     }
 }

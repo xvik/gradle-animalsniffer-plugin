@@ -98,27 +98,29 @@ class PrintUtils {
         return NL + buildPrefix(shift) + title
     }
 
-    static String renderSources(int shift, Collection<File> sourceDirs, Project project, boolean existsMarker = true) {
+    static String renderSources(int shift, Collection<File> sourceDirs, File rootDir,
+                                boolean existsMarker = true) {
         String prefix = buildPrefix(shift)
         return sourceDirs.collect {
-            String path = project.rootProject.relativePath(it)
+            String path = it.canonicalPath.replace(getRootPath(rootDir), '')
             it.exists() ? "$prefix$path" : String.format("$prefix%-80s %s", path,
                     !existsMarker || it.exists() ? '' : 'NOT EXISTS')
         }.unique().sort().join(NL)
     }
 
-    static String renderClasses(int shift, Collection<File> classDirs, Project project) {
+    static String renderClasses(int shift, Collection<File> classDirs, File rootDir) {
         String prefix = buildPrefix(shift)
         return classDirs.collect {
-            prefix + project.rootProject.relativePath(it)
+            prefix + it.canonicalPath.replace(getRootPath(rootDir), '')
         }.unique().sort().join(NL)
     }
 
-    static String renderClasspath(Project project, int shift, Collection<File> files) {
+    static String renderClasspath(File rootDir, int shift, Collection<File> files) {
         String prefix = buildPrefix(shift)
         files.collect {
-            prefix + (it.canonicalPath.startsWith(project.rootDir.canonicalPath)
-                    ? project.rootProject.relativePath(it) : it.name)
+            String rootPath = getRootPath(rootDir)
+            prefix + (it.canonicalPath.startsWith(rootPath)
+                    ? it.canonicalPath.replace(rootPath, '') : it.name)
         }.sort().unique().join(NL)
     }
 
@@ -126,6 +128,10 @@ class PrintUtils {
         String res = ''
         shift.times { res += '\t' }
         return res
+    }
+
+    static String getRootPath(File dir) {
+        return dir.canonicalPath + File.separator
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)

@@ -4,6 +4,7 @@ import groovy.transform.CompileStatic
 import groovy.transform.TypeCheckingMode
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.DisableCachingByDefault
@@ -57,9 +58,17 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
     @Input
     boolean printClasspath = true
 
+    private final File rootProjectDir
+    private final Provider<DebugModel> modelProvider
+
+    PrintAnimalsnifferSourceInfoTask() {
+        rootProjectDir = project.rootProject.rootDir
+        modelProvider = project.provider { createModel(project, printClasspath) }
+    }
+
     @TaskAction
     void action() {
-        DebugModel model = createModel()
+        DebugModel model = modelProvider.get()
 
         if (printPlugins) {
             println '\n\n== [Plugins] ==============================================================='
@@ -68,27 +77,27 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
 
         if (printCompileTasks) {
             println '\n\n== [Compile Tasks] ==============================================================='
-            printCompileTasks(project, model.compileTasks)
+            printCompileTasks(rootProjectDir, model.compileTasks)
         }
 
         if (printSourceSets) {
             println '\n\n== [SourceSets] ==============================================================='
 
-            printSourceSets(project, model)
+            printSourceSets(rootProjectDir, model)
         }
 
         if (printKotlinTargets && model.kotlinTargets) {
-            printTargets(project, model.kotlinTargets)
+            printTargets(rootProjectDir, model.kotlinTargets)
         }
 
         if (printAndroidVariants && model.androidVariants) {
-            printVariants(project, model.androidVariants)
+            printVariants(rootProjectDir, model.androidVariants)
         }
 
         println '\n\\===========================================================================================\n'
     }
 
-    private DebugModel createModel() {
+    static DebugModel createModel(Project project, boolean printClasspath) {
         DebugModel model = new DebugModel()
         model.plugins = new PluginsCollector().collect(project)
 
@@ -134,7 +143,7 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    private static void printCompileTasks(Project project, CompileTasksModel model) {
+    private static void printCompileTasks(File rootProjectDir, CompileTasksModel model) {
         println title(1,
                 "Tasks containing 'compile' in name ------------------------------------ (${model.allTasks.size()})")
         println()
@@ -154,7 +163,7 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
 
         println title(1, "Java compile tasks --------------------------------------------- (${model.javaTasks.size()})")
         model.javaTasks.each {
-            printInOutClasspath(project, 2, "[${it.name}] -----",
+            printInOutClasspath(rootProjectDir, 2, "[${it.name}] -----",
                     it.sourceDirs,
                     it.classes,
                     it.classpath
@@ -166,7 +175,7 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
                     "Kotlin compile tasks ------------------------------------------ (${model.kotlinTasks.size()})")
 
             model.kotlinTasks.each {
-                printInOutClasspath(project, 2, "[${it.name}] -----",
+                printInOutClasspath(rootProjectDir, 2, "[${it.name}] -----",
                         it.sourceDirs,
                         it.classes,
                         it.classpath
@@ -196,32 +205,32 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
         }
     }
 
-    private static void printSourceSets(Project project, DebugModel model) {
+    private static void printSourceSets(File rootProjectDir, DebugModel model) {
         if (model.java) {
-            printSourceSets(project, 1,
+            printSourceSets(rootProjectDir, 1,
                     'Java Source Sets -------------------------------------------------------', model.java)
         }
         if (model.kotlin) {
-            printSourceSets(project, 1,
+            printSourceSets(rootProjectDir, 1,
                     'Kotlin Multiplatform Source Sets -------------------------------------------------------',
                     model.kotlin, model.kotlinTargetSourceSetsIndex)
             if (model.android) {
-                printKotlinDifference(project, 1, 'Android sources NOT COVERED by kotlin source sets',
+                printKotlinDifference(rootProjectDir, 1, 'Android sources NOT COVERED by kotlin source sets',
                         model.android, model.kotlin)
             }
         }
         if (model.android) {
-            printSourceSets(project, 1, "Android ${model.androidLibrary ? 'library' : 'application'} " +
+            printSourceSets(rootProjectDir, 1, "Android ${model.androidLibrary ? 'library' : 'application'} " +
                     'Source Sets ------------------------------------------------------',
                     model.android, model.androidVariantsSourceSetsIndex)
             if (model.kotlin) {
-                printKotlinDifference(project, 1, 'Kotlin sources NOT COVERED by android source sets',
+                printKotlinDifference(rootProjectDir, 1, 'Kotlin sources NOT COVERED by android source sets',
                         model.kotlin, model.android)
             }
         }
     }
 
-    private static void printKotlinDifference(Project project, int shift, String msg,
+    private static void printKotlinDifference(File rootProjectDir, int shift, String msg,
                                               List<SourceSetInfo> koltin, List<SourceSetInfo> android) {
         Map<File, String> kotlinIdx = [:]
         koltin.each { set -> set.sourceDirs.each { file -> kotlinIdx[file] = set.name } }
@@ -236,25 +245,25 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
             println title(shift, msg)
             notCoveredByKotlin.each {
                 println String.format(buildPrefix(shift + 1) + '%-70s (%s)',
-                        project.rootProject.relativePath(it), kotlinIdx[it])
+                        it.canonicalPath.replace(getRootPath(rootProjectDir), ''), kotlinIdx[it])
             }
         }
     }
 
-    private static void printVariants(Project project, List<AndroidVariantInfo> info) {
+    private static void printVariants(File rootProjectDir, List<AndroidVariantInfo> info) {
         println title(
                 "== [Android Variants] ========================================================== (${info.size()})")
 
         info.each {
             println title(1, "${it.name} ===== (compiled by ${it.compileTaskName} task)")
-            printSourceSets(project, 2, 'Source sets', it.sourceSets)
+            printSourceSets(rootProjectDir, 2, 'Source sets', it.sourceSets)
 
             // sources rendered above (level 1 because no title and actual level would be 2)
-            printInOutClasspath(project, 1, null, null, it.classes, it.classpath)
+            printInOutClasspath(rootProjectDir, 1, null, null, it.classes, it.classpath)
         }
     }
 
-    private static void printTargets(Project project, List<KotlinTargetInfo> targets) {
+    private static void printTargets(File rootProjectDir, List<KotlinTargetInfo> targets) {
         println title(
                 "== [Kotlin targets] ========================================================= (${targets.size()})")
 
@@ -265,11 +274,11 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
                 println title(2, "$it.name (compiled by $it.compileTaskName task)")
 
                 if (it.sourceSets) {
-                    printSourceSets(project, 3, 'Source sets', it.sourceSets)
+                    printSourceSets(rootProjectDir, 3, 'Source sets', it.sourceSets)
                 }
 
                 // sources rendered above
-                printInOutClasspath(project, 2, null, null, it.classes, it.classpath)
+                printInOutClasspath(rootProjectDir, 2, null, null, it.classes, it.classpath)
 
                 if (it.associatedCompilations) {
                     println title(3, "Associated compilations (${it.associatedCompilations.size()})")
@@ -281,12 +290,12 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
         }
     }
 
-    private static void printSourceSets(Project project, int shift, String name, List<SourceSetInfo> info,
+    private static void printSourceSets(File rootProjectDir, int shift, String name, List<SourceSetInfo> info,
                                         Map<String, String> inclusiveIndex = null) {
         println title(shift, "$name (${info.size()})")
 
         info.each {
-            printInOutClasspath(project, shift + 1,
+            printInOutClasspath(rootProjectDir, shift + 1,
                     "$it.name -----" + (inclusiveIndex?.get(it.name)
                             ? " (${inclusiveIndex.get(it.name)})" : ''),
                     it.sourceDirs, it.classes, it.classpath
@@ -295,7 +304,7 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
     }
 
     @SuppressWarnings('ParameterCount')
-    private static void printInOutClasspath(Project project,
+    private static void printInOutClasspath(File rootProjectDir,
                                             int shift,
                                             String msg,
                                             Collection<File> sources,
@@ -308,21 +317,21 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
         if (sources) {
             if (classes || classpath) {
                 println title(shift + 1, 'Sources')
-                println renderSources(shift + 2, sources, project)
+                println renderSources(shift + 2, sources, rootProjectDir)
             } else {
                 // short notion for kotlin and android source sets
-                println renderSources(shift + 1, sources, project)
+                println renderSources(shift + 1, sources, rootProjectDir)
             }
         }
 
         if (classes) {
             println title(shift + 1, 'Output')
-            println renderClasses(shift + 2, classes, project)
+            println renderClasses(shift + 2, classes, rootProjectDir)
         }
 
         if (classpath) {
             println title(shift + 1, 'Classpath')
-            println renderClasspath(project, shift + 2, classpath)
+            println renderClasspath(rootProjectDir, shift + 2, classpath)
         }
     }
 }

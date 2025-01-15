@@ -24,13 +24,16 @@ class AndroidSourceSetsInfoCollector {
         new AndroidSourceSetReactor(project).onTarget {
             Set<File> classpath = []
             if (collectClasspath) {
-                Configuration configuration = project.configurations
-                        .create("resolve$it.implementationConfigurationName")
-                // not resolvable configuration (need another configuration to resolve it)
-                configuration.extendsFrom(project.configurations.getByName(it.implementationConfigurationName))
-                configuration.canBeResolved = true
-                configuration.attributes {
-                    it.attributes.attribute(Attribute.of('ui', String), 'awt')
+                String resolveConfName = "resolve$it.implementationConfigurationName"
+                Configuration configuration = project.configurations.findByName(resolveConfName)
+                if (configuration == null) {
+                    configuration = project.configurations.create(resolveConfName)
+                    // not resolvable configuration (need another configuration to resolve it)
+                    configuration.extendsFrom(project.configurations.getByName(it.implementationConfigurationName))
+                    configuration.canBeResolved = true
+                    configuration.attributes {
+                        it.attributes.attribute(Attribute.of('ui', String), 'awt')
+                    }
                 }
 
                 classpath = PrintUtils.resolve(configuration, "for $it.name android source set")
