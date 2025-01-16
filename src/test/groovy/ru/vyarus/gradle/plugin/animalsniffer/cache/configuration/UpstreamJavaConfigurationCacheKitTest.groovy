@@ -44,6 +44,16 @@ class UpstreamJavaConfigurationCacheKitTest extends AbstractKitTest {
 
         then: "task successful"
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        result.output.contains('2 AnimalSniffer violations were found in 1 files')
+
+        then: "text report correct"
+        File file = file('/build/reports/animalsniffer/main.text')
+        file.exists()
+        file.readLines() == [
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+        ]
+
 
         when: "run from cache"
         println '\n\n------------------- FROM CACHE ----------------------------------------'
@@ -52,8 +62,18 @@ class UpstreamJavaConfigurationCacheKitTest extends AbstractKitTest {
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':animalsnifferMain').outcome == TaskOutcome.UP_TO_DATE
+        // no output
+        !result.output.contains('2 AnimalSniffer violations were found in 1 files')
+
+        then: "text report correct"
+        File file2 = super.file('/build/reports/animalsniffer/main.text')
+        file2.exists()
+        file2.readLines() == [
+                "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
+                "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
+        ]
 
     }
 }

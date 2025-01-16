@@ -78,6 +78,16 @@ class UpstreamAndroidConfigurationCacheKitTest extends AbstractAndroidKitTest {
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
+        result.output.contains('3 AnimalSniffer violations were found in 2 files')
+
+        then: "text report correct"
+        File file = file('/build/reports/animalsniffer/debug.text')
+        file.exists()
+        file.readLines() == [
+                "invalid.Sample:16  Undefined reference (android-api-level-21-5.0.1_r2): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                "invalid.Sample2:11  Undefined reference (android-api-level-21-5.0.1_r2): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                "invalid.Sample2:11  Undefined reference (android-api-level-21-5.0.1_r2): Iterable java.nio.file.FileSystem.getFileStores()"
+        ]
 
 
         when: "run from cache"
@@ -87,9 +97,20 @@ class UpstreamAndroidConfigurationCacheKitTest extends AbstractAndroidKitTest {
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':check').outcome == TaskOutcome.SUCCESS
-//        result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-//        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.SUCCESS
+        result.task(':animalsnifferDebug').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.UP_TO_DATE
+        // no output!
+        !result.output.contains('1 AnimalSniffer violations were found in 1 files.')
+
+        then: "text report correct"
+        file.exists()
+        file.readLines() == [
+                "invalid.Sample:16  Undefined reference (android-api-level-21-5.0.1_r2): java.nio.file.Path java.nio.file.Paths.get(String, String[])",
+                "invalid.Sample2:11  Undefined reference (android-api-level-21-5.0.1_r2): java.nio.file.FileSystem java.nio.file.FileSystems.getDefault()",
+                "invalid.Sample2:11  Undefined reference (android-api-level-21-5.0.1_r2): Iterable java.nio.file.FileSystem.getFileStores()"
+        ]
     }
+
 }

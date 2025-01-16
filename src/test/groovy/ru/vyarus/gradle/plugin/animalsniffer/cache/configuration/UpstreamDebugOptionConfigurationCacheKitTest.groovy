@@ -47,6 +47,12 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
 
         then: "task successful"
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        result.output.contains('2 AnimalSniffer violations were found in 1 files')
+        result.output.replace('\r', '').contains('\tsignatures:\n' +
+                '\t\tjava16-sun-1.0.signature\n' +
+                '\n' +
+                '\tsources:\n' +
+                '\t\tsrc/main/java')
 
         when: "run from cache"
         println '\n\n------------------- FROM CACHE ----------------------------------------'
@@ -55,8 +61,10 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':animalsnifferMain').outcome == TaskOutcome.UP_TO_DATE
+        // no output
+        !result.output.contains('2 AnimalSniffer violations were found in 1 files')
     }
 
     def "Check configuration cache compatibility"() {
@@ -125,6 +133,16 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
         result.task(':check').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
+        result.output.contains('3 AnimalSniffer violations were found in 2 files')
+        result.output.replace('\r', '').contains('signatures:\n' +
+                '\t\tjava18-1.0.signature\n' +
+                '\t\tandroid-api-level-21-5.0.1_r2.signature\n' +
+                '\n' +
+                '\tsources:\n' +
+                '\t\tsrc/debug/java\n' +
+                '\t\tsrc/debug/kotlin\n' +
+                '\t\tsrc/main/java\n' +
+                '\t\tsrc/main/kotlin')
 
         when: "run from cache"
         println '\n\n------------------- FROM CACHE ----------------------------------------'
@@ -133,9 +151,11 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':check').outcome == TaskOutcome.SUCCESS
-//        result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
-//        result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.SUCCESS
+        result.task(':animalsnifferDebug').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':animalsnifferRelease').outcome == TaskOutcome.UP_TO_DATE
+        // no output
+        !result.output.contains('3 AnimalSniffer violations were found in 2 files')
     }
 }

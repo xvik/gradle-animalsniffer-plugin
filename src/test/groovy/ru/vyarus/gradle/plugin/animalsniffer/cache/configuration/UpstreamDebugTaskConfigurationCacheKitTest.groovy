@@ -38,15 +38,28 @@ class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = runFailedVer(UpstreamKitTest.GRADLE_VERSION, PrintAnimalsnifferSourceInfoTask.NAME, '--configuration-cache')
+        BuildResult result = runVer(UpstreamKitTest.GRADLE_VERSION, PrintAnimalsnifferSourceInfoTask.NAME, '--configuration-cache', '--configuration-cache-problems=warn')
+
+        then: "no configuration cache incompatibilities"
+        result.output.contains("1 problem was found storing the configuration cache")
+        result.output.contains('Gradle runtime: support for using a Java agent with TestKit')
+        result.output.contains('Calculating task graph as no cached configuration is available for tasks:')
 
         then: "task successful"
         result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
 
-        then: "configuration cache ok"
-        // testKit is incompatible with configuration cache, but I can check number of errors!
-        result.output.contains('1 problem was found storing the configuration cache.')
-        result.output.contains('support for using a Java agent with TestKit builds is not yet implemented with the configuration cache')
+
+        when: "run from cache"
+        println '\n\n------------------- FROM CACHE ----------------------------------------'
+        result = runVer(UpstreamKitTest.GRADLE_VERSION, PrintAnimalsnifferSourceInfoTask.NAME, '--configuration-cache', '--configuration-cache-problems=warn')
+
+        then: "cache used"
+        result.output.contains('Reusing configuration cache.')
+
+        then: "task successful"
+        result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
     }
 
     def "Check java android application debug support"() {
@@ -105,6 +118,7 @@ class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
 
         then: "task successful"
         result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
 
         when: "run from cache"
         println '\n\n------------------- FROM CACHE ----------------------------------------'
@@ -113,8 +127,9 @@ class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
 
     }
 
@@ -158,6 +173,7 @@ class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
 
         then: "task successful"
         result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
 
 
         when: "run from cache"
@@ -167,7 +183,8 @@ class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        then: "task successful"
+        result.task(':' + PrintAnimalsnifferSourceInfoTask.NAME).outcome == TaskOutcome.SUCCESS
+        result.output.contains('== [Plugins] =========================')
     }
 }

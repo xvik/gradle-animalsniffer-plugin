@@ -58,14 +58,14 @@ class UpstreamBuildSignatureConfigurationCacheKitTest extends AbstractKitTest {
         then: "cache used"
         result.output.contains('Reusing configuration cache.')
 
-//        then: "task successful"
-//        result.task(':animalsnifferSignature').outcome == TaskOutcome.SUCCESS
-//
-//        then: "validate signature"
-//        SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig")) == [
-//                'ann.Sample',
-//                'valid.Sample'
-//        ]
+        then: "task up to date"
+        result.task(':animalsnifferSignature').outcome == TaskOutcome.UP_TO_DATE
+
+        then: "validate signature"
+        SignatureReader.readSignature(file("build/animalsniffer/signature/${projectName()}.sig")) == [
+                'ann.Sample',
+                'valid.Sample'
+        ]
     }
 
 }
