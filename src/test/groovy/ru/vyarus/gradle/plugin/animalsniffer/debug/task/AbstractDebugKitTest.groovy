@@ -30,6 +30,6 @@ abstract class AbstractDebugKitTest extends AbstractAndroidKitTest {
     String readReport(String name) {
         String file = "/${getClass().name.replace('.', '/')}_${name}.txt"
         println "Reading report: $file"
-        readFileFromClasspath(file)?.trim()
+        readFileFromClasspath(file)?.replace('\r', '')?.trim()
     }
 }

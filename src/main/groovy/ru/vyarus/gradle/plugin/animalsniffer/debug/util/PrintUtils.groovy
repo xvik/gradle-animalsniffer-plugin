@@ -103,15 +103,15 @@ class PrintUtils {
         String prefix = buildPrefix(shift)
         return sourceDirs.collect {
             String path = it.canonicalPath.replace(getRootPath(rootDir), '')
-            it.exists() ? "$prefix$path" : String.format("$prefix%-80s %s", path,
-                    !existsMarker || it.exists() ? '' : 'NOT EXISTS')
+            unifyPath(it.exists() ? "$prefix$path" : String.format("$prefix%-80s %s", path,
+                    !existsMarker || it.exists() ? '' : 'NOT EXISTS'))
         }.unique().sort().join(NL)
     }
 
     static String renderClasses(int shift, Collection<File> classDirs, File rootDir) {
         String prefix = buildPrefix(shift)
         return classDirs.collect {
-            prefix + it.canonicalPath.replace(getRootPath(rootDir), '')
+            unifyPath(prefix + it.canonicalPath.replace(getRootPath(rootDir), ''))
         }.unique().sort().join(NL)
     }
 
@@ -119,8 +119,8 @@ class PrintUtils {
         String prefix = buildPrefix(shift)
         files.collect {
             String rootPath = getRootPath(rootDir)
-            prefix + (it.canonicalPath.startsWith(rootPath)
-                    ? it.canonicalPath.replace(rootPath, '') : it.name)
+            unifyPath(prefix + (it.canonicalPath.startsWith(rootPath)
+                    ? it.canonicalPath.replace(rootPath, '') : it.name))
         }.sort().unique().join(NL)
     }
 
@@ -176,5 +176,9 @@ class PrintUtils {
 
         println "WARN: unknown dependency ${dep.class} ($dep) for task ${task.name}"
         return []
+    }
+
+    private static String unifyPath(Object path) {
+        return path.toString().replace('\\', '/')
     }
 }
