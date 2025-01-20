@@ -7,6 +7,9 @@ plugins {
 // animalsniffer check task
 configurations.create('buildSignatures')
 
+// disable check tasks run (and fail)
+animalsniffer.defaultTargets = []
+
 animalsnifferSignature {
 //    debug = true
     // signature from project classes

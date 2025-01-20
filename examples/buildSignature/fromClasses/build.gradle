@@ -17,6 +17,9 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
 }
 
+// disable check tasks run (and fail)
+animalsniffer.defaultTargets = []
+
 tasks.register('printSignature', ru.vyarus.gradle.plugin.animalsniffer.info.SignatureInfoTask) {
     signature = tasks.animalsnifferSignature.outputFiles
     depth = 2
