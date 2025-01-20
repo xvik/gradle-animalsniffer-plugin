@@ -88,9 +88,7 @@ class AnimalSnifferPluginTest extends AbstractTest {
             apply plugin: "ru.vyarus.animalsniffer"
 
             animalsniffer {
-                // disable direct check to test legacy source set appliance
-                checkTestSources = true
-                ignoreTargets = [TargetType.SourceSet]
+                defaultTargets = []
             }
         }
 
@@ -100,6 +98,35 @@ class AnimalSnifferPluginTest extends AbstractTest {
         def dependencies = check.taskDependencies.getDependencies(check)
         !dependencies.contains(project.tasks.findByName('animalsnifferTest'))
         !dependencies.contains(project.tasks.findByName('animalsnifferMain'))
+    }
+
+    def "Check scope reduce 4"() {
+
+        when: "plugin configured"
+        Project project = project {
+            apply plugin: "java"
+            apply plugin: "ru.vyarus.animalsniffer"
+
+            sourceSets {
+                other {
+                    java {
+                        srcDir("src/other/java")
+                    }
+                }
+            }
+
+            animalsniffer {
+                defaultTargets 'other'
+            }
+        }
+
+        then: "task registered"
+        project.tasks.withType(AnimalSniffer).size() == 3
+        def check = project.tasks.findByName('check')
+        def dependencies = check.taskDependencies.getDependencies(check)
+        !dependencies.contains(project.tasks.findByName('animalsnifferTest'))
+        !dependencies.contains(project.tasks.findByName('animalsnifferMain'))
+        dependencies.contains(project.tasks.findByName('animalsnifferOther'))
     }
 
     def "Tool version override"() {

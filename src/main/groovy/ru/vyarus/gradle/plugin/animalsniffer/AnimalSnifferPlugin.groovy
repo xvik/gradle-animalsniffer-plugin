@@ -438,16 +438,12 @@ class AnimalSnifferPlugin implements Plugin<Project> {
             return
         }
 
-        if (extension.ignoreTargets.contains(config.type)) {
-            // skip by target ignorance
-            return
-        }
-
         Set<String> targets = extension.defaultTargets
         boolean assign
-        if (targets) {
+        // by default, targets are null - use default behavior, but user could set to empty to disable all
+        if (targets != null) {
             // match configured names
-            assign = targets.find { config.targetName.containsIgnoreCase(it) }
+            assign = targets.find { config.targetName.equalsIgnoreCase(it) }
         } else {
             // all tasks are default
             // for java tasks, consult legacy sourceSets configuration

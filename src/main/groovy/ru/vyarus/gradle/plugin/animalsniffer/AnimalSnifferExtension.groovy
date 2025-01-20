@@ -4,7 +4,6 @@ import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.quality.CodeQualityExtension
-import ru.vyarus.gradle.plugin.animalsniffer.util.TargetType
 
 /**
  * Animal sniffer plugin extension. Use 'sourceSets' to define target source set (all by default).
@@ -90,31 +89,29 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     boolean checkTestSources = false
 
     /**
-     * Supersedes old {@link #sourceSets} configuration which still would be counted ONLY if this list would be empty.
+     * Supersedes old {@link #sourceSets} configuration which still would be counted ONLY if this list would be null.
      * <p>
-     * Defines required targets to assign animalsniffer tasks
-     * into check task (what animalsniffer tasks should run by default).
+     * Defines required targets to assign animalsniffer tasks into check task (what animalsniffer tasks should run
+     * by default). Case insensitive match.
      * <p>
-     * Naming is not strict: target must contain provided name. For example, if set {@code ['main']} then
-     * both "animalsnifferMain" and animalsnifferDesktopMain would be assigned to check task.
+     * Target name is:
+     * <ul>
+     *   <li>Source set name for java plugins (main, test)
+     *   <li>Variant or test component name for android (debug, release)
+     *   <li>Platform compilation name for kotlin multiplatform (jvmMain, desktopMain)
+     * </ul>
      * <p>
-     * This method covers tasks from all sources: source sets, kotlin multiplatform and android variants.
-     * In case of android there are a lot of tasks, but they usually share some nameing conventions
-     * (like "main" in name).
+     * For example, suppose we have 'main' and 'desktopMain' sourceSets. If set {@code ['main']} then only
+     * "animalsnifferMain" task would be assigned to check and "animalsnifferDesktopMain" would not.
      * <p>
-     * Note that by default all test targets are avoided with {@link #checkTestSources}.
+     * For android, by default, both "debug" and "release" variants are enabled. To check only release sources by
+     * default set {@code ['release']} (usually, debug and release share the same
+     * sources).
+     * Note that by default all test targets are avoided (see {@link #checkTestSources} option)
      * <p>
-     * To see the full list of animalsniffer tasks use {@link #debug} option.
+     * To see the full list of animalsniffer tasks use printAnimalsnifferTasks task.
      */
-    Set<String> defaultTargets = []
-
-    /**
-     * A way to hide animalsniffer tasks of particular type (prevent assigning animalsniffer task as check dependency).
-     * For example, if you want to ignore multiplatform tasks entirely:
-     * {@code ignoreTargets = [ TargetType.MultiplatformTarget ]} and all animalsniffer tasks related to kotlin
-     * multiplatform would not be added to check task.
-     */
-    Set<TargetType> ignoreTargets = []
+    Set<String> defaultTargets
 
     /**
      * @param cache cache configuration closure
@@ -134,12 +131,26 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     }
 
     /**
-     * Shortcut for {@link #excludeJars}.
+     * Shortcut for {@link #excludeJars}. Method adds jar names to previously configured and not overrides it.
      *
      * @param names jar name patterns to exclude
      */
     @SuppressWarnings('ConfusingMethodName')
     void excludeJars(String... names) {
         excludeJars.addAll(names)
+    }
+
+    /**
+     * Shortcut method for {@link #defaultTargets} property. Method adds targets to previously configured and
+     * not overrides it.
+     *
+     * @param targets default target names
+     */
+    @SuppressWarnings('ConfusingMethodName')
+    void defaultTargets(String... targets) {
+        if (defaultTargets == null) {
+            defaultTargets = [] as Set
+        }
+        defaultTargets.addAll(Arrays.asList(targets))
     }
 }
