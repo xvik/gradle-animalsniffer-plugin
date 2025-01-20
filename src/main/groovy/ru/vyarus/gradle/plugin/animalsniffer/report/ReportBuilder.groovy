@@ -38,6 +38,18 @@ class ReportBuilder {
         affectedFiles.size()
     }
 
+    String getErrorMessage(File textReport) {
+        String message = "${errorsCnt()} AnimalSniffer violations were found " +
+                "in ${filesCnt()} files."
+
+        if (textReport) {
+            String reportUrl = "file:///${textReport.canonicalPath.replaceAll('\\\\', '/')}"
+            message += " See the report at: $reportUrl"
+        }
+
+        return message
+    }
+
     /**
      * Writes detected errors to report file (overriding existing content).
      *

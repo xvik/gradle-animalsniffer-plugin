@@ -54,6 +54,14 @@ class FailKitTest extends AbstractKitTest {
                 "invalid.Sample:11  Undefined reference: int Boolean.compare(boolean, boolean)",
                 "invalid.Sample:16  Undefined reference: java.nio.file.Path java.nio.file.Paths.get(String, String[])"
         ]
+
+        then: "csv report correct"
+        File csv = super.file('/build/reports/animalsniffer/main.csv')
+        csv.exists()
+        csv.readLines() == [
+                "java16-sun-1.0;invalid.Sample.java;11;;int Boolean.compare(boolean, boolean);false",
+                "java16-sun-1.0;invalid.Sample.java;16;;java.nio.file.Path java.nio.file.Paths.get(String, String[]);false"
+        ]
     }
 
     def "Check field type violation"() {
@@ -87,7 +95,7 @@ class FailKitTest extends AbstractKitTest {
         then: "found 2 violations"
         result.output.contains("2 AnimalSniffer violations were found in 1 files")
         result.output.replaceAll('\r', '').contains(
-                """[Undefined reference] invalid.(Sample.java:1) field field
+                """[Undefined reference] invalid.(Sample.java:1) #field
   >> java.nio.file.Path
 
 [Undefined reference] invalid.(Sample.java:13)
@@ -98,8 +106,17 @@ class FailKitTest extends AbstractKitTest {
         File file = file('/build/reports/animalsniffer/main.text')
         file.exists()
         file.readLines() == [
-                "invalid.Sample:1 (field field)  Undefined reference: java.nio.file.Path",
+                "invalid.Sample:1 (#field)  Undefined reference: java.nio.file.Path",
                 "invalid.Sample:13  Undefined reference: int Boolean.compare(boolean, boolean)"
+        ]
+
+        then: "csv report correct"
+        File csv = super.file('/build/reports/animalsniffer/main.csv')
+        csv.exists()
+        csv.readLines() == [
+                "java16-sun-1.0;invalid.Sample.java;;field;java.nio.file.Path;false",
+                "java16-sun-1.0;invalid.Sample.java;13;;int Boolean.compare(boolean, boolean);false"
+
         ]
     }
 

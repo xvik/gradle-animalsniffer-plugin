@@ -17,17 +17,29 @@ import ru.vyarus.gradle.plugin.animalsniffer.report.internal.DefaultSingleFileRe
 @CompileStatic
 class AnimalSnifferReportsImpl extends Reports<SingleFileReport> implements AnimalSnifferReports {
 
+    private static final String TYPE_CSV = 'csv'
     private static final String TYPE_TEXT = 'text'
 
     AnimalSnifferReportsImpl(Task task, ObjectFactory objects) {
         super(task.project, SingleFileReport)
 
+        addReport(objects.newInstance(DefaultSingleFileReport, TYPE_CSV, task))
         addReport(objects.newInstance(DefaultSingleFileReport, TYPE_TEXT, task))
     }
 
     @Override
     SingleFileReport getText() {
         return getByName(TYPE_TEXT)
+    }
+
+    @Override
+    SingleFileReport getCsv() {
+        return getByName(TYPE_CSV)
+    }
+
+    @Override
+    void csv(Action<SingleFileReport> action) {
+        action.execute(csv)
     }
 
     @Override

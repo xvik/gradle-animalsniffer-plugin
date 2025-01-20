@@ -141,9 +141,6 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
         if (errors.exists()) {
             // read errors from file
             ReportBuilder collector = new ReportBuilder(errors, getAnimalsnifferSignatures().size() > 1)
-            // remove intermediate file - correct report would be created, if required
-            errors.delete()
-
             processErrors(collector)
         }
     }
@@ -221,7 +218,7 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
         }
 
         // report file used for errors list exchange between task and worker
-        File errors = reports.text.outputLocation.get().asFile
+        File errors = reports.csv.outputLocation.get().asFile
         workQueue.submit(CheckWorker) { params ->
             params.signatures.addAll(signatures)
             params.classpath.addAll(classpathFiles)
@@ -244,16 +241,14 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
 
     void processErrors(ReportBuilder collector) {
         if (collector.errorsCnt() > 0) {
-            String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
-                    "in ${collector.filesCnt()} files."
             Report report = reports.text
-            if (report && report.required.get()) {
-                File target = report.outputLocation.get().asFile
-                collector.writeToFile(target)
-
-                String reportUrl = "file:///${target.canonicalPath.replaceAll('\\\\', '/')}"
-                message += " See the report at: $reportUrl"
+            File textReport = report && report.required.get() ? report.outputLocation.get().asFile : null
+            if (textReport != null) {
+                collector.writeToFile(textReport)
             }
+
+            String message = collector.getErrorMessage(textReport)
+
             if (getIgnoreFailures()) {
                 String nl = String.format('%n')
                 logger.error(nl + message + nl)

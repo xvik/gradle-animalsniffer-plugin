@@ -41,9 +41,7 @@ class FormatUtils {
         if (fieldIdx > 0) {
             // -2 to cut off trailing ':'
             vclass = position[0..(fieldIdx - 1)].trim()
-            field = position[fieldIdx..-2].trim()
-            // use "field" instead of "Field"
-            field = field.uncapitalize()
+            field = position[fieldIdx + FIELD_REF.length()..-2].trim()
         } else {
             vclass = position
         }
@@ -79,7 +77,7 @@ class FormatUtils {
         String sig = showSignature ? " (${msg.signature})" : ''
         String srcLine = "${msg.source[0..(idx - 1)]}:${msg.line ? msg.line : 1}"
         if (msg.field) {
-            srcLine += ' (' + msg.field + ')'
+            srcLine += ' (#' + msg.field + ')'
         }
         return "$srcLine  Undefined reference$sig: ${msg.code}"
     }
@@ -104,7 +102,7 @@ class FormatUtils {
                 "${msg.source[0..clsIdx]}(${msg.source[(clsIdx + 1)..-1]}:${msg.line ?: 1})" :
                 "${msg.source}${msg.line ? LINE_SEP + msg.line : ''}"
         if (msg.field) {
-            srcLine += " $msg.field"
+            srcLine += " #$msg.field"
         }
         return "[Undefined reference$sig] $srcLine$NL" +
                 "  >> ${msg.code}$NL"

@@ -13,6 +13,10 @@
   - Add checkTestSources = false option to avoid tests sources checks by default
   - Add defaultTargets = [] (strings) option to limit default animalsniffer tasks.
   - Legacy sourceSets option still supported, but checkTestSources and defaultTargets override it
+* Add CSV report: used internally for building console and text reports, but could be 
+  used by an external tool to collect errors
+* Change field references in reports (when animalsniffer identifies field):
+  before was "fieldName field", now only "#fieldName" 
 * Add new properties to AnimalSniffer task to simplify detailed configuration:
   - targetType: type of task (SourceSet, MultiplatformTarget, AndroidVariant)
   - targetName: name of target (used in animalsniffer task name)
