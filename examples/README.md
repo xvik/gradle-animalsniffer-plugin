@@ -10,6 +10,8 @@ All projects intentionally contain errors to demonstrate error reporting
 * [Scala](scala)
 * [Android library](android-lib)
 * [Android application](android-app)
+* [Multiplatform](kotlin-multiplatform)
+* [Multiplatform + android](android-kotlin-multiplatform)
 
 ## Android/Kotlin multiplatform full examples
 
