@@ -293,8 +293,8 @@ class AnimalSnifferPlugin implements Plugin<Project> {
                     }
                 }
         checkTask.configure {
-            // skip if no signatures configured or no sources to check
-            onlyIf { !it.getAnimalsnifferSignatures().empty && it.getSource().size() > 0 }
+            // skip if no sources to check
+            onlyIf { it.getSource().size() > 0 }
             conventionMapping.with {
                 classpath = {
                     extension.cache.enabled ?

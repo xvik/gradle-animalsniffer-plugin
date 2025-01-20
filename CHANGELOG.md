@@ -1,4 +1,5 @@
 * (breaking) Drop gradle 5 and 6 support
+* (breaking) Fail check when no signatures declared (required to catch early configuration errors)
 * Add android projects support (activates for android library and application plugins
   and use variant components (debug, release and test) instead of source sets).
 * Add kotlin multiplatform projects support (tasks created for each platform compilation, except metadata (common))

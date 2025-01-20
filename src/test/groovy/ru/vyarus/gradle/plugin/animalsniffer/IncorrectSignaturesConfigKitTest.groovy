@@ -32,11 +32,12 @@ class IncorrectSignaturesConfigKitTest extends AbstractKitTest {
 //        debug()
 
         when: "run task"
-        BuildResult result = run('check')
+        BuildResult result = runFailed('check')
 
         then: "task successful"
-        result.task(':check').outcome == TaskOutcome.UP_TO_DATE
-        result.task(':animalsnifferMain').outcome == TaskOutcome.SKIPPED
+        result.task(':animalsnifferMain').outcome == TaskOutcome.FAILED
+        result.output.contains("No signatures declared for animalsniffer")
+
     }
 
 }

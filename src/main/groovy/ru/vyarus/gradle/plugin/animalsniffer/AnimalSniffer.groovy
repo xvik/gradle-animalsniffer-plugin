@@ -1,7 +1,6 @@
 package ru.vyarus.gradle.plugin.animalsniffer
 
 import groovy.transform.CompileStatic
-import groovy.transform.TypeCheckingMode
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
@@ -63,7 +62,6 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
     /**
      * Signature files used for checks.
      */
-    @SkipWhenEmpty
     @Classpath
     @InputFiles
     FileCollection animalsnifferSignatures
@@ -136,42 +134,8 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
     abstract WorkerExecutor getWorkerExecutor()
 
     @TaskAction
-    @CompileStatic(TypeCheckingMode.SKIP)
     void run() {
-        List<File> sortedPath = preparePath(getSource())
-        if (getDebug()) {
-            printTaskConfig(sortedPath)
-        }
-        Set<File> sourceDirs = getSourcesDirs().getFiles()
-        String annotation = getAnnotation()
-        FileCollection signatures = getAnimalsnifferSignatures()
-        Set<File> classpathFiles = getClasspath().asFileTree.files
-        List<String> ignoreClasses = getIgnoreClasses()
-        boolean quiet = isIgnoreFailures()
-
-        WorkQueue workQueue = workerExecutor.classLoaderIsolation {
-            it.classpath.from(getAnimalsnifferClasspath())
-        }
-
-        // report file used for errors list exchange between task and worker
-        File errors = reports.text.outputLocation.get().asFile
-        workQueue.submit(CheckWorker) { params ->
-            params.signatures.addAll(signatures)
-            params.classpath.addAll(classpathFiles)
-            params.classes.addAll(sortedPath)
-            params.sourceDirs.addAll(sourceDirs)
-            params.annotations.add('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
-            if (annotation) {
-                params.annotations.add(annotation)
-            }
-            params.ignored.addAll(ignoreClasses)
-            params.ignoreErrors.set(quiet)
-
-            // always create report file because its the only way to know if errors were found
-            params.reportOutput.set(errors)
-        }
-
-        workQueue.await()
+        File errors = runAnimalsniffer()
 
         // if file exists then violations were found (or check process failed)
         if (errors.exists()) {
@@ -235,7 +199,49 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
         return new TreeSet<File>(objectFactory.fileCollection().from(classesDirs).files)
     }
 
-    @CompileStatic(TypeCheckingMode.SKIP)
+    File runAnimalsniffer() {
+        List<File> sortedPath = preparePath(getSource())
+        if (getDebug()) {
+            printTaskConfig(sortedPath)
+        }
+        Set<File> sourceDirs = getSourcesDirs().getFiles()
+        String annotation = getAnnotation()
+        FileCollection signatures = getAnimalsnifferSignatures()
+        Set<File> classpathFiles = getClasspath().asFileTree.files
+        Iterable<String> ignoreClasses = getIgnoreClasses()
+        boolean quiet = isIgnoreFailures()
+
+        if (signatures.empty) {
+            throw new GradleException('No signatures declared for animalsniffer. If you declared signatures, ' +
+                    'make sure "@signature" qualifier used')
+        }
+
+        WorkQueue workQueue = workerExecutor.classLoaderIsolation {
+            it.classpath.from(getAnimalsnifferClasspath())
+        }
+
+        // report file used for errors list exchange between task and worker
+        File errors = reports.text.outputLocation.get().asFile
+        workQueue.submit(CheckWorker) { params ->
+            params.signatures.addAll(signatures)
+            params.classpath.addAll(classpathFiles)
+            params.classes.addAll(sortedPath)
+            params.sourceDirs.addAll(sourceDirs)
+            params.annotations.add('org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement')
+            if (annotation) {
+                params.annotations.add(annotation)
+            }
+            params.ignored.addAll(ignoreClasses)
+            params.ignoreErrors.set(quiet)
+
+            // always create report file because its the only way to know if errors were found
+            params.reportOutput.set(errors)
+        }
+
+        workQueue.await()
+        return errors
+    }
+
     void processErrors(ReportBuilder collector) {
         if (collector.errorsCnt() > 0) {
             String message = "${collector.errorsCnt()} AnimalSniffer violations were found " +
