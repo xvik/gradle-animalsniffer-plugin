@@ -22,6 +22,7 @@ abstract class BuildWorker implements WorkAction<BuildParameters> {
     void execute() {
         // important because no file will indicate error in signature building
         deleteOut()
+        SignatureBuilder builder = null
         try {
             if (!parameters.path.present) {
                 throw new IllegalStateException('Required path not set')
@@ -30,7 +31,7 @@ abstract class BuildWorker implements WorkAction<BuildParameters> {
             List<FileInputStream> inStreams = parameters.signatures.get()
                     .collect { new FileInputStream(it) }
 
-            SignatureBuilder builder = new SignatureBuilder(
+            builder = new SignatureBuilder(
                     inStreams as InputStream[], new FileOutputStream(parameters.output.get()), logger)
             parameters.include.get().each { builder.addInclude(it) }
             parameters.exclude.get().each { builder.addExclude(it) }
@@ -44,6 +45,7 @@ abstract class BuildWorker implements WorkAction<BuildParameters> {
             builder.close()
         } catch (Exception ex) {
             logger.error('Failed to build signature', ex)
+            builder?.close()
             // delete file to indicate error
             deleteOut()
         }
