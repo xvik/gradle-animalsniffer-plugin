@@ -157,11 +157,11 @@ abstract class AbstractKitTest extends Specification {
             prev = i
         }
 
-        if (!res.empty) {
+        if (res.size() > 0) {
             println "\n!!!!!!!!! Strings difference: \n\n" + res.toString()
         }
 
-        return res.empty
+        return res.size() == 0
     }
 
     protected String unifyStringLinSlashes(String input) {
