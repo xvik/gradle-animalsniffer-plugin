@@ -56,19 +56,19 @@
 				build/tmp/compileJava/previous-compilation-data.bin
 
 			Classpath
-				groovy-3.0.17.jar
-				groovy-ant-3.0.17.jar
-				groovy-astbuilder-3.0.17.jar
-				groovy-console-3.0.17.jar
-				groovy-datetime-3.0.17.jar
-				groovy-dateutil-3.0.17.jar
-				groovy-groovydoc-3.0.17.jar
-				groovy-json-3.0.17.jar
-				groovy-nio-3.0.17.jar
-				groovy-sql-3.0.17.jar
-				groovy-templates-3.0.17.jar
-				groovy-test-3.0.17.jar
-				groovy-xml-3.0.17.jar
+				groovy-3.0.22.jar
+				groovy-ant-3.0.22.jar
+				groovy-astbuilder-3.0.22.jar
+				groovy-console-3.0.22.jar
+				groovy-datetime-3.0.22.jar
+				groovy-dateutil-3.0.22.jar
+				groovy-groovydoc-3.0.22.jar
+				groovy-json-3.0.22.jar
+				groovy-nio-3.0.22.jar
+				groovy-sql-3.0.22.jar
+				groovy-templates-3.0.22.jar
+				groovy-test-3.0.22.jar
+				groovy-xml-3.0.22.jar
 				javaparser-core-3.17.0.jar
 				slf4j-api-1.7.25.jar
 
@@ -87,19 +87,19 @@
 				build/classes/groovy/main
 				build/classes/java/main
 				build/resources/main
-				groovy-3.0.17.jar
-				groovy-ant-3.0.17.jar
-				groovy-astbuilder-3.0.17.jar
-				groovy-console-3.0.17.jar
-				groovy-datetime-3.0.17.jar
-				groovy-dateutil-3.0.17.jar
-				groovy-groovydoc-3.0.17.jar
-				groovy-json-3.0.17.jar
-				groovy-nio-3.0.17.jar
-				groovy-sql-3.0.17.jar
-				groovy-templates-3.0.17.jar
-				groovy-test-3.0.17.jar
-				groovy-xml-3.0.17.jar
+				groovy-3.0.22.jar
+				groovy-ant-3.0.22.jar
+				groovy-astbuilder-3.0.22.jar
+				groovy-console-3.0.22.jar
+				groovy-datetime-3.0.22.jar
+				groovy-dateutil-3.0.22.jar
+				groovy-groovydoc-3.0.22.jar
+				groovy-json-3.0.22.jar
+				groovy-nio-3.0.22.jar
+				groovy-sql-3.0.22.jar
+				groovy-templates-3.0.22.jar
+				groovy-test-3.0.22.jar
+				groovy-xml-3.0.22.jar
 				javaparser-core-3.17.0.jar
 				slf4j-api-1.7.25.jar
 
@@ -120,19 +120,19 @@
 				build/resources/main
 
 			Classpath
-				groovy-3.0.17.jar
-				groovy-ant-3.0.17.jar
-				groovy-astbuilder-3.0.17.jar
-				groovy-console-3.0.17.jar
-				groovy-datetime-3.0.17.jar
-				groovy-dateutil-3.0.17.jar
-				groovy-groovydoc-3.0.17.jar
-				groovy-json-3.0.17.jar
-				groovy-nio-3.0.17.jar
-				groovy-sql-3.0.17.jar
-				groovy-templates-3.0.17.jar
-				groovy-test-3.0.17.jar
-				groovy-xml-3.0.17.jar
+				groovy-3.0.22.jar
+				groovy-ant-3.0.22.jar
+				groovy-astbuilder-3.0.22.jar
+				groovy-console-3.0.22.jar
+				groovy-datetime-3.0.22.jar
+				groovy-dateutil-3.0.22.jar
+				groovy-groovydoc-3.0.22.jar
+				groovy-json-3.0.22.jar
+				groovy-nio-3.0.22.jar
+				groovy-sql-3.0.22.jar
+				groovy-templates-3.0.22.jar
+				groovy-test-3.0.22.jar
+				groovy-xml-3.0.22.jar
 				javaparser-core-3.17.0.jar
 				slf4j-api-1.7.25.jar
 
@@ -151,19 +151,19 @@
 				build/classes/groovy/main
 				build/classes/java/main
 				build/resources/main
-				groovy-3.0.17.jar
-				groovy-ant-3.0.17.jar
-				groovy-astbuilder-3.0.17.jar
-				groovy-console-3.0.17.jar
-				groovy-datetime-3.0.17.jar
-				groovy-dateutil-3.0.17.jar
-				groovy-groovydoc-3.0.17.jar
-				groovy-json-3.0.17.jar
-				groovy-nio-3.0.17.jar
-				groovy-sql-3.0.17.jar
-				groovy-templates-3.0.17.jar
-				groovy-test-3.0.17.jar
-				groovy-xml-3.0.17.jar
+				groovy-3.0.22.jar
+				groovy-ant-3.0.22.jar
+				groovy-astbuilder-3.0.22.jar
+				groovy-console-3.0.22.jar
+				groovy-datetime-3.0.22.jar
+				groovy-dateutil-3.0.22.jar
+				groovy-groovydoc-3.0.22.jar
+				groovy-json-3.0.22.jar
+				groovy-nio-3.0.22.jar
+				groovy-sql-3.0.22.jar
+				groovy-templates-3.0.22.jar
+				groovy-test-3.0.22.jar
+				groovy-xml-3.0.22.jar
 				javaparser-core-3.17.0.jar
 				slf4j-api-1.7.25.jar
 
