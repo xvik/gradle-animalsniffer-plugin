@@ -10,7 +10,7 @@ import ru.vyarus.gradle.plugin.animalsniffer.android.AbstractAndroidKitTest
 abstract class AbstractDebugKitTest extends AbstractAndroidKitTest {
 
     String extractReport(BuildResult result) {
-        String out = result.output.toString().replaceAll('\r', '')
+        String out = result.output
         int idx = out.indexOf('== [')
         if (idx > 0) {
             out = out.substring(idx)

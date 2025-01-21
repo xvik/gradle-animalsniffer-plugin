@@ -134,7 +134,7 @@ compose.desktop {
         result.task(':shared:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate shared report"
-        extractReport(result) == readReport("shared")
+        equalWithDiff(extractReport(result), readReport("shared"))
         !result.output.contains('WARN:')
 
 
@@ -145,7 +145,7 @@ compose.desktop {
         result.task(':server:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate server report"
-        extractReport(result) == readReport("server")
+        equalWithDiff(extractReport(result), readReport("server"))
         !result.output.contains('WARN:')
 
 
@@ -156,7 +156,7 @@ compose.desktop {
         result.task(':composeApp:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate compose report"
-        extractReport(result) == readReport("composeApp")
+        equalWithDiff(extractReport(result), readReport("composeApp"))
         !result.output.contains('WARN:')
     }
 

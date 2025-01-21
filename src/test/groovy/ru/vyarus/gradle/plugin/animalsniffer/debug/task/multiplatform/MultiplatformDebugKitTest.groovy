@@ -49,7 +49,7 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate report"
-        extractReport(result) == readReport("nojava")
+        equalWithDiff(extractReport(result), readReport("nojava"))
         !result.output.contains('WARN:')
     }
 
@@ -89,7 +89,7 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate report"
-        extractReport(result) == readReport("java")
+        equalWithDiff(extractReport(result), readReport("java"))
         !result.output.contains('WARN:')
     }
 

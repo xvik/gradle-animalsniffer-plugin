@@ -48,7 +48,7 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
         then: "task successful"
         result.task(':animalsnifferMain').outcome == TaskOutcome.SUCCESS
         result.output.contains('2 AnimalSniffer violations were found in 1 files')
-        result.output.replace('\r', '').contains('\tsignatures:\n' +
+        unifyStringLinSlashes(result.output).contains('\tsignatures:\n' +
                 '\t\tjava16-sun-1.0.signature\n' +
                 '\n' +
                 '\tsources:\n' +
@@ -134,7 +134,7 @@ class UpstreamDebugOptionConfigurationCacheKitTest extends AbstractAndroidKitTes
         result.task(':animalsnifferDebug').outcome == TaskOutcome.SUCCESS
         result.task(':animalsnifferRelease').outcome == TaskOutcome.SUCCESS
         result.output.contains('3 AnimalSniffer violations were found in 2 files')
-        result.output.replace('\r', '').contains('signatures:\n' +
+        unifyStringLinSlashes(result.output).contains('signatures:\n' +
                 '\t\tjava18-1.0.signature\n' +
                 '\t\tandroid-api-level-21-5.0.1_r2.signature\n' +
                 '\n' +

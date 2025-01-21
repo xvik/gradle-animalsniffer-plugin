@@ -38,6 +38,7 @@ dependencies {
     compileOnly 'com.android.tools.build:gradle:7.4.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
 
+    testImplementation 'io.github.java-diff-utils:java-diff-utils:4.15'
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }

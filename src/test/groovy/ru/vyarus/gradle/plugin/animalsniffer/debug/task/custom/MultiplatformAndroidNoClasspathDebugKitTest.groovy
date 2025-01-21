@@ -224,7 +224,7 @@ io.ktor.development=true
         then: "validate shared report"
 
         def report = extractReport(result)
-        report == readReport('shared')
+        equalWithDiff(report, readReport('shared'))
         !result.output.contains('WARN:')
 
 
@@ -235,7 +235,7 @@ io.ktor.development=true
         result.task(':server:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate server report"
-        extractReport(result) == readReport('server')
+        equalWithDiff(extractReport(result), readReport('server'))
         !result.output.contains('WARN:')
 
 
@@ -246,7 +246,7 @@ io.ktor.development=true
         result.task(':composeApp:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate compose report"
-        extractReport(result) == readReport('composeApp')
+        equalWithDiff(extractReport(result), readReport('composeApp'))
         !result.output.contains('WARN:')
     }
 }

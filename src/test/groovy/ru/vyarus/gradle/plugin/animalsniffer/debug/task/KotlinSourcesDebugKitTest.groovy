@@ -40,7 +40,7 @@ class KotlinSourcesDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "report validation"
-        extractReport(result) == readReport("repo")
+        equalWithDiff(extractReport(result), readReport("repo"))
         !result.output.contains('WARN:')
     }
 }

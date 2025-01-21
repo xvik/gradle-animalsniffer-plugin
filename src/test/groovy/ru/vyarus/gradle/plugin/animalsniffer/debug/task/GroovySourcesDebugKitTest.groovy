@@ -39,7 +39,7 @@ class GroovySourcesDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "report validation (no special groovy treatment)"
-        extractReport(result) == readReport("repo")
+        equalWithDiff(extractReport(result), readReport("repo"))
         !result.output.contains('WARN:')
     }
 }

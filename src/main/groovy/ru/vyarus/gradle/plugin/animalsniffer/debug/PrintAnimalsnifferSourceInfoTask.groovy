@@ -245,7 +245,7 @@ class PrintAnimalsnifferSourceInfoTask extends DefaultTask {
             println title(shift, msg)
             notCoveredByKotlin.each {
                 println String.format(buildPrefix(shift + 1) + '%-70s (%s)',
-                        it.canonicalPath.replace(getRootPath(rootProjectDir), ''), kotlinIdx[it])
+                        it.canonicalPath.replace(getRootPath(rootProjectDir), '').replace('\\', '/'), kotlinIdx[it])
             }
         }
     }

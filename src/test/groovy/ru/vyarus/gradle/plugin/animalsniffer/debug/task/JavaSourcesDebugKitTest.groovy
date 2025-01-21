@@ -39,7 +39,7 @@ class JavaSourcesDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "report validation"
-        extractReport(result) == readReport("repo")
+        equalWithDiff(extractReport(result), readReport("repo"))
         !result.output.contains('WARN:')
     }
 
@@ -74,7 +74,7 @@ class JavaSourcesDebugKitTest extends AbstractDebugKitTest {
         result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "report validation"
-        extractReport(result) == readReport("lib")
+        equalWithDiff(extractReport(result), readReport("lib"))
         !result.output.contains('WARN:')
     }
 }
