@@ -25,6 +25,12 @@ abstract class CheckWorker implements WorkAction<CheckParameters> {
     void execute() {
         final CheckReportCollector collector = new CheckReportCollector(parameters.sourceDirs.get())
         deleteReport()
+
+        List<File> signatures = parameters.signatures.orNull
+        if (!signatures) {
+            logger.info('Check skipped because no signatures declared')
+            return
+        }
         try {
             Set<String> ignorePackages = buildPackageList(logger)
             if (parameters.ignored.present) {
@@ -33,7 +39,7 @@ abstract class CheckWorker implements WorkAction<CheckParameters> {
                 }
             }
 
-            for (File signature : parameters.signatures.get()) {
+            for (File signature : (signatures)) {
                 collector.signature = signature.name
 
                 final SignatureChecker signatureChecker = new SignatureChecker(

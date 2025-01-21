@@ -101,6 +101,12 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
     Iterable<String> ignoreClasses = []
 
     /**
+     * True to fail task when no signatures declared, false to skip task (legacy behaviour).
+     */
+    @Input
+    boolean failWithoutSignatures
+
+    /**
      * Whether or not the build should break when the verifications performed by this task fail.
      */
     @Console
@@ -204,14 +210,15 @@ abstract class AnimalSniffer extends SourceTask implements VerificationTask, Rep
         Set<File> sourceDirs = getSourcesDirs().getFiles()
         String annotation = getAnnotation()
         FileCollection signatures = getAnimalsnifferSignatures()
-        Set<File> classpathFiles = getClasspath().asFileTree.files
-        Iterable<String> ignoreClasses = getIgnoreClasses()
-        boolean quiet = isIgnoreFailures()
 
-        if (signatures.empty) {
+        if (getFailWithoutSignatures() && signatures.empty) {
             throw new GradleException('No signatures declared for animalsniffer. If you declared signatures, ' +
                     'make sure "@signature" qualifier used')
         }
+
+        Set<File> classpathFiles = getClasspath().asFileTree.files
+        Iterable<String> ignoreClasses = getIgnoreClasses()
+        boolean quiet = isIgnoreFailures()
 
         WorkQueue workQueue = workerExecutor.classLoaderIsolation {
             it.classpath.from(getAnimalsnifferClasspath())

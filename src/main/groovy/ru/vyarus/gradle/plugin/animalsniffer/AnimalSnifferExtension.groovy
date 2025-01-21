@@ -114,6 +114,13 @@ class AnimalSnifferExtension extends CodeQualityExtension {
     Set<String> defaultTargets
 
     /**
+     * Fail when no signatures declared for check tasks. Enabled by default to quickly reveal incorrect signature
+     * configuration (most often, forgotten '@signature' qualifier). Could be disabled for projects signature build
+     * only projects (because check tasks are always registered and would fail without declared signatures).
+     */
+    boolean failWithoutSignatures = true
+
+    /**
      * @param cache cache configuration closure
      */
     void setCache(@DelegatesTo(value = CheckCacheExtension) Closure cache) {

@@ -132,6 +132,43 @@ class CacheCasesKitTest extends AbstractKitTest {
         result.output.contains("No signatures declared for animalsniffer")
     }
 
+    def "Check no signatures defined 2"() {
+        setup:
+        build """
+            plugins {
+                id 'java'
+                id 'ru.vyarus.animalsniffer'
+            }
+
+            animalsniffer {
+                failWithoutSignatures = false
+                ignoreFailures = true
+                cache.enabled = true
+            }
+
+            repositories { mavenCentral() }
+            dependencies {
+                implementation 'org.slf4j:slf4j-api:1.7.25'
+            }
+        """
+        fileFromClasspath('src/main/java/invalid/Sample.java', '/ru/vyarus/gradle/plugin/animalsniffer/java/invalid/Sample.java')
+//        debug()
+
+        when: "run task"
+        BuildResult result = run('check')
+
+        then: "task successful"
+        result.task(':check').outcome == TaskOutcome.UP_TO_DATE
+        result.task(':animalsnifferMain').outcome == TaskOutcome.SKIPPED
+
+        then: "animalsniffer skipepd"
+        !result.output.contains("AnimalSniffer violations were found")
+
+        then: "no report"
+        !file('/build/reports/animalsniffer/main.text').exists()
+    }
+
+
     def "Check only tests configured"() {
         setup:
         build """

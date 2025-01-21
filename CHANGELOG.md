@@ -1,6 +1,7 @@
 * (breaking) Drop gradle 5 and 6 support
 * (breaking) Fail check when no signatures declared (required to catch early configuration errors)
-  - Now additional configuration required cases with build signature tasks only (to disable check)
+  - Now additional configuration required when only build signature tasks used (to disable check)
+  - Add failWithoutSignatures option (true by default). Set to false for legacy behavior 
 * Add android projects support (activates for android library and application plugins
   and use variant components (debug, release and test) instead of source sets).
 * Add kotlin multiplatform projects support (tasks created for each platform compilation, except metadata (common))
