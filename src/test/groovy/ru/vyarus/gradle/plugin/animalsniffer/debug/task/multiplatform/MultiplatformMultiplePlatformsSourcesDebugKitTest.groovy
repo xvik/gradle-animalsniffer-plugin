@@ -156,7 +156,8 @@ compose.desktop {
         result.task(':composeApp:printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
 
         then: "validate compose report"
-        equalWithDiff(extractReport(result), readReport("composeApp"))
+        equalWithDiff(extractReport(result)
+                .replace('skiko-awt-runtime-windows', 'skiko-awt-runtime-linux'), readReport("composeApp"))
         !result.output.contains('WARN:')
     }
 
