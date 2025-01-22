@@ -75,6 +75,7 @@ class AndroidAppKotlinSourcesDebugKitTest extends AbstractDebugKitTest {
         !result.output.contains('WARN:')
     }
 
+    @IgnoreIf({ !jvm.java17Compatible })
     def "Check kotlin android application upstream debug support"() {
         setup:
         build """
