@@ -14,14 +14,14 @@ enum TargetType {
     /**
      * Java source set (simple kotlin, scala etc.) - activated with JavaBasePlugin.
      */
-    SourceSet,
+    Java,
     /**
      * Kotlin multiplatform (even when java plugin is active, multiplatform supersede source set tasks).
      * The only exception - android platform (superseded by android plugin).
      */
-    MultiplatformTarget,
+    Multiplatform,
     /**
      * Android plugin support - android variant.
      */
-    AndroidVariant
+    Android
 }

@@ -49,7 +49,7 @@ class AndroidTaskConfigurationProvider implements AnimalsnifferTaskConfiguration
 
     @Override
     TargetType getType() {
-        return TargetType.AndroidVariant
+        return TargetType.Android
     }
 
     @Override

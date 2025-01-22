@@ -450,7 +450,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
         } else {
             // all tasks are default
             // for java tasks, consult legacy sourceSets configuration
-            assign = config.type != TargetType.SourceSet
+            assign = config.type != TargetType.Java
                     || extension.sourceSets.find { it.name == config.targetName }
         }
 

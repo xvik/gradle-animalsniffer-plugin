@@ -36,7 +36,7 @@ class JavaTaskConfigurationProvider implements AnimalsnifferTaskConfigurationPro
 
     @Override
     TargetType getType() {
-        return TargetType.SourceSet
+        return TargetType.Java
     }
 
     @Override

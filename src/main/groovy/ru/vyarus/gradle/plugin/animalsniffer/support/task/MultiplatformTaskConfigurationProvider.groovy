@@ -42,7 +42,7 @@ class MultiplatformTaskConfigurationProvider implements AnimalsnifferTaskConfigu
 
     @Override
     TargetType getType() {
-        return TargetType.MultiplatformTarget
+        return TargetType.Multiplatform
     }
 
     @Override
