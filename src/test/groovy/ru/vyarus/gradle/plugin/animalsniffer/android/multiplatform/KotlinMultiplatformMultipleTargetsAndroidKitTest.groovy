@@ -38,7 +38,6 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
     
     androidTarget {
         compilerOptions {
@@ -135,7 +134,6 @@ animalsniffer {
 }
 
 kotlin {
-    jvmToolchain(17)
 
     androidTarget {
         compilerOptions {
@@ -170,6 +168,11 @@ kotlin {
             implementation 'org.slf4j:slf4j-api:1.7.25'
         }
     }
+}
+
+// workaround to avoid toolchains (problems on appveyor)
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile.class).configureEach {
+    jvmTargetValidationMode = org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING
 }
 
 android {
