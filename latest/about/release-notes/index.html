@@ -1,0 +1,1660 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Gradle AnimalSniffer plugin">
+      
+      
+        <meta name="author" content="Vyacheslav Rusakov">
+      
+      
+        <link rel="canonical" href="https://xvik.github.io/gradle-animalsniffer-plugin/2.0.0/about/release-notes/">
+      
+      
+        <link rel="prev" href="../../guide/view/">
+      
+      
+        <link rel="next" href="../history/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Release notes - Gradle animalsniffer plugin</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#200-release-notes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Gradle animalsniffer plugin" class="md-header__button md-logo" aria-label="Gradle animalsniffer plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gradle animalsniffer plugin
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Release notes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xvik/gradle-animalsniffer-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gradle-animalsniffer-plugin
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Gradle animalsniffer plugin" class="md-nav__button md-logo" aria-label="Gradle animalsniffer plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Gradle animalsniffer plugin
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xvik/gradle-animalsniffer-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gradle-animalsniffer-plugin
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Check for
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Check for
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/use/java/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jvm language
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/use/android/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Android
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/use/multiplatform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kotlin multiplatform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/suppress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Suppress violations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/report/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Report
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Build signature
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Build signature
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/signature/build/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project signature
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/signature/library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Library signature
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Debug
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Debug
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/debug/debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Option
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/debug/tasks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Print check tasks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/debug/sources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Print sources info
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Check task cache
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/view/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    View signature content
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            About
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Release notes
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Release notes
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-require-gradle-7-or-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      (breaking) Require gradle 7 or above
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-check-fails-without-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      (breaking) Check fails without signatures
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="(breaking) Check fails without signatures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#old-no-signatures-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Old no-signatures behavior
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projects-building-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projects building signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changed-default-tasks-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed default tasks selection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#android-projects-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android projects support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Android projects support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collector-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collector task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kotlin-multiplatform-projects-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kotlin multiplatform projects support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kotlin multiplatform projects support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#android" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improved-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      Improved debug
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Improved debug">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#print-animalsniffer-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print animalsniffer tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print-animalsniffer-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print animalsniffer sources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-task-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      New task properties
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration notes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../history/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version history
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compatibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-require-gradle-7-or-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      (breaking) Require gradle 7 or above
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-check-fails-without-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      (breaking) Check fails without signatures
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="(breaking) Check fails without signatures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#old-no-signatures-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Old no-signatures behavior
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projects-building-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projects building signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changed-default-tasks-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed default tasks selection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#android-projects-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android projects support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Android projects support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collector-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collector task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kotlin-multiplatform-projects-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kotlin multiplatform projects support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kotlin multiplatform projects support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#android" class="md-nav__link">
+    <span class="md-ellipsis">
+      Android
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improved-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      Improved debug
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Improved debug">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#print-animalsniffer-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print animalsniffer tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print-animalsniffer-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print animalsniffer sources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSV report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-task-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      New task properties
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration notes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="200-release-notes">2.0.0 Release notes<a class="headerlink" href="#200-release-notes" title="Permanent link">&para;</a></h1>
+<h2 id="breaking-require-gradle-7-or-above">(breaking) Require gradle 7 or above<a class="headerlink" href="#breaking-require-gradle-7-or-above" title="Permanent link">&para;</a></h2>
+<p>Dropped support for gradle 5 and 6</p>
+<h2 id="breaking-check-fails-without-signatures">(breaking) Check fails without signatures<a class="headerlink" href="#breaking-check-fails-without-signatures" title="Permanent link">&para;</a></h2>
+<p>Before, animalsniffer check task was skipped when no signatures declared.
+Now it would fail. This was done to catch quite a common configuration error: absence of "signature" qualifier</p>
+<p>wrong:
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">signature</span><span class="w"> </span><span class="s1">&#39;org.codehaus.mojo.signature:java16:1.1&#39;</span>
+<span class="o">}</span>
+</code></pre></div></p>
+<p>correct:
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">signature</span><span class="w"> </span><span class="s1">&#39;org.codehaus.mojo.signature:java16:1.1@signature&#39;</span>
+<span class="o">}</span>
+</code></pre></div></p>
+<p>With old behavior, it was hard to detect incorrect configuration.</p>
+<h3 id="old-no-signatures-behavior">Old no-signatures behavior<a class="headerlink" href="#old-no-signatures-behavior" title="Permanent link">&para;</a></h3>
+<p>Old behavior could be reverted with the new option:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">failWithoutSignatures</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="o">}</span>
+</code></pre></div>
+<h3 id="projects-building-signature">Projects building signature<a class="headerlink" href="#projects-building-signature" title="Permanent link">&para;</a></h3>
+<p>The change above would also affect projects using animalsniffer plugin only to build signatures
+because check tasks are always registered (and so would fail on build).</p>
+<p>In this case, either disable no-signatures fail:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">failWithoutSignatures</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>or detach all animalsniffer check tasks from the <code>check</code> task:</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">defaultTargets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>
+<span class="o">}</span>
+</code></pre></div>
+(read more about the new option below)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The primary plugin function is signature checking and so no-signatures fail must be 
+enabled by default to prevent incorrect signatures configuration (unfortunately, quite common).
+Projects only building signatures would have to disable this check (sorry for inconvenience)</p>
+</div>
+<h2 id="changed-default-tasks-selection">Changed default tasks selection<a class="headerlink" href="#changed-default-tasks-selection" title="Permanent link">&para;</a></h2>
+<p>Before, the only way to define which animalsniffer tasks will run by default with the build (assigned to <code>check</code> task)
+was <code>sourceSets</code> option. And a common configuration was disabling test source checks (to check only main sources with the build):</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">sourceSets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, <strong>test sources are not included by default</strong>. So the configuration above is not required anymore.</p>
+<p>There is a new configuration property <code>checkTestSources</code> to be able to enable test sources back:</p>
+<div class="highlight"><pre><span></span><code><span class="n">aniamlsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">checkTestSources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1">// by default false! </span>
+<span class="o">}</span>
+</code></pre></div>
+<p><code>sourceSets</code> configuration is <strong>deprecated</strong>. It will still work, but now plugin 
+supports android and kotlin multiplatform and this option simply can't cover all cases.</p>
+<p>Instead, there is a new option <code>defaultTargets</code>: you can specify required targets there for
+animalsniffer tasks to run with build.</p>
+<p>Target name is:</p>
+<ol>
+<li><a href="../../guide/use/java/">Source set</a> name for java plugins (java, kotlin, scala, groovy)</li>
+<li><a href="../../guide/use/android/">Android variant or test component</a> name for Android</li>
+<li><a href="../../guide/use/multiplatform/">Platform compilation</a> name for kotlin multiplatform</li>
+</ol>
+<p>By default, <code>defaultTargets = null</code> which means making all non-test (no 'test' in target name) 
+animalsniffer tasks default.</p>
+<p>Target platforms could be set with property:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">defaultTargets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s1">&#39;main&#39;</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>or with method:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">defaultTargets</span><span class="w"> </span><span class="s1">&#39;main&#39;</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want to avoid all animalsniffer tasks during build set:
+<div class="highlight"><pre><span></span><code><span class="n">defaultTargets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>
+</code></pre></div></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can see all registered animalsniffer tasks with <a href="#print-animalsniffer-tasks"><code>printAnimalsnifferTasks</code></a> task</p>
+</div>
+<h2 id="android-projects-support">Android projects support<a class="headerlink" href="#android-projects-support" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Acknowledgment</p>
+<p>Thanks to <a href="https://github.com/xvik/gradle-animalsniffer-plugin/pull/99">@LikeTheSalad</a> for initial 
+android support implementation. Without it, android support would not happen so soon 
+(it was the main trigger for all other changes in version 2.0).</p>
+</div>
+<p>Android support activated with <code>com.android.library</code> or <code>com.android.application</code> plugins.</p>
+<p>Android <a href="../../guide/use/android/">variants and test components</a> used for animalsniffer tasks source.
+By default: <code>debug</code> and <code>release</code> variants and <code>debugAndroidTest</code>, <code>debugUnitTest</code> 
+and <code>releaseUnitTest</code> test components.</p>
+<p>As test animalsniffer tasks not enabled by default, then only <code>animalsnifferDebug</code> and <code>animalsnifferRelease</code> 
+tasks would be assigned to <code>check</code> (to run as part of the build).</p>
+<p>But, in many projects, dubug and release variants would contain <strong>the same sources</strong>,
+so it would make sense to preserve only one of them:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">defaultTargets</span><span class="w"> </span><span class="s1">&#39;debug&#39;</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I can't apply this by default in case of android plugin because I don't know the specifics of your exact project.</p>
+</div>
+<p>There is a complete <a href="https://github.com/xvik/gradle-animalsniffer-plugin/tree/master/examples/standalone/android-simple">android project example</a>, 
+created with the android studio, with animalsniffer plugin activated (no special errors applied).</p>
+<h3 id="collector-task">Collector task<a class="headerlink" href="#collector-task" title="Permanent link">&para;</a></h3>
+<p>The new android api requires an additional task to be able to get access to configured sources.
+That's why plugin registers additinoal "collector" tasks (like <code>debugAnimalsnifferClassesCollector</code>) - 
+it is used ONLY to receive android configuration (no actual action in task itself)</p>
+<h2 id="kotlin-multiplatform-projects-support">Kotlin multiplatform projects support<a class="headerlink" href="#kotlin-multiplatform-projects-support" title="Permanent link">&para;</a></h2>
+<p>Kotlin multiplatform support activated for <code>org.jetbrains.kotlin.multiplatform</code> plugin.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Before, it was required to apply <code>.withJvm()</code> in order to activate animalsniffer.
+<strong>It is not required</strong> anymore - complete support was implemented. 
+If you use <code>.withJvm()</code> plugin will not duplicate animlasniffer tasks (because it enables java-base plugin) - only
+multiplatform support would work.</p>
+</div>
+<p><a href="../../guide/use/multiplatform/">Platform compilations</a> used for animalsniffer tasks source.</p>
+<p>For example, in a simple case with one platform:</p>
+<div class="highlight"><pre><span></span><code><span class="n">kotlin</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">jvm</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Two animalsniffer tasks would be registered: <code>animalsnifferJvmMain</code> and <code>animalsnifferJvmTest</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tasks for "metadata" (common platform) is not registered because these sources 
+are always included in each platform (and animalsniffer would check them) </p>
+</div>
+<h3 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h3>
+<p>When multiplatform used with android plugin, then "android platform" would be ignored - direct android support
+would be used instead (but missed kotlin sources would be added to android check tasks).</p>
+<p>For example, suppose we have a project with two platforms:</p>
+<div class="highlight"><pre><span></span><code><span class="n">kotlin</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">androidTarget</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+<span class="w">    </span><span class="n">jvm</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Then animalsniffer tasks for jvm platform would be registered by multiplatform support and 
+android tasks by android support: <code>animalsnifferDebug</code>, <code>animalsnifferDebugAndroidTest</code>,
+<code>animalsnifferDebugUnitTest</code>, <code>animalsnifferJvmMain</code>, <code>animalsnifferJvmTest</code>, <code>animalsnifferRelease</code>,
+<code>animalsnifferReleaseUnitTest</code>.</p>
+<p>Default tasks (assigned to check) would be: <code>animalsnifferDebug</code>, <code>animalsnifferJvmMain</code> and <code>animalsnifferRelease</code> </p>
+<p>If you want to check only jvm sources with the build:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animlasniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">defaultTargets</span><span class="w"> </span><span class="s1">&#39;jvmMain&#39;</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>There is a complete multiplatform project examples (generated with kotlin init site) with
+configured animalsniffer plugin (but without errors):</p>
+<ul>
+<li><a href="https://github.com/xvik/gradle-animalsniffer-plugin/tree/master/examples/standalone/kotlin-multi-android-only">Multiplatform: android only</a> - 1 multiplatform target</li>
+<li><a href="https://github.com/xvik/gradle-animalsniffer-plugin/tree/master/examples/standalone/kotlin-multi-android-desktop-server">Multiplatform: android, desktop, server</a> - several multiplatform targets</li>
+<li><a href="https://github.com/xvik/gradle-animalsniffer-plugin/tree/master/examples/standalone/kotlin-multi-desktop-server">Multiplatform: desktop, server</a> - 2 targets, without android</li>
+</ul>
+<h2 id="improved-debug">Improved debug<a class="headerlink" href="#improved-debug" title="Permanent link">&para;</a></h2>
+<p>As before, debug option (<code>animalsniffer.debug = true</code>) prints debug info just before
+animalsniffer task execution (configured signatures, classes to check and source paths).</p>
+<p>With java plugins, it was obvious what tasks plugin would register (task per source set). 
+But with android and kotlin multiplatform plugins, it might not be obvious.</p>
+<h3 id="print-animalsniffer-tasks">Print animalsniffer tasks<a class="headerlink" href="#print-animalsniffer-tasks" title="Permanent link">&para;</a></h3>
+<p>A new <code>printAnimalsnifferTasks</code> was added to see all registered check tasks.</p>
+<p>Java plugin sample:</p>
+<div class="highlight"><pre><span></span><code>&gt; Task :printAnimalsnifferTasks
+
+
+    animalsnifferMain                   [default]       for &#39;main&#39; source set
+        report: build/reports/animalsniffer/main.text
+        depends on: classes
+        signatures: 
+            java16-sun-1.0.signature
+        classes:
+            build/classes/java/main
+        sources:
+            src/main/java
+</code></pre></div>
+<p>Android plugin sample:</p>
+<div class="highlight"><pre><span></span><code>    animalsnifferDebug                  [default]       for &#39;debug&#39; android variant
+        report: build/reports/animalsniffer/debug.text
+        depends on: debugAnimalsnifferClassesCollector
+        signatures: 
+            android-api-level-21-5.0.1_r2.signature
+            java18-1.0.signature
+        classes:
+            build/intermediates/javac/debug/classes
+        sources:
+            build/generated/aidl_source_output_dir/debug/out                                 NOT EXISTS
+            build/generated/renderscript_source_output_dir/debug/out                         NOT EXISTS
+            build/generated/source/buildConfig/debug
+            src/debug/java                                                                   NOT EXISTS
+            src/debug/kotlin                                                                 NOT EXISTS
+            src/main/java
+            src/main/kotlin                                                                  NOT EXISTS
+</code></pre></div>
+<p>Kotlin multiplatform sample:</p>
+<div class="highlight"><pre><span></span><code>    animalsnifferJvmMain                [default]       for kotlin platform &#39;jvm&#39; compilation &#39;main&#39;
+        report: build/reports/animalsniffer/jvmMain.text
+        depends on: jvmMainClasses
+        signatures: 
+            java16-sun-1.0.signature
+        classes:
+            build/classes/kotlin/jvm/main
+        sources:
+            src/commonMain/kotlin                                                            NOT EXISTS
+            src/jvmMain/kotlin
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For each task, source origin is described, .e.g. "for kotlin platform 'jvm' compilation 'main'".
+<code>[default]</code> marker means that task is attached to <code>check</code> task (use <code>animalsniffer.defaultTaragets</code> to change it)</p>
+</div>
+<p>Read more in <a href="../../guide/debug/tasks/">docs</a></p>
+<h3 id="print-animalsniffer-sources">Print animalsniffer sources<a class="headerlink" href="#print-animalsniffer-sources" title="Permanent link">&para;</a></h3>
+<p>Another special task was added during android and multiplatform support development, 
+to better understand compilation tasks and sources structure.</p>
+<p><code>printAnimalsnifferSourceInfo</code> prints registered plugins, compile tasks, all source sets, android and kotlin components.</p>
+<p>This task might be useful for bug reports in case when animalsniffer task misses some sources.</p>
+<p>Read more in <a href="../../guide/debug/sources/">docs</a>. See example outputs for <a href="../../guide/use/java/">java</a>, <a href="../../guide/use/android/">android</a>
+and <a href="../../guide/use/multiplatform/">multiplatform</a></p>
+<h2 id="csv-report">CSV report<a class="headerlink" href="#csv-report" title="Permanent link">&para;</a></h2>
+<p>There was a text report, looking like this (each line - error description):</p>
+<div class="highlight"><pre><span></span><code>invalid.Sample:1 (#field)  Undefined reference: java.nio.file.Path
+invalid.Sample:13  Undefined reference: int Boolean.compare(boolean, boolean)
+</code></pre></div>
+<p>Now there is also a <a href="../../guide/report/#csv-report">CSV report</a>:</p>
+<div class="highlight"><pre><span></span><code>java16-sun-1.0;invalid.Sample.java;;field;java.nio.file.Path;false
+java16-sun-1.0;invalid.Sample.java;13;;int Boolean.compare(boolean, boolean);false
+</code></pre></div>
+<p>This CSV report is required because now animalsniffer run inside gradle worker (which may run even in different jvm)
+and the only way to get access to found errors in check task itself is an intermediate file.</p>
+<p>This might be an internal file, but I preserved it as a task report to let other tools (if any) use it
+for error representation (and avoid additional parsing).</p>
+<h2 id="new-task-properties">New task properties<a class="headerlink" href="#new-task-properties" title="Permanent link">&para;</a></h2>
+<p>Added properties to help distinguish animalsniffer tasks:</p>
+<ul>
+<li><code>targetType</code> - task source origin: Java, Multiplatform, Android</li>
+<li><code>targetName</code> - task target name (e.g. "main" (source set), "debug" (variant), "jvmMain" platform compilation) </li>
+</ul>
+<p>It might be useful if you need to configure tasks based on a registration source (for whatever reason).
+For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">tasks</span><span class="o">.</span><span class="na">withType</span><span class="o">(</span><span class="n">AnimalSniffer</span><span class="o">).</span><span class="na">configureEach</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="c1">// no package required for TargetType enum because it&#39;s name registered as shortcut</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="n">task</span><span class="o">.</span><span class="na">targetType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TargetType</span><span class="o">.</span><span class="na">Android</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="c1">// do something</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<h2 id="other-changes">Other changes<a class="headerlink" href="#other-changes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Gradle configuration cache compatibility (required for gradle 9) </li>
+<li>All animalsniffer tasks now belong to the <code>animalsniffer</code> group (in IDE, you could find all of them under animalsniffer tasks subfolder)</li>
+<li>Animalsniffer now used directly (with gradle worker) and not through intermediate ant tasks</li>
+<li>Renamed caching tasks to differentiate them with check tasks: before, cache tasks prefix was "animalsnifferCache", now "cache". 
+  Also renamed target (cache) signature path: <code>/animalsniffer/cache/[checkTargetName]/[checkTaskName]Cache.sig</code> </li>
+<li>Change source field names representation in reports (in some cases, animalsniffer shows class field name instead of source line):
+  before field was shown as "fieldName field" now "#fieldName"</li>
+</ul>
+<h2 id="migration-notes">Migration notes<a class="headerlink" href="#migration-notes" title="Permanent link">&para;</a></h2>
+<p>Plugin would work as before, except for projects <strong>only building signatures</strong> (read above).
+For such projects, just disable no-signatures check:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">failWithoutSignatires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>If you were <strong>configuring sourceSets</strong> like this: <code>sourceSets = [sourceSets.main]</code> - it is not required anymore, just remove.
+For more complex source sets configuration, consider migration into <code>defaultTargets</code> option.</p>
+<p>In <strong>kotlin multiplatform</strong> project, if you use <code>.withJava()</code> only to enable animalsniffer checks - it is not required anymore
+(and could be removed if not needed).</p>
+<p>Test tasks are <strong>not assigned to check</strong> (test sources not checked with the build, by default). To revert old behaviour:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animalsniffer</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">checkTestSources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="o">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2015-2025 Vyacheslav Rusakov
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/xvik" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.vyarus.ru" target="_blank" rel="noopener" title="blog.vyarus.ru" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M35.19 171.1c-46.91 46-46.91 122.9 0 169.8L171.1 476.8c46 46.9 122.9 46.9 169.8 0l135.9-135.9c46.9-46.9 46.9-123.8 0-169.8L340.9 35.19c-46.9-46.91-123.8-46.91-169.8 0L35.19 171.1zM315.5 315.5c-32.9 32.8-86.1 32.8-118.9 0-32.9-32.9-32.9-86.1 0-118.9 32.8-32.9 86-32.9 118.9 0 32.8 32.8 32.8 86 0 118.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
