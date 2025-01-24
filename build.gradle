@@ -13,6 +13,7 @@ plugins {
     id 'ru.vyarus.github-info' version '2.0.0'
     id 'com.github.ben-manes.versions' version '0.52.0'
     id "pl.droidsonroids.jacoco.testkit" version "1.0.12"
+    id 'ru.vyarus.mkdocs' version '4.0.1'
 }
 
 java {
@@ -24,6 +25,10 @@ wrapper {
     distributionType = Wrapper.DistributionType.BIN
 }
 
+ext {
+    animalsnifferVersion = '1.24'
+}
+
 // workaround to keep compileOnly android dependency together with target jdk 1.8
 // attributes: https://docs.gradle.org/current/userguide/variant_attributes.html
 // definition example https://docs.gradle.org/current/userguide/variant_aware_resolution.html#2_create_a_custom_outgoing_configuration
@@ -32,7 +37,7 @@ configurations.compileClasspath.attributes.attribute(TargetJvmVersion.TARGET_JVM
 repositories { mavenLocal(); mavenCentral(); google(); gradlePluginPortal() }
 dependencies {
     // required for helper tasks, but check and build would use dynamic classpath
-    implementation 'org.codehaus.mojo:animal-sniffer:1.24'
+    implementation "org.codehaus.mojo:animal-sniffer:$animalsnifferVersion"
     // required to replace deprecated gradle GFileUtils
     implementation 'commons-io:commons-io:2.18.0'
     compileOnly 'com.android.tools.build:gradle:7.4.0'
@@ -50,6 +55,20 @@ description = 'Gradle AnimalSniffer plugin'
 github {
     user 'xvik'
     license 'MIT'
+}
+
+mkdocs {
+    extras = [
+        'version': '2.0.0',
+        'animalnsifferVersion': project.animalsnifferVersion
+    ]
+    publish {
+        docPath = mkdocs.extras['version']
+        rootRedirect = true
+        rootRedirectTo = 'latest'
+        versionAliases = ['latest']
+        hideOldBugfixVersions = true
+    }
 }
 
 maven.pom {

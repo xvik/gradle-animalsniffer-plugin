@@ -1,0 +1,122 @@
+site_name: Gradle animalsniffer plugin
+
+# Meta tags (placed in header)
+site_description: Gradle AnimalSniffer plugin
+site_author: Vyacheslav Rusakov
+site_url: https://xvik.github.io/gradle-animalsniffer-plugin
+
+# Repository (add link to repository on each page)
+repo_name: gradle-animalsniffer-plugin
+repo_url: https://github.com/xvik/gradle-animalsniffer-plugin
+edit_uri: edit/master/src/doc/docs/
+
+#Copyright (shown at the footer)
+copyright: 'Copyright &copy; 2015-2025 Vyacheslav Rusakov'
+
+# Meterial theme
+theme:
+  name: 'material'
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    #- navigation.tabs
+    #- navigation.tabs.sticky
+    #- navigation.instant
+    - navigation.tracking
+    - navigation.top
+
+plugins:
+  - search
+  - markdownextradata
+
+extra:
+#  palette:
+#    primary: 'indigo'
+#    accent: 'indigo'
+
+  version:
+    provider: mike
+
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/xvik
+    - icon: fontawesome/brands/hashnode
+      link: https://blog.vyarus.ru
+#    - icon: fontawesome/brands/twitter
+#      link: https://twitter.com/vyarus
+#
+# Google Analytics
+#  analytics:
+#    provider: google
+#    property: UA-XXXXXXXX-X
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+dev_addr: 127.0.0.1:3001
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - User guide:
+      - Check for:
+        - Jvm language: guide/use/java.md
+        - Android: guide/use/android.md
+        - Kotlin multiplatform: guide/use/multiplatform.md
+      - Suppress violations: guide/suppress.md
+      - Configuration: guide/configuration.md
+      - Report: guide/report.md
+      - Build signature:
+          - Project signature: guide/signature/build.md
+          - Library signature: guide/signature/library.md
+      - Debug:
+          - Option: guide/debug/debug.md
+          - Print check tasks: guide/debug/tasks.md
+          - Print sources info: guide/debug/sources.md
+      - Check task cache: guide/performance.md
+      - View signature content: guide/view.md
+  - About:
+      - Release notes: about/release-notes.md
+      - Version history: about/history.md
+      - Compatibility: about/compatibility.md
+      - License: about/license.md

@@ -30,7 +30,7 @@ Used by:
 
 #### Applicability
 
-NOTE: JDK 9+ signatires are [not published](https://github.com/mojohaus/animal-sniffer/issues/62):
+NOTE: JDK 9+ signatures are [not published](https://github.com/mojohaus/animal-sniffer/issues/62):
 
 ```
 Starting with JDK9+ you can't define a full API signature cause based on the module system you can define your own (limited view on JDK). Apart from that you can use the release configuration in maven-compiler-plugin with JDK9+ to have exactly what animal sniffer offers and that's the reason why there are no JDK9+ signatures.
