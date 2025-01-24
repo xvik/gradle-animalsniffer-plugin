@@ -43,7 +43,8 @@ class DebugModel {
             res = [:]
             androidVariants.each { variant ->
                 variant.sourceSets.each { s ->
-                    res.put(s.name, "consumed by variant $variant.name".toString())
+                    res.put(s.name, ("consumed by ${variant.testType ? "$variant.testType component" : 'variant'} "
+                            + "$variant.name").toString())
                 }
             }
         }

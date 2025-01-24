@@ -402,11 +402,11 @@
 
 	Android library Source Sets ------------------------------------------------------ (12)
 
-		androidTest -----
+		androidTest ----- (consumed by test component debugAndroidTest)
 			src/androidTest/java                                                             NOT EXISTS
 			src/androidTest/kotlin                                                           NOT EXISTS
 
-		androidTestDebug -----
+		androidTestDebug ----- (consumed by test component debugAndroidTest)
 			src/androidTestDebug/java                                                        NOT EXISTS
 			src/androidTestDebug/kotlin                                                      NOT EXISTS
 
@@ -431,11 +431,11 @@
 			src/release/java                                                                 NOT EXISTS
 			src/release/kotlin                                                               NOT EXISTS
 
-		test -----
+		test ----- (consumed by unit test component releaseUnitTest)
 			src/test/java                                                                    NOT EXISTS
 			src/test/kotlin                                                                  NOT EXISTS
 
-		testDebug -----
+		testDebug ----- (consumed by unit test component debugUnitTest)
 			src/testDebug/java                                                               NOT EXISTS
 			src/testDebug/kotlin                                                             NOT EXISTS
 
@@ -451,11 +451,11 @@
 			src/testFixturesRelease/java                                                     NOT EXISTS
 			src/testFixturesRelease/kotlin                                                   NOT EXISTS
 
-		testRelease -----
+		testRelease ----- (consumed by unit test component releaseUnitTest)
 			src/testRelease/java                                                             NOT EXISTS
 			src/testRelease/kotlin                                                           NOT EXISTS
 
-== [Android Variants] ========================================================== (2)
+== [Android Variants] ========================================================== (5)
 
 	debug ===== (compiled by compileDebugJavaWithJavac task)
 
@@ -493,6 +493,66 @@
 
 		Classpath
 			build/intermediates/compile_r_class_jar/release/R.jar
+			slf4j-api-1.7.25.jar
+
+	debugAndroidTest ===== (compiled by compileDebugAndroidTestJavaWithJavac task)
+
+		Source sets (2)
+
+			androidTest -----
+				src/androidTest/java                                                             NOT EXISTS
+				src/androidTest/kotlin                                                           NOT EXISTS
+
+			androidTestDebug -----
+				src/androidTestDebug/java                                                        NOT EXISTS
+				src/androidTestDebug/kotlin                                                      NOT EXISTS
+
+		Output
+			build/intermediates/javac/debugAndroidTest/classes
+
+		Classpath
+			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/R.jar
+			build/intermediates/compile_library_classes_jar/debug/classes.jar
+			slf4j-api-1.7.25.jar
+
+	debugUnitTest ===== (compiled by compileDebugUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				src/test/java                                                                    NOT EXISTS
+				src/test/kotlin                                                                  NOT EXISTS
+
+			testDebug -----
+				src/testDebug/java                                                               NOT EXISTS
+				src/testDebug/kotlin                                                             NOT EXISTS
+
+		Output
+			build/intermediates/javac/debugUnitTest/classes
+
+		Classpath
+			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugUnitTest/R.jar
+			build/intermediates/compile_library_classes_jar/debug/classes.jar
+			slf4j-api-1.7.25.jar
+
+	releaseUnitTest ===== (compiled by compileReleaseUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				src/test/java                                                                    NOT EXISTS
+				src/test/kotlin                                                                  NOT EXISTS
+
+			testRelease -----
+				src/testRelease/java                                                             NOT EXISTS
+				src/testRelease/kotlin                                                           NOT EXISTS
+
+		Output
+			build/intermediates/javac/releaseUnitTest/classes
+
+		Classpath
+			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/releaseUnitTest/R.jar
+			build/intermediates/compile_library_classes_jar/release/classes.jar
 			slf4j-api-1.7.25.jar
 
 \===========================================================================================

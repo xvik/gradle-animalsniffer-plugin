@@ -636,13 +636,13 @@
 
 	Android application Source Sets ------------------------------------------------------ (12)
 
-		androidTest -----
+		androidTest ----- (consumed by test component debugAndroidTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
 			composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
 			composeApp/src/androidTest/java                                                  NOT EXISTS
 			composeApp/src/androidTest/kotlin                                                NOT EXISTS
 
-		androidTestDebug -----
+		androidTestDebug ----- (consumed by test component debugAndroidTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
 			composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
 			composeApp/src/androidTestDebug/java                                             NOT EXISTS
@@ -671,13 +671,13 @@
 			composeApp/src/release/java                                                      NOT EXISTS
 			composeApp/src/release/kotlin                                                    NOT EXISTS
 
-		test -----
+		test ----- (consumed by unit test component releaseUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
 			composeApp/src/test/java                                                         NOT EXISTS
 			composeApp/src/test/kotlin                                                       NOT EXISTS
 
-		testDebug -----
+		testDebug ----- (consumed by unit test component debugUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
 			composeApp/src/testDebug/java                                                    NOT EXISTS
@@ -695,7 +695,7 @@
 			composeApp/src/testFixturesRelease/java                                          NOT EXISTS
 			composeApp/src/testFixturesRelease/kotlin                                        NOT EXISTS
 
-		testRelease -----
+		testRelease ----- (consumed by unit test component releaseUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
 			composeApp/src/testRelease/java                                                  NOT EXISTS
@@ -915,7 +915,7 @@
 			Output
 				composeApp/build/classes/kotlin/metadata/main
 
-== [Android Variants] ========================================================== (2)
+== [Android Variants] ========================================================== (5)
 
 	debug ===== (compiled by compileDebugJavaWithJavac task)
 
@@ -956,5 +956,62 @@
 
 		Output
 			composeApp/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes
+
+	debugAndroidTest ===== (compiled by compileDebugAndroidTestJavaWithJavac task)
+
+		Source sets (2)
+
+			androidTest -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+				composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+				composeApp/src/androidTest/java                                                  NOT EXISTS
+				composeApp/src/androidTest/kotlin                                                NOT EXISTS
+
+			androidTestDebug -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+				composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+				composeApp/src/androidTestDebug/java                                             NOT EXISTS
+				composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+
+	debugUnitTest ===== (compiled by compileDebugUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+
+			testDebug -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+				composeApp/src/testDebug/java                                                    NOT EXISTS
+				composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+
+	releaseUnitTest ===== (compiled by compileReleaseUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+
+			testRelease -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+				composeApp/src/testRelease/java                                                  NOT EXISTS
+				composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
 
 \===========================================================================================

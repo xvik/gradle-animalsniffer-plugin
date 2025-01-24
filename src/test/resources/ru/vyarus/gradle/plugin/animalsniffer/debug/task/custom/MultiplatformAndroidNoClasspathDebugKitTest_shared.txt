@@ -90,12 +90,12 @@
 
 	Android library Source Sets ------------------------------------------------------ (12)
 
-		androidTest -----
+		androidTest ----- (consumed by test component debugAndroidTest)
 			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
 			shared/src/androidTest/java                                                      NOT EXISTS
 			shared/src/androidTest/kotlin                                                    NOT EXISTS
 
-		androidTestDebug -----
+		androidTestDebug ----- (consumed by test component debugAndroidTest)
 			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
 			shared/src/androidTestDebug/java                                                 NOT EXISTS
 			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
@@ -119,12 +119,12 @@
 			shared/src/release/java                                                          NOT EXISTS
 			shared/src/release/kotlin                                                        NOT EXISTS
 
-		test -----
+		test ----- (consumed by unit test component releaseUnitTest)
 			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
 			shared/src/test/java                                                             NOT EXISTS
 			shared/src/test/kotlin                                                           NOT EXISTS
 
-		testDebug -----
+		testDebug ----- (consumed by unit test component debugUnitTest)
 			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
 			shared/src/testDebug/java                                                        NOT EXISTS
 			shared/src/testDebug/kotlin                                                      NOT EXISTS
@@ -141,7 +141,7 @@
 			shared/src/testFixturesRelease/java                                              NOT EXISTS
 			shared/src/testFixturesRelease/kotlin                                            NOT EXISTS
 
-		testRelease -----
+		testRelease ----- (consumed by unit test component releaseUnitTest)
 			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
 			shared/src/testRelease/java                                                      NOT EXISTS
 			shared/src/testRelease/kotlin                                                    NOT EXISTS

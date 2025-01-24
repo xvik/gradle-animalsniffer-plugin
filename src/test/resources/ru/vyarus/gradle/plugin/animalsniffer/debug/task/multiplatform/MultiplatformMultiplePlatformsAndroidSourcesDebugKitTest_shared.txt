@@ -553,12 +553,12 @@
 
 	Android library Source Sets ------------------------------------------------------ (12)
 
-		androidTest -----
+		androidTest ----- (consumed by test component debugAndroidTest)
 			shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
 			shared/src/androidTest/java                                                      NOT EXISTS
 			shared/src/androidTest/kotlin                                                    NOT EXISTS
 
-		androidTestDebug -----
+		androidTestDebug ----- (consumed by test component debugAndroidTest)
 			shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
 			shared/src/androidTestDebug/java                                                 NOT EXISTS
 			shared/src/androidTestDebug/kotlin                                               NOT EXISTS
@@ -582,12 +582,12 @@
 			shared/src/release/java                                                          NOT EXISTS
 			shared/src/release/kotlin                                                        NOT EXISTS
 
-		test -----
+		test ----- (consumed by unit test component releaseUnitTest)
 			shared/src/androidUnitTest/kotlin                                                NOT EXISTS
 			shared/src/test/java                                                             NOT EXISTS
 			shared/src/test/kotlin                                                           NOT EXISTS
 
-		testDebug -----
+		testDebug ----- (consumed by unit test component debugUnitTest)
 			shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
 			shared/src/testDebug/java                                                        NOT EXISTS
 			shared/src/testDebug/kotlin                                                      NOT EXISTS
@@ -604,7 +604,7 @@
 			shared/src/testFixturesRelease/java                                              NOT EXISTS
 			shared/src/testFixturesRelease/kotlin                                            NOT EXISTS
 
-		testRelease -----
+		testRelease ----- (consumed by unit test component releaseUnitTest)
 			shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
 			shared/src/testRelease/java                                                      NOT EXISTS
 			shared/src/testRelease/kotlin                                                    NOT EXISTS
@@ -820,7 +820,7 @@
 				annotations-13.0.jar
 				kotlin-stdlib-2.0.21.jar
 
-== [Android Variants] ========================================================== (2)
+== [Android Variants] ========================================================== (5)
 
 	debug ===== (compiled by compileDebugJavaWithJavac task)
 
@@ -869,5 +869,80 @@
 			core-lambda-stubs.jar
 			kotlin-stdlib-2.0.21.jar
 			shared/build/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar
+
+	debugAndroidTest ===== (compiled by compileDebugAndroidTestJavaWithJavac task)
+
+		Source sets (2)
+
+			androidTest -----
+				shared/src/androidInstrumentedTest/kotlin                                        NOT EXISTS
+				shared/src/androidTest/java                                                      NOT EXISTS
+				shared/src/androidTest/kotlin                                                    NOT EXISTS
+
+			androidTestDebug -----
+				shared/src/androidInstrumentedTestDebug/kotlin                                   NOT EXISTS
+				shared/src/androidTestDebug/java                                                 NOT EXISTS
+				shared/src/androidTestDebug/kotlin                                               NOT EXISTS
+
+		Output
+			shared/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+
+		Classpath
+			android.jar
+			annotations-13.0.jar
+			core-lambda-stubs.jar
+			kotlin-stdlib-2.0.21.jar
+			shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
+			shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+	debugUnitTest ===== (compiled by compileDebugUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/test/kotlin                                                           NOT EXISTS
+
+			testDebug -----
+				shared/src/androidUnitTestDebug/kotlin                                           NOT EXISTS
+				shared/src/testDebug/java                                                        NOT EXISTS
+				shared/src/testDebug/kotlin                                                      NOT EXISTS
+
+		Output
+			shared/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+
+		Classpath
+			android.jar
+			annotations-13.0.jar
+			core-lambda-stubs.jar
+			kotlin-stdlib-2.0.21.jar
+			shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugUnitTest/generateDebugUnitTestStubRFile/R.jar
+			shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+
+	releaseUnitTest ===== (compiled by compileReleaseUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				shared/src/androidUnitTest/kotlin                                                NOT EXISTS
+				shared/src/test/java                                                             NOT EXISTS
+				shared/src/test/kotlin                                                           NOT EXISTS
+
+			testRelease -----
+				shared/src/androidUnitTestRelease/kotlin                                         NOT EXISTS
+				shared/src/testRelease/java                                                      NOT EXISTS
+				shared/src/testRelease/kotlin                                                    NOT EXISTS
+
+		Output
+			shared/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+
+		Classpath
+			android.jar
+			annotations-13.0.jar
+			core-lambda-stubs.jar
+			kotlin-stdlib-2.0.21.jar
+			shared/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/releaseUnitTest/generateReleaseUnitTestStubRFile/R.jar
+			shared/build/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar
 
 \===========================================================================================

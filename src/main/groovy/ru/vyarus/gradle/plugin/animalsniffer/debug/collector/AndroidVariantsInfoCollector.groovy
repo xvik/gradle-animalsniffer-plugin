@@ -34,18 +34,37 @@ class AndroidVariantsInfoCollector {
         variants.forEach(new Consumer() {
             @Override
             void accept(Object variant) {
-                List<SourceSetInfo> ss = []
-                // com.android.build.gradle.internal.api.BaseVariantImpl
-                variant.sourceSets.each {
-                    ss.add(new SourceSetInfo(name: it.name, sourceDirs: it.kotlinDirectories))
-                }
-                res.add(new AndroidVariantInfo(name: variant.name,
-                        compileTaskName: variant.javaCompileProvider.get().name,
-                        sourceSets: ss,
-                        classes: [variant.javaCompileProvider.get().destinationDirectory.get().asFile],
-                        classpath: collectClasspath ? variant.javaCompileProvider.get().classpath.files : []))
+                res.add(process(variant, collectClasspath, null))
             }
         })
+        // com.android.build.gradle.TestedExtension
+        ext.testVariants.forEach(new Consumer() {
+            @Override
+            void accept(Object variant) {
+                res.add(process(variant, collectClasspath, 'test'))
+            }
+        })
+        ext.unitTestVariants.forEach(new Consumer() {
+            @Override
+            void accept(Object variant) {
+                res.add(process(variant, collectClasspath, 'unit test'))
+            }
+        })
+
         return res
+    }
+
+    private AndroidVariantInfo process(Object variant, boolean collectClasspath, String type) {
+        List<SourceSetInfo> ss = []
+        // com.android.build.gradle.internal.api.BaseVariantImpl
+        variant.sourceSets.each {
+            ss.add(new SourceSetInfo(name: it.name, sourceDirs: it.kotlinDirectories))
+        }
+        return new AndroidVariantInfo(name: variant.name,
+                compileTaskName: variant.javaCompileProvider.get().name,
+                sourceSets: ss,
+                classes: [variant.javaCompileProvider.get().destinationDirectory.get().asFile],
+                classpath: collectClasspath ? variant.javaCompileProvider.get().classpath.files : [],
+                testType: type)
     }
 }

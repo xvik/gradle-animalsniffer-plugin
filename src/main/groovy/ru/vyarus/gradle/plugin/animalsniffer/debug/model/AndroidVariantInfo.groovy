@@ -16,4 +16,5 @@ class AndroidVariantInfo {
     List<SourceSetInfo> sourceSets
     Set<File> classes
     Set<File> classpath
+    String testType
 }

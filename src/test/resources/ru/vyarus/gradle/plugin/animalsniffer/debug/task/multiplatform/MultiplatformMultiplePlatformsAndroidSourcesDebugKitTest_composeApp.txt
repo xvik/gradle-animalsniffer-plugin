@@ -1215,13 +1215,13 @@
 
 	Android application Source Sets ------------------------------------------------------ (12)
 
-		androidTest -----
+		androidTest ----- (consumed by test component debugAndroidTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
 			composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
 			composeApp/src/androidTest/java                                                  NOT EXISTS
 			composeApp/src/androidTest/kotlin                                                NOT EXISTS
 
-		androidTestDebug -----
+		androidTestDebug ----- (consumed by test component debugAndroidTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
 			composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
 			composeApp/src/androidTestDebug/java                                             NOT EXISTS
@@ -1326,13 +1326,13 @@
 			composeApp/src/release/java                                                      NOT EXISTS
 			composeApp/src/release/kotlin                                                    NOT EXISTS
 
-		test -----
+		test ----- (consumed by unit test component releaseUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
 			composeApp/src/test/java                                                         NOT EXISTS
 			composeApp/src/test/kotlin                                                       NOT EXISTS
 
-		testDebug -----
+		testDebug ----- (consumed by unit test component debugUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
 			composeApp/src/testDebug/java                                                    NOT EXISTS
@@ -1350,7 +1350,7 @@
 			composeApp/src/testFixturesRelease/java                                          NOT EXISTS
 			composeApp/src/testFixturesRelease/kotlin                                        NOT EXISTS
 
-		testRelease -----
+		testRelease ----- (consumed by unit test component releaseUnitTest)
 			composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
 			composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
 			composeApp/src/testRelease/java                                                  NOT EXISTS
@@ -2036,7 +2036,7 @@
 				ui-unit-desktop-1.7.0.jar
 				ui-util-desktop-1.7.0.jar
 
-== [Android Variants] ========================================================== (2)
+== [Android Variants] ========================================================== (5)
 
 	debug ===== (compiled by compileDebugJavaWithJavac task)
 
@@ -2139,6 +2139,211 @@
 			annotations-23.0.0.jar
 			collection-jvm-1.4.0.jar
 			composeApp/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
+			core-1.13.1-api.jar
+			core-common-2.2.0.jar
+			core-ktx-1.13.1-api.jar
+			core-lambda-stubs.jar
+			foundation-layout-release-api.jar
+			foundation-release-api.jar
+			kotlin-stdlib-2.0.21.jar
+			kotlinx-coroutines-android-1.8.0.jar
+			kotlinx-coroutines-core-jvm-1.8.0.jar
+			library-release-api.jar
+			lifecycle-common-jvm-2.8.5.jar
+			lifecycle-livedata-core-2.8.5-api.jar
+			lifecycle-runtime-compose-release-api.jar
+			lifecycle-runtime-ktx-release-api.jar
+			lifecycle-runtime-release-api.jar
+			lifecycle-viewmodel-ktx-2.8.5-api.jar
+			lifecycle-viewmodel-release-api.jar
+			lifecycle-viewmodel-savedstate-2.8.5-api.jar
+			material-icons-core-release-api.jar
+			material-release-api.jar
+			material-ripple-release-api.jar
+			runtime-release-api.jar
+			runtime-saveable-release-api.jar
+			savedstate-1.2.1-api.jar
+			savedstate-ktx-1.2.1-api.jar
+			shared/build/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar
+			ui-geometry-release-api.jar
+			ui-graphics-release-api.jar
+			ui-release-api.jar
+			ui-text-release-api.jar
+			ui-tooling-preview-release-api.jar
+			ui-unit-release-api.jar
+			ui-util-release-api.jar
+			versionedparcelable-1.1.1-api.jar
+
+	debugAndroidTest ===== (compiled by compileDebugAndroidTestJavaWithJavac task)
+
+		Source sets (2)
+
+			androidTest -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestResourceAccessors NOT EXISTS
+				composeApp/src/androidInstrumentedTest/kotlin                                    NOT EXISTS
+				composeApp/src/androidTest/java                                                  NOT EXISTS
+				composeApp/src/androidTest/kotlin                                                NOT EXISTS
+
+			androidTestDebug -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidInstrumentedTestDebugResourceAccessors NOT EXISTS
+				composeApp/src/androidInstrumentedTestDebug/kotlin                               NOT EXISTS
+				composeApp/src/androidTestDebug/java                                             NOT EXISTS
+				composeApp/src/androidTestDebug/kotlin                                           NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/debugAndroidTest/compileDebugAndroidTestJavaWithJavac/classes
+
+		Classpath
+			activity-1.9.3-api.jar
+			activity-compose-1.9.3-api.jar
+			activity-ktx-1.9.3-api.jar
+			android.jar
+			animation-core-release-api.jar
+			animation-release-api.jar
+			annotation-experimental-1.4.1-api.jar
+			annotation-jvm-1.8.0.jar
+			annotations-23.0.0.jar
+			collection-jvm-1.4.0.jar
+			composeApp/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
+			composeApp/build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
+			core-1.13.0-api.jar
+			core-common-2.2.0.jar
+			core-ktx-1.13.0-api.jar
+			core-lambda-stubs.jar
+			foundation-layout-release-api.jar
+			foundation-release-api.jar
+			kotlin-stdlib-2.0.21.jar
+			kotlinx-coroutines-android-1.8.0.jar
+			kotlinx-coroutines-core-jvm-1.8.0.jar
+			library-release-api.jar
+			lifecycle-common-jvm-2.8.5.jar
+			lifecycle-livedata-core-2.8.5-api.jar
+			lifecycle-runtime-compose-release-api.jar
+			lifecycle-runtime-ktx-release-api.jar
+			lifecycle-runtime-release-api.jar
+			lifecycle-viewmodel-ktx-2.8.5-api.jar
+			lifecycle-viewmodel-release-api.jar
+			lifecycle-viewmodel-savedstate-2.8.5-api.jar
+			material-icons-core-release-api.jar
+			material-release-api.jar
+			material-ripple-release-api.jar
+			runtime-release-api.jar
+			runtime-saveable-release-api.jar
+			savedstate-1.2.1-api.jar
+			savedstate-ktx-1.2.1-api.jar
+			shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+			ui-geometry-release-api.jar
+			ui-graphics-release-api.jar
+			ui-release-api.jar
+			ui-text-release-api.jar
+			ui-tooling-data-release-api.jar
+			ui-tooling-preview-release-api.jar
+			ui-tooling-release-api.jar
+			ui-unit-release-api.jar
+			ui-util-release-api.jar
+			versionedparcelable-1.1.1-api.jar
+
+	debugUnitTest ===== (compiled by compileDebugUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+
+			testDebug -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestDebugResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTestDebug/kotlin                                       NOT EXISTS
+				composeApp/src/testDebug/java                                                    NOT EXISTS
+				composeApp/src/testDebug/kotlin                                                  NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes
+
+		Classpath
+			activity-1.9.3-api.jar
+			activity-compose-1.9.3-api.jar
+			activity-ktx-1.9.3-api.jar
+			android.jar
+			animation-core-release-api.jar
+			animation-release-api.jar
+			annotation-experimental-1.4.1-api.jar
+			annotation-jvm-1.8.0.jar
+			annotations-23.0.0.jar
+			collection-jvm-1.4.0.jar
+			composeApp/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
+			composeApp/build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
+			core-1.13.1-api.jar
+			core-common-2.2.0.jar
+			core-ktx-1.13.1-api.jar
+			core-lambda-stubs.jar
+			foundation-layout-release-api.jar
+			foundation-release-api.jar
+			kotlin-stdlib-2.0.21.jar
+			kotlinx-coroutines-android-1.8.0.jar
+			kotlinx-coroutines-core-jvm-1.8.0.jar
+			library-release-api.jar
+			lifecycle-common-jvm-2.8.5.jar
+			lifecycle-livedata-core-2.8.5-api.jar
+			lifecycle-runtime-compose-release-api.jar
+			lifecycle-runtime-ktx-release-api.jar
+			lifecycle-runtime-release-api.jar
+			lifecycle-viewmodel-ktx-2.8.5-api.jar
+			lifecycle-viewmodel-release-api.jar
+			lifecycle-viewmodel-savedstate-2.8.5-api.jar
+			material-icons-core-release-api.jar
+			material-release-api.jar
+			material-ripple-release-api.jar
+			runtime-release-api.jar
+			runtime-saveable-release-api.jar
+			savedstate-1.2.1-api.jar
+			savedstate-ktx-1.2.1-api.jar
+			shared/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+			ui-geometry-release-api.jar
+			ui-graphics-release-api.jar
+			ui-release-api.jar
+			ui-text-release-api.jar
+			ui-tooling-data-release-api.jar
+			ui-tooling-preview-release-api.jar
+			ui-tooling-release-api.jar
+			ui-unit-release-api.jar
+			ui-util-release-api.jar
+			versionedparcelable-1.1.1-api.jar
+
+	releaseUnitTest ===== (compiled by compileReleaseUnitTestJavaWithJavac task)
+
+		Source sets (2)
+
+			test -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTest/kotlin                                            NOT EXISTS
+				composeApp/src/test/java                                                         NOT EXISTS
+				composeApp/src/test/kotlin                                                       NOT EXISTS
+
+			testRelease -----
+				composeApp/build/generated/compose/resourceGenerator/kotlin/androidUnitTestReleaseResourceAccessors NOT EXISTS
+				composeApp/src/androidUnitTestRelease/kotlin                                     NOT EXISTS
+				composeApp/src/testRelease/java                                                  NOT EXISTS
+				composeApp/src/testRelease/kotlin                                                NOT EXISTS
+
+		Output
+			composeApp/build/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes
+
+		Classpath
+			activity-1.9.3-api.jar
+			activity-compose-1.9.3-api.jar
+			activity-ktx-1.9.3-api.jar
+			android.jar
+			animation-core-release-api.jar
+			animation-release-api.jar
+			annotation-experimental-1.4.1-api.jar
+			annotation-jvm-1.8.0.jar
+			annotations-23.0.0.jar
+			collection-jvm-1.4.0.jar
+			composeApp/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
+			composeApp/build/intermediates/compile_app_classes_jar/release/bundleReleaseClassesToCompileJar/classes.jar
 			core-1.13.1-api.jar
 			core-common-2.2.0.jar
 			core-ktx-1.13.1-api.jar
