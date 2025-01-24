@@ -93,4 +93,49 @@ class MultiplatformDebugKitTest extends AbstractDebugKitTest {
         !result.output.contains('WARN:')
     }
 
+    def "Check kotlin multiplatform jvm support multiple targets"() {
+        setup:
+        build """
+            plugins {
+                id 'org.jetbrains.kotlin.multiplatform' version '2.0.21'
+                id 'ru.vyarus.animalsniffer'
+            }
+            
+            kotlin {
+                jvm()
+                
+                js {
+                    browser()                
+                }
+                
+                sourceSets {
+                    commonMain.dependencies {
+                        implementation 'org.slf4j:slf4j-api:1.7.25'
+                    }                    
+                }
+            }
+            
+            animalsniffer {
+                ignoreFailures = true
+            }
+
+            repositories { mavenCentral()}
+            dependencies {
+                signature 'org.codehaus.mojo.signature:java16-sun:1.0@signature'                
+            }                 
+        """
+        fileFromClasspath('src/jvmMain/kotlin/invalid/Sample.kt', '/ru/vyarus/gradle/plugin/animalsniffer/kotlin/invalid/Sample.kt')
+//        debug()
+
+        when: "run task"
+        BuildResult result = run('printAnimalsnifferSourceInfo')
+
+        then: "task successful"
+        result.task(':printAnimalsnifferSourceInfo').outcome == TaskOutcome.SUCCESS
+
+        then: "validate report"
+        equalWithDiff(extractReport(result), readReport("multiple"))
+        !result.output.contains('WARN:')
+    }
+
 }

@@ -1,0 +1,293 @@
+== [Plugins] ===============================================================
+
+	Plugins of potential interest ------------------------------------------ (3)
+		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
+		org.jetbrains.kotlin.multiplatform       multiplatform             org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin
+
+	Other plugins ----------------------------------------------------------- (13)
+		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
+		<no id>                                                            org.gradle.api.plugins.BasePlugin
+		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmEcosystemPlugin
+		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
+		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.targets.js.npm.NpmResolverPlugin
+		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin
+		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
+		<no id>                                                            org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+
+
+== [Compile Tasks] ===============================================================
+
+	Tasks containing 'compile' in name ------------------------------------ (18)
+
+		jsTestTestDevelopmentExecutableCompileSync org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
+		jsTestTestProductionExecutableCompileSync org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
+		jsMainClasses                            org.gradle.api.DefaultTask
+		jsTestClasses                            org.gradle.api.DefaultTask
+		jvmMainClasses                           org.gradle.api.DefaultTask
+		jvmTestClasses                           org.gradle.api.DefaultTask
+		metadataCommonMainClasses                org.gradle.api.DefaultTask
+		metadataMainClasses                      org.gradle.api.DefaultTask
+		compileKotlinJs                          org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+		compileTestKotlinJs                      org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+		compileKotlinJvm                         org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileTestKotlinJvm                     org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+		compileCommonMainKotlinMetadata          org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileKotlinMetadata                    org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+		compileTestDevelopmentExecutableKotlinJs org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+		compileTestProductionExecutableKotlinJs  org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+		jsTestTestDevelopmentExecutableValidateGeneratedByCompilerTypeScript org.jetbrains.kotlin.gradle.targets.js.typescript.TypeScriptValidationTask
+		jsTestTestProductionExecutableValidateGeneratedByCompilerTypeScript org.jetbrains.kotlin.gradle.targets.js.typescript.TypeScriptValidationTask
+
+	Compile tasks tree -------------------------------------------------------- (7 roots)
+
+		[jsTestTestDevelopmentExecutableCompileSync] org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
+			[compileTestDevelopmentExecutableKotlinJs] org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+				[jsTestClasses]                          org.gradle.api.DefaultTask
+					[compileTestKotlinJs]                    org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+						[jsMainClasses]                          org.gradle.api.DefaultTask
+							[compileKotlinJs]                        org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+							jsProcessResources                       (org.gradle.language.jvm.tasks.ProcessResources)
+					jsTestProcessResources                   (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[jsTestTestProductionExecutableCompileSync] org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
+			[compileTestProductionExecutableKotlinJs] org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+				[jsTestClasses]                          org.gradle.api.DefaultTask
+					[compileTestKotlinJs]                    org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+						[jsMainClasses]                          org.gradle.api.DefaultTask
+							[compileKotlinJs]                        org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+							jsProcessResources                       (org.gradle.language.jvm.tasks.ProcessResources)
+					jsTestProcessResources                   (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[jvmTestClasses]                         org.gradle.api.DefaultTask
+			[compileTestKotlinJvm]                   org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+				[jvmMainClasses]                         org.gradle.api.DefaultTask
+					[compileKotlinJvm]                       org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+						checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+					jvmProcessResources                      (org.gradle.language.jvm.tasks.ProcessResources)
+				jvmJar                                   (org.gradle.api.tasks.bundling.Jar)
+			jvmTestProcessResources                  (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataCommonMainClasses]              org.gradle.api.DefaultTask
+			[compileCommonMainKotlinMetadata]        org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+				transformCommonMainDependenciesMetadata  (org.jetbrains.kotlin.gradle.plugin.mpp.MetadataDependencyTransformationTask)
+			metadataCommonMainProcessResources       (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[metadataMainClasses]                    org.gradle.api.DefaultTask
+			[compileKotlinMetadata]                  org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+				checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+			metadataProcessResources                 (org.gradle.language.jvm.tasks.ProcessResources)
+
+		[jsTestTestDevelopmentExecutableValidateGeneratedByCompilerTypeScript] org.jetbrains.kotlin.gradle.targets.js.typescript.TypeScriptValidationTask
+			[compileTestDevelopmentExecutableKotlinJs] org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+				[jsTestClasses]                          org.gradle.api.DefaultTask
+					[compileTestKotlinJs]                    org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+						[jsMainClasses]                          org.gradle.api.DefaultTask
+							[compileKotlinJs]                        org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+							jsProcessResources                       (org.gradle.language.jvm.tasks.ProcessResources)
+					jsTestProcessResources                   (org.gradle.language.jvm.tasks.ProcessResources)
+			kotlinNpmInstall                         (org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask)
+			kotlinStoreYarnLock                      (org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockStoreTask)
+
+		[jsTestTestProductionExecutableValidateGeneratedByCompilerTypeScript] org.jetbrains.kotlin.gradle.targets.js.typescript.TypeScriptValidationTask
+			[compileTestProductionExecutableKotlinJs] org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
+				[jsTestClasses]                          org.gradle.api.DefaultTask
+					[compileTestKotlinJs]                    org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+						[jsMainClasses]                          org.gradle.api.DefaultTask
+							[compileKotlinJs]                        org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+								checkKotlinGradlePluginConfigurationErrors (org.jetbrains.kotlin.gradle.plugin.diagnostics.CheckKotlinGradlePluginConfigurationErrors)
+							jsProcessResources                       (org.gradle.language.jvm.tasks.ProcessResources)
+					jsTestProcessResources                   (org.gradle.language.jvm.tasks.ProcessResources)
+			kotlinNpmInstall                         (org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask)
+			kotlinStoreYarnLock                      (org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockStoreTask)
+
+	Java compile tasks --------------------------------------------- (0)
+
+	Kotlin compile tasks ------------------------------------------ (2)
+
+		[compileKotlinJvm] -----
+
+			Sources
+				src/commonMain/kotlin                                                            NOT EXISTS
+				src/jvmMain/kotlin
+
+			Output
+				build/classes/kotlin/jvm/main
+				build/kotlin/compileKotlinJvm/cacheable
+				build/kotlin/compileKotlinJvm/classpath-snapshot
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+		[compileTestKotlinJvm] -----
+
+			Sources
+				src/commonTest/kotlin                                                            NOT EXISTS
+				src/jvmTest/kotlin                                                               NOT EXISTS
+
+			Output
+				build/classes/kotlin/jvm/test
+				build/kotlin/compileTestKotlinJvm/cacheable
+				build/kotlin/compileTestKotlinJvm/classpath-snapshot
+
+			Classpath
+				annotations-13.0.jar
+				build/classes/kotlin/jvm/main
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+
+== [SourceSets] ===============================================================
+
+	Kotlin Multiplatform Source Sets ------------------------------------------------------- (6)
+
+		commonMain ----- (consumed by compilation 'main' (target metadata (common)))
+			src/commonMain/kotlin                                                            NOT EXISTS
+
+		commonTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			src/commonTest/kotlin                                                            NOT EXISTS
+
+		jsMain ----- (consumed by compilation 'main' (target js (js)))
+			src/jsMain/kotlin                                                                NOT EXISTS
+
+		jsTest ----- (consumed by compilation 'test' (target js (js)))
+			src/jsTest/kotlin                                                                NOT EXISTS
+
+		jvmMain ----- (consumed by compilation 'main' (target jvm (jvm)))
+			src/jvmMain/kotlin
+
+		jvmTest ----- (consumed by compilation 'test' (target jvm (jvm)))
+			src/jvmTest/kotlin                                                               NOT EXISTS
+
+== [Kotlin targets] ========================================================= (3)
+
+	js ----- (js platform, 2 compilations)
+
+		compilation 'main' (target js (js)) (compiled by jsMainClasses task)
+
+			Source sets (2)
+
+				jsMain -----
+					src/jsMain/kotlin                                                                NOT EXISTS
+
+				commonMain -----
+					src/commonMain/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/js/main
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-dom-api-compat-2.0.21.klib
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+		compilation 'test' (target js (js)) (compiled by jsTestClasses task)
+
+			Source sets (2)
+
+				jsTest -----
+					src/jsTest/kotlin                                                                NOT EXISTS
+
+				commonTest -----
+					src/commonTest/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/js/test
+
+			Classpath
+				annotations-13.0.jar
+				build/classes/kotlin/js/main
+				kotlin-dom-api-compat-2.0.21.klib
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+			Associated compilations (1)
+				main
+
+	jvm ----- (jvm platform, 2 compilations)
+
+		compilation 'main' (target jvm (jvm)) (compiled by jvmMainClasses task)
+
+			Source sets (2)
+
+				jvmMain -----
+					src/jvmMain/kotlin
+
+				commonMain -----
+					src/commonMain/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/jvm/main
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+		compilation 'test' (target jvm (jvm)) (compiled by jvmTestClasses task)
+
+			Source sets (2)
+
+				jvmTest -----
+					src/jvmTest/kotlin                                                               NOT EXISTS
+
+				commonTest -----
+					src/commonTest/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/jvm/test
+
+			Classpath
+				annotations-13.0.jar
+				build/classes/kotlin/jvm/main
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+			Associated compilations (1)
+				main
+
+	metadata ----- (common platform, 2 compilations)
+
+		compilation 'commonMain' (target metadata (common)) (compiled by metadataCommonMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					src/commonMain/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/metadata/commonMain
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+		compilation 'main' (target metadata (common)) (compiled by metadataMainClasses task)
+
+			Source sets (1)
+
+				commonMain -----
+					src/commonMain/kotlin                                                            NOT EXISTS
+
+			Output
+				build/classes/kotlin/metadata/main
+
+			Classpath
+				annotations-13.0.jar
+				kotlin-stdlib-2.0.21.jar
+				slf4j-api-1.7.25.jar
+
+\===========================================================================================
