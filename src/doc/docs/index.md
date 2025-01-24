@@ -32,7 +32,7 @@ Also, it is an easy way to check android compatibility for java library.
     }
     ```
 
-    Use plugin java 8 and vefore checks, for android or any other library signatures verification.
+    Use plugin for java 8 and before checks, for android or any other library signatures verification.
 
 ## Features
 
