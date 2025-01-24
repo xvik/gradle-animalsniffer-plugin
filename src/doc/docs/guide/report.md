@@ -9,6 +9,14 @@ The plugin supports 3 report types:
 !!! note
     As plugin was written in the same manner as other gradle quality plugins, reports configuration is also the same.
 
+File reports directory could be set with:
+
+```groovy
+animalsniffer {
+    reportsDir = file("$project.buildDir/reports/animalsniffer")
+}
+```
+
 ## Console report
 
 Example output:
@@ -25,7 +33,7 @@ Example output:
 
 Class in braces `(Sample.java:9)` should be clickable in IDE, and so you could quickly find the place of the problem.
 
-When the problem detected in class field animalsniffer reports field name, but without line:
+When the problem detected in class field, animalsniffer reports field name, but without line:
 
 ```java
 public class Sample {
@@ -38,7 +46,7 @@ public class Sample {
   >> java.nio.file.Path
 ```
 
-In this case, the class link would only open the source file (no way to know the exact line).
+In this case, the class link would only open the source file (no way to know the exact line - animalsniffer does not provide it).
 
 ## Text report
 
@@ -63,26 +71,22 @@ Text report could be disabled with:
 
 ```groovy
 tasks.withType(AnimalSniffer) {
-    reports.text {
-        required = false
-    }
+    reports.text.required = false
 }
 ```
 
-Changed report output:
+Changed report output (only for one report type):
 
 ```groovy
 tasks.withType(AnimalSniffer) {
-    reports.text {
-        outputLocation = file('build/custom.txt')
-    }
+    reports.text.outputLocation = file('build/custom.txt')
 }
 ```
 
 ## CSV report
 
-The plugin uses CSV report to interchange an error list from animalsniffer (executed by gradle worker)
-into a plugin task (console and text report are generated from CSV report).
+The plugin uses CSV report to get an error list from animalsniffer (executed by gradle worker; possibly, in different jvm)
+into a plugin task (console and text reports are generated from CSV report).
 
 The report could be useful for external tools integration as it contains easily parsable data.
 
@@ -93,16 +97,21 @@ java16-sun-1.0;invalid.Sample.java;;field;java.nio.file.Path;false
 java16-sun-1.0;invalid.Sample.java;13;;int Boolean.compare(boolean, boolean);false
 ```
 
-Columns: signature, source file, source line, source field, message itself, true if the error message was not parsed
-(this case message column would contain the entire, not parsed message)
+Columns: 
+
+1. Signature name 
+2. Source file 
+3. Source line (could be empty) 
+4. Source field (could be empty) 
+5. Error message 
+6. Animalsniffer message parsing status: true if parse failed
+(in this case, only message column would contain the entire (not parsed) message)
 
 It is not possible to disable this report (plugin simply ignores `reports.csv.required` setting).
-But the location of CSV file could be configured:
+But the location of CSV file could be configured (only for one report type):
 
 ```groovy
 tasks.withType(AnimalSniffer) {
-    reports.csv {
-        outputLocation = file('build/custom.csv')
-    }
+    reports.csv.outputLocation = file('build/custom.csv')
 }
 ```

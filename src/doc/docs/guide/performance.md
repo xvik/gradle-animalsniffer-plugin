@@ -13,6 +13,7 @@ jdk/android classes. But animalsniffer must also know your entire classpath to
 differentiate 3rd party api usage from missed jdk/android classes or methods.
 
 So for each check run:
+
 * Signature file(s) loaded and parsed
 * All classpath jars read (including scanning all jars content to build the ignore list)
 * All project files are also added to the ignore list
@@ -41,14 +42,16 @@ once and used for all further check task runs (until you call clean).
 Extra tasks are named like: cache[animalsniffer task name]Signatures. 
 For example, main source set task (animalsnifferMain) pair is cacheAnimalsnifferMainSignatures.
 
-NOTE: For multi-module project, generated signature will not include module jars to avoid
-signature re-generation because of module changes.
+!!! note
+    For multi-module project, generated signature will not include module jars to avoid
+    signature re-generation because of module changes.
 
-NOTE: When multiple signatures used (jdk and android) for the check, multiple 
-cache signatures will be produced.
+!!! note 
+    When multiple signatures used (jdk and android) for the check, multiple 
+    cache signatures will be produced.
 
 
-!!! important "Pay attention"
+!!! warning "Pay attention"
     Cache will make no sense if you always call animalsniffer after clean or just rarely use it.
     Cache build is a bit slower then normal check run, so it only makes sense when check used very often.
     Also, please note that cache has a side effect (read below about exclusions) and known issues (see below).

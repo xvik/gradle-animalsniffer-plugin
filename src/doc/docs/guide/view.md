@@ -3,6 +3,7 @@
 A special task is provided to be able to view signature content `SignatureInfoTask`.
 
 Task supposed to be used for:
+
 * Curiosity: review default signatures content
 * Check: review build signature (after build signature task)
 * Optimize: review and optimize cache signature size to speed up check task

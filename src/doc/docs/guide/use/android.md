@@ -7,7 +7,7 @@ Example:
 
 ```groovy
 plugins {
-    id 'com.android.application' version '7.4.0' // or recent 8.5.2
+    id 'com.android.application' version '7.4.0' // or recent 8.x
     id 'ru.vyarus.animalsniffer' version "{{ gradle.version }}"
 }
 
@@ -263,7 +263,7 @@ animalsniffer {
 
 ### Test tasks
 
-Test tasks are not checked by default. If you want to check test sources:
+Test sources are not checked by default. If you want to check test sources:
 
 ```groovy
 animalsniffer {
@@ -273,9 +273,12 @@ animalsniffer {
 
 After that `defaultTargets` option could be used to limit test tasks. 
 
-## Support specific
+## Support specifics
 
 New android api requires a task to get access to android sources location (android plugin configures task - no way 
-to just get required information). That's why additional tasks registered only for collecting
+to just get required information). 
+
+That's why additional tasks registered only for collecting
 android configuration: `debugAnimalsnifferClassesCollector`, `releaseAnimalsnifferClassesCollector`, `debugAndroidTestAnimalsnifferClassesCollector` etc.
+
 These tasks do nothing - they just receive required configurations to be used in animalsniffer task.

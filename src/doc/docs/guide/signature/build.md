@@ -2,8 +2,8 @@
 
 !!! note
     The primary plugin function is signature checking and check tasks are always registered (build is optional).
-    Due to a common configuration problem, check tasks fail when no signatures declared for check. 
-    If you use plugin ONLY to build signatures then disable "no-signatures" check to avoid fails:
+    To prevent a common configuration problem, check tasks fail when no signatures declared for check. 
+    If you use plugin ONLY to build signatures then disable "no-signatures" fail to avoid fails:
     ```groovy
     animalsniffer.failWithoutSignatures = false
     ```
@@ -59,7 +59,7 @@ Methods accept anything that gradle's [`Project.files()`](https://docs.gradle.or
 method would accept (File, URI, gradle FileCollection etc).
 
 **Pay attention**: you may use a signature task to merge existing signatures.
-[Animalsniffer ant task](http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/generating-signatures.html),
+[Animalsniffer](http://www.mojohaus.org/animal-sniffer/animal-sniffer-ant-tasks/examples/generating-signatures.html),
 used under the hood, does not support this case (empty files), so the plugin
 will work around this by adding plugin jar as files with custom exclusion (to exclude plugin classes from generated signature).
 Most likely, you will never notice this, as it should be transparent to the end user. It's mentioned just in case

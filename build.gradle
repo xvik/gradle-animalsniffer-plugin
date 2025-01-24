@@ -60,7 +60,7 @@ github {
 mkdocs {
     extras = [
         'version': '2.0.0',
-        'animalnsifferVersion': project.animalsnifferVersion
+        'animalsnifferVersion': project.animalsnifferVersion
     ]
     publish {
         docPath = mkdocs.extras['version']

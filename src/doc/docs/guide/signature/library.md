@@ -47,7 +47,8 @@ dependencies {
 Here we use custom configuration to get old slf4j version and build jdk+old slf4j signature with the custom task.
 Custom signature is used for check.
 
-**NOTE** that it is important to exclude library jar, otherwise signature will not detect anything (real jar will mark all usages as valid).
+!!! note 
+    that it is important to exclude library jar, otherwise signature will not detect anything (real jar will mark all usages as valid).
 
 If we run check on class:
 

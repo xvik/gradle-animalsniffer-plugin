@@ -32,6 +32,7 @@ Example for the check task in a simple java project:
 ```
 
 Here you can see:
+
 * Applied signatures
 * Source directories
 * All checked class files
@@ -59,7 +60,7 @@ Another example - check task in android project:
 		build/intermediates/javac/debug/classes/invalid/Sample.class
 ```
 
-### Build
+## Build
 
 Example output for build signature task:
 

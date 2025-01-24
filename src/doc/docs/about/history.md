@@ -1,4 +1,4 @@
-### [2.0.0](https://xvik.github.io/gradle-animalsniffer-plugin/2.0.0) (2025-01-24)
+### [2.0.0](https://xvik.github.io/gradle-animalsniffer-plugin/2.0.0) (2025-01-25)
 * (breaking) Drop gradle 5 and 6 support
 * (breaking) Fail check when no signatures declared (required to catch early configuration errors)
   - Now additional configuration required when only build signature tasks used (to disable check)

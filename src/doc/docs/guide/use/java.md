@@ -140,7 +140,7 @@ and should be more comfortable to use
 
 ### Test tasks
 
-Test tasks are not checked by default. If you want to check test sources:
+Test sources are not checked by default. If you want to check test sources:
 
 ```groovy
 animalsniffer {
