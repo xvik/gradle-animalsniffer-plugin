@@ -21,7 +21,8 @@ Initially, AnimalSniffer was created to check compatibility with [lower Java ver
 But it's a **general tool**: signatures could be created for [**any library**](guide/signature/library.md)
 to check api compatibility against older library versions.
 For example, android community [adopted it](https://github.com/open-toast/gummy-bears) for android SDK compatibility verification.
-Also, it is an easy way to check android compatibility for java library.
+
+Easy way to **check android SDK compatibility for java library**.
 
 !!! note "JDK signatures for java 9 and above"
     JDK 9+ signatures are [not published](https://github.com/mojohaus/animal-sniffer/issues/62) due to module nature: use [--release flag](https://docs.gradle.org/current/userguide/building_java_projects.html#sec:compiling_with_release) instead of plugin

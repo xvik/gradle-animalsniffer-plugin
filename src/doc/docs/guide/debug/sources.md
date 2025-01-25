@@ -1,9 +1,9 @@
 # Source sets debug
 
 !!! note
-This task is useful for debugging plugin behavior. initially, it was written during
-android and kotlin multiplatform support development to see what sources and tasks
-are present in the (android) project.
+    This task is useful for debugging plugin behavior. initially, it was written during
+    android and kotlin multiplatform support development to see what sources and tasks
+    are present in the (android) project.
 
     Task preserved in release in case of incorrect sources registration for animalsniffer 
     tasks (so output could be assigned to the issue and help with investigation).
