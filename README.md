@@ -146,7 +146,7 @@ Access token creation is [described here](https://blog.vyarus.ru/using-github-pa
 
   ```groovy
   plugins {
-      id 'ru.vyarus.animalsniffer' version '2.0.0-SNAPSHOT'
+      id 'ru.vyarus.animalsniffer' version '2.0.1-SNAPSHOT'
   }
   ```  
 

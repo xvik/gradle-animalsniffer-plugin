@@ -35,4 +35,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-animalsniffer = { id = "ru.vyarus.animalsniffer", version = "2.0.0-SNAPSHOT" }
+animalsniffer = { id = "ru.vyarus.animalsniffer", version = "2.0.1-SNAPSHOT" }
