@@ -257,7 +257,7 @@
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
 				build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileDebugJavaWithJavac] -----
@@ -274,7 +274,7 @@
 			Classpath
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileDebugUnitTestJavaWithJavac] -----
@@ -292,7 +292,7 @@
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
 				build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileReleaseJavaWithJavac] -----
@@ -309,7 +309,7 @@
 			Classpath
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileReleaseUnitTestJavaWithJavac] -----
@@ -327,7 +327,7 @@
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
 				build/intermediates/compile_app_classes_jar/release/bundleReleaseClassesToCompileJar/classes.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 	Kotlin compile tasks ------------------------------------------ (5)
@@ -352,7 +352,7 @@
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
 				build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
 				core-lambda-stubs.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileDebugKotlin] -----
@@ -373,7 +373,7 @@
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
 				core-lambda-stubs.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileDebugUnitTestKotlin] -----
@@ -396,7 +396,7 @@
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
 				build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
 				core-lambda-stubs.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileReleaseKotlin] -----
@@ -417,7 +417,7 @@
 				annotations-13.0.jar
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
 				core-lambda-stubs.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		[compileReleaseUnitTestKotlin] -----
@@ -440,7 +440,7 @@
 				build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
 				build/intermediates/compile_app_classes_jar/release/bundleReleaseClassesToCompileJar/classes.jar
 				core-lambda-stubs.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 
@@ -472,7 +472,7 @@
 
 			Classpath
 				annotations-13.0.jar
-				kotlin-stdlib-2.1.0.jar
+				kotlin-stdlib-2.1.20.jar
 				slf4j-api-1.7.25.jar
 
 		release ----- (consumed by variant release)
@@ -523,7 +523,7 @@
 		Classpath
 			annotations-13.0.jar
 			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
-			kotlin-stdlib-2.1.0.jar
+			kotlin-stdlib-2.1.20.jar
 			slf4j-api-1.7.25.jar
 
 	release ===== (compiled by compileReleaseJavaWithJavac task)
@@ -544,7 +544,7 @@
 		Classpath
 			annotations-13.0.jar
 			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
-			kotlin-stdlib-2.1.0.jar
+			kotlin-stdlib-2.1.20.jar
 			slf4j-api-1.7.25.jar
 
 	debugAndroidTest ===== (compiled by compileDebugAndroidTestJavaWithJavac task)
@@ -566,7 +566,7 @@
 			annotations-13.0.jar
 			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar
 			build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
-			kotlin-stdlib-2.1.0.jar
+			kotlin-stdlib-2.1.20.jar
 			slf4j-api-1.7.25.jar
 
 	debugUnitTest ===== (compiled by compileDebugUnitTestJavaWithJavac task)
@@ -588,7 +588,7 @@
 			annotations-13.0.jar
 			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar
 			build/intermediates/compile_app_classes_jar/debug/bundleDebugClassesToCompileJar/classes.jar
-			kotlin-stdlib-2.1.0.jar
+			kotlin-stdlib-2.1.20.jar
 			slf4j-api-1.7.25.jar
 
 	releaseUnitTest ===== (compiled by compileReleaseUnitTestJavaWithJavac task)
@@ -610,7 +610,7 @@
 			annotations-13.0.jar
 			build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar
 			build/intermediates/compile_app_classes_jar/release/bundleReleaseClassesToCompileJar/classes.jar
-			kotlin-stdlib-2.1.0.jar
+			kotlin-stdlib-2.1.20.jar
 			slf4j-api-1.7.25.jar
 
 \===========================================================================================

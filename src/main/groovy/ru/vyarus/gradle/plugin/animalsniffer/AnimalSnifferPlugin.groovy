@@ -11,7 +11,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.ExtraPropertiesExtension
-import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.ReportingBasePlugin
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.specs.NotSpec
@@ -76,7 +76,7 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         this.project = project
-        project.plugins.withType(JavaBasePlugin) {
+        project.plugins.withType(JavaPlugin) {
             // ignore if multiplatform registered (in case of jvm().withJava() duplicate tasks would appear)
             if (!project.plugins.findPlugin(PLUGIN_MULTIPLATFORM)) {
                 initialize()
