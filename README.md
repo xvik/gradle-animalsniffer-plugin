@@ -76,7 +76,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.0'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.1'
     }
 }
 apply plugin: 'ru.vyarus.animalsniffer'
@@ -86,7 +86,7 @@ OR
 
 ```groovy
 plugins {
-    id 'ru.vyarus.animalsniffer' version '2.0.0'
+    id 'ru.vyarus.animalsniffer' version '2.0.1'
 }
 ```
 
@@ -94,7 +94,7 @@ plugins {
 
 Plugin only works with plugins:
 
-* Jvm languages: `java-base` plugin (activated by any java-related plugin like `java`, `java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`, etc.).
+* Jvm languages: `java` plugin (activated by any java-related plugin like `java`, `java-library`, `groovy`, `scala`, `org.jetbrains.kotlin.jvm`, etc.).
 * Android: `com.android.library` or `com.android.application` plugins (required `7.4.0` or greater)
 * Kotlin Multiplatform: `org.jetbrains.kotlin.multiplatform` plugin (required `1.7` or greater).
 
@@ -103,7 +103,7 @@ The plugin is compiled for Java 8 and tested for compatibility with Java 11, 17 
 
 Gradle | Version
 --------|-------
-7-8     | [2.0.0](https://xvik.github.io/gradle-animalsniffer-plugin/2.0.0) 
+7-8     | [2.0.1](https://xvik.github.io/gradle-animalsniffer-plugin/2.0.1) 
 5       | [1.7.2](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.7.2)
 4.x     | [1.4.6](https://github.com/xvik/gradle-animalsniffer-plugin/tree/1.4.6)
 

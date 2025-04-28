@@ -1,3 +1,4 @@
+### 2.0.1 (2025-04-29)
 * Detect java support by `java` plugin presence instead of `java-base`. 
   Required to avoid duplicate tasks registration when kotlin-multiplatform plugin registered after animalsniffer (#116)
 

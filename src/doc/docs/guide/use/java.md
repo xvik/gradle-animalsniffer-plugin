@@ -1,6 +1,6 @@
 # Check JVM language
 
-For JVM languages (java, groovy, kotlin, scala, etc) which plugin is based `java-base` plugin 
+For JVM languages (java, groovy, kotlin, scala, etc) which plugin is based `java` plugin 
 (based on source sets), animalsniffer check tasks registered **per source set**.
 
 In the simplest case:
