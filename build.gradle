@@ -39,7 +39,7 @@ dependencies {
     // required for helper tasks, but check and build would use dynamic classpath
     implementation "org.codehaus.mojo:animal-sniffer:$animalsnifferVersion"
     // required to replace deprecated gradle GFileUtils
-    implementation 'commons-io:commons-io:2.19.0'
+    implementation 'commons-io:commons-io:2.20.0'
     compileOnly 'com.android.tools.build:gradle:7.4.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
 
