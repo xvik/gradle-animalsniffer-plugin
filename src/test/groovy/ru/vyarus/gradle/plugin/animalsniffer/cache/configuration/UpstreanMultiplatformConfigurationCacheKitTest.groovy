@@ -4,11 +4,13 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 12.12.2024
  */
+@Requires({jvm.java17Compatible})
 class UpstreanMultiplatformConfigurationCacheKitTest extends AbstractKitTest {
 
     def "Check configuration cache support"() {

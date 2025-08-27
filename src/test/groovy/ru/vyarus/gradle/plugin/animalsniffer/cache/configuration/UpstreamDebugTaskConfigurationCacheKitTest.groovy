@@ -5,13 +5,13 @@ import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
 import ru.vyarus.gradle.plugin.animalsniffer.debug.PrintAnimalsnifferSourceInfoTask
 import ru.vyarus.gradle.plugin.animalsniffer.debug.task.AbstractDebugKitTest
-import spock.lang.IgnoreIf
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 12.12.2024
  */
-@IgnoreIf({ !jvm.java17Compatible })
+@Requires({jvm.java17Compatible})
 class UpstreamDebugTaskConfigurationCacheKitTest extends AbstractDebugKitTest {
 
     def "Check simple java project debug"() {

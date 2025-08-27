@@ -2,11 +2,13 @@ package ru.vyarus.gradle.plugin.animalsniffer
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 16.12.2019
  */
+@Requires({jvm.java17Compatible})
 class UpstreamKitTest extends AbstractKitTest {
 
     public static final String GRADLE_VERSION = '9.0.0'

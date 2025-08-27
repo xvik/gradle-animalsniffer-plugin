@@ -3,13 +3,13 @@ package ru.vyarus.gradle.plugin.animalsniffer.android
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
-import spock.lang.IgnoreIf
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 22.11.2024
  */
-@IgnoreIf({ !jvm.java17Compatible })
+@Requires({jvm.java17Compatible})
 class UpstreamAndroidKitTest extends AbstractAndroidKitTest {
 
     def "Check android library support"() {

@@ -4,13 +4,13 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
-import spock.lang.IgnoreIf
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 11.12.2024
  */
-@IgnoreIf({ !jvm.java17Compatible })
+@Requires({jvm.java17Compatible})
 class UpstreamKotlinMultiplatformKitTest extends AbstractKitTest {
 
     def "Check kotlin multiplatform jvm support"() {

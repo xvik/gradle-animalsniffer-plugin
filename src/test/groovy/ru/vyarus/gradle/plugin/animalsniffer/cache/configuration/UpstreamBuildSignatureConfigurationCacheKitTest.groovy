@@ -5,11 +5,13 @@ import org.gradle.testkit.runner.TaskOutcome
 import ru.vyarus.gradle.plugin.animalsniffer.AbstractKitTest
 import ru.vyarus.gradle.plugin.animalsniffer.UpstreamKitTest
 import ru.vyarus.gradle.plugin.animalsniffer.info.SignatureReader
+import spock.lang.Requires
 
 /**
  * @author Vyacheslav Rusakov
  * @since 12.12.2024
  */
+@Requires({jvm.java17Compatible})
 class UpstreamBuildSignatureConfigurationCacheKitTest extends AbstractKitTest {
 
     def "Check signature build from classes"() {
