@@ -7,7 +7,7 @@
 		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
 		com.android.internal.version-check       version-check             com.android.build.gradle.internal.plugins.VersionCheckPlugin
 
-	Other plugins ----------------------------------------------------------- (9)
+	Other plugins ----------------------------------------------------------- (10)
 		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 		<no id>                                                            org.gradle.api.plugins.BasePlugin
 		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
@@ -16,6 +16,7 @@
 		<no id>                                                            org.gradle.api.plugins.JvmToolchainsPlugin
 		<no id>                                                            org.gradle.language.base.plugins.LifecycleBasePlugin
 		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
+		org.gradle.software-reporting-tasks      software-reporting-tasks  org.gradle.api.plugins.SoftwareReportingTasksPlugin
 		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
 
 

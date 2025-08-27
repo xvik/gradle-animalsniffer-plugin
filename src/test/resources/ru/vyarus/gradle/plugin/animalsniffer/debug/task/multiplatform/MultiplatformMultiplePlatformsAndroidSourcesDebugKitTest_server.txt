@@ -7,11 +7,12 @@
 		<no id>                                                            org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin
 		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowJavaPlugin
 
-	Other plugins ----------------------------------------------------------- (19)
+	Other plugins ----------------------------------------------------------- (21)
 		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 		<no id>                                                            org.gradle.api.plugins.ApplicationPlugin
 		<no id>                                                            org.gradle.api.plugins.BasePlugin
 		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
+		<no id>                                                            org.gradle.api.distribution.plugins.DistributionBasePlugin
 		<no id>                                                            org.gradle.api.distribution.plugins.DistributionPlugin
 		org.gradle.help-tasks                    help-tasks                org.gradle.api.plugins.HelpTasksPlugin
 		<no id>                                                            com.google.cloud.tools.jib.gradle.JibPlugin
@@ -25,6 +26,7 @@
 		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowApplicationPlugin
 		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowBasePlugin
 		<no id>                                                            com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
+		org.gradle.software-reporting-tasks      software-reporting-tasks  org.gradle.api.plugins.SoftwareReportingTasksPlugin
 		<no id>                                                            org.gradle.testing.base.plugins.TestSuiteBasePlugin
 		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
 

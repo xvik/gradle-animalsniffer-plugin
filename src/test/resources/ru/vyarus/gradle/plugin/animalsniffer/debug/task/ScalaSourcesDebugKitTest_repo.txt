@@ -4,7 +4,7 @@
 		<no id>                                                            org.gradle.api.plugins.JavaBasePlugin
 		<no id>                                                            org.gradle.api.plugins.JavaPlugin
 
-	Other plugins ----------------------------------------------------------- (13)
+	Other plugins ----------------------------------------------------------- (14)
 		ru.vyarus.animalsniffer                  animalsniffer             ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 		<no id>                                                            org.gradle.api.plugins.BasePlugin
 		org.gradle.build-init                    build-init                org.gradle.buildinit.plugins.BuildInitPlugin
@@ -16,6 +16,7 @@
 		<no id>                                                            org.gradle.api.plugins.ReportingBasePlugin
 		<no id>                                                            org.gradle.api.plugins.scala.ScalaBasePlugin
 		org.gradle.scala                         scala                     org.gradle.api.plugins.scala.ScalaPlugin
+		org.gradle.software-reporting-tasks      software-reporting-tasks  org.gradle.api.plugins.SoftwareReportingTasksPlugin
 		<no id>                                                            org.gradle.testing.base.plugins.TestSuiteBasePlugin
 		org.gradle.wrapper                       wrapper                   org.gradle.buildinit.plugins.WrapperPlugin
 
