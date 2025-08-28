@@ -40,7 +40,7 @@ dependencies {
     implementation "org.codehaus.mojo:animal-sniffer:$animalsnifferVersion"
     // required to replace deprecated gradle GFileUtils
     implementation 'commons-io:commons-io:2.20.0'
-    compileOnly 'com.android.tools.build:gradle:7.4.0'
+    compileOnly 'com.android.tools.build:gradle:8.12.2'
     compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
 
     testImplementation 'io.github.java-diff-utils:java-diff-utils:4.16'
