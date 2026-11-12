@@ -26,7 +26,7 @@ wrapper {
 }
 
 ext {
-    animalsnifferVersion = '1.29'
+    animalsnifferVersion = '1.29.1'
 }
 
 // workaround to keep compileOnly android dependency together with target jdk 1.8
